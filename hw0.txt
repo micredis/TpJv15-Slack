@@ -1,0 +1,14 @@
+Grigory Kislin [1:57 PM]
+joined #hw0.
+
+Grigory Kislin [1:57 PM]
+set the channel topic: Вступительное занятие https://github.com/JavaOPs/topjava
+
+Tanya [12:02 AM]
+joined #hw0 along with 18 others.
+
+GerKir [3:04 PM]
+Всем привет! Не понял, куда в итоге дз готовое высылать?)
+
+Andrey [4 minutes ago]
+Вроде на гитхаб репозиотрий свой ссылку даешь и проверяют, фидбек в слаке дают
