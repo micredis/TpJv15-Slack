@@ -174,3 +174,124 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstr
 GitHub
 JavaOPs/topjava
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+
+
+Илья Чиликин [Yesterday at 7:09 PM]
+Каким образом прислать решение на review?
+
+
+1 reply
+Sergey Zhukov [19 hours ago]
+Привет. Нашел как отсылать? или достаточно своего бранча hw0 на гитхабе?
+
+
+Roman Baranov [7:41 PM]
+в письме `Проверка ДЗ на стажировке 'Java Enterprise (Topjava)'` подробно расписано
+
+Sergey Zhukov [9:06 PM]
+можно оплатить ревью частями?
+
+Andrey Tolkachev [9:32 PM]
+да, тоже хотел это спросить
+
+
+Andrey Tolkachev [Yesterday at 9:32 PM]
+и это стоимость на всю стажировку или в месяц?
+
+
+2 replies
+[16 hours ago]
+на всю
+
+
+Andrey Tolkachev [7 hours ago]
+спасибо)
+
+
+senadnepr [9:39 PM]
+Всем привет!
+
+Andrey Tolkachev [9:48 PM]
+здаров)
+
+Grigory Kislin [1:18 AM]
+@here
+*Поздравляю с началом стажировки:)!*
+подробности выслал письмом
+
+Dima [1:19 AM]
+ниче се) ночь а ты не спишь
+
+Varguss [7:32 AM]
+Ухху:)
+
+Gessal [7:33 AM]
+Всем привет!
+По поводу домашнего задания.
+В видео сказано, что нужно скачать файл "Prepare_to_homework.patch". А где его взять?
+
+koderman [7:38 AM]
+третий пункт, есть ссылка на файл: https://github.com/JavaOPs/topjava
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+
+Gessal [7:40 AM]
+Спасибо, нашел. Странно, но у меня она отображается как обычный текст в браузере (Opera).
+
+Gessal [7:53 AM]
+подскажите куда копать - не появляется вкладка "version control" в Intellij Idea.
+в settings проверил git
+в plugins галочка тоже стоит
+все команды git из IDE работают
+
+Dima [8:22 AM]
+@Gessal в settings/Version Control указан проект?
+
+Gessal [8:58 AM]
+@Dima, указан
+
+Andrey Tolkachev [8:58 AM]
+попробуй alt+9
+
+Taras [9:00 AM]
+@Gessal В Preferences>Version Control>Git указан путь вверху (Path to git executable)?
+
+Gessal [9:04 AM]
+Да, путь указан. Помог совет @Igor в канале #idea: правой кнопкой на корне проекта -> git -> show history
+
+Aleksey Romantsov [11:23 AM]
+Всем привет, мои достижения пока скромные - поставил slack :slightly_smiling_face:
+А там еще ссылок в стартовом письме читать не перечитать
+
+Dima [11:24 AM]
+Ну так нато и дана неделя
+
+Aleksey Romantsov [11:27 AM]
+Нужно быстренько вчитываться\решать не дожидаться концов сроков
+Проходили уже, то заболеет кто-нибудь не в тему, то еще каких проблем подкинут, в итоге потом все через одно привычное мест все получается.
+217 участников %) думал будет сильно меньше
+
+senadnepr [11:58 AM]
+За лето все соскучились по учёбе!
+
+Grigory Kislin [2:22 PM]
+> не появляется вкладка "version control" в Intellij Idea.
+@Gessal похоже что у новой idea какой-то глюк
+у меня таже фигня
+я делал на любом git файле git-> show history
+после этого она появляется
+
+Sergey Simonov [2:59 PM]
+привет, кто нибудь знает можно ли review кода оплатить по частям?
+
+lifter4ik [3:16 PM]
+инфа от Григория: можно 50% (4750) до HW5 и 50- после
+
+Yestay [4:13 PM]
+Салют. кто подскажет во сколько сегодня сбор?
+или нет сегодня
+
+
+severek [4:30 PM]
+Привет, почту чекни
