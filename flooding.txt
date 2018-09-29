@@ -13,3 +13,191 @@ itkonfa.tech
 Айті Конфа
 Для всіх айтішніків і людей, які хочуть ними стати.
 https://static.tildacdn.com/tild6432-3665-4632-b165-336339363164/42193642_59280036113.jpg
+
+Varguss [Yesterday at 6:10 PM]
+Судя по опросу в #general , я или самый молодой тут, или один из самых молодых :slightly_smiling_face: (edited)
+
+
+12 replies
+Gekov Iliya [1 day ago]
+28, я уж думал мне поздно учиться) (edited)
+
+
+Andrey Tolkachev [1 day ago]
+у меня знакомый в Италии живет, там в 30 лет только работать начинают) так что никогда не поздно
+
+
+YuriyUh [1 day ago]
+Я по ходу самый древний...38
+
+
+Dmitry Neustupov [1 day ago]
+37
+
+
+m.lysiakov [1 day ago]
+25
+
+
+Victor_Ch [1 day ago]
+30
+
+
+under4eg [1 day ago]
+25
+
+
+Yuri [1 day ago]
+@YuriyUh не угадал, 40
+
+
+Andrew Kalugin [1 day ago]
+35
+
+
+Maxim Valeev [17 hours ago]
+24
+
+
+Sergey Zhukov [8 hours ago]
+скоро 35
+
+
+Alexander Brovko [1 hour ago]
+28
+
+
+Dima [Yesterday at 9:35 PM]
+а кто нибудь занимается разработкой под андроид?есть вопрос. Или может кто подскажет. Как лучше организовать передачу картинок через рест-сервис. Кроме как ссылкой (edited)
+
+
+30 replies
+shomnest [10 hours ago]
+@Dima не важно же андроид или нет, рест на то и рест, что обмен данными происходит между тем что может формировать хттп запросы и тем что их может обрабатывать.
+Не очень понял что ты имеешь ввиду под "передать ссылкой"?
+
+
+Dima [10 hours ago]
+@shomnest Мне надо каким то образом через json передать картинку или пдф ,можно их залить на сервак и получать просто по ссылке,типа http://сервер.ру/картинка.jpeg. а вопрос есть ли еще какие то способы? (edited)
+
+
+Dima [10 hours ago]
+На андроиде помоему просто чаще получают информацию с jsonа для формирования того же recyclerview
+
+
+shomnest [9 hours ago]
+Все равно не уверен что понял) 
+Можно по post запросу с клиента, отдавать в ответ данные. Но все равно будет приходить на клиент ссылка на файл где-то в сети, например на сервере.
+
+
+Dima [9 hours ago]
+Ну вот мне интересно было может какие то другие методы есть,хз
+
+
+shomnest [9 hours ago]
+@Dima json это всего лишь формат сериализованных данных, используется он повсеместно, весь rest на нем шлется
+
+
+shomnest [9 hours ago]
+Типа отправить картинку джэйсоном?)
+
+Dima [9 hours ago]
+Типо) но такой джейсон выглядеть будет весело
+
+shomnest [9 hours ago]
+Джейсон тут все таки не причем, джейсон это только формат, как .pdf или .txt
+Картинку можно переслать байтовым потоком с заголовками метаданных о том что это за формат, что бы затем читать его где-либо
+
+
+Dima [8 hours ago]
+Ок,почитаю об этом,спасибо
+
+
+shomnest [8 hours ago]
+@Dima  вот, может поможет
+https://stackoverflow.com/questions/14728125/how-do-i-send-an-image-over-http-protocol-in-c
+Stack Overflow
+How do I send an image over HTTP protocol in C?
+I'm a student doing a web server exercise and I need a bit of help. I have my web server working fine for text pages but whenever the brower sends a ---GET /img.jpg HTTP/1.1 request, I don't know ...
+ 
+
+
+shomnest [8 hours ago]
+@Dima во здесь вроде хорошо описано
+https://www.baeldung.com/spring-mvc-image-media-data
+Baeldung
+Returning Image/Media Data with Spring MVC | Baeldung
+The article shows the alternatives for returning image (or other media) with Spring MVC and discusses the pros and cons of each approach.
+May 17th, 2016 at 10:10 AM
+ 
+
+
+Dima [8 hours ago]
+Супер,приду с работы почитаю,спасибо
+
+
+Dima [5 hours ago]
+@shomnest крайняя ссылка как раз то, что надо! я просто плохо понимал как отдавать фаил по запросу, так как тема ещ для меня не раскрыта)
+
+shomnest [5 hours ago]
+@Dima ю ар вэлкам, как говорится)
+
+
+Dima [5 hours ago]
+надеюсь на topjava эти моменты буду раскрываться
+
+shomnest [5 hours ago]
+@Dima тут главное не иметь туманных надежд, топджава это хорошо и даже очень хорошо (надеюсь @Grigory Kislin оценит)), но это не панацея. Одно из мощных качеств девелоппера - это уметь нарывать инфу и адаптировать ее под свои задачи.
+
+
+Sergey Zhukov [3 hours ago]
+что-то вы тут закопались, у поста есть типы вот если указать что постишь картинку, можно слать картинку
+
+Sergey Zhukov [3 hours ago]
+json это способ передавать pojo, поля-значения, вложенность есть еще
+
+Dima [3 hours ago]
+это и надо , в бд лежат руководства и ссылки на картинки к ним. Сами картинки в папке проекта
+
+
+Sergey Zhukov [3 hours ago]
+ссылки это не сома передача картинок
+
+
+Sergey Zhukov [3 hours ago]
+просто get из базы
+
+Dima [3 hours ago]
+да, через json ссылки, а сами картинки через ResponseEntity
+
+Sergey Zhukov [3 hours ago]
+в баще ссылки на аартинки, передавай ссылки
+
+
+Sergey Zhukov [3 hours ago]
+тьфу кривая клава, сорь за ошибки
+
+Sergey Zhukov [3 hours ago]
+картинки на винте впапке?
+
+
+Dima [2 hours ago]
+картинки в отдельной папке WEB-INF, а достаю как в примере по ссылке
+234.jpg
+
+
+
+Sergey Zhukov [2 hours ago]
+если база хранит картинки в base64 например, тогда да кидай как респонс, у тебя в папке, делай папку ресурсом, килай ссылки
+
+
+Sergey Zhukov [2 hours ago]
+кидай*
+
+
+Sergey Zhukov [2 hours ago]
+если надо скрыть картинки от роботов, или картинки динамичные, может прокатит твое решение, но если только вернуть статичную картинку для вью, вощвращай ссылки на них
+
+
+Sergey Zhukov [9:16 PM]
+интересно сколько девушек на поекте? давайте знакомиться :wink:

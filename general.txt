@@ -347,8 +347,34 @@ Kirill Shiryaev [6 minutes ago]
 26
 
 
+Ilya [1 day ago]
+32
+
+
+Andrey Tolkachev [1 day ago]
+Татьяна просит перейти в канал #flooding
+
+
+fibz [1 day ago]
+19
+
+
+Sergey Simonov [1 day ago]
+24 :slightly_smiling_face:
+
+
+Dmitriy [1 day ago]
+26
+
+
+Sergey Zhukov [8 hours ago]
+35
+
 Gessal [9:08 AM]
 Я так понял тем, у кого не оплачена review кода, смысла отправлять ДЗ на проверку нет? Просто делать, а потом сверять с ментором.
 
 Andrey Tolkachev [10:18 AM]
 @Gessal да, все верно
+
+Gessal [1 day ago]
+Спасибо.
