@@ -1,0 +1,265 @@
+Grigory Kislin [1:07 AM]
+joined #test_review along with 3 others.
+
+koderman [5:05 AM]
+Доброе утро! Мое решение. git@github.com:kodermanishe/topjava.git
+
+Taras [6:42 AM]
+joined #test_review.
+
+Tanya [7:07 AM]
+само ревью будет в ЛС (edited)
+
+Ivan_Ver [7:15 AM]
+joined #test_review along with Artur (Riga).
+
+Artur (Riga) [7:15 AM]
+Добрый День !
+Я сделал два цикла, в одном создаю мапу с общим кол-вом каллорий за день, во втором создаю результирующий список для целевой функции. (edited)
+https://github.com/alangenfelds/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+alangenfelds/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - alangenfelds/topjava
+
+Ivan_Ver [7:37 AM]
+Доброе утро. Мое решение HW0: https://github.com/ivan-ver/topjava/tree/HW0
+GitHub
+ivan-ver/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - ivan-ver/topjava
+
+Dima [7:42 AM]
+joined #test_review.
+
+Dima [7:45 AM]
+Доброе время суток! https://github.com/VertoBrat/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+VertoBrat/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - VertoBrat/topjava
+
+Tanya [7:54 AM]
+ответила @koderman @Artur (Riga) @Ivan_Ver @Dima
+
+Andrey N [8:03 AM]
+joined #test_review along with Thaipad.
+
+Thaipad [8:16 AM]
+Добрый день!
+https://github.com/thaipad/topjava/tree/hw0  - решение, оно же optional 1.
+https://github.com/thaipad/topjava/tree/hw0_opt2  - optional 2 (edited)
+GitHub
+thaipad/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - thaipad/topjava
+
+Nikiforov_Yuri [8:44 AM]
+joined #test_review along with Pavel Mikhalev.
+
+Taras [8:52 AM]
+Добрый день!
+https://github.com/Rekotek/topjava/tree/HW0
+GitHub
+Rekotek/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Rekotek/topjava
+
+Katherine [9:25 AM]
+Ответила @Taras
+
+Стецко Максим [9:30 AM]
+joined #test_review along with senadnepr.
+
+
+Стецко Максим [Today at 9:33 AM]
+Привет. Моё решение https://github.com/Tomeosan/topjava/tree/HW0
+GitHub
+Tomeosan/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Tomeosan/topjava
+ 
+
+
+1 reply
+Katherine [7 hours ago]
+Ответила в личку
+
+
+fonto [9:49 AM]
+joined #test_review.
+
+
+fonto [Today at 9:50 AM]
+Доброе утро, решение hw0.
+https://github.com/immmus/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+immmus/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - immmus/topjava
+ 
+
+
+1 reply
+Katherine [7 hours ago]
+Ответила в личку
+
+
+Ilya [10:05 AM]
+joined #test_review.
+
+
+Ilya [Today at 10:34 AM]
+Добрый день! мое решение) https://github.com/ChernovIA/topjava/tree/HW0/src/main/java/ru/javawebinar/topjava
+GitHub
+ChernovIA/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - ChernovIA/topjava
+ 
+(edited)
+
+
+1 reply
+Katherine [6 hours ago]
+Ответила в личку
+
+
+Nikita Ganin [10:35 AM]
+joined #test_review.
+
+
+Nikita Ganin [Today at 10:36 AM]
+https://github.com/nikitaganin08/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+nikitaganin08/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - nikitaganin08/topjava
+ 
+
+
+1 reply
+Katherine [6 hours ago]
+Ответила в личку
+
+
+nick [10:41 AM]
+joined #test_review along with Vitaliy Ivkin.
+
+nick [10:44 AM]
+Привет всем любителям халявы))
+
+
+Vitaliy Ivkin [Today at 10:48 AM]
+https://github.com/Walliword/topjava/tree/HW0/src/main/java/ru/javawebinar/topjava проверьте пожалуйста
+GitHub
+Walliword/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Walliword/topjava
+ 
+
+
+1 reply
+Katherine [5 hours ago]
+Ответила в личку
+
+
+Andrey Tolkachev [10:52 AM]
+joined #test_review.
+
+
+Andrey Tolkachev [Today at 10:54 AM]
+https://github.com/Deformin/topjava/tree/HW0/src/main/java/ru/javawebinar/topjava
+сделал с помощью стримов и циклов (2 метода), тоже хотел бы поревьювиться, спасибо!)
+GitHub
+Deformin/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Deformin/topjava
+ 
+(edited)
+
+
+1 reply
+Katherine [5 hours ago]
+Ответила в личку
+
+
+YuriyUh [Today at 11:33 AM]
+Добрый день, решение - https://github.com/YorikUh/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+YorikUh/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - YorikUh/topjava
+ 
+
+
+1 reply
+Katherine [5 hours ago]
+Ответила в личку
+
+
+Kirill Shiryaev [Today at 12:11 PM]
+Добрый день https://github.com/Kirill26-07/topjava/tree/HW0
+GitHub
+Kirill26-07/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Kirill26-07/topjava
+ 
+(edited)
+
+
+1 reply
+Katherine [4 hours ago]
+Ответила в личку
+
+
+nick [Today at 12:20 PM]
+https://github.com/melnyknikolay/topjava/tree/HW0/src/main/java/ru/javawebinar/topjava
+GitHub
+melnyknikolay/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - melnyknikolay/topjava
+ 
+
+
+1 reply
+Katherine [2 hours ago]
+Ответили в личку
+
+
+nick [12:27 PM]
+Optional + Optional2
+
+
+lifter4ik [Today at 12:50 PM]
+Добрый день! Решение через стрим.
+https://github.com/lifter4ik23/topjava/tree/HW0
+GitHub
+lifter4ik23/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - lifter4ik23/topjava
+ 
+
+
+1 reply
+Katherine [2 hours ago]
+Ответила в личку
+
+
+Yana [Today at 1:17 PM]
+Добрый день 
+https://github.com/YanaKuznetsova/topjava/tree/hw0
+GitHub
+YanaKuznetsova/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - YanaKuznetsova/topjava
+ 
+
+
+1 reply
+Katherine [2 hours ago]
+Ответила в личку
+
+
+Rommyrandomy [Today at 3:09 PM]
+Решение через стримы https://github.com/RomanPermyakov/topjava/tree/HW0
+GitHub
+RomanPermyakov/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - RomanPermyakov/topjava
+ 
+
+
+1 reply
+Katherine [2 hours ago]
+Ответила в личку
+
+
+PavelKr [4:45 PM]
+https://github.com/PavelKru86/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+PavelKru86/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - PavelKru86/topjava
+Здравствуйте!

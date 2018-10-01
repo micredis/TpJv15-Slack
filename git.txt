@@ -6,3 +6,93 @@ set the channel topic: вопросы по git
 
 Tanya [12:02 AM]
 joined #git along with 18 others.
+
+
+Sergey [Yesterday at 2:42 PM]
+Hi! How to right execute this: "Сделать Fork ЭТОГО проекта (https://github.com/JavaOPs/topjava)" in next case?:
+My account have fork from previous topjava14, and i dont delete or rename old project ((
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+ 
+
+
+8 replies
+MATiAiX [1 day ago]
+U can delete your project in settings (https://github.com/%USERNAME%/%PROJECTNAME%/settings) On this page scroll down.
+Pasted image at 2018-09-30, 3:58 PM
+
+
+
+MATiAiX [1 day ago]
+Rename  project on the same page from the top
+
+
+Sergey [24 hours ago]
+@MATiAiX Thanks! I was delete project, because rename not help me :slightly_smiling_face:
+
+
+Varguss [19 hours ago]
+@Sergey Вы же не англичанин, зачем писать на английском и совершать десятки ошибок? Сложно понимать, что вы имеете ввиду.
+
+
+Varguss [19 hours ago]
+Занимайтесь английским, совершенствуйтесь, а проблемы объясняйте так, чтобы сразу было понятно, что вам нужно, что случилось и так далее.
+
+
+Varguss [19 hours ago]
+1. rightLY, потому что right - это существительное, а rightly значит "правильно" и отвечает на вопрос "как?".
+2. My account has. Аккаунт один, должен быть has.
+3. I don't delete or rename old project - "я не удаляю и не переименовываю старый проект". Так удалите или переименуйте - сразу напрашивается ответ. Потому что не очевидно, что вы имеете ввиду, что "я не могу удалить или переименовать проект". Правильно было бы сказать "I don't know how to delete or rename old project" или "I can't delete or rename old project".
+4. I was delete - ужасная и неправильная форма. Во-первых, после I was должен идти или герундий, или глагол в 3-й форме, или существительное. Я был (кем, чем, в каком состоянии, что делая?), у вас это глагол, следовательно, ни под что не подходит. И так, как действие было выполнено вами, а не НАД вами, то это должен быть не пассивный залог, а активный. I deleted project.
+5. because renamING didn't help me. Если перевести ваш вариант, то это будет "потому что переименовать не помог мне", даже немного не так, потому что по-хорошему должно было быть doesn't help me хотя бы, но, опять же, вам нужно прошлое время. Потому вариант выше. (edited)
+
+
+Varguss [19 hours ago]
+И в четвертом варианте можно было еще воспользоваться настоящим совершенным временем и сказать "I have deleted project". Еще я слышал, что в английском усложненные формы времени для недавно сделанных вещей опускают, но все же по-грамматике правильно будет использовать или past simple, или present perfect. В данном контексте, разницы нет: "я удалил проект" (удалил его в прошлом, когда-то) или "я удалил проект" (завершенное действие, показывающее результат). По логике, конечно, present perfect  будет предпочтительнее.
+
+
+Varguss [19 hours ago]
+Если я в чем-то не прав, то жду критики, я тоже не великий знаток английского :slightly_smiling_face:
+
+
+Sergey Zhukov [10:01 PM]
+народ подскажите по git, я наплодил одинаковых comit, нужно прибить предыдущие, на последнем жму reset --> soft, а результата пока не вижу, что еще нужно сделать?
+git_reset.png 
+
+
+Varguss [10:07 PM]
+У меня для таких ситуаций есть особая ссылочка.
+https://ru.stackoverflow.com/questions/431520/%D0%9A%D0%B0%D0%BA-%D0%B2%D0%B5%D1%80%D0%BD%D1%83%D1%82%D1%8C%D1%81%D1%8F-%D0%BE%D1%82%D0%BA%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F-%D0%BA-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B5-%D1%80%D0%B0%D0%BD%D0%BD%D0%B5%D0%BC%D1%83-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D1%83
+Stack Overflow на русском
+Как вернуться (откатиться) к более раннему коммиту?
+Я хочу вернуться к более раннему коммиту. Как мне это сделать? Вот что показывает команда git log: $ git log commit dddddd Author: Me <me@me.com> Date: Thu Nov 4 18:59:41 2010 -0400 Add ...
+Кушай
+Я в закладки к себе добавил специально.
+
+Dima [10:22 PM]
+@Sergey Zhukov это на локальном сервере или ты успел все залить на удаленный?
+можно на локальном сделать что то типо git reset HEAD~n , где n - число коммитов на которое надо откатиться.
+
+Sergey Zhukov [10:32 PM]
+На github уже такая ветка. Нужно объединить все эти комиты в один комит?
+
+Varguss [10:41 PM]
+Да
+Перед тем, как откатывать на прошлые версии, можешь сделать git fetch, чтобы гарантированно была последняя версия проекта.
+
+Dima [11:30 PM]
+@Sergey Zhukov можно удалить с удаленки вообще ветку HW0. потом залить заново. удалить можно так: git push origin :HW0
+
+
+Aleksey Romantsov [Today at 10:13 AM]
+у меня в IDEA после патча, даже если выделить все изменения и добавить их в гит, добавляется только то, на котором курсор, в итоге пришлось накликивать по одному
+
+
+1 reply
+Andrey Tolkachev [6 hours ago]
+можно просто ctrl+A
+
+
+Sergey Zhukov [2:09 PM]
+пойду осваивать консольный git, идея меня совсем запутала

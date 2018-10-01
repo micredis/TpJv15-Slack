@@ -67,6 +67,9 @@ Alexander Brovko [1 hour ago]
 28
 
 
+MATiAiX [1 day ago]
+я уж думал в 31 поздновато...а тут :smiley:
+
 Dima [Yesterday at 9:35 PM]
 а кто нибудь занимается разработкой под андроид?есть вопрос. Или может кто подскажет. Как лучше организовать передачу картинок через рест-сервис. Кроме как ссылкой (edited)
 
@@ -201,3 +204,88 @@ Sergey Zhukov [2 hours ago]
 
 Sergey Zhukov [9:16 PM]
 интересно сколько девушек на поекте? давайте знакомиться :wink:
+
+MATiAiX [1 day ago]
+похоже не много )
+
+
+Sergey Simonov [16 minutes ago]
+"опять мне одному солить свой огурец" (с.) Миллхаус
+
+
+Sergey Simonov [16 minutes ago]
+:grin:
+
+
+MATiAiX [Yesterday at 7:45 AM]
+а мне вот интересно кто в какой сфере работает?
+
+
+11 replies
+Dima [1 day ago]
+Так чего с себя не начал?)) Я в авиации работаю,на вертолетах
+
+
+koderman [1 day ago]
+1c 10 лет, надоело
+
+
+
+Maxim Valeev [1 day ago]
+Ручное программное и аппаратное тестирование смартфонов и планшетов на Андроиде
+
+
+m.lysiakov [1 day ago]
+Выращивание декоративных деревьев. Тоже надоело)
+
+
+MATiAiX [1 day ago]
+Работаю эникеем, системным администратором, аудитором, контролером качества. Всё в IT.
+
+
+MATiAiX [1 day ago]
+Как раз смотрю выступление Тагира Валеева =))) Совпадение? Не думаю =)))
+
+
+MATiAiX [1 day ago]
+Dima, я как раз вчера аватарку смотрел твою, думаю вроде на самолет не похоже. Про вертолеты не догадался... почему-то.:face_with_monocle:
+
+
+Dima [17 hours ago]
+На вертолетах мало летают обычные люди) поэтому ты и не догадался
+
+
+PavelKr [10 hours ago]
+инженер схемотехник...
+
+
+Valery.Shkerdin [8 hours ago]
+Системный администратор
+
+
+Kirill Shiryaev [5 hours ago]
+Был Юристом, сейчас java developer как 3 месяца, надо рости быстро, поэтому и выбрал этот курс
+
+
+Vladimir Gorbatenko [Today at 11:56 AM]
+потерялось расписание занятий, помогите найти )
+
+
+3 replies
+Nikita Ganin [5 hours ago]
+https://github.com/JavaWebinar/topjava
+GitHub
+JavaWebinar/topjava
+Contribute to JavaWebinar/topjava development by creating an account on GitHub.
+ 
+
+
+JavaHolic [5 hours ago]
+http://javaops.ru/view/topjava#schedule
+Java Online Projects
+Профессиональный Java разработчик. Бесплатное вступительное занятие
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise (45 kB)
+
+
+Vladimir Gorbatenko [5 hours ago]
+спасибо! ух ты, теперь по вторникам :slightly_smiling_face:
