@@ -93,6 +93,107 @@ Aleksey Romantsov [Today at 10:13 AM]
 Andrey Tolkachev [6 hours ago]
 можно просто ctrl+A
 
+Victor_Ch [14 hours ago]
+если курсор в окне git, скажем так, то выбирается для комита только выбранные. Если в окне проекта, то будут выбираться все.
+
 
 Sergey Zhukov [2:09 PM]
 пойду осваивать консольный git, идея меня совсем запутала
+
+
+senadnepr [5:22 PM]
+только после консоли начинаешь понимать, что имеет в виду IDEA ...
+
+Sergey Zhukov [11:11 PM]
+короче комитить можно хоть каждую новую строчку, а пушить только что-то готовое. удалил к чертям и создал все заново :dizzy_face:
+
+Dima [11:27 PM]
+@Sergey Zhukov главное не нервничать)
+
+Marat [7:53 AM]
+Привет всем. Подскажите почему ошибка при пуше выходит
+Push failed: Failed with error: unable to access 'https://github.com/maratkaz/topjava.git/': The requested URL returned error: 403
+GitHub
+maratkaz/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - maratkaz/topjava
+
+Marat [8:39 AM]
+При этом в настройках IDEA логин и пароль проходят
+
+Tanya [8:45 AM]
+попробуй открыть в браузере и вылогиниться
+
+Marat [8:47 AM]
+Пробовал уже, выходил и заново залогинился
+
+Dima [9:33 AM]
+@Marat а через консоль пушится?какие настройки в консоли на логин пароль?
+
+JavaHolic [9:37 AM]
+Поробуй расшарить интернет на телефоне и запушить через мобильный интернет, посмотри что будет
+
+Marat [9:39 AM]
+D:\JavaProjects\topjava>git push origin master
+remote: Permission to maratkaz/topjava.git denied to ipushallfold.
+fatal: unable to access 'https://github.com/maratkaz/topjava.git/': The requested URL returned error: 403
+
+D:\JavaProjects\topjava>git config user.name
+Marat Kaziyev
+
+D:\JavaProjects\topjava>git config user.email
+maratkaziyev@gmail.com
+GitHub
+maratkaz/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - maratkaz/topjava
+ipushallfold это мой второй тестовый гит, как его убрать?
+
+Dima [9:42 AM]
+https://jeka.by/ask/137/git-change-origin/
+jeka.by
+Изменить remote адрес git репозитория
+Задать адрес репозитория в git, изменить origin remote адрес git, изменить url git-репозитория.
+в файле гит конфиг посмотреть куда ссылается ориджин, вероятно ты пытаешься запушить проект туда, шде его нет
+
+Marat [9:46 AM]
+[remote "origin"]
+    url = https://github.com/maratkaz/topjava.git
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[user]
+    email = maratkaziyev@gmail.com
+GitHub
+maratkaz/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - maratkaz/topjava
+в конфиге все нормально, Только где-то прописан пользователь другой - ipushallfold
+
+
+Dima [Today at 9:56 AM]
+Необходимо зайти в:
+Панель управления\Учетные записи пользователей и семейная безопасность\Диспетчер учетных данных
+в разделе: "общие учетные данные" удалить учётку для git. Выглядит она так: git:https://github.com
+При следующем взаимодействии в консоле, git попросит ввести логин и пароль в отдельном окне авторизации. (edited)
+
+
+1 reply
+Marat [2 hours ago]
+Спасибо большое. Помогло.
+
+
+Dima [9:58 AM]
+какая винда у тебя?
+если 10, то надо заходить панель управления->Диспетчер учетных данных->учетные данные винды
+
+Marat [10:51 AM]
+Спасибо. Помогло
+Раньше уже встречался с такой проблемой. Теперь не забуду.
+
+
+Alexey Perelygin [Today at 11:52 AM]
+Привет! Объясните пожалуйста логику. Если я создал бранч. Сделал в нем изменения. Не закоммитил. Пытаюсь переключиться в мастер-бранч. При этом в мастер-бранч перекидываются все изменения. Но если перед чекаутом сделать коммит - все ок. Я понимаю, если бы изменения просто терялись из за того что я их не закоммитил. Но зачем они переносятся в мастер?
+
+
+1 reply
+Илья Чиликин [44 minutes ago]
+Если ты не добавил новые файлы в индекс, то это unversionned files, git их не трогает.

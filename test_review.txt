@@ -263,3 +263,90 @@ GitHub
 PavelKru86/topjava
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - PavelKru86/topjava
 Здравствуйте!
+
+
+Maksim [Yesterday at 6:56 PM]
+https://github.com/MaksimDenisov/topjava/blob/HW00/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+MaksimDenisov/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - MaksimDenisov/topjava
+ 
+
+
+1 reply
+Katherine [17 hours ago]
+Ответила в личку
+
+
+Alex Yesterday at 7:43 PM
+Добрый день https://github.com/AlexeyBugaev/topjava/tree/HW0
+ GitHub
+AlexeyBugaev/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - AlexeyBugaev/topjava
+ 
+ 
+ 
+Katherine 16 hours ago
+Ответила в личку
+
+
+senadnepr [Yesterday at 10:56 PM]
+Добрый день. https://github.com/senadnepr/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+senadnepr/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - senadnepr/topjava
+ 
+
+
+1 reply
+Tanya [13 hours ago]
+ответила в лс
+
+
+Andrey Shokotko [Yesterday at 11:36 PM]
+Добрый вечер! решение через циклы и стримы в отдельных ветках. Спасибо! https://github.com/Loginless/topjava/tree/master/src/main/java/ru/javawebinar/topjava/util
+GitHub
+Loginless/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - Loginless/topjava
+ 
+
+
+1 reply
+Tanya [12 hours ago]
+ответила в ЛС
+
+
+taima [Today at 12:56 AM]
+Добрый вечер, мое решения для ревью. заранее спасибо! https://github.com/tzabrodskaya/topjava/tree/HW0
+GitHub
+tzabrodskaya/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - tzabrodskaya/topjava
+ 
+
+
+1 reply
+Tanya [8 hours ago]
+ответила в ЛС
+
+
+Alexey Perelygin [3:52 AM]
+Добрый вечер! Мое решение для ревью
+
+Alexey Perelygin [Today at 3:52 AM]
+https://github.com/pereligins/topjava/tree/HW0
+GitHub
+pereligins/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - pereligins/topjava
+ 
+
+
+1 reply
+Tanya [8 hours ago]
+ответила в ЛС
+
+
+Pavel Mikhalev [12:14 PM]
+Добрый день. Посмотрите,  пожалуйста. https://github.com/iStemmer/topjava/tree/HW0
+GitHub
+iStemmer/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - iStemmer/topjava
