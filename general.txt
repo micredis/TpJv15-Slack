@@ -399,3 +399,15 @@ Tanya [1:53 AM]
 Ревью кода делается вручную, без валидаторов и автотестов. Проверяется не только правильность решения, но также его оптимальность, соответствие основным паттернам, а также стиль написания.
 
 Те кто сомневаются в том, cтоит ли брать проверку ДЗ -  могут скинуть свое решение (ссылку на гитхаб) в ветку  #test_review для получения "тестового ревью"
+
+
+LORREON Today at 9:32 AM
+Тестовое ревью только на https://github.com/JavaOPs/topjava#-Домашнее-задание-hw0?
+ GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+ 
+ 
+ 
+Tanya 32 minutes ago
+только HW0

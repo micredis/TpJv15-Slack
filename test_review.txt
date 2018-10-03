@@ -350,3 +350,52 @@ Pavel Mikhalev [12:14 PM]
 GitHub
 iStemmer/topjava
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - iStemmer/topjava
+
+
+Katherine [19 hours ago]
+Ответила в ЛС
+
+
+Marat [Yesterday at 3:10 PM]
+Добрый день. Для тестового ревью. Мое решение
+https://github.com/maratkaz/topjava/tree/HW0
+GitHub
+maratkaz/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - maratkaz/topjava
+ 
+
+
+1 reply
+Katherine [19 hours ago]
+Ответила в ЛС
+
+
+Uasa [4:12 PM]
+Добрый вечер. ДЗ hw0
+
+
+Uasa [Yesterday at 4:12 PM]
+https://github.com/UasaLine/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+UasaLine/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - UasaLine/topjava
+ 
+
+
+1 reply
+Katherine [14 hours ago]
+Ответила в ЛС
+
+
+Dobrenkyi Konstantin Aleksandrovich [Yesterday at 10:55 PM]
+День добрый. Решение HW0
+https://github.com/DobrenkyiKA/topjava.git
+GitHub
+DobrenkyiKA/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - DobrenkyiKA/topjava
+ 
+
+
+1 reply
+Tanya [11 hours ago]
+ответила в ЛС

@@ -197,3 +197,30 @@ Alexey Perelygin [Today at 11:52 AM]
 1 reply
 Илья Чиликин [44 minutes ago]
 Если ты не добавил новые файлы в индекс, то это unversionned files, git их не трогает.
+
+
+Roman Baranov [20 hours ago]
+https://www.jetbrains.com/help/idea/manage-branches.html
+похоже на поведение при `Switch between branches`
+intellij делает что то типа `Smart Checkout`
+
+
+Marat [Today at 5:53 AM]
+Подскажите.
+Вот я сделал форк topjava,
+потом склонировал локально на компьютер,
+сделал ветку HW0,
+сделал push на GitHub,
+Теперь у меня 2 ветки локально и 2 на Гитхабе.
+Беру другой компьютер - и клонирую туда локально с Гитхаба, но локально создается только ветка master, а HW0 нет.
+Как сделать чтобы на втором компьютере была копия HW0 из Гитхаба ? И чтобы с обоих компьютеров можно было работать (edited)
+
+
+2 replies
+Taras [3 hours ago]
+got fetch origin
+Эта команда загрузить все branches с удаленного репозитория.
+
+
+Alexey_b [2 hours ago]
+git fetсh     и в правом нижнем углу идеи выбрать нужный бранч (edited)
