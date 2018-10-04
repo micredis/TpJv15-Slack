@@ -1,0 +1,35 @@
+Alexey [10:32 PM]
+joined #hw1 along with 22 others.
+
+Grigory Kislin [12:34 AM]
+Всем доброй ночи!
+Поздравляю с первым занятием:
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson01.md
+успехов! PS: еще не поздно взять проверку ДЗ (edited)
+
+Grigory Kislin [12:48 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson01.md
+
+Marat [8:58 AM]
+Добрый день.
+Файлы патчей можно удалять после их применения?
+Или пусть лежат в проекте?
+
+Alexey [9:01 AM]
+удаляй
+
+
+Marat [Today at 9:17 AM]
+Комит делаем после каждого патча? А пуш после всех патчей?
+
+
+1 reply
+Dima [3 hours ago]
+https://github.com/JavaOPs/topjava/wiki/Git#%D0%9A%D0%B0%D0%BA-%D0%B2%D0%B5%D1%81%D1%82%D0%B8-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D1%83-%D1%81%D0%B5%D0%B1%D1%8F-%D0%B2-%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%BC-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B5
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+
+
+Alexey [9:20 AM]
+так логичней конечно

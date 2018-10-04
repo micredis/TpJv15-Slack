@@ -1135,3 +1135,26 @@ Tanya [6:32 AM]
 
 Thaipad [9:16 AM]
 На мой взгляд, стримы читабельнее и эффектнее. Но не всегда эффективнее :slightly_smiling_face:
+
+
+witalijbukatkin [Yesterday at 9:26 PM]
+Ребят, не оцените сложность алгоритма? https://github.com/WitalijBukatkin/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+WitalijBukatkin/topjava
+Contribute to WitalijBukatkin/topjava development by creating an account on GitHub.
+ 
+(edited)
+
+
+1 reply
+Tanya [15 hours ago]
+перенеси сообщение в #test_review
+напишу ревью в лс
+
+
+LORREON [12:41 PM]
+Если форкать с JavaOPs/topjava накатывать патч Prepare_to_HW0 не нужно?
+
+
+Alexey [12:48 PM]
+нужен
