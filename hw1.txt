@@ -33,3 +33,141 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstr
 
 Alexey [9:20 AM]
 так логичней конечно
+
+
+Marat [1:31 PM]
+У меня в настройках Maven указано так.
+Pasted image at 2018-10-04, 4:31 PM 
+
+Это правильно? Что за бандл?
+Или указать конкретно на папку куда я скачал мавен?
+
+Gekov Iliya [1:37 PM]
+Если не ошибаюсь, это мавен который идет в комплекте с идеей
+
+
+Marat [Yesterday at 1:42 PM]
+То есть можно с такой настройкой работать?
+
+
+1 reply
+Grigory Kislin [22 hours ago]
+если проблем не будет- то ок
+
+
+Alexey [1:42 PM]
+можно
+
+
+Alexey_b [Yesterday at 5:24 PM]
+а как бы так выполнить пункт 16:  после операции delete в браузере должен быть url http:\\localhost:8080\topjava\meals  ?  что-то простое нужно типа вырезать принудительно лишние действия из url ?
+
+
+4 replies
+Yevhen Maksymovych [18 hours ago]
+это означает, что если ты используешь отдельный урл для delete (или набор параметров из урла), надо не забыть вернуть пользователя на указанный урл
+
+
+Yevhen Maksymovych [18 hours ago]
+а не оставлять на странице вроде .../meals/delete?id=123 (edited)
+
+
+Alexey_b [18 hours ago]
+ага, я понял задание, я хотел обсудить как сделать
+
+
+Grigory Kislin [12 hours ago]
+редирект
+
+
+Sergey Zhukov [Yesterday at 8:28 PM]
+а почему в jar а не в war пакуем мавеном? чтоб ручками томкету подсовывать? (edited)
+
+
+3 replies
+Dima [15 hours ago]
+Томкат jar не сьест,но я не пробовал)
+
+
+
+Sergey Zhukov [15 hours ago]
+он его увидит и распакует в папку рядом
+
+
+Sergey Zhukov [15 hours ago]
+я не досмотрел, пакуем в war
+
+
+Dima [Yesterday at 8:31 PM]
+Для чего после локалхоста ставить еще topjava,он же и так запускается?
+
+
+2 replies
+Sergey Zhukov [15 hours ago]
+там в томкете вроде для этого есть папка webapps/root, из нее запускать можно без topjava
+
+
+Sergey Zhukov [14 hours ago]
+когда на сервере крутится много проектов, то лучше контекст различать, если одно приложение, то да можно и в рут разворачивать
+
+
+Sergey Zhukov [Yesterday at 10:25 PM]
+кто-нибудь знает, можно ли для manager назначить порт отличный от порта на котором висят все остальные приложения? т.е все приложения на 8080, а manager на 8081 например
+
+
+4 replies
+shomnest [13 hours ago]
+@Sergey Zhukov в файле конфигурации томката, можешь отредактировать тег service. Добавить там имя необходимого приложения и порт для него. Приложение, вроде, должно в руте у томката при этом находиться. (edited)
+
+
+Flashheart [3 hours ago]
+Или поднять 2 томката на разных портах.
+
+
+shomnest [2 hours ago]
+@Flashheart ну, это самое очевидное, не стал про это писать
+
+
+Flashheart [1 hour ago]
+Ну да, но может кто-то еще не знает. Пригодится :slightly_smiling_face:
+
+
+Marat [Today at 9:56 AM]
+Добрый день.
+В чем разница между этими двумя строками?
+request.getRequestDispatcher("/users.jsp").forward(request, response);
+response.sendRedirect("users.jsp");
+
+
+4 replies
+Anton Potemkin [2 hours ago]
+Привет.
+http://qaru.site/questions/4837/requestdispatcherforward-vs-httpservletresponsesendredirect
+Чем раньше начнешь гуглить, проще будет в дальнейшем.
+qaru.site
+redirect - RequestDispatcher.forward() vs HttpServletResponse.sendRedirect() - Qaru
+Какова концептуальная разница между forward() и sendRedirect()?
+(edited)
+
+
+shomnest [2 hours ago]
+@Anton Potemkin здесь люди, прежде всего для того, что бы задавать вопросы, отправлять гуглить, имхо моветон.
+
+
+Anton Potemkin [2 hours ago]
+Это очень просто вопрос. Я считаю что каждый должен умень находить ответы на простые вопросы. И если уже не смог, то начинать спрашивать и вести диалог. В дальнейшем это только поможет.
+
+
+Anton Potemkin [2 hours ago]
+Даже в письме по первому уроку было написано:
+Грамотно уделяй время каждой проблеме. Две крайности - сразу бросаться за помощью и биться нам ней часами. Пробуй решить ее сам и в зависимости от проблемы выделяй на это разумное время.
+
+
+Marat [9:56 AM]
+И какой способ обычно используют?
+
+Anton Potemkin [10:07 AM]
+@Marat кинул статью в помощь. Это разные типы запросов и нельзя использовать какой то один их них всегда.
+
+Marat [11:22 AM]
+А где статья?
