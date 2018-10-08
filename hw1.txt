@@ -171,3 +171,677 @@ Anton Potemkin [10:07 AM]
 
 Marat [11:22 AM]
 А где статья?
+
+
+Marat [Oct 5th at 12:10 PM]
+request.getRequestDispatcher("/users.jsp").forward(request, response); - один запрос на сервер, не обновляет url, объект сервлета сохраняется.
+response.sendRedirect("users.jsp"); - отправляет ответ клиенту, создает новый запрос на сервер, пересоздает объект сервлета.
+
+Второй вариант отрабатывается дольше и требует больше ресурсов сервера.
+И насколько понял его используют когда перенаправляют на другой сервер.
+Но зачем внутри одного проекта перенаправлять?
+
+
+3 replies
+Yevhen Maksymovych [3 days ago]
+все очень просто, если ты форвардишь реквест, вся полезная нагрузка в нём (т.е. то, что лежит в requestBody) - тянется за ним, а если делаешь редирект, создаётся новый запрос, в котором ничего не лежит. Т.е. если тебе не надо передавать данные - ты делаешь редирект. Если надо что-то положить внутрь - делаешь форвард.
+
+
+
+Yevhen Maksymovych [3 days ago]
+технически, есть возможность передать данные и с помощью редиректа, но на данном этапе это неважно, фундаментальное отличие я указал выше :slightly_smiling_face:
+
+
+Taras [3 days ago]
+Почитай еще https://en.wikipedia.org/wiki/Post/Redirect/Get
+Wikipedia
+Post/Redirect/Get
+Post/Redirect/Get (PRG) is a web development design pattern that prevents some duplicate form submissions, creating a more intuitive interface for user agents (users). PRG supports bookmarks and the refresh button in a predictable way that does not create duplicate form submissions.
+When a web form is submitted to a server through an HTTP POST request, a web user that attempts to refresh the server response in certain user agents can cause the contents of the original POST request to be resubmitted, Show more… (40 kB)
+
+
+Marat [12:14 PM]
+В принципе понял смысл
+
+
+Alexey [Oct 5th at 2:33 PM]
+концептуальный вопрос - как лучше поступить с cозданием конкретного экземпляра MemoryMealRepository и его первоначальным популированием? поместить фабричный метод в MealsUtils?
+
+
+2 replies
+Rommyrandomy [3 days ago]
+Создавай объект MemoryMealRepository при инициализации сервлета. Там можно один метод переопределить. И присмотрись к конструктору MemoryMealRepository :wink:
+
+
+Alexey [3 days ago]
+по инициализацию сервлета согласен, а к конструктору MemoryMealRepository зачем присматриваться?
+
+
+Dima [8:51 PM]
+Может это и не важно)) но переопределенный toString() класса MealWithExceed вывод старое значение)
+
+
+Sergey Zhukov [Oct 5th at 11:44 PM]
+киньте скриншот как должна выглядеть страница с табличкой, демо что-то не доступно сегодня. Я пока реализовал без оформления вот так, но чувствую не прокатит.
+meals1.png
+
+
+
+
+13 replies
+Dima [3 days ago]
+по оформлению ничего не говорили, кроме цвета и дат. Наверно любая пойдет
+
+
+Sergey Zhukov [3 days ago]
+проверь плз демку, может у меня с инетом что то
+
+
+Sergey Zhukov [3 days ago]
+http://topjava.herokuapp.com
+
+
+Dima [3 days ago]
+1111.jpg
+
+
+
+Sergey Zhukov [3 days ago]
+во спасибо, вроде соответствует ))
+
+Sergey Zhukov [3 days ago]
+optional это редактировать/удалить?
+
+Sergey Zhukov [3 days ago]
+обязательно использовать DateTimeFormatter? мне оказалось проще просто заменить T на пробел с помощью fn:replace
+
+
+Dima [3 days ago]
+посмотрим в четверг) я делал через javatime:format , по какой то ссылке было
+
+
+Sergey Zhukov [3 days ago]
+:slightly_smiling_face:
+
+
+Dima [3 days ago]
+https://github.com/sargue/java-time-jsptags
+GitHub
+sargue/java-time-jsptags
+JSP tag support for Java 8 java.time (JSR-310). Contribute to sargue/java-time-jsptags development by creating an account on GitHub.
+ 
+
+
+Sergey Zhukov [3 days ago]
+https://www.tutorialspoint.com/jsp/jstl_function_replace.htm
+www.tutorialspoint.com
+JSTL fn:replace() Function
+JSTL fn:replace() Function - Learn JSP (Java Server Pages) in simple and easy steps starting from basic to advanced concepts with examples including Java JSP Technology including Overview, Environment Setup, Architecture, Lifecycle, Syntax, Directives, Actions, Implicit Objects, Client Request, Server Response, Form Data, HTTP Request Header, Response Header, Status Codes, Writing Filters, Cookies Handling Session Tracking, File Uploading, Handling Date, Page Redirect, Hits Counter, Auto Refresh, Show more…
+
+
+Dima [3 days ago]
+optional завтра буду ковырять, завтра на работу)а там свои приколы
+
+
+Dima [3 days ago]
+222.jpg
+
+
+Ilya [12:23 AM]
+еще такое замечание, не надо использовать прямые ссылки на ресурсы, лучше ссылаться на маппинг сервелетов. К примеру ссылка index.html которая находится в users.jsp. Лучше создать еще один сервлет который будет мапить путь "/topjava" и форвардить на index.html. Тогда в адресной строке домашняя страница будет не  http://localhost:8080/topjava/index.html, а просто http://localhost:8080/topjava/
+при условии что в ссылке будет href="/topjava"
+
+Thaipad [6:41 AM]
+@Ilya А как вообще лучше работать со ссылками и контекстами?
+Например, я для удаления элемента я в списке сделал ссылку /meals?del=${item.id}, которая возвращает меня в doPost того же сервлета. После того, как я изменил контекст war на /topjava, все сломалось. Не придумал ничего лучшего, как считывать контекст сервлета, передавать параметром в jsp и строить ссылку так: ${context}/meals?del=${item.id}
+Корректно ли такое решение и можно ли сделать это изящнее? (edited)
+
+
+Ilya [Oct 6th at 9:04 AM]
+в случае с делитом так же делаешь сервлет с мапом на delete в нем обрабатываешь удаление и перенаправляшь обратно на сервлет который показывает таблицу. в ссылке будет /delete?id=${item. id}. тут основное правило не пытайтесь все засунуть в один сервлет, каждое действие свой сервлет
+
+
+4 replies
+Thaipad [1 day ago]
+Делать или нет новый сервлет в моем случае не имеет значения - мой вопрос в том, КАК вызвать сервлет из JSP. Может я что-то сделал неправильно, но у меня вызов и /delete?id=${item. id}, и /meals?del=${item.id} не работает, пока я не передам параметром контекст "/topjava" в JSP и приклею к пути сервлета (ну, либо не пропишу его ручками, что вообще уже ни в какие ворота не лезет).
+Сервлеты в web.xml у меня замапены на "/meals" и "/delete" , topjava:war exploded из IDEA вызывается в ApplicationContext="/topjava"
+
+
+Ilya [1 day ago]
+попробуй сделать ссылки без лидирующего "/" (edited)
+
+
+Ilya [1 day ago]
+тогда у тебя будут работать ссылки от ApplicationContext, а не от рута
+
+
+Thaipad [1 day ago]
+Да, все отлично работает! Спасибо!
+
+
+Alexey [Oct 6th at 11:37 AM]
+формально говоря ссылка /delete?id=${item.id} непонятно что стирает - пользователя или еду.
+
+
+6 replies
+Ilya [1 day ago]
+В таком контексте да) но никто не запрещает все что касается еды обрабатывать по пути /meal/[add|edit|delete], а для пользователей /users/[add|edit|delete]
+
+
+vch [1 day ago]
+остаётся вопрос  - зачем на каждое действие делать сервлет... В Spring, надеюсь, ты не будешь на каждое действие отдельный контроллер писать?
+
+
+Ilya [1 day ago]
+а спринг тут при чем? :slightly_smiling_face: В контроллере будут методы каждый из который замапен на определенное действие.
+
+
+Ilya [1 day ago]
+Представь открываешь ты сервлет (или метод в контроллере), а там дикая логика с кучей ифоф или свитчей которая как то основывается на тех параметрах которые туда пришли. И другая ситуация, открываешь сервлет (метод) и там 10 срок кода, где все сразу ясно).
+
+
+Ilya [1 day ago]
+тут конечно решать каждому самому как писать
+
+
+vch [24 hours ago]
+С учётом простоты нашей логики, мне кажется, вполне можно воспользоваться принципом KISS.
+Впрочем, мнение Григория по данному вопросу мы узнаем буквально через несколько дней.
+
+
+Nikita Ganin Oct 6th at 12:25 PM
+Я правильно понимаю, что нужно создать список Meal в MealServlet и добавить в него несколько значений?
+
+Thaipad 1 day ago
+Думаю, правильнее создать интерфейс типа DaoMeal, в котором определить метод получения списка. И сделать реализацию этого интерфейса, в котором уже создать тот самый список из фиктивных значений. В дальнейшем тогда при получении данных из реальной базы можно будет в каком-нибудь одном месте (типа фабрики) заменить одну реализацию другой без правки кода сервлета.
+
+Gekov Iliya 1 day ago
+Сервлет не должен знать откуда берет данные - из памяти или из бд (edited)
+
+Nikita Ganin 1 day ago
+Спасибо. Я об этом не подумал
+
+Ilya 1 day ago
+модель называется MVC (model-view-controller), В нашем случаем view -это наши html/jsp страницы, model - это база данных, у нас она в виде коллекции в памяти (ее и будем в будущем подменять на БД), controller - некий посредник который получаем запросы от view и вытаскивает для них данные из model
+
+Ilya 1 day ago
+в идеале каждый слой mvc должен иметь интерфейс и реализацию
+
+Ilya 1 day ago
+чтобы в случае чего можно было легко менять реализацию без дополнительного рефакторинга (edited)
+
+Dima 1 day ago
+Все это больше похоже на то, чтоб показать как удобно работать со спрингом_)
+
+Ilya 1 day ago
+О нем пока никто не знает)) сначала нужно взглянуть на внутренности
+
+
+Nikita Ganin [Oct 6th at 3:06 PM]
+По поводу пункта "Время выводить без 'T'", если в timeUtil сделать метод для форматирования даты с помощью DateTimeFormater. Как его можно вызвать в jsp?
+
+
+5 replies
+Sergey Simonov [1 day ago]
+да, тоже интересует
+
+
+Victor_Ch [1 day ago]
+в jsp можно вписать любой java код. Как знаешь, так и вызывай.
+
+
+Dobrenkyi Konstantin Aleksandrovich [1 day ago]
+java код в jsp это же вроде не есть хорошо?
+
+
+ABaykov [23 hours ago]
+Иногда можно. Ну главное, чтобы у тебя там партянка на несколько строк не растянулась. А если это аккуратный вызов утильного метода, то почему нет?
+
+
+Victor_Ch [13 hours ago]
+JSTL  taglib это тоже java code, только JSTL  позволяет его внедрить красиво в JSP. По-моему так...
+
+
+Marat [6:16 PM]
+Создал Live Template logg. Указал Import static.... Но импорт автоматически не прописывается
+Разобрался - не то выбрал для импорта
+
+Marat [6:41 PM]
+Подскажите, не могу понять что значит
+1.2.4 Вариант реализации:
+из сервлета преобразуете еду в List<MealWithExceeded>;
+
+
+Marat [Oct 6th at 6:44 PM]
+В самом сервлете хардкодить еду?
+
+
+13 replies
+Dima [1 day ago]
+хардкодить еду надо где-то, но не в сервлете) Обсуждали уже выше. Сделать интерфейс по доступу к информации, и от него имплементить метод по получению списка обычной еды. Вот в имплементации можно хардкодить еду. А в сервлете просто получить этот лист
+
+
+Marat [1 day ago]
+спасибо
+
+
+Grigory Kislin [1 day ago]
+@Dima @Marat я предлагаю
+1. сделать чтобы не дублировать
+2. как можно проще. не надо интерфейсов и пр. архитектурных конструкций
+
+
+Sergey Zhukov [1 day ago]
+только хотел спросить зачем интерфейс :grin:
+
+
+Dima [1 day ago]
+@Sergey Zhukov для того, чтоб потом изменить только "new НоваяИмплементация()" и ниче больше не менять)
+
+
+Dima [1 day ago]
+@Grigory Kislin а что значит: 1. сделать чтобы не дублировать ?
+
+
+indisbk [1 day ago]
+в optional то могу интерфейсы юзать? или надо как то без них?
+
+
+indisbk [1 day ago]
+прочитал условия, вопрос отменяется)
+
+
+Also sent to the channel
+Sergey Zhukov [1 day ago]
+@Dima не дублировать - наверно один экземпляр для всех сервлетов, я сделал синглетон
+
+
+Grigory Kislin [1 day ago]
+@Dima не дублировать означает, что в коде проекта встречается 1н раз (edited)
+
+
+Grigory Kislin [1 day ago]
+на мой взгял даже синглетон- это излишне. почему не статическое поле?
+
+
+Sergey Zhukov [1 day ago]
+гг, у меня в нем статическое поле :grin: упрощу
+
+
+Dima [1 day ago]
+ну переделывать лень) ветка то все равно моя и никому кроме меня не нужна)
+
+
+Marat [Oct 6th at 7:33 PM]
+Из сервлета отправляю список еды request.setAttribute("meals", mealsWithExceeded);
+Но в JSP не определяется этот список <c:forEach var="meal" items="${meals}">
+Cannot resolve variable 'meals' less... (Ctrl+F1)
+Inspection info: This inspection reports possible EL problems, such as unresolved references and invalid EL locations.
+
+
+13 replies
+Varguss [1 day ago]
+Попробуй param.meals
+
+
+Dima [1 day ago]
+${pageContext.request.getAttribute('meals')}
+
+
+Sergey Zhukov [1 day ago]
+у меня тоже не определяется, но приложение работает, попробуй запусти
+
+
+Marat [1 day ago]
+<c:forEach var="meal" items="${pageContext.request.getAttribute('meals')}">
+       <tr>
+           <td>
+               <c:out value="${meal.dateTime}" />
+
+
+Marat [1 day ago]
+Правильно я пытаюсь вывести? Не определяются поля
+
+
+Dima [1 day ago]
+как написал Сергей тоже работает
+
+Marat [1 day ago]
+То есть для каждой еды пытаюсь вывести его параметры
+
+
+Dima [1 day ago]
+добавь геттеры в класс MealWithExceed
+
+
+Marat [1 day ago]
+и все?
+
+
+Sergey Zhukov [1 day ago]
+да, гетеры нужны
+
+
+Dima [1 day ago]
+если вывод просто какое то значение можно просто ${значение}, без с-либы
+
+
+Marat [1 day ago]
+Еще вопрос: Как сделать чтобы не обращаться к JSP странице напрямую а через web.xml ?
+То есть у меня сейчас request.getRequestDispatcher("meals.jsp").forward(request, response);
+А хочу чтобы работало вот так request.getRequestDispatcher(/meals).forward(request, response);
+
+
+Marat [1 day ago]
+Геттеры помогли, спасибо
+
+
+Marat [Yesterday at 5:04 AM]
+А как сделать выделение цветом?
+Я предполагаю так:
+В JSP через теги через условие проверять meal.colories > calopiesPerDay
+Создать переменную цвета и вставлять ее в <c:set var="color" value=
+
+
+3 replies
+Tanya [1 day ago]
+`meal.colories > calopiesPerDay` не показывает превышение за день, используй поле exceed
+
+
+Nikita Ganin [1 day ago]
+Можно через тернарный оператор сделать на всю строку таблицы style="${var ? 'color:red' : 'color:green'}
+
+
+
+Sergey Zhukov [23 hours ago]
+@Nikita Ganin color: можно вынести
+
+
+Marat [5:04 AM]
+Потом этот цвет использовать в таблице
+
+Marat [5:57 AM]
+Сделал по-другому, еда закрашивается.
+
+Marat [10:20 AM]
+Почему нет автодополнения на JSP странице?
+Сделал атрибут в сервлете request.setAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+А на JSP странице применяю формат для даты <c:out value="${localDateTimeFormat.format(meal.dateTime)}" />
+Но не работает автодополение и даже не определяется
+Но все работает и на странице дата отображается в соответствии с форматом
+
+Zhinko [4:04 PM]
+"Добавить поле id в Meal/ MealWithExceed и реализовать генерацию счетчика, УЧЕСТЬ МНОГОПОТОЧНОСТЬ СЕРВЛЕТОВ" 
+Зачем тут нужен счётчик?
+
+Alexey [4:11 PM]
+PRIMARY KEY — первичный ключ, ограничение, позволяющее однозначно идентифицировать каждую запись в таблице
+
+ABaykov [4:12 PM]
+11 Еще раз: детали реализации в памяти не должны быть никому видны. Те НЕ НАДО счетчик размещать в Meal или MealServlet или MealsUtil, в базе же он будет по другому генерится.
+
+Т.е. для счетчика нужно создать отдельный класс? Как я понимаю, при каждом создании нового объекта Meal, счетчик должен увеличиваться и значение счетчика записывается в поле id объекта Meal?
+
+
+ABaykov [Yesterday at 4:19 PM]
+Т.е. есть некий класс MealCounter в котором есть только одно поле counter.
+
+Конструктор Meal будет выглядеть следующим образом
+
+public Meal(LocalDateTime dateTime, String description, int calories) {
+      this.id = MealCounter.getAnd IncrementCounter();
+      this.dateTime = dateTime;
+      this.description = description;
+      this.calories = calories;
+  }
+
+так?
+
+
+6 replies
+vch [21 hours ago]
+`MealCounter` очень уж походит на `MealsUtil`, который не рекомендовали использовать... Поэтому подозреваю что ответ на твой вопрос - `нет`.
+
+
+ABaykov [21 hours ago]
+Тогда где по Вашему его размещать? Если новый класс создать нельзя, в существующие добавить нельзя?
+
+
+Alexey [21 hours ago]
+делаешь класс с CRUD реализацией
+
+
+Alexey [21 hours ago]
+ты же делал проект чтобы попасть на курс?
+
+
+ABaykov [20 hours ago]
+Что-то определенно делал
+
+
+Sergey Zhukov [17 hours ago]
+Я прямо в реализации репозитория для Meal делал поле счетчика, ведь это реализация базы в памяти, база отвечает за счетчик, логично делать в этом же классе.
+
+
+Zhinko [Yesterday at 4:36 PM]
+А если вместо счётчика добавить поле uuid, который джава будет автоматически генерить?
+
+
+6 replies
+Nikita Ganin [20 hours ago]
+Куда ты его хочешь добавить? Мне кажется можно сделать отдельную мапу, в которой key будет счетчик, а value - объект класса Meal. (edited)
+
+
+vch [20 hours ago]
+Я так понимаю - речь про изменение типа поля `id`. Чтобы избавиться от хранения счётчика где бы то ни было. Вариант необычный, но не возникнет ли проблема позже при подключении реальных СУБД?
+
+
+Nikita Ganin [20 hours ago]
+Ну я не вижу проблем. Это же реализация в памяти, сам бин у нас остается такой же, только к нему добавляется переменная id, но она нужна и при работе с СУБД (edited)
+
+
+vch [20 hours ago]
+Но это значит, что id в виде guid должен будет генерироваться на стороне PostgreSQL. Насколько я помню, там как раз с этим проблемы.
+
+
+Sergey Zhukov [16 hours ago]
+2.3 Добавить поле id в Meal/ MealWithExceed и реализовать генерацию счетчика... На счетчике все спотыкнулись походу, счетчик тикает при добавлении новой сущности в базу, причем у старых сменить id нельзя, и присвоить удаленный тоже, так можно нарушить требование уникальности записи, короче только инкрементить
+
+
+Nikita Ganin [16 hours ago]
+В mysql проблем нет, тестовое же работает. Хотя в postgres тоже нет такой пробелмы, я деплоил на хероку свое тестовое, все работает и инкрементируется
+
+
+indisbk [Yesterday at 5:49 PM]
+Подскажите по 18 пункту, нужен один интерфейс, который будет имплементиться как для еды так и для пользователей? Или все же интерфейсов  будет несколько?
+
+
+10 replies
+ABaykov [19 hours ago]
+полагаю, что так как пользователь и еда сущности разные, то и интерфейсы будут разные. По идее пользователь может уметь то, что не умеет еда и наоборот.
+
+
+indisbk [19 hours ago]
+Справедливо, хотя я предполагал, что CRUD операции едины для user и meal.
+
+
+ABaykov [19 hours ago]
+ммммм... Ну а вот взять метод create - создать нового юзера. В качестве параметров данный метод будет принимать, допустим, имя пользователя, его возраст, его рост, вес и т.п. А для еды создание этот метод будет принимать - калораж, время приема пищи, description. Ну т.е. это уже будут два разных метода. В один интерфейс их вряд ли получится заделать.
+
+Или вот метод get. У юзера тип возвращаемого значения User, а у еды Meal соответственно (edited)
+
+
+indisbk [19 hours ago]
+Ну я думал использовать дженерики. Но похоже это все усложнение кода.
+
+
+ABaykov [19 hours ago]
+Так это)) я так то сам только учусь. Может кто более умный и опытный опровергнет все мною сказанное.
+
+Но, надеюсь, ответить на вопрос и чем-то помочь смог) (edited)
+
+
+Sergey Zhukov [17 hours ago]
+интерфейс один, дженерефицированный, CRUD - 4 операции create read update delete (я взял стандартные add getById update remove , я добавил еще метод getAll. Все методы подходят и для еды и для пользователей в базе.
+
+
+Ilya [15 hours ago]
+у меня так получилось. Класс контроллер (с интерфейсом) который включает как  юзеров, так и жратву. В этом классе есть поля UserService, MealService. которые тоже интерфейсы со своими реализациями. Сервисы вытаскивают данные из "базы"
+
+
+Sergey Zhukov [15 hours ago]
+@Ilya я не делал сервисы, в задании не слова, просто интерфейс через который можно лазить в репу, и одна реализация репы которая имлементит этот интерфейс, сервлет получает экземпляр репы с типом интерфейса и работает с ним (edited)
+
+
+Ilya [13 hours ago]
+в задании да путь решения не приведен, каждый как хочет делает. Но по итогу с каждого урока стартуем с реализации учителя)
+
+
+indisbk [9 hours ago]
+Благодарю господа, будем думать)
+
+
+creilyss [7:45 PM]
+при реализации CRUDa надо ли проверять параметры на валидность ? Или подразумеваем что вредители не пользуются ?
+
+
+regorov [Yesterday at 9:34 PM]
+Всем привет! Кто уже вывел на jsp список еды в виде таблицы, подскажите как вы свойства MealWithExceed распихивали по td? в переменной var из c:forEach через точку ничего нет..
+
+
+4 replies
+Artem [15 hours ago]
+привет! насколько я понимаю, тут работает приватность полей класса.  я решил добавлением геттеров и вызовом ${meal.isExceed()} и тд
+
+
+Ilya [15 hours ago]
+при наличии геттеров можно писать прямо так ${meal.dateTime}, ${meal.exceed} будет вызван геттер соответствующий этому полю
+
+
+
+Sergey Zhukov [15 hours ago]
+Это idea не видит связи, в раздаточном материале в разделе "Вопросы по HW1" в самом низу написано как ей сообщить тип переменной для автодополнений, я так и не понял как этим пользоваться. Может кто расскажет?
+
+
+Andrew Kalugin [14 hours ago]
+можно без этой связи, все и так работает при наличии геттеров и одинаковом названии переменной в setAttribute и JSP
+
+
+Andrew Kalugin [Yesterday at 10:45 PM]
++есть реализация хранения данных в памяти, допустим это будет какой-то List - его легко передать MealServlet (вывод списка еды), но как его передать в другие сервлеты? пробовал через синголтон, но в него ни как не могу запихнуть первоначальное наполнение списка. В каком направлении копать??? :slightly_smiling_face:
+
+
+5 replies
+bahur [14 hours ago]
+Для того чтобы какой-то List был доступен везде и был одинаковым - он должен быть статическим. Что бы его заполнить можно воспользоваться статическим блоком инициализации. Таким образом ты сможешь обратиться к этому листу из любого класса, через ClassName.listOfObjects... как-то так, например. ну, оно типа, не совсем красиво и инкапсуляция нарушена, но это временная мок реализация, так что, думаю, не страшно... ну, или сделать статический геттер, а поле сделать приватным для спокойствия души))) (edited)
+
+
+Andrew Kalugin [14 hours ago]
+сделать статический геттер, а поле сделать приватным для спокойствия души - это уже очень синглтон напоминает :slightly_smiling_face:  статическим ну очень не хочется делать - инкапсуляции никакой, да и CRUD все же подрузомевает работу через интерфейсы. Просто после для базы данных придется все заново переписывать. В общем застрял что-то я :slightly_smiling_face:
+
+
+bahur [13 hours ago]
+ну, в жизни же ты никогда не будешь хранить данные в памяти... то что делается сейчас - это просто заглушка и нет смысла как-то заморачиваться над ее архитектурой. Иначе уже можно заморочиться и Н2 какой-нибудь прикрутить, что б в памяти данные хранить... есть такое правило - Make It Work Make It Right Make It Fast, в данном случае нас устроит и первое требование, т.к. это всего лишь заглушка )))
+
+
+Sergey Zhukov [12 hours ago]
+Григорий сказал уже что можно делать проще, не делать синглетон и делать поля статическими.
+
+
+Andrew Kalugin [5 hours ago]
+ок, спасибо!
+
+
+regorov [Yesterday at 11:26 PM]
+Куда DateTimeFormatter пристроить? Сначала сделал отдельный метод в MealWithExceed и все вроде бы хорошо, а потом прочитал типичные ошибки в ДЗ :neutral_face:
+
+
+3 replies
+Andrew Kalugin [14 hours ago]
+в setAttribute можно передать, а в JSP выводить с помощью нужного формата
+
+
+Sergey Zhukov [12 hours ago]
+я прям в сервлет и пристроил ))
+
+
+Dobrenkyi Konstantin Aleksandrovich [4 hours ago]
+Как насчет TimeUtil?)
+
+
+Sergey Zhukov Today at 12:41 AM
+https://youtu.be/s9iiQpkj5H4 как-то так, можно идти спать)  @Ilya в одном сервлете сделал
+ YouTube 1083511
+hw1 Servlets 
+ 
+(edited)
+
+Ilya 12 hours ago
+:+1:
+
+Ilya A. Kvyatkovsky 12 hours ago
+:+1: Сергей, твои видосы реально мотивируют быстрее шевелить мозгами!) (edited)
+
+Ilya 3 hours ago
+мне осталась только форма редактирвоания) @Sergey Zhukov у меня 5 сервелетов)):grin: (edited)
+
+
+
+Marat [Today at 8:03 AM]
+Как все-таки правильно делать CRUD ? В одном сервлете или для каждогодействия свой сервлет?
+
+
+1 reply
+indisbk [3 hours ago]
+Для каждого свой.
+
+
+Alex [Today at 9:29 AM]
+Всем привет,
+Pasted image at 2018-10-08, 1:29 PM
+
+
+
+7 replies
+Flashheart [3 hours ago]
+Что-то с репозиторием видимо. Смотри настройки  в Home-директория пользователя -> .m2/settings.xml
+
+
+Flashheart [3 hours ago]
+должно быть что-то типа:
+
+
+Flashheart [3 hours ago]
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+
+Flashheart [3 hours ago]
+</settings>
+
+
+Ilya [3 hours ago]
+нажми кнопку обновить (reimport all maven package)
+
+
+Alex [3 hours ago]
+загрузил последний патч, все плагины кроме одного поправились
+Pasted image at 2018-10-08, 2:30 PM
+
+
+
+Alex [3 hours ago]
+в принципе все работает. war на tomcat деплоится
+
+
+Alex [9:30 AM]
+С мавеном какая-то беда, подчеркивает красным плагины и выдает ошибку при попытке собрать приложение. Может кто подскажет в чем проблема?
+
+
+Ilya Today at 11:16 AM
+ни у кого не возникало проблем с кодировкой при передачи данных со страницы на сервер? (edited)
+
+Thaipad 38 minutes ago
+У меня параметры стали считываться правильно после установки кодировки реквесту: request.setCharacterEncoding("UTF-8")

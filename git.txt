@@ -224,3 +224,104 @@ got fetch origin
 
 Alexey_b [2 hours ago]
 git fetсh     и в правом нижнем углу идеи выбрать нужный бранч (edited)
+
+
+Илья Чиликин [5 days ago]
+> git clone ...
+> git checkout hw0
+
+
+Artem [9:23 AM]
+Привет всем! Кто может подсказать? Как сделать push нескольких changelist?
+
+Marat [9:52 AM]
+Я делал комиты каждого патча отдельно, создавался ченджлист для них свой, после каждого комита удалял их ченджлист. Потом сделал пуш всех комитов
+
+
+Varguss [Oct 6th at 10:56 AM]
+Свои ветки с домашкой мержить после выполнения к мастеру не нужно было?)
+
+
+11 replies
+Gekov Iliya [2 days ago]
+Не нужно
+
+
+Varguss [2 days ago]
+Упустил данный момент) Пришлось ревертнуть один коммит)
+
+
+vch [2 days ago]
+@Varguss Тем более, что в HW0 у тебя неправильно считается exceed...
+
+
+Varguss [2 days ago]
+@vch Ты о чем? Ты мой код видел вообще, чтобы такие выводы делать?) (edited)
+
+
+vch [2 days ago]
+@Varguss У тебя делается только 1 проход по stream. Т.е. `peek` и `map` выполняются в теле одного цикла.
+Получается, что при создании MealWithExceeded для первой записи - в `caloriesMap` ещё не посчитаны данные для всего дня.
+
+
+Varguss [2 days ago]
+Сначала должен идти peek, потом map, это две операции последовательные
+
+
+Varguss [2 days ago]
+map должен начинаться только по завершению peek, судя по ссылочкам по стримам, которые я просматривал, две команды не сливаются в одну
+
+
+vch [2 days ago]
+@Varguss Увы, нет. Вот если ты после peek сделаешь collect и потом новый stream запустишь - тогда да, будет 2 прохода и всё посчитается. А в текущем виде - нет. У народа был грязный хак со вставкой между peek и map операции `sorted` - тогда прокатывает. (edited)
+
+
+Varguss [2 days ago]
+Затестил. Действительно. Какой-то обман.
+
+
+Varguss [2 days ago]
+Добавил sorted, заработало. А почему команды выполняются непоследовательно, без порядка? В чем соль? (edited)
+
+
+vch [2 days ago]
+Они выполняются именно последовательно. Там же ленивая обработка. Все операции, которые надо проделать над элементом, накапливаются. И только в момент вызова терминальной операции (`collect`) они все враз выполняются над каждым элементом в 1 проход. В том и суть стримов. (edited)
+
+
+Zarboinik [Today at 12:49 AM]
+Ребят такой вопрос. Почему не показывается моя активность в таймлайне профиля? Я задания делаю. а новые зеленные точечки не появляются )
+
+
+5 replies
+Zarboinik [12 hours ago]
+вот мой профиль https://github.com/Zarboinik
+GitHub
+Zarboinik
+Zarboinik has 15 repositories available. Follow their code on GitHub.
+ 
+
+
+Zarboinik [12 hours ago]
+точечка только за 24 сентября стоит (edited)
+
+
+taima [12 hours ago]
+Commits
+Commits will appear on your contributions graph if they meet all of the following conditions:
+
+The email address used for the commits is associated with your GitHub account.
+The commits were made in a standalone repository, not a fork.
+The commits were made:
+In the repository's default branch (usually master)
+In the gh-pages branch (for repositories with Project Pages sites)
+
+
+taima [12 hours ago]
+https://help.github.com/articles/why-are-my-contributions-not-showing-up-on-my-profile/
+help.github.com
+Why are my contributions not showing up on my profile? - User Documentation
+Your profile contributions graph is a record of contributions you've made to GitHub repositories. Contributions are timestamped according to Coordinated Universal Time (UTC) rather than your local time zone. Contributions are only counted if they meet certain criteria. In some cases, we may need to rebuild your graph in order for contributions to appear. …
+
+
+Zarboinik [11 hours ago]
+ясно, спасибо
