@@ -845,3 +845,163 @@ Ilya Today at 11:16 AM
 
 Thaipad 38 minutes ago
 У меня параметры стали считываться правильно после установки кодировки реквесту: request.setCharacterEncoding("UTF-8")
+
+
+Sergey Zhukov [1 day ago]
+да тоже было
+
+
+Ilya [23 hours ago]
+request.setCharacterEncoding("UTF-8") не помогает(
+
+
+Ilya [23 hours ago]
+вот такой бубен помог
+
+
+Ilya [23 hours ago]
+String description = request.getParameter("description");
+       byte[] bytes = description.getBytes(StandardCharsets.ISO_8859_1);
+       description = new String(bytes, StandardCharsets.UTF_8);
+
+
+Sergey Zhukov [22 hours ago]
+@Ilya у тебя там на jsp страницах кодировка какая стоит? в настройках кодировки идеи? может браузер чудит (edited)
+
+
+Ilya [22 hours ago]
+@Sergey Zhukov На всех страницах contentType="text/html;charset=UTF-8"
+
+
+Ilya [22 hours ago]
+https://wiki.apache.org/tomcat/FAQ/CharacterEncoding#Q2 тут пишут что виноват томкат)
+
+
+Sergey Zhukov [22 hours ago]
+у меня последний - нет проблем, ставь 9й
+
+
+Ilya [22 hours ago]
+9й стоит
+
+
+Ilya [21 hours ago]
+каюсь, request.setCharacterEncoding("UTF-8"); не там вставлял). Вставил куда надо заработало
+
+
+lifter4ik [Yesterday at 1:48 PM]
+1.2.2 Время выводить без 'T'
+это что имеется в виду?
+
+
+2 replies
+Ansseii [1 day ago]
+Дата и время хранятся в переменной в виде yyyy-MM-dd’T’HH:mm
+
+
+lifter4ik [1 day ago]
+спасибо!
+
+
+Ivan [6:03 PM]
+народ а почему в .jsp не работает вывод  out.println
+вроде как должен вывоить
+подсвечивает крачным
+красным
+
+
+Yuri [Yesterday at 6:33 PM]
+Проблема с логированием под Ubuntu - в упор нехочет видеть переменную окружения TOPJAVA_ROOT. Если в logback.xml указать путь явно, то все работает. Хотя переменная есть в окружении, перезагрузка IDEA и компа не помогает
+
+
+7 replies
+Yegor [22 hours ago]
+Поэксперементируй с правами на лог файл, мне помогло только когда дал права на исполнение .Еще покапайся еще тут /etc/profile.d, у меня после перезагрузки слетала переменная окружения, пока ее туда руками не внес
+
+
+Yuri [22 hours ago]
+не помогло. Работает только с абсолютным путем (
+
+
+Ansseii [21 hours ago]
+Была такая проблема на Os X. В итоге все также решилось выдачей прав и созданием переменной через export от корня
+Screenshot 2018-10-08 at 7.25.26 PM.png
+
+
+
+Yuri [21 hours ago]
+От корня тоже пробовал сделать - не помогло.
+
+Yuri [20 hours ago]
+Спасибо за помощь. В итоге добавил в /etc/profile.d/jdk.sh строку с экспортом перемнной и заработало. До этого переменную добавлял в /etc/environment (edited)
+
+
+Ansseii [19 hours ago]
+Кстати есть способ еще проще, вдруг кому пригодится. Идем в настройки конфигурации TomCat и явно указываем переменную без необходимости определять ее через bash.
+Screenshot 2018-10-08 at 9.23.02 PM.png
+
+
+
+
+Roman Baranov [18 hours ago]
+Еще вариант: добавить -DTOPJAVA_ROOT=... в опции запуска приложения, тогда она доступна из java как System.getProperty("TOPJAVA_ROOT")
+
+
+Ilya A. Kvyatkovsky [3:01 AM]
+Тоже, запилил в одном сервлете...
+https://www.youtube.com/embed/l0vnTla_WIo (edited)
+MPEG 4 Video 
+bandicam 2018-10-09 02-19-45-229.mp4
+5 MB MPEG 4 Video
+
+
+Lamekhova Alisa [Today at 12:53 PM]
+Всем привет. В видео 1.5 создается директория тест. Ее нао создавать в мастере или уже в HW1?
+
+
+3 replies
+senadnepr [4 hours ago]
+Насколько я понял, мы в мастере вообще ничего не делаем, кроме "Apply patch".  А в домашнем задании тесты писать еще не требуют.
+
+
+Lamekhova Alisa [3 hours ago]
+А HW1 создается от мастера после применения всех патчей получается? или параллельно все что в патчах, мы делаем в  ветках HW?
+
+
+Ansseii [3 hours ago]
+Если вкратце, то да, бранч очередного ДЗ создается от мастера после накатывания всех патчей урока. Тут все подробно
+https://github.com/JavaOPs/topjava/wiki/Git#Правила-работы-с-патчами-на-проекте
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+ 
+ 
+ 
+under4eg [Today at 1:19 PM]
+Господа, подскажите, создал JSTL парсер и форматтер, но по итогу матерится на строку форматтера - "According to TLD or attribute directive in tag file, attribute [value] does not accept any expressions". Никто не сталкивался с чем-то подобным? URI taglib в норме, версия JSTL 1.2, без форматтера работает
+
+
+2 replies
+Ansseii [3 hours ago]
+Код бы увидеть проблемный. Про зависимость в помнике же не нужно уточнять и она добавлена?
+
+
+Grigory Kislin [28 minutes ago]
+гуглил?
+
+
+Marat Tagirov [Today at 3:19 PM]
+ребят, а HW01 и Optional делать в одной ветке или разные создать?
+
+
+3 replies
+JavaHolic [1 hour ago]
+в одной
+
+
+Alla Protopopova [1 hour ago]
+но лучше разными коммитами
+
+
+Marat Tagirov [1 hour ago]
+спасибо
