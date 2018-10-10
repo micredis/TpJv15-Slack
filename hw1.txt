@@ -989,6 +989,21 @@ Ansseii [3 hours ago]
 Grigory Kislin [28 minutes ago]
 гуглил?
 
+under4eg [18 hours ago]
+Гуглил, абсолютно все ссылаются на таглиб, но в таком случае у меня бы куски кода JSTL вообще не работали бы, а не работает только форматтер. В помнике зависимость есть. (edited)
+
+
+under4eg [14 hours ago]
+Аве. Выгуглил. Правильный taglib для форматтера: <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>. Идея импортирует неправильный.
+oracle.com
+Oracle Technology Network for Java Developers | Oracle Technology Network | Oracle
+Oracle Technology Network is the ultimate, complete, and authoritative source of technical information and learning about Java.
+(edited)
+
+
+m.lysiakov [13 hours ago]
+Спасибо тебе, добрый человек)
+
 
 Marat Tagirov [Today at 3:19 PM]
 ребят, а HW01 и Optional делать в одной ветке или разные создать?
@@ -1005,3 +1020,46 @@ Alla Protopopova [1 hour ago]
 
 Marat Tagirov [1 hour ago]
 спасибо
+
+
+Zhinko [Yesterday at 7:11 PM]
+Подскажите, почему когда я пытаюсь сделать useBean вылетает ошибка ?
+
+
+1 reply
+shomnest [15 hours ago]
+Ошибку в студию
+
+
+Dima [Yesterday at 8:58 PM]
+а поле id в Meal можно делать не final как остальные?
+
+
+5 replies
+fonto [13 hours ago]
+Я сделал не final
+
+
+Dima [13 hours ago]
+суть в том, что если оно final , то его приходится инициализировать сходу или в конструкторе. А если сервлет ниче не должен знать о записи Meal куда либо, то значит id надо инициализировать в имплементации доступа к данным (edited)
+
+
+fonto [13 hours ago]
+Ну да, поэтому я и убрал
+
+
+Sergey Zhukov [10 hours ago]
+я делал final
+
+
+Dima [2 hours ago]
+@Sergey Zhukov а где ты этому полю значение добавлял? в сервлете?
+
+
+m.lysiakov9:11 PM
+Такой вопрос. При работе с thymeleaf на html странице в Idea работал autocomplete. Я правильно понял что в jsp нет такой реализации, а есть только сторонние решения вроде https://atom.io/packages/autocomplete-jsp
+AtomAtom
+autocomplete-jsp
+Atom autocomplete+ provider for JSP / JSPX
+KaryNaiKo11:19 PM
+Как отменять (объединять с залитым) push на гитхаб?

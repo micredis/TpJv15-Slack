@@ -463,3 +463,44 @@ Sergey Zhukov [16 hours ago]
 
 Raisa [5 hours ago]
 можно коммит для каждого из 7 патчей сделать, потом один пуш в конце урока. я так сделала
+
+
+Grigory Kislin [1 day ago]
+@nilon это видео вступительного занятия: работа  с проектом
+и еще- https://github.com/JavaOPs/topjava/wiki/git#Как-вести-проект-у-себя-в-локальном-проекте
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+ 
+(edited)
+
+
+nilon [1 day ago]
+всем спасибо! разобрался:)
+
+
+KaryNaiKo [Yesterday at 11:10 PM]
+подскажите, пожалуйста, какие сроки отправки домашнего задания на проверку?
+
+
+1 reply
+Tanya [11 hours ago]
+дедлайн сегодня по HW1 для первого ревью
+
+
+KaryNaiKo [Yesterday at 11:11 PM]
+Могу ли я сегодня сдать HW01 при оплате конечно? (edited)
+
+
+1 reply
+Tanya [11 hours ago]
+можешь :slightly_smiling_face:
+
+
+Tony [Today at 12:31 AM]
+Чё-то ржу https://cdn.jpg.wtf/futurico/3a/97/1539112107-3a9741d753d5074efadc40c6927d06cc.jpeg?w=700 (27 kB)
+
+
+1 reply
+Tanya [9 hours ago]
+такое лучше во #flooding
