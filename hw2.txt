@@ -1,0 +1,92 @@
+Grigory Kislin [10:38 PM]
+joined #hw2.
+
+Grigory Kislin [10:38 PM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+
+Grigory Kislin [10:40 PM]
+Привет! Разбор HW1 + 2-е занятие:
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+Успехов!
+GitHub
+JavaWebinar/topjava
+Contribute to JavaWebinar/topjava development by creating an account on GitHub.
+
+Constantine [10:43 PM]
+joined #hw2 along with 18 others.
+
+
+Vitaliy Ivkin [Today at 1:30 PM]
+И снова в бой с новыми силами
+
+
+
+2 replies
+Dima Pugovkin [4 hours ago]
+для начала следует разобраться в косяках проигранной предыдущей битвы :face_with_monocle:
+
+
+
+Andrey Tolkachev [4 hours ago]
+собираем выживших, лечим "косячных", даем всем выпить для храбрости и бьемся дальше :sunglasses:
+
+
+Igor [Today at 4:38 PM]
+В *2_2_HW1_optional.patch* пропущен импорт `java.util.Collection` в классе `MealsUtil`. Так и пушить?.. Изменения в ветке `master` только патчами ведь... (edited)
+
+
+9 replies
+Rogozinnikov Evgeny [38 minutes ago]
+у меня не таких пропусков ипорта. может ты что-то удалил?
+
+
+Andrey Tolkachev [37 minutes ago]
+у меня добавился import java.util.*; и все
+
+
+Igor [30 minutes ago]
+До патча у меня тоже было `import java.util.*;`. Может идея сама что-то поменяла..
+
+
+Igor [28 minutes ago]
+Добавлю руками. Надеюсь ничего не сломается.
+
+
+Andrey Tolkachev [27 minutes ago]
+поставь в настройках Optimize imports on the fly, удобно
+
+
+Igor [18 minutes ago]
+@Andrey Tolkachev поставил, но не уверен, что понял как она работает
+
+
+Andrey Tolkachev [16 minutes ago]
+все просто, идея анализирует импорты в твоих классах, и если есть неиспользуемые (серые), то она их автоматически стирает. Еще если много классов/интерфейсов из одного пакета, идея для экономии места импортирует просто весь пакет (edited)
+
+
+Igor [14 minutes ago]
+@Andrey Tolkachev спасибо за разъяснение
+
+
+Andrey Tolkachev [14 minutes ago]
+не за что)
+
+
+Rogozinnikov Evgeny [Today at 4:49 PM]
+Добрый день, не подскажите, патч Apply 2_3_app_layers.patch на старый проект накатывать? в видео с новым проектом работаем, как я понял
+
+
+1 reply
+Andrey Tolkachev [33 minutes ago]
+все накатывается на старый проект, который был форкнут еще перед выполнением нулевого дз
+
+
+Timur_Gainitdinov [4:50 PM]
+А что значит фраза "Подсказки по HW02 (для проверки, сначала сделайте самостоятельно!)"(с) ?
+Этот блок смотреть только после того как будут самостоятельно написаны первые решения? (edited)
+
+fonto [4:59 PM]
+Почему-то письмо со вторым занятием так и не пришло на почту
+
+senadnepr [5:18 PM]
+По поводу видео HW01-optional: Firefox не поддерживает новый элемент datetime-local в HTML5. Поэтому в нём такой красоты с вводом даты пока не получится!

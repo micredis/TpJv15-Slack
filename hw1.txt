@@ -1063,3 +1063,342 @@ autocomplete-jsp
 Atom autocomplete+ provider for JSP / JSPX
 KaryNaiKo11:19 PM
 Как отменять (объединять с залитым) push на гитхаб?
+
+
+Стецко Максим [Yesterday at 2:45 PM]
+как в jsp работать с перехваченными значениями в коде java??? <%     ${count}        %> так не хочет видеть параметр.
+
+
+9 replies
+Dima [1 day ago]
+Просто ${count}
+
+
+Стецко Максим [1 day ago]
+@Dima я же пишу в коде java, это между <% %> , просто итак перехватывается. Я хочу переменной присвоить перехваченное значение.
+
+
+Ansseii [1 day ago]
+Например вот так
+
+<jsp:useBean id=“meals” scope=“request” type=“java.util.List”/>
+<c:set var=“mealList” value=“${meals}“/>
+
+
+Dima [1 day ago]
+Если используешь taglib jstl,то <с:set var="имя переменной" value="${count}/>
+
+Стецко Максим [1 day ago]
+@Dima да вот и в том вопрос, даже если так задать, то просто ${} её видет. Но я хочу её использовать в <% %> (Скриплет JSP), там если вписывать "имя переменной" то её не подхватывает.
+
+
+Yuri [1 day ago]
+Явно что-то не то делаешь. Скриплеты лучше не использовать. Покопай в сторону query parameters в URL, если я правильно понял
+
+
+Dima [1 day ago]
+ну напиши просто <% int x = request.getParameter("count"); %>
+
+
+Стецко Максим [1 day ago]
+да мне они нужны были, чтобы перехватывать значения и делать манипуляции с ними (на примере изменения формата даты). Но как их перехватить там я без понятия пока).
+
+
+Dima [1 day ago]
+для форматирования даты на странице jsp я использовал библиотеку net.sargue:java-time-jsptags. вот ссылка: https://github.com/sargue/java-time-jsptags  .
+GitHub
+sargue/java-time-jsptags
+JSP tag support for Java 8 java.time (JSR-310). Contribute to sargue/java-time-jsptags development by creating an account on GitHub.
+
+
+Илья Чиликин [5:17 PM]
+Уважаемые, есть вопрос. В сервлете request.getParameter в doPost отдаёт русские символы в битой кодировке. Обычно решается прописыванием URIEncoding="UTF-8" в server.xml у tomcat, но в данном случае не решилось. Что я упускаю? (edited)
+
+
+Dima [Yesterday at 5:19 PM]
+@Илья Чиликин пробуй в сервлете  req.setCharacterEncoding("UTF-8");
+
+
+22 replies
+Илья Чиликин [1 day ago]
+Хотелось бы более общее решение. (edited)
+
+
+Valery.Shkerdin [1 day ago]
+В pom
+<properties>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+       <java.version>1.8</java.version>
+   </properties> (edited)
+
+
+Илья Чиликин [1 day ago]
+@Valery.Shkerdin Это присутствует.
+
+
+Valery.Shkerdin [24 hours ago]
+А в какой кодировке отдает не смотрел?
+
+
+Илья Чиликин [24 hours ago]
+ÐÐ±ÐµÐ´ ) Не знаю, какая именно.
+
+
+Valery.Shkerdin [24 hours ago]
+https://www.artlebedev.ru/decoder/
+
+
+Valery.Shkerdin [24 hours ago]
+CP1252UTF-8
+
+
+Илья Чиликин [24 hours ago]
+Ну, окей, но это не отвечает на первичный вопрос.
+
+
+Valery.Shkerdin [24 hours ago]
+Ну это так, мало ли не решится и ручками в коде перекодировать придется. (edited)
+
+
+Илья Чиликин [24 hours ago]
+В jsp `<%@ page contentType="text/html;charset=UTF-8" %>`
+
+
+Valery.Shkerdin [24 hours ago]
+А в IDEE?
+
+Илья Чиликин [24 hours ago]
+Pasted image at 2018-10-10, 5:29 PM
+
+
+
+Илья Чиликин [24 hours ago]
+@Valery.Shkerdin В среде UTF.
+
+Valery.Shkerdin [24 hours ago]
+Гугл уже наверняка перерыл?
+
+Valery.Shkerdin [24 hours ago]
+Как то встречал совет, в этом случае предлагали удалить jsp файл, пересоздать его снова но уже со всеми корректными настройками, мне не помогло, мне помогли настройки pom.
+
+
+Dima [24 hours ago]
+Я считаю,если помогает req.setCharacterEncoding("UTF-8"); то нечего зацикливаться, все равно на спринге все по другому и легче
+
+Ilya [24 hours ago]
+мне посовентовали в фильтре вставить setCharacterEncoding("UTF-8") фильтр срабатывает на все запросы. я еще не пробывал, но должно работать
+
+
+Gekov Iliya [24 hours ago]
+Да, когда делал crud в спринге только фильтр и помог
+
+Илья Чиликин [23 hours ago]
+Я добавил фильтр `org.apache.catalina.filters.SetCharacterEncodingFilter` - это работает, но пришлось в pom добавить зависимость от версии tomcat, т.к. этот фильтр в `tomcat-embed-core`. Тоже не очень нравится вариант. (edited)
+
+
+Илья Чиликин [23 hours ago]
+В общем, сделал свой маленький фильтр, без лишних зависимостей.
+
+
+Ilya [21 hours ago]
+имелся введу  javax.servlet.Filter
+
+
+Ilya [21 hours ago]
+он в пакете вместе с сервлетами
+
+
+Zhinko Yesterday at 8:12 PM
+У кого то было что патчи улетали в ветку  hw1 с ветки мастер? (edited)
+
+Sergey Zhukov 19 hours ago
+если сначала накатить патчи, потом создать ветку hw1, то ветка уже будет иметь в себе все патчи
+
+Vlad Zinchenko 19 hours ago
+я в этот раз накатил патчи в мастер, забыл сделать пуш и создал HW01, опомнился только когда сделал пуш домашки в HW01
+
+Sergey Zhukov 19 hours ago
+может сохранить домашку в другой папке, откатить git накатить патчи сделать пуш, создать ветку, вернуть файлы и сделать пуш ветки
+
+Sergey Zhukov 19 hours ago
+лучше такие вопросы в канал #git добавить
+
+
+regorov [Yesterday at 11:31 PM]
+Вот блин, я только hw1  доделываю, а уже hw2 появилось
+
+
+2 replies
+Dima Pugovkin [18 hours ago]
+та же история братан, увы :tired_face:
+
+
+fibz [7 hours ago]
++
+
+
+Sergey [Today at 7:19 AM]
+Хочу поспорить с тезисом: " Хранить нужно Meal и конвертировать ее в  MealWithExceed когда отдаем список на отображение в JSP. Иначе при редактировании любой записи или изменении юзером своей нормы caloriesPerDay нужно будет пересчитывать все записи юзера."
+Пересчет нужно делать только при отображении списка на страницу (НЕ при сохранении!) а отображение делаем одинаковое кол. раз независимо от кол. классов! (Посчитайте сами)
+Значит *если хранить все в классе MealWithExceed количество пересчётов поля exced не изменится*, зато не надо будет создавать новые обьекты и перегонять списки. :) (edited)
+
+
+10 replies
+Sergey Zhukov [10 hours ago]
+говорится о том что придется менять другие объекты В БАЗЕ при сохранении в базу, а это лишняя нагрузка на базу, еще логики нужно, чтобы все записи за этот день нашла и пересчитала, поменяла если превышение (edited)
+
+
+Tanya [10 hours ago]
+либо придется все  записи пересчитывать при сохранении нового или апдейте
+либо в БД будет храниться ненужная и неактуальная информация
+
+
+Sergey [10 hours ago]
+Ага , т.е. Сейчас при хранении в памяти разницы действительно нет! А когда будем хранить в БД тогда разница между реальным классом Meal в базе и временным MealWithExceed в памяти будет очевидно так? (edited)
+
+Sergey Zhukov [10 hours ago]
+при обычном сохранении сущности хождений в базу прибавится, зачем это надо
+
+
+Sergey Zhukov [10 hours ago]
+сам представь, ты сохранил в базу, начал поиск и пересчет других значений за день, но не успел сохранить изменения, к то то запрсил данные из базы в этот момент, а они не верные, показываются не тем цветом
+
+
+Sergey Zhukov [10 hours ago]
+еще хуже, разными цветами
+
+Yuri [8 hours ago]
+@Sergey Zhukov Для этого есть транзакции. Вообще это синтетический пример и пока не появятся слои и не прийдёт понимание зачем они, то тяжело будет понять почему это разные сущности
+
+
+Sergey [8 hours ago]
+@Sergey Zhukov  неверно: я сохранил в базу, и НЕ начал пересчет других значений. Зачем это делать- пересчет будет при отображении страницы.   Меня верно поняла @Tanya  - её главный довод что в базе будет неактуальное и неиспользуемое поле excited - да тут согласен!
+
+
+vch [8 hours ago]
+@Sergey Пометь поле exceed как `@Transient` и будет тебе счастье - в базу оно не попадёт, будешь заполнять только перед показом на странице
+
+
+
+Sergey Zhukov [7 hours ago]
+@Yuri я про базу в памяти, простую и без транзакций. Если реально хранить MealWithExceed  в реальной базе, я бы exceed вынес в отдельную таблицу и сделать поле exceed @ManyToOne, тогда достаточно будет щелкать всего одно значение в другой таблице "date-exceed", чтобы сменить exceed у всего дня.
+
+
+Sergey [Today at 9:10 AM]
+Помогите - как правильно отладку JSP делать? Точка останова ставится, но не могу понять как смотреть переменные - evaluate expression не видит переменные сервлета ((
+В итоге получаю Эксепшен но не могу разобраться. Текст исключения такой:
+org.apache.jasper.JasperException: An exception occurred processing JSP page [/meals.jsp] at line [24]
+
+21:     <c:forEach items="${meals}" var="meal">
+22:         <%--jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/--%>
+23:         <%--c:choose--%>
+24:         <tr data-mealExceed="${meal.exceed}">
+25:             <td>
+26:                     ${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}
+27:                     <%--<%=TimeUtil.toString(meal.getDateTime())%>--%> (edited)
+отладка JSP.png
+
+
+
+17 replies
+Sergey Zhukov [8 hours ago]
+я думаю дело в этом meal.dateTime.toLocalDate(), он не знает ничего о методе toLocalDate() (edited)
+
+
+Sergey Zhukov [8 hours ago]
+если проблема с отладкой, нужно добавлять переменные поочереди и обновлять страницу, сразу будет ясно в чем проблема
+
+
+Oleg1287 [8 hours ago]
+http://qaru.site/questions/1243763/jstl-localdatetime-format
+qaru.site
+jsp - Формат JSTL LocalDateTime - Qaru
+Я хочу отформатировать объект java 8 LocalDateTime в шаблоне "dd.MM.yyyy". Есть ли какая-нибудь библиотека для форматирования? Я попробовал код ниже, но получил исключение конверсии. <fmt:parseDate value="${date}" pattern="yyyy-MM-dd" var="pars
+
+
+Dima [7 hours ago]
+@Sergey Zhukov после того как прописали useBean type="...MealWithExceed" jsp все знает о методах полей.
+
+
+Oleg1287 [7 hours ago]
+а по exception - <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> - есть такая строчка в jsp'ке?
+oracle.com
+Oracle Technology Network for Java Developers | Oracle Technology Network | Oracle
+Oracle Technology Network is the ultimate, complete, and authoritative source of technical information and learning about Java.
+
+
+Oleg1287 [7 hours ago]
+опять же обращение к полям напрямую. Они модификатор доступа какой имеют?
+
+
+Dima [7 hours ago]
+Здесь ошибка в том, что у тега <tr> нет такого атрибута как data-mealExceed
+
+
+
+Oleg1287 [7 hours ago]
+@Dima по этому поводу не будет Exception - может попробовать.
+
+Sergey Zhukov [7 hours ago]
+@Dima я и не заметил
+
+Dima [7 hours ago]
+как бы сложно не заметить) в эксепшене написан номер строки с ошибкой
+
+Oleg1287 [7 hours ago]
+@Dima но ошибка НЕ в атрибуте :wink:
+
+
+Sergey Zhukov [7 hours ago]
+@Oleg1287 там автоматом ищется геттер в классе
+
+Dima [7 hours ago]
+плохо,что в slack нет такого типа текста как код. Читается в сообщении коряво)
+
+Sergey Zhukov [7 hours ago]
+И вообще уже пора заканчивать и идти смотреть решение Григория и приниматься за hw2
+
+Oleg1287 [7 hours ago]
+@Sergey Zhukov попробуй на работающей jsp дичь какую-нибудь в атрибут напиать. Exception'а не будет
+
+Sergey Zhukov [7 hours ago]
+Мне на ревью вообще ничего не сказали про формат даты и я не подключал поддержку идеи, делал как можно проще. Причем когда мы убираем T перестает работать datetime-local в хроме, а в Мазиле вообще это ничего не работает, короче делаешь под какой-нибудь один браузер, я оставлял с T и оно в форме показывается коректно
+
+
+Sergey Zhukov [7 hours ago]
+а для вывод достаточно через пробел двух методов getDate() и getTime() в классе MealWithExceed
+
+
+Lamekhova Alisa [Today at 2:59 PM]
+Привет, а ссылка на 2ой урок уже была?
+
+
+4 replies
+Dima [2 hours ago]
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+GitHub
+JavaWebinar/topjava
+Contribute to JavaWebinar/topjava development by creating an account on GitHub.
+ 
+
+
+Dima [2 hours ago]
+канал hw2
+
+
+Lamekhova Alisa [2 hours ago]
+Спасибо, думала на почту придет, сижу жду)
+
+
+Oleg1287 [2 hours ago]
+@Lamekhova Alisa придет, но раньше публикуют в #general
+
+
+senadnepr [Today at 5:18 PM]
+По поводу видео HW01-optional: Firefox не поддерживает новый элемент datetime-local в HTML5. Поэтому в нём такой красоты с вводом даты пока не получится!
+
+
+1 reply
+Andrey Tolkachev [4 minutes ago]
+да, тоже это заметил, просто поле для ввода текста без календаря

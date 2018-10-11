@@ -190,3 +190,131 @@ Zarboinik [7 hours ago]
 
 Алексей [4 hours ago]
 Аналогично. Теперь на 6-мес. не заменить никак?
+
+
+Grigory Kislin [3 days ago]
+если был уже на 6 месяцев активирован, то нового не будет... JetBrains только 1н раз его дает
+если активировали на  4 месяца- попробуйте в профиле получить новый (я сейчас обновил купоны). только боюсь, что придется регистрироваться на другой email
+
+
+Maxim Valeev [3 days ago]
+@Grigory Kislin а если активировал 6 месячный ключ, на другую почту не получится уже другой ключ активировать?
+
+
+Grigory Kislin [2 days ago]
+@Maxim Valeev выслал еще купон. скорее всего не удастся привязать к прошлому email, но попробуй. если нет- привяжи к новой почте (edited)
+
+
+deps88 [1 day ago]
+привет! А где купон найти? Чето в почте не вижу.
+
+
+Andrey Tolkachev [1 day ago]
+купон в профиле на http://javaops.ru/auth/profile
+Java Online Projects
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise (45 kB)
+
+
+deps88 [24 hours ago]
+нашел, спасибо!
+
+
+deps88 [24 hours ago]
+а если я был на повторе - у меня там новый код или старый? а то идея ругается
+
+
+deps88 [Yesterday at 4:42 PM]
+привет! залез в плагины -  у меня там только maven integration,  а на видео - есть еще и integration extention.  Это критично?
+
+
+1 reply
+Grigory Kislin [19 hours ago]
+не критично
+
+
+deps88 [Yesterday at 4:44 PM]
+Idea Cummunity у меня
+
+
+13 replies
+Andrey Tolkachev [1 day ago]
+на Community версии думаю так у всех по умолчанию, для более широкого спектра плагинов потребуется Ultimate версия (на видео как раз именно такая). (edited)
+
+
+deps88 [1 day ago]
+а для наших целей?
+
+
+deps88 [1 day ago]
+хотя наверно ключи бы не выдавали, если бы хватало.. ))
+
+
+Andrey Tolkachev [1 day ago]
+мы разрабатываем весьма сложное приложением с использованием кучи фреймворков и библиотек, Community версия поддерживает весьма ограниченное их количество, поэтому работаем только на Ultimate версии (у которой есть триальный период на месяц, а потом надо использовать выданные нам купоны). Так что про Community можно забыть в серьезном программировании)
+
+
+deps88 [1 day ago]
+а что за фреймворки мы юхаем, кроме спринга?
+
+
+deps88 [1 day ago]
+юзаем
+
+
+Andrey Tolkachev [1 day ago]
+https://github.com/JavaOPs/topjava
+
+вот тут есть очень крутая картинка и описание подробное)
+GitHub
+JavaOPs/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery - JavaOPs/topjava
+ 
+
+
+deps88 [1 day ago]
+ну да, но фреймфорк сред этого всего только один - спринг?
+
+
+Andrey Tolkachev [24 hours ago]
+Spring/JPA. Под фреймворками я еще подразумевал технологии, которые по размеру как фреймворки) (edited)
+
+
+deps88 [24 hours ago]
+ну по размеру - это некорректно наверное ))
+
+
+deps88 [24 hours ago]
+понял, спасиб
+
+
+deps88 [24 hours ago]
+посмотрел на сайте, собсно Spring и JPA и не поддерживаются в комюнити лол
+
+
+Grigory Kislin [19 hours ago]
+https://www.jetbrains.com/idea/features/editions_comparison_matrix.html
+JetBrains
+Ultimate vs. Community - Compare Editions | IntelliJ IDEA
+The most intelligent Java IDE with refactoring support. (784 kB)
+
+
+regorov [Yesterday at 11:34 PM]
+Кто-то сталкивался с проблемой в idea: логи через logback идут в консоль c другой кодировкой (DEBUG MealServlet [MealServlet.java:91] Update meal with id = 3: Meal{id=3, dateTime=2015-05-31T10:10, description='Р—Р°РІС‚СЂР°Рє', calories=990}). В xml конфиге стоит для консоли <charset>UTF-8</charset> + передаю при запуске томкета -Dconsole.encoding=UTF-8. Но ничего не помогает, хотя в файл пишет нормально.
+
+
+4 replies
+Yuri [18 hours ago]
+В Идее какая кодировка в нижнем правом углу?
+
+
+regorov [17 hours ago]
+utf8
+
+
+Илья Чиликин [14 hours ago]
+Присоединяюсь к вопросу.
+
+
+Sergey Zhukov [10 hours ago]
+логи на русском языке?
