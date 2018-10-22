@@ -1402,3 +1402,250 @@ senadnepr [Today at 5:18 PM]
 1 reply
 Andrey Tolkachev [4 minutes ago]
 да, тоже это заметил, просто поле для ввода текста без календаря
+
+
+Grigory Kislin [11 days ago]
+да, в уроке написано
+
+
+Алексей [11 days ago]
+зато поддерживает просто date с календарем (я делал два поля: date и time)
+
+
+Dima Pugovkin [Oct 11th at 6:47 PM]
+HELP.
+как сделать этот пункт на Mac OS Mojave?
+_*Установите переменную окружения на TOPJAVA_ROOT на корень проекта и перезапустите IDEA.*_
+обычный _*export TOPJAVA_ROOT=“usr/topjava”*_ слетает при закрытии окна терминала.
+если пробовать в корне юзера _*sudo nano .bash_profile*_ и прописать туда, помогает в рамках сесси, но слетает при ребуте ноута. (edited)
+
+
+6 replies
+Idan Baskin [11 days ago]
+мне помог этот ролик https://www.youtube.com/watch?v=3XjkaN8psp0
+YouTube Steve Griffith
+Managing Environmental (ENV) variables on Mac OSX
+ 
+
+
+Idan Baskin [11 days ago]
+там где прописывают в файле .bash_profile
+
+
+Dima Pugovkin [11 days ago]
+да да, прикол в том что вплоть до h.sierra этот файлик есть, а в mojave его нет и выходит что я создаю его руками сам принудительно. и после ребута он куда-то теряется опять. возможно прикол в правах, щас поиграюсь с chmod.
+
+
+Sergey [11 days ago]
+А я плюнул и напрямую прописал пути logback.xml:
+       <if condition='property("os.name").toLowerCase().startsWith("windows")'>
+           <then>
+               <!--file>${APPDATA}/MyApp/logs/MyApp.log</file-->
+               <file>C:/Projects/topjava15/topjava/logs/MyApp.log</file>
+           </then>
+           <else>
+               <if condition='property("os.name").toLowerCase().startsWith("mac")'>
+                   <then>
+                       <file>${user.home}/projects/topjava15/topjava15/log/topjava.log</file>
+                   </then>
+                   <else>
+                       <file>${user.home}/topjava.log</file>
+                   </else>
+               </if>
+           </else>
+       </if>
+-----и еще в pom  janino:----
+       <!-- Logging with SLF4J & LogBack  + janino for the log path check!! -->
+       <dependency>
+           <groupId>org.codehaus.janino</groupId>
+           <artifactId>janino</artifactId>
+           <version>2.7.8</version>
+       </dependency> (edited)
+
+
+Yuri [11 days ago]
+https://topjava15.slack.com/archives/CCPHF8VBN/p1539023109000100?thread_ts=1539012788.000100&cid=CCPHF8VBN
+Aleksandr Lukash
+Кстати есть способ еще проще, вдруг кому пригодится. Идем в настройки конфигурации TomCat и явно указываем переменную без необходимости определять ее через bash.
+
+From a thread in #hw1Oct 8th at 9:25 PM
+ 
+
+
+Also sent to the channel
+Tony [6 days ago]
+В сьерре баш_профайла то же нет, создал из консольки "touch fileName", а дальше "vi fileName", в нем уже ручками написал всё, что нужно
+
+
+Rasikon [Oct 12th at 6:53 PM]
+мне вот интересно много ли людей сами сделали сами  optional из hw1 либо это я такой тяжелый))
+
+
+11 replies
+Gekov Iliya [10 days ago]
+В материалах к hw1 был практически аналогичный пример создания crud приложения, перенести на нашу предметную область, пару правок внести и собственно optional готов
+
+
+Gekov Iliya [10 days ago]
+Да и аналогичное тестовое задание было для тех, кто пришел с джавараша, только на спринге, так что маленький опыт уже был)
+
+
+Rasikon [10 days ago]
+видимо я в материалах упустил что-то)
+
+vch [10 days ago]
+@Rasikon Если совсем тяжело идёт - то Григорий обычно предлагает пройти BaseJava сначала. Но ты его уже заранее прошёл. С другой стороны - если основное задание удалось сделать, то значит знания есть, и Optional тоже вполне подъёмен будет. Непонятно... (edited)
+
+
+Gekov Iliya [10 days ago]
+https://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
+Тяжело было пропустить, первая ссылка в optional) (edited)
+
+
+Gekov Iliya [10 days ago]
+Как страшно здесь ссылки вставляются, такое полотно ненужное...
+
+
+vch [10 days ago]
+@Gekov Iliya его удалить вроде можно. Слева от него крестик маленький есть. (edited)
+
+
+Gekov Iliya [10 days ago]
+Что то не вижу... Может в моб версии нет
+
+
+Sergey [10 days ago]
+@Rasikon - не слушай их, реально трудно ))
+
+
+
+Rasikon [9 days ago]
+@Sergey спасибо за ответ) А то я уж думал что пора глицин пить)
+
+
+MATiAiX [7 days ago]
+Я например не сделал опшинал совсем. Банально на работе завал. Но пришел с джавараша - вступительное похожее делали.
+
+
+Sergey [Oct 13th at 10:53 AM]
+Привет! Только сейчас дошло - что мы делаем запросом GET удаление?! POST Же надо!  по REST?
+<td><a href="meals?action=delete&id=${meal.id}">Delete</a></td> (edited)
+
+
+11 replies
+Taras [9 days ago]
+Логично. Я тоже удивился, когда увидел. По-хорошему, для REST надо вообще метод `delete` использовать, но `<form>` позволяет только `get/post` передавать. Поэтому я делал форму и для update/create/delete использовал `post`. Наверное, @Grigory Kislin на этом этапе решил не заморачиваться..
+
+
+fonto [9 days ago]
+Я тоже делал все эти действия через форму post. Хотелось бы узнать можно ли оставить такую реализацию, а не через get (edited)
+
+
+Tanya [9 days ago]
+удаляем в doGet,
+а в GET мы только отправляем action и id
+
+Taras [9 days ago]
+@Tanya `doGet` обрабатывает GET-запрос, об этом и речь, — что в GET мы отправляем action `delete`, и это не переход не особую форму, как в случае с `create` и `update`, а реально вызов функции удаления. Насколько я знаю, использовать GET для подобных запросов некорректно (он не должен менять состояние сервера). Или речь не об этом?
+
+
+
+Tanya [9 days ago]
+ты путаешь бек с фронтом
+мы не удаляем гет-запросом, а просто отсылаем нужные нам данные
+то как эти данные используются - уже не проблема фронта
+
+
+Taras [9 days ago]
+_Мы не удаляем get-запросом_, — но при этом данные удаляются, и это именно то, что мы хотели таким get-запросом. По такой логике, мы и создание и обновление данных могли бы в doGet реализовать, правильно? Почему тогда create/update в doPost, а delete в doGet?
+
+
+Tanya [9 days ago]
+из-за ограничения на объем данных  + при пост данные не в урл (edited)
+
+
+Taras [9 days ago]
+Это понятно, я про логику. Delete так же меняет состояние сервера, как и create/update… А get-запросы иногда кэшируются… Ладненько, похоже, каждый остался при своём мнении, ты меня не убедила.
+
+
+Grigory Kislin [8 days ago]
+привет! спасибо за замечание. скорее- да, на этом этапе делаю максимально просто. REST у нас позднее будет (edited)
+
+
+Taras [8 days ago]
+@Grigory Kislin Я так и подумал. Спасибо!
+
+
+Varguss [8 days ago]
+Я слышал, что в HTML5 в формы добавлена поддержка еще методов Delete и Put. Насколько это правда? (edited)
+
+
+Lamekhova Alisa [3:27 PM]
+Всем привет) В чем может быть проблема?
+Pasted image at 2018-10-15, 5:27 PM 
+
+
+Lamekhova Alisa [Oct 15th at 3:27 PM]
+<!--Web-->
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>javax.servlet-api</artifactId>
+           <version>3.1.0</version>
+           <scope>provided</scope>
+       </dependency>
+
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>jstl</artifactId>
+           <version>1.2</version>
+       </dependency>
+
+
+3 replies
+Gekov Iliya [7 days ago]
+Попробуйте в ссылке, которая красным выделена, перед sun добавить java. (edited)
+
+
+Gekov Iliya [7 days ago]
+Чтобы было как во второй ссылке с fmt (edited)
+
+
+Lamekhova Alisa [7 days ago]
+О, спасибо) Час уже туплю сижу
+
+
+Varguss [Oct 15th at 9:20 PM]
+Можно ли использовать Tomcat 9 версии или обязательно нужен 8?
+
+
+7 replies
+Yuri [7 days ago]
+9-й может некорректно работать, поэтому лучше 8-й
+
+
+Alexey_b [7 days ago]
+9ый, пока полет нормальный
+
+
+Grigory Kislin [7 days ago]
+я планирую проверить и переключиться на 9й
+
+
+YuriyUh [6 days ago]
+Подтверждаю, на 9ке пока полет нормальный
+
+
+Vladimir Gorbatenko [6 days ago]
+Не на каждой девятке норм работало. Сейчас на 9.051 - норм. (edited)
+
+
+Varguss [6 days ago]
+А можно конкретнее объяснить, что именно должно некорректно работать? Чтобы потом понять, надо ли менять версию или нет)
+
+
+Valery.Shkerdin [5 days ago]
+Работает 9, проверено, были какието танцы, но не с бубном, всё гуглилось, на сколько помню, легко. (edited)
+
+
+Varguss [7:43 PM]
+Можно перед <c:forEach items="${mealList}" var="meal"> прописать строчку <jsp:useBean id="mealList" scope="request" type="java.util.List<ru.javawebinar.topjava.model.MealWithExceed" />, тогда оно будет и переменную правильно идентифицировать, и не будет подсвечивать желтым items.

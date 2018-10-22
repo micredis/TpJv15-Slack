@@ -520,3 +520,291 @@ Grigory Kislin [10:43 PM]
 
 Grigory Kislin [10:50 PM]
 ВНИМАНИЕ: письмо с ссылкой на занятие продублирую днем (после 15)
+
+
+stepan1006 [Oct 11th at 11:05 PM]
+Здравствуйте, у меня кокаята ерундень.При запуске userList вылетает ошибка HTTP Status 404 – Not Found не подскажете что можно сделать?
+
+
+2 replies
+Pavel Mikhalev [11 days ago]
+Скриншот скинь, у меня патчи на мастер некорректно ложились и я тоже получил 404 из-за того, что не обновился файл web.xml (там где маппинг meal сервлета идет) (edited)
+
+
+fibz [11 days ago]
+может application context не тот
+
+
+Tony [Oct 12th at 3:42 PM]
+Коллеги, тут кто-то недавно говорил, что проходит курс по лямбдам. Напомните, плиз, где есть такой курс :slightly_smiling_face: Шибко надо. Уорбертон немного помог, но полного понимания не дал.
+
+
+2 replies
+Tony [10 days ago]
+Лучше, наверное, всё-таки перефразировать: порекомендуйте, пожалуйста, курс.
+
+
+Yegor [10 days ago]
+есть курс на stepik.org (Java. Functional programming) (edited)
+
+
+Grigory Kislin [5:26 PM]
+Если решились на ревью ДЗ, начиная с HW2 + ревью выпускного проекта: из профиля доступна оплата *8100 RUB*
+
+
+Илья Чиликин [Oct 12th at 11:33 PM]
+Друзья, как считаете:
+```@Override public int compareTo(MyClass other) {
+        Comparator<MyClass> comparator = Comparator.comparing(MyClass::getAttr1).thenComparing(MyClass::getAttr2);
+        return comparator.compare(this, other); }```
+1. Нормально ли использовать Comparator внутри compareTo? Если да, то
+2. Есть смысл компаратор сделать сделать static final? (edited)
+
+
+3 replies
+Tanya [9 days ago]
+если явно не задано что ентити должно сортироваться только в там таком порядке и никак иначе (если указано то можно compareTo переопределить без использования компаратора), то надо использовать copmparator, и только в том классе где он нужен
+
+
+Илья Чиликин [8 days ago]
+Почему compareTo именно без компаратора?
+
+
+Grigory Kislin [8 days ago]
+1. можно `compareTo`  не переопределять, использовать компараторы по месту
+2. если переопределять- нормально,  static final не нужен:
+```return Comparator.comparing(MyClass::getAttr1).thenComparing(MyClass::getAttr2).compare(this, other);```
+
+
+Denis [Oct 14th at 9:59 AM]
+Всем привет. Не могу понять логику класса MealWithExceed. Почему поле exceed может принимать значение false? MealWithExceed переводится как "еда с превышением". Зачем создавать объект MealWithExceed у которого exceed=false и по факту нету превышения? Такой объект c exceed=false по своей сути разве не противоречит названию класса? Григорий говорил, что названия в джаве важны, поэтому хочу понять ))) И метод getFilteredWithExceeded (получить отфильтрованный с превышением) тоже по названию метода по идее должен выводить список тех MealWithExceed у которых  exceed=true. А он выводит и true и false. Фильтрует только по дате. Может его тогда назвать getFilteredDateList?
+
+
+5 replies
+Gekov Iliya [8 days ago]
+Я понимаю это не как еда с превышением, а как класс Meal, содержащий поле exceed, и тогда все логично становится
+Плюс если разделять на обычные meal и meal с превышением двумя разными списками, то в отображении таких списков на jsp будет дополнительная проблема (edited)
+
+
+
+Denis [8 days ago]
+"содержащий поле exceed" так понятно. А зачем создавать два одинаковых класса с отличием в одно поле exceed? Это не дублирование кода ?
+
+
+Grigory Kislin [8 days ago]
+есть модель и есть dto. это стандартный паттерн. поля- дублируются
+
+
+Denis [8 days ago]
+ну видимо потом мне станет понятнее.
+
+
+Gekov Iliya [8 days ago]
+Вот ссылка из материалов к hw2 по этой теме https://stackoverflow.com/questions/1612334/difference-between-dto-vo-pojo-javabeans
+Stack Overflow
+Difference between DTO, VO, POJO, JavaBeans?
+Have seen some similar questions: What is the difference between a JavaBean and a POJO? What is the Difference Between POJO (Plain Old Java Object) and DTO (Data Transfer Object)? Can you also pl...
+
+
+Sergey [Oct 14th at 1:02 PM]
+Привет! У меня тоже вопрос: *как контролировать распухание проекта при подключении  сторонних библиотек и зависимостей?*
+Пример: при решении проблемы пути для логов на маке и винде - нашел вариант использования условий в "logback" на stackoverflow: “else if” in janino logback configuration
+*Но нужно подключать обьемную библиотеку janino*  - которая подозреваю немало "весит". Если из-за каждого "чиха" подключать библиотеки - то проект превратится в неуправляемую  плохо поддерживаемую мешанину кода. ((  Как быстро отобразить все зависимости в проекте? (для сдерживания необоснованного добавления зависимостей - надо как минимум научиться видеть их все).. (edited)
+
+
+6 replies
+Dima [8 days ago]
+во вкладке maven в IDEA есть кнопка "show dependencies".
+
+
+Grigory Kislin [8 days ago]
+просто подключением библиотеки проект в мешанину не превратится... по зависимостям- да, подключать только те, которые нужны
+
+
+Sergey [8 days ago]
+@Dima где она и что поазывает? я вижу только "show effective pom" , a "right click pom.xml > Maven > Show Dependencies" у меня нет! можешь сделать скриншот? (edited)
+
+
+Dima [8 days ago]
+у меня эта вкладка справа
+21312.jpg
+
+
+
+Dima [8 days ago]
+можно нажать комбинацию клавиш как на скрине
+
+
+
+Sergey [8 days ago]
+Спасибо! :slightly_smiling_face:
+
+
+Yuri [Oct 14th at 11:05 PM]
+@Grigory Kislin Мне кажется имя `MealWithExceed` ошибочным.
+Во первых оно не верно с точки зрения английского языка, существительного `exceed` не существует.
+Во вторых именование класса, с использованием имени его поля, неправильно - если мы захотим добавить еще одно поле, то нам придется переименовывать класс, либо оно уже не будет отражать сути объекта. Это ошибка с точки зрения дизайна приложения, особенно если учесть, что это DTO и часть контракта интерфейса нашего приложения.
+Немного поискал принципы и подходы к выбору имен для `Data Transfer Objects`:
+https://stackoverflow.com/a/35341664/7277653
+http://coders-kitchen.com/2013/07/22/serie-choosing-names-1-part-dtos/
+
+С моей точки зрения более правильным и обобщенным именем было бы `MealState`, но я не силен в нейминге - может у кого-то будет более стоящее предложение.
+Stack Overflow
+Java data transfer object naming convention?
+Given this scenario where you have "transfer objects" (POJO's with just getters/setters) which are passed by a client library to your API, what is the best way to name the transfer objects? packag...
+ 
+Coders Kitchen
+Serie : Choosing Names – 1. part : DTOs
+This article is the beginning of a small series about choosing names for classes (like DTOs, entities, enums …). Every part of this serie is focused on a different type of class, the actual a…
+Jul 22nd, 2013 at 9:03 AM
+ 
+(edited)
+
+
+1 reply
+Grigory Kislin [7 days ago]
+спасибо, подумаю
+
+
+Yuri [11:13 PM]
+Если копать дальше, то и поле не должно называться `Exceed`, более правильным будет `Excess` или `Exceeding`
+
+
+Sergey [Oct 14th at 11:25 PM]
+вопрос: Почему у нас  в реализации репозитория CRUD методы называются SAVE, GET, DELETE?
+То есть - если на работе скажут сделай CRUD то не обязательно создавать именно  CREATE, READ, UPDATE, DELETE?
+
+
+3 replies
+Sergey Zhukov [7 days ago]
+Называй как хочешь, но 4 операции реализуй. Дальше когда узнаешь что есть стандартный интерфейс https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/repository/CrudRepository.html и его методы уже не нужно будет реализовывать, будет проще
+
+
+Grigory Kislin [7 days ago]
+названия `save, get, delete` наиболее часто употребляются для этого
+
+
+Sergey [7 days ago]
+@Grigory Kislin Понял спасибо! @Sergey Zhukov - ну не на всех же проектах есть Спринг. + из форумов Хабра делаю вывод что большую часть времени Джуниоры и Мидлы как раз "Круды" и пишут, а значит пока что проще далеко не всем :slightly_smiling_face:
+
+
+PavelKr Oct 15th at 12:25 PM
+Подскажите, плиз, как посмотреть реализацию request.getParameter(). Из идеи не получается, кидает на интерфейс. (edited)
+
+Yuri 7 days ago
+Ctrl + alt + click или Ctrl + alt + b
+
+PavelKr 7 days ago
+Спасибо, большое!!! а почему, когда зажимаешь ctrl+ click он на интерфейс кидает?
+
+Yuri 7 days ago
+Ctrl + b ->  declaration
+Ctrl + alt +b -> implementation
+
+Victor_Ch 6 days ago
+там еще зеленый значко напротив интерфейса есть. Его можно нажимать
+
+
+
+PavelKr [Oct 15th at 12:28 PM]
+И еще вопрос, правильно ли я понимаю, что после init() идет service(), который уже кидает на doGet, doPost и т.д. Почему то ставлю брекпойнт в service() в классе HttpServlet, а он туда не заходит при дебаге.
+
+
+1 reply
+Yuri [7 days ago]
+Посмотри стек вызовов в идее при вызове doGet()
+
+
+Marat [12:50 PM]
+Надеюсь когда БД подключим то будет легче? Не надо будет придумывать куда что сохранить?
+
+
+Sergey Zhukov [Oct 16th at 9:27 AM]
+Логгер в консоль пишет кракозябры, в файл нормально, попоробовал в настройки добавить для консоли - не помогает. В Settings везде стоит UTF-8. Может кодировка не UTF-8 в консоли?
+log_console.png
+
+
+
+3 replies
+Илья Чиликин [6 days ago]
+Напиши обычный sout в консоль и проверь отображение кириллицы.
+Проблема связана с логгером при запуске в tomcat. В других вариантах вывод в консоль нормальный.
+В jetty проблема решилась ключом запуска `-Dconsole.encoding=UTF-8`. В tomcat решить не удалось. (edited)
+
+
+
+Grigory Kislin [6 days ago]
+https://github.com/JavaOPs/topjava/wiki/idea#Выставить-кодировку-utf-8-в-консоли
+в tomcat -тоже самое. либо в catalina.bat/sh вставить опцию, либо, как в нем написано
+setenv.bat/setenv.sh рядом сделать
+
+
+Andrey Tolkachev [6 days ago]
+https://stackoverflow.com/a/11185963
+Stack Overflow
+Character encoding issue with Tomcat
+There is strange character encoding going on. I am using JSP (JSTL) and Struts with Tomat 6. I have my JSP page encoding as such: <%@ page contentType="text/html; charset=UTF-8" pageEncoding="...
+
+
+Tony [Oct 16th at 2:12 PM]
+@Grigory Kislin В ваших видео есть отсылки к сайту javawebinar.ru/basejava , где есть дополнительная литература и прочее для тех, кто не в курсе каких-либо технологий и прочее. Сейчас по этому адресу http 404. Сайт куда-то переехал?
+
+
+4 replies
+Yestay [6 days ago]
+http://javaops.ru/reg/basejava
+Java Online Projects
+Java Core/Web. БЕСПЛАТНОЕ вступительное занятие.
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise (38 kB)
+
+
+Tony [6 days ago]
+Возможно, но сильно отличается по наполнению от того, что, например, в видео по томкату.
+
+
+Grigory Kislin [6 days ago]
+думаю, что сюда: https://github.com/JavaOps/basejava
+счас сделаю перенаправление (edited)
+
+
+Grigory Kislin [6 days ago]
+это программа basejava
+
+
+Grigory Kislin [12:20 AM]
+@here
+*-----------------------------------------------------------------------------------*
+*Добро пожаловать не 3й урок: #hw3*
+*-----------------------------------------------------------------------------------* (edited)
+
+
+Varguss [Oct 18th at 7:20 PM]
+Я правильно понимаю, что Optional пункты можно не выполнять, и что все они все равно будут рассматриваться в видео? (edited)
+
+
+3 replies
+Tanya [4 days ago]
+ну можно вообще ничего не выполнять...
+делать надо по максимуму, ты для себя а не для нас учишься
+
+
+
+Valery.Shkerdin [3 days ago]
+Ну, чувак, я могу тебе посоветовать, например, создать два контейнера, на Docker, в одном постгресс, в другом приложение с томкатом, и запустить, потестить, это тебе может очень пригодится, и это очень удобно, а может и нафиг оно и не надо, и неудобно ))) (edited)
+
+
+MATiAiX [3 days ago]
+:smiley:
+
+
+Varguss [7:24 PM]
+Да, правильно)
+
+
+Vitaliy Ivkin [Today at 9:07 AM]
+Склонировал проект на ноутбук, возникла сложность с добавлением томката - добавляю в configurations, нажимая на плюс - tomcat - local, внизу висит стандартная ошибка application server not specified, но у неё рядом нет кнопки fix. К такому жизнь меня не готовила :disappointed_relieved:
+
+
+1 reply
+Vitaliy Ivkin [3 hours ago]
+Сам спросил - сам решил проблему. Необходимо было указать томкату на его же директорию

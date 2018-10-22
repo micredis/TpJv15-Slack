@@ -318,3 +318,106 @@ utf8
 
 Sergey Zhukov [10 hours ago]
 логи на русском языке?
+
+
+regorov [10 days ago]
+Да, description на русском
+
+
+PavelKr [Oct 12th at 1:16 PM]
+Подскажите, плиз, как делать поиск по всему проекту?
+
+
+2 replies
+under4eg [10 days ago]
+ctrl + shift + f
+
+
+PavelKr [10 days ago]
+спасибо
+
+
+PavelKr [1:16 PM]
+hot keys
+
+Ansseii [1:48 PM]
+Держите удобный список хоткеев на Win/Os X
+https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf
+
+
+Andrew Kalugin [Oct 14th at 8:06 PM]
+Хотел зарегистрировать новый ключ на 6 мес., но при регистрации ошибся в имени почтового ящика. Как быть? Можно как-то исправить? Получается я указал не существующий почтовый ящик.
+
+
+7 replies
+lifter4ik [8 days ago]
+так вроде ключи же не индивидуальные, попробуй зарегать тот же ключ снова.
+
+
+Andrew Kalugin [8 days ago]
+В этом и проблема - пишет, что ключ уже активирован
+
+
+Andrew Kalugin [8 days ago]
+Точнее так - This coupon code is expired or relates to a promotion that has not started yet.
+
+
+Grigory Kislin [8 days ago]
+@Andrew Kalugin не понял... expired или ошибся в email? и - когда получал купон? (edited)
+
+
+Andrew Kalugin [8 days ago]
+обнаружил что купон старый только на 4 мес., пошел в личный кабинет и взял новый купон на 6 мес. и зарегился, но когда указывал почту ошибся - на автомате в конце написал .ru , а нужно было  .com   После этого попробовал еще раз указать этот купон при покупке - при попытке ввести купон и выдает это сообщение
+
+
+Andrew Kalugin [8 days ago]
+сегодня все это делал
+
+
+Andrew Kalugin [8 days ago]
+в письме, которое приходит после взятия купона в личном кабинете, есть ссылка на регистрацию - "зайди по этой ссылке". по ней перешел и действовал далее по инструкции
+
+
+KaryNaiKo [Oct 16th at 2:21 PM]
+При регистрации нового аккаунта, когда применяешь ключ, пишет что "This coupon code is expired or relates to a promotion that has not started yet." Что делать?
+
+
+1 reply
+Grigory Kislin [6 days ago]
+написал в личку
+
+
+MATiAiX [4:30 PM]
+У меня также проблема с активацией кода. Инструкция на сайте чуть не соответствует тому, что нужно нажимать. В итоге не нашел кнопки про подписку.  Куда копать, что нажимать?
+
+KaryNaiKo [3:37 PM]
+Почему idea подчеркивает мавен красным?
+
+
+KaryNaiKo [Oct 20th at 3:37 PM]
+Pasted image at 2018-10-20, 3:32 PM
+
+
+
+5 replies
+Taras [1 day ago]
+Reimport All нажимал? Если да, то не ругался ли на что-то мавен? Поверь доступность локального репозитория. Адрес указан в Preferences-> Build… ->Build Tools->Maven
+
+
+KaryNaiKo [1 day ago]
+@Taras нажимал. Молчит, все работает. Репозиторий доступен.
+
+
+Tony [1 day ago]
+Рестартани идею
+
+
+Taras [1 day ago]
+Если рестарт не поможет, попробуй следующее:
+1. Проверь pom.xml на предмет ошибок (знаки`<>` пропущены, и т.п.), правильную вложенность тэгов, как в dependencies, так и в plug-ins.
+2. Попробуй какую-то зависимость закомментить, реимпортнуть и снова раскомментить.
+3. Выйди из idea и удали папку `.idea`
+
+
+Grigory Kislin [1 day ago]
+иногда идея подглючивает. если все работает- не парься

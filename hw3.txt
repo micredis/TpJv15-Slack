@@ -1,0 +1,725 @@
+Grigory Kislin [12:17 AM]
+joined #hw3.
+
+Grigory Kislin [12:17 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson03.md
+
+Grigory Kislin [12:18 AM]
+Добро пожаловать не 3й урок: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson03.md
+JUnit тестирование и начало работы с DB
+Если с SQL и RDBMS опыта нет, прочти основы по ссылкам занятия (edited)
+
+Gekov Iliya [12:20 AM]
+joined #hw3 along with 18 others.
+
+
+koderman [Oct 18th at 1:31 PM]
+Вопрос, чет не то с патчами у меня, почему так может быть, красным выделен файл, получается в каком то патче не загрузились изменения?
+
+
+7 replies
+Ansseii [4 days ago]
+У меня все патчи встали без проблем. Проверь последовательность по уроку, может забыл 2 верхних сначала накатить. И проверь, что льешь в master
+
+
+koderman [4 days ago]
+А если патчи которые уже загрузил второй раз грузить не будет конфликтов?
+
+
+Ansseii [4 days ago]
+Лучше откатись к началу
+
+
+koderman [4 days ago]
+ок, попробую спасибо
+
+
+fibz [4 days ago]
+@koderman там в предыдущем патче MealTo уже было в to, и в этом патче оно опять пишется а to, просто надо снять галоку с MealTo. Я так делал (edited)
+
+
+Vladimir Gorbatenko [4 days ago]
+Есть засада с директорией "test", которую нужно своевременно создать, перед "Apply_07_add_junit.patch"
+
+
+koderman [4 days ago]
+понял, починил, норм, учеба продолжается)
+
+
+koderman Oct 18th at 1:31 PM
+
+gleb 4 days ago
+Откройте в идее вкладку version control на ней выберете ветку master и посмотрите, все ли комиты из второго урока вы применили
+
+koderman 4 days ago
+все получилось)
+
+gleb 3 days ago
+гуд)
+
+
+Dmitriy Oct 18th at 2:25 PM
+Как работает filter в методе getAllFiltered класса InMemoryMealRepositoryImpl? Predicate<Meal> filter = meal -> true.
+В getAllFiltered получили мапу по ID пользователя в которой еда текущего пользователя, после применения .filter(filter) что поменяется?
+
+Dmitriy 4 days ago
+
+Dima 4 days ago
+В данном случае ниче не поменяется,фильтр проходят те записи стрима которыеудовлетворяют условию. если true,то все удовлетворяют условию
+
+
+
+Igor [Oct 18th at 5:10 PM]
+Какую версию PostgreSQL ставить?
+
+
+3 replies
+Sergey Zhukov [4 days ago]
+11ю ставь, как раз сегодня вышла :grin:
+
+
+Sergey Zhukov [4 days ago]
+с 11 у меня что-то не срослось, хотел поставить рядом с 10й версией, в другую папку и на другом порту
+postgres11_warning.jpg
+
+
+
+Grigory Kislin [4 days ago]
+у меня 10
+
+
+Igor [Oct 18th at 5:12 PM]
+С MS SQL проекты на java бывают?
+
+
+8 replies
+Yevhen Maksymovych [4 days ago]
+с любым бывают, с точки зрения джавы, ей вообще по барабану, какая машина там базу обслуживает, главное, чтобы под нее был драйвер, соответствующий спецификации jdbc
+
+
+Yevhen Maksymovych [4 days ago]
+под mssql вот есть
+
+
+Igor [4 days ago]
+В возможностях java нет сомнений. Меня интересует с какими субд чаще всего сталкиваются java разработчики.
+
+
+Andrey Tolkachev [4 days ago]
+думаю MySQL одна из самых популярных, хотя в настоящее время может уже и не так
+
+
+shomnest [4 days ago]
+Как правило Postgre на более или менее серьезных проектах, а в целом тенденция в сторону nosql
+
+
+shomnest [4 days ago]
+Крупные конторы, мировые, оракл пользуют и DB2 от ibm (edited)
+
+
+shomnest [4 days ago]
+А по поводу mssql, лично у меня сложилось мнение что используют его в конторах, где 1с, ну или шарп на крайняк)
+
+
+Grigory Kislin [4 days ago]
+статистика за 2016г:
+https://zeroturnaround.com/rebellabs/java-tools-and-technologies-landscape-2016/
+https://zeroturnaround.com/rebellabs/java-tools-and-technologies-landscape-2016-pivoting-data/
+чем курпнее и бюракратичнее контора, тем больше Oracle (за них были хорошие откаты в виде всяких конференций в штаты)
+Лично я постоянно с PostgreSQL стлкивался, ни разу с MySQL. Вообще тенденция на него мигрировать, MySQL имо- больше для php/python. NoSQL это вещь для специфических нужно, чаще всего как дополнение к SQL DB
+zeroturnaround.com
+Java Tools and Technologies Landscape Report 2016 |
+This report analyzes the data about the tools and technologies Java developers use: IDEs, build, tools, servers, frameworks, databases, and so on. (224 kB)
+ zeroturnaround.com
+Java Tools and Technologies Landscape Report 2016: Pivoting data |
+This report analyzes the data about the tools and technologies Java developers use: IDEs, build, tools, servers, frameworks, databases, and so on. (224 kB)
+(edited)
+
+
+fibz [Oct 18th at 5:28 PM]
+@Grigory Kislin, мы будем использовать Мокито в тестах? (edited)
+
+
+2 replies
+Yevhen Maksymovych [4 days ago]
+в предыдущих итерациях топджавы не использовали
+
+
+Grigory Kislin [4 days ago]
+не будем. скорее всего будет в spring-boot проекте, который готовится
+
+
+lifter4ik [Oct 18th at 7:52 PM]
+у меня вопрос про логирование: к третьему занятию логгер остался только в контроллере. это его дефолтное место или на разных проектах по разному?
+
+
+2 replies
+Varguss [4 days ago]
+Количество логирования ограничено извращенностью программиста :slightly_smiling_face: Контроллеры и сервисы обычно логируются, как я знаю. Если сервисного уровня нет, то вместо него логируется дао. А можно и сервисный, и дао уровень залогировать.
+
+
+Grigory Kislin [4 days ago]
+тут я затрудняюсь с тем, где обычно... скорее - везде, где хочется (edited)
+
+
+Илья Чиликин [Oct 18th at 10:34 PM]
+После патчей пакет repository.mock пустой. Так и должно быть? Причём InMemoryAdminRestControllerSpringTest  пытается вайрить InMemoryUserRepositoryImpl, которого нет. (edited)
+
+
+7 replies
+Gekov Iliya [4 days ago]
+Все патчи еще не накатил, но судя по письму Григория сверить можно на гитхабе текущую версию https://github.com/JavaWebinar/topjava (edited)
+
+
+Dima [4 days ago]
+почему нет, нажми на значок зависимости и посмотри сверху путь, что спринг пытается прикрутить. Он все берет из папки тест
+222.jpg
+
+
+
+Gekov Iliya [4 days ago]
+@Dima Вы все патчи накатили? Судя по ссылке выше на актуальную версию, этих классов действительно нет
+
+
+Dima [4 days ago]
+@Gekov Iliya пока что не все. Ну посмотрим че дальше будет.
+
+
+Gekov Iliya [4 days ago]
+А, это тест, невнимательно посмотрел, тогда все на месте, и репозиторий и контроллер, но все это в папке test
+
+
+Grigory Kislin [4 days ago]
+пустые пакеты можно удалять. git не умеет с каталагами работать- только с файлами
+
+
+
+Илья Чиликин [3 days ago]
+Окей, дальше всё стало понятно. Меня смутило наличие пустой папки после применения патчей.
+
+
+oleg_sv [Oct 18th at 10:57 PM]
+Осторожно! Возможны проблемы с PostgreSQL 11. У меня, при подключении к Idea на любое действие выбрасывался exception:
+"[42703] org.postgresql.util.PSQLException: ОШИБКА: столбец "proisagg" не существует". В гугле пишут, что это проблема именно 11-ой версии. Заменил на 10.5, пока что работает стабильно.
+
+
+1 reply
+Sergey Zhukov [4 days ago]
+у меня сервер 11 не стартует, оставил тоже 10
+
+
+Andrew Kalugin [Oct 19th at 10:49 AM]
+не устанавливается postgresql. может кто подскажет в чем дело?
+error.jpg
+
+
+
+22 replies
+Ansseii [3 days ago]
+Советую первым делом спрашивать Гугл. Первая же ссылка предлагает решение:
+https://www.postgresql.org/message-id/1351573815927-5730009.post@n5.nabble.com
+
+
+Andrew Kalugin [3 days ago]
+Я уже много что перепробовал. По этой ссылке уже ходил - не помогает!
+
+
+Ansseii [3 days ago]
+У вас Win10?
+Если да, то идем в
+HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings
+и выставляем Value Data в 1 (edited)
+
+
+Andrew Kalugin [3 days ago]
+нет у меня win7 x64. Но этот метод тоже знаю и пробовал - не помогло
+
+
+Andrew Kalugin [3 days ago]
+В логаг пишет: Error running cscript //NoLogo "C:\Users\Андрей\AppData\Local\Temp\postgresql_installer_76b673c362\prerun_checks.vbs": Program ended with an error exit code
+
+
+Ansseii [3 days ago]
+Ну да, проблемы с запуском .vbs
+https://dba.stackexchange.com/questions/50273/error-unable-to-write-inside-temp-environment-variable-path/54070
+Внизу комментарии со ссылками с решением проблемы через реестр. У меня самого возможности потестить нет, так что пробуйте)
+Database Administrators Stack Exchange
+Error: Unable to write inside TEMP environment variable path
+I am installing PostgreSQL 9.2.4-1-windows.exe on Windows 7 64 with Service Pack 1. I get the following, rather famous it seems, error: There has been an error. Unable to write inside TEMP
+ 
+
+
+Sergey Zhukov [3 days ago]
+@Andrew Kalugin 32-битную версию пробовал ставить? (edited)
+
+
+Andrew Kalugin [3 days ago]
+32 не пробовал
+
+
+Sergey Zhukov [3 days ago]
+у меня ставилась но криво, тоже win764, а 32-битная взлетела нормально
+
+
+Sergey Zhukov [3 days ago]
+качал то отсюда? https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+enterprisedb.com
+PostgreSQL Download
+PostgreSQL is the world’s most advanced open source database and the fourth most popular database. In development for more than 20 years, PostgreSQL is managed by a well-organized and highly principled and experienced open source community. It is an object-oriented database that is fully ACID compliant and highly extensible, enabling the community to add new features and capabilities as workload demands evolved.
+
+
+Andrew Kalugin [3 days ago]
+@Ansseii по ссылке выше тоже ходил :disappointed: у меня там в реестре все норм и менять нечего. попробую nootpade++ совсем убить (edited)
+
+Andrew Kalugin [3 days ago]
+да качал по офф ссылке
+
+Andrew Kalugin [3 days ago]
+попробую 32 установить
+
+Sergey Zhukov [3 days ago]
+и пути не меняй ставь по-умолчанию, запускай правой кнопкой - от администратора (edited)
+
+Ansseii [3 days ago]
+На крайний случай всегда есть архив
+
+
+Andrew Kalugin [3 days ago]
+Бесполезно. Ни работает ни как :disappointed:
+
+
+Sergey Zhukov [3 days ago]
+ставь 10 (edited)
+
+
+Sergey Zhukov [3 days ago]
+обновления на винду приходят? какая редакция sp1 или без него
+
+
+Sergey Zhukov [3 days ago]
+антивир еще приглуши если это каспер
+
+Dima [3 days ago]
+Я поставил версию postgre10.5 на винду 10. 11 версия не установилась,упала с ошибкой в самом начале
+
+
+Andrew Kalugin [3 days ago]
+Уффф..... не хорошая хреновина по имени McAfee (которую я уже давно удалил) заменила собой обработчик VBS. Хитро замаскировалась в реестре (несколько раз ее не заметил) , да еще прост так удаляться не хотела. Пришлось похимичить с реестром и все заработало!!! :grinning:
+
+
+
+Andrew Kalugin [3 days ago]
+вдруг кому пригодится https://kc.mcafee.com/corporate/index?page=content&id=KB86138
+kc.mcafee.com
+Applications that require VBScripts fail to load and Windows Script Host errors are reported after uninstalling VirusScan Enterprise or migrating to Endpoint Security
+ScriptScan might leave the following registry key behind after VSE removal or migration: HKEY_CLASSES_ROOT\CLSID\{B54F3741-5B07-11cf-A4B0-00AA004A55E8}\InprocServer C:\Program Files\Common Files\McAfee\SystemCore\ScriptSn.nnnnnnnnnnn.dll. E Failed to set HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{B54F3741-5B07-11cf-A4B0-00AA004A55E8}\InprocServer32 to C:\windows\system32\vbscript.dll S C:\windows\system32\vbscript.dll was register. Before proceeding, Technical Support strongly recommends that you Show more…
+
+
+Marat [Oct 19th at 12:19 PM]
+В чем вопрос этого вопроса: Вопрос: почему проект упадет при попытке открыть страничку еды (в логе смотреть самый верх самого нижнего исключения)?
+Исправить ошибку?
+Или она исправится накатом следующего патча?
+
+
+5 replies
+Taras [3 days ago]
+Не исправляй, патчи должны друг за другом идти.
+
+
+Dima [3 days ago]
+Надо просто ответить на вопрос,почему упадет. Посмотреть exception,понять из-за чего упало
+
+
+
+indisbk [3 days ago]
+Так ответ в том, что spring не может найти имплементацию интерфейса?(из-за переноса класса в test)
+
+
+ABaykov [3 days ago]
+Bingo ) он же тебе так и пишет, что нужна как минимум одна имплементация)
+
+
+indisbk [3 days ago]
+так я думал подвох какой есть))
+
+
+Sergey Zhukov [Oct 19th at 3:24 PM]
+вы видосы по спрингу смотрели? смотрю и ржу :rolling_on_the_floor_laughing:
+
+
+17 replies
+lifter4ik [3 days ago]
+от Борисова которые?
+
+
+Dima [3 days ago]
+Потрошителя я смотрел уже много раз.Он обьясняет лучше чем в книге и дает дельные советы,особенно по @PostConstract
+
+
+Sergey Zhukov [3 days ago]
+ага борисова
+
+
+Sergey Zhukov [3 days ago]
+Java-StandUp
+
+
+Dima [3 days ago]
+Еще более интересный видос от него же boot-потрошитель
+
+
+Стецко Максим [3 days ago]
+вечерком собирался их посмотреть, много полезного молвит?
+
+
+Dima [3 days ago]
+Если не знаком с рефлекш ,заодно и его подтянешь)
+
+
+Dmitriy [3 days ago]
+Один из лучших лекторов)
+
+
+Sergey Zhukov [3 days ago]
+@Dima ты это видео про @PostConstract смотрел?
+https://www.youtube.com/watch?v=nGfeSo52_8A
+YouTube JUG .ru
+Евгений Борисов — Spring – Глубоко и не очень
+ 
+
+
+Taras [3 days ago]
+Посмотрите ещё его же spring puzzlers (оба сезона) и Приключение Сеньора Холмса и Джуниора Ватсона. И наржётесь, и много полезного (не за один раз) узнаете.. :)
+
+
+Dima [3 days ago]
+@Sergey Zhukov ну может, я уже не помню) Помню только, что по мотивам я сделал свой джарник с аннотацией, чтоб не пользоваться постконстракт, а внедрять свою)
+
+
+Sergey Zhukov [3 days ago]
+я к тому, что от версии к версии Спринг меняется, он сам говорит что его предыдущие  решения могут не работать на новой версии, и приводит в пример терминатора (edited)
+
+
+Dima [3 days ago]
+они работают, наоборот, можно допустим не прописывать в javaconfig свои бинпостпроцессоры, они уже сами автоматом добавляются в контекст при подключении джарника.
+
+
+Sergey Zhukov [3 days ago]
+ага, сам уже умеет
+
+
+Dima [3 days ago]
+а вот ту проблему с постконстракт и java конфигурацией возможно еще не пофиксили, так что можно свою аннотацию толкать.
+
+
+Dima [3 days ago]
+А интересно, на собеседовании могут спросить, чем отличается BeanPostProcessor от BeanFactoryPostProcessor? (edited)
+
+
+Ilya [1 day ago]
+Спасибо за наводку) интересные видосы
+
+
+Artem [Oct 19th at 4:27 PM]
+та же ерунда, что и в сообщении выше: после патча 3_08_add_spring_test мавен сошел с ума и отказался подтягивать спринг-тест. очистка .m2/repository помогла, теперь в pom спринг-тест подтягивается нормально, но в окне мавена в депенденси все равно подчеркивается красным. сборке проекта это в данный момент не мешает. это на что-нибудь повлияет в дальнейшем? или не напрягаться и накатывать патчи дальше?
+Ikke navngitt.jpg
+
+
+
+4 replies
+Стецко Максим [3 days ago]
+никак) идею перезапусти и все ок будет)
+
+
+
+Artem [3 days ago]
+:neutral_face:
+Pasted image at 2018-10-19, 3:32 PM
+
+
+
+Sergey Zhukov [3 days ago]
+У меня тоже maven не смог подтянуть зависимость.
+Я зашел в папку #C:\Users\{Имя пользователя}\.m2\repository\org\springframework\spring-test# и обнаружил там много версий от предыдущих импортов. Удалил все эти версии и сделал Maven->Reimport.
+Все заработало.
+
+
+Raisa [1 day ago]
+у меня такая же проблема с патчем 3_08, но перезапуск идеи не помог, в папке spring-test всего одна версия, clean+reimport тоже не помогли
+
+
+Стецко Максим [Oct 19th at 4:29 PM]
+на WIN 10 64 у кого нибудь проблема с установкой postgresql 10.5 была??? И 32, и 64 при запуске pgAdmin выдает ошибку An error occured initialising the application server. Failed to launch the application server, server thread exiting."
+
+
+6 replies
+Стецко Максим [3 days ago]
+если ставить 9.6 то она пойдет?
+
+
+Sergey Zhukov [3 days ago]
+наверно любая пойдет
+
+
+Стецко Максим [3 days ago]
+блин и она такую же ошибку выдает(
+
+
+indisbk [3 days ago]
+попробуй BigSql, может пойдет.
+
+
+Стецко Максим [3 days ago]
+В общем решил проблему, оказалось что папка пользователя не может иметь русских букв (C:\Users\). Через новую учетку админа переименовал свои папки. Все сразу запустилось...
+
+
+Gekov Iliya [11 hours ago]
+@Стецко Максим Спасибо за решение, возникла аналогичная проблема из-за кириллицы в папке Users, кто-бы мог подумать, что из-за такой мелочи могут такие проблемы возникать...
+
+
+Nikita Ganin [Oct 20th at 2:04 PM]
+"3.4. Cписок еды должен быть отсортирован (тогда мы его сможем сравнивать с тестовыми данными)" Сортировку нужно сделать в jdbcRepository? (edited)
+
+
+1 reply
+Nikita Ganin [1 day ago]
+Можно сделать сортировку через запрос sql
+
+
+Zhinko [Oct 20th at 3:30 PM]
+Кто-нибудь понял почему упало? 1 Понять, почему перестали работать SpringMain, InMemoryAdminRestControllerTest, InMemoryAdminRestControllerSpringTest
+
+
+10 replies
+Dmitriy [1 day ago]
+Посмотри на строку, на которую ругается и на скрин из материалов к домашке SetSpringCtx.png (edited)
+
+
+Zhinko [1 day ago]
+посмотрел. Пока все-равно не понял
+
+
+Dmitriy [1 day ago]
+Пришли пожалуйста скрин или лог ошибки, так как там несколько проблем может быть с запуском
+
+
+Zhinko [1 day ago]
+Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jdbcUserRepositoryImpl' defined in file [C:\Users\User\Desktop\topJavaProject\topjava\target\classes\ru\javawebinar\topjava\repository\jdbc\JdbcUserRepositoryImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+    at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:767)
+    at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:218)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1307)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1153)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:538)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:498)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:848)
+    at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:865)
+    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:548)
+    at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:144)
+    at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:85)
+    at ru.javawebinar.topjava.SpringMain.main(SpringMain.java:20)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1648)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1207)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1168)
+    at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:855)
+    at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:758)
+    ... 15 more
+
+Process finished with exit code 1
+
+
+Zhinko [1 day ago]
+да точно спасибо!
+
+
+Nikita Ganin [1 day ago]
+Как я понял, spring не видит в конфигурации inmemoryuserrepository
+
+
+Stepan [1 day ago]
+нужно только понять? или еще исправить?
+
+Nikita Ganin [1 day ago]
+В optional надо исправить
+
+under4eg [13 hours ago]
+что по итогу нужно? нужно, чтобы спринг-мейн работал с реализацией в памяти, а милсервлет - с реализацией в бд? а то "починить" как-то слишком абстрактно звучит - можно починить костыльно так, что логика попросту работать не будет (edited)
+
+
+Nikita Ganin [3 hours ago]
+Для тестирования нужно, чтобы работал с реализацией в памяти.
+
+
+Nikita Ganin [Oct 20th at 6:01 PM]
+Кто-нибудь сделал 7-ой пункт? индексы должны добавляться при создании базы?
+
+
+2 replies
+Dmitriy [1 day ago]
+CREATE UNIQUE INDEX по аналогии с users
+
+
+Nikita Ganin [1 day ago]
+Спасибо, я и не заметил, что там есть
+
+
+Zhinko [3:49 PM]
+подскажите по этому пункту. Как починить ?
+
+
+Zhinko [Yesterday at 3:49 PM]
+6 Почнинить SpringMain, InMemory*Test. InMemory*Test должны использовать реализацию в памяти
+
+
+10 replies
+Taras [20 hours ago]
+Почитай внимательно что пишут логи, вспомни, как spring узнаёт, какие классы надо создавать, а какие он просто не видит (даже при наличии спринговой аннотации)….
+
+
+Zhinko [20 hours ago]
+я так понимаю, что spring не видит класс потому что InMemoryMealRepositoryImpl и InMemoryUserRepositoryImpl ушли в тесты?
+
+
+Taras [20 hours ago]
+Не совсем. В classpath попадают все классы из main и test. Посмотри, откуда spring знает, какие пакеты сканировать, чтобы прочитать аннотации..
+
+
+Zhinko [19 hours ago]
+короче я так и не сделал.
+
+
+Zhinko [19 hours ago]
+Добавил в тесты конфигурационный файл spring, но все равно не хочет нормально работать
+
+
+Taras [18 hours ago]
+Посмотри, какие пакеты указаны для сканирования в конфиг-файле, и в каких лежат имплементации репозиториев.
+
+
+Zhinko [17 hours ago]
+у меня сейчас выскакивает Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException
+
+
+Zhinko [17 hours ago]
+то есть оно не знает какой бин создавать
+
+
+Taras [17 hours ago]
+Spring видит 2 имплементации интерфейса. А должна быть одна. Сузь пакет для сканирования.
+
+
+Zhinko [16 hours ago]
+Все разобрался спасибо
+
+
+Alexey_b [Yesterday at 4:42 PM]
+А кто-нибудь понял зачем нужна махинация с созданием нового локального change list и помещением туда database.properties ? (edited)
+
+
+4 replies
+pal548 [20 hours ago]
+что за чендж лист?
+
+
+Alexey_b [20 hours ago]
+В самом конце видео 3_07 про настройку идеи с БД
+
+
+pal548 [20 hours ago]
+да, тоже не понял, почему например не добавить этот файл в .gitignore
+
+
+Marat [18 hours ago]
+Наверное для того чтобы изменения хранились локально на компьютере, но не заливались в гитхаб. А если добавить в .gitignore, то нельзя будет вернуть изменения
+
+
+Zhinko [Yesterday at 6:19 PM]
+кто 6 пункт дз сделал? (edited)
+
+
+1 reply
+Dima [17 hours ago]
+Посмотри в SpringMain откуда ты берешь фаил для контекста и какие папки в нем сканируются на предмет добавления в контейнер бинов
+
+
+KaryNaiKo [Yesterday at 9:34 PM]
+При накатке 12 патча (логирование тестов). Откуда появляется столько инфы в консоле?
+
+
+3 replies
+Alexey_b [15 hours ago]
+в файле logback-test.xml который в test/resources специально конфигурится вывод в консоль
+
+
+KaryNaiKo [15 hours ago]
+@Alexey_b Это понятно. Почему так много записей в консоле, откуда они?
+
+
+Alexey_b [14 hours ago]
+мне сейчас сложно с этим поэкспериментировать, так как все остальное не работает, но  level="INFO" и DEBUG включают в себя все остальные уровни и запиывают каждый чих. Можно сделать только ERROR
+
+
+KaryNaiKo [Yesterday at 10:01 PM]
+Почему логгер в папке test берет настройки из test.recource, а не из main.recource?
+Почему в при запуске тестов, спринг поднимается с настройками, которые лежат в main.recource, а не из test.recource?
+Ну то есть в чем разница ресурсов в main, test. И какая у них область видимости? (edited)
+
+
+4 replies
+Taras [14 hours ago]
+Всё это объединяется и попадает в classpath при запуске тестов. Файлы из test/ перезаписывают аналогичные из main/.
+
+
+KaryNaiKo [14 hours ago]
+@Taras можно ссылку на источник?)
+
+
+Taras [14 hours ago]
+```http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html```
+
+
+Taras [14 hours ago]
+Ну и остальное там же. Попробуй “поиграться“, всё станет понятно. :slightly_smiling_face:
+
+
+Taras [Yesterday at 10:20 PM]
+Вопрос по _5.1 Сделать тестовые данные MealTestData (точно такие же, как вставляем в populateDB.sql)_: что конкретно нужно сделать? Наполнить базу вручную данными из `MealTestData` (а взять из из `MealsUtil`) c помощью `MealService#create` или с помощью аннотации `@Sql` из файлы с sql? Зачем нам этот `MealTestData`? (edited)
+
+
+5 replies
+Roman Baranov [13 hours ago]
+в `MealTestData` будут ожидаемые значения. в тесте будешь получать рез-ты операций которые тянут данные из базы. полученное значение сравнивается с ожидаемым.
+
+
+Taras [12 hours ago]
+Наверное, надо и базу наполнить тестовыми данными, и в этом классе их руками прописать. Тогда это будет иметь смысл. Хотя я бы разнёс тесты для репозитория и сервиса, а то у нас интеграционный тест получился.
+
+
+Nikita Ganin [3 hours ago]
+Наполнить базу надо было еще во 2 пункте.
+
+
+Dima [3 hours ago]
+значение тестов, как я понял, заключается в том, чтобы сравнить полученные данные с теми, что хардкорно записаны. База заполняется сама по себе перед каждым тестом, как вы правильно указали, с помощью @Sql. А вот в MealTestData вы должны сделать основную логику тестов. По типу проверок юзеров.
+
+
+Taras [2 hours ago]
+@Nikita Ganin Дело не в том, чтобы наполнить базу, а в тестовом наборе, с которым сравнивать базу. И ещё не забыть, что база должна возвращаться к исходному состоянию перед каждым тестом (для этого и `@Sql`). НО — есть потенциальная возможность изменить sql и не поменять данные в `MealTestData`, что меня и смутило… В общем, я уже всё сделал. Хотя в HW2 я «для себя» сделал тесты отдельно на репозиторий и отдельно на сервис с использованием `@RunWith(MockitoJUnitRunner.class)`, `@Mock` над репозиторием с последующей настройкой возвращаемых значений. ИМХО, так было бы правильнее тестировать…
+
+
+fibz Today at 9:50 AM
+при решении первого задания,  у меня вышло что в конструкторах сервиса я пишу квалифаер на реализацию репозитория таким образом.
+При этом я поставил base-package="ru.javawebinar.**.repository", убрав jdbc
+Насколько это правильно?
+Можно ли Qualifier`ы вынести в spring-app.xml (edited)
+@Autowired
+public UserServiceImpl(@Qualifier("inMemoryUserRepositoryImpl") UserRepository repository) {
+	this.repository = repository;
+} 
+
+Nikita Ganin 3 hours ago
+Я сделал spring-app только для тестов где выбирается реализация репозитория из памяти.
