@@ -723,3 +723,416 @@ public UserServiceImpl(@Qualifier("inMemoryUserRepositoryImpl") UserRepository r
 
 Nikita Ganin 3 hours ago
 Я сделал spring-app только для тестов где выбирается реализация репозитория из памяти.
+
+
+Grigory Kislin [Yesterday at 12:45 PM]
+inmemory классы находятся в test каталоге.
+те они не попадают в приложение и оптимально приложение ничего не должено знать о них
+
+
+1 reply
+fibz [1 day ago]
+Уже разобрался, спасибо
+
+
+KaryNaiKo [7:13 PM]
+Правильно ли я понимаю, что при выполнении тестов у нас спринг поднимается 3 раза?
+
+
+This message was deleted.
+
+
+4 replies
+Gekov Iliya [19 hours ago]
+"в JdbcUserRepositoryImpl.getByEmail() заменил queryForObject() на query(). Загляните в код: queryForObject бросает EmptyResultDataAccessException вместо нужного нам null."
+
+
+fonto [19 hours ago]
+Точно
+
+
+fonto [19 hours ago]
+Пропустил видимо)
+
+
+fonto [19 hours ago]
+Спасибо
+
+
+KaryNaiKo [Yesterday at 10:42 PM]
+Как SimpleJdbcInsert понимает какае значение в какое поле инсертить?
+Ну создали мапу, ну добавили ключ=значения. Вставка происходит по ключу? Так названия ключей не такие как названия полей в базе. По сущности? 
+А как тогда вставляется userId? Его нет в meal. (edited)
+
+
+28 replies
+Tanya [16 hours ago]
+внимательно посмотри на sql-запрос
+
+
+Taras [16 hours ago]
+1. Когда ты настраиваешь `SimpleJdbcInsert`, ты передаешь ему `.usingGeneratedKeyColumns("id")`
+2. Почему ключей? У нас один первичный ключ - `id`
+3. `user_id` вставляется в мапу, как и все остальные параметры: `.addValue("user_id", userId)`, ты его вместе с объектом `Meal` передаешь в метод `save()`. В `Meal` его нет и быть не должно.
+
+
+
+Sergey Zhukov [16 hours ago]
+@Taras почему нельзя в meal добавить userId?
+
+Gekov Iliya [16 hours ago]
+@Sergey Zhukov Можно, просто он не нужен для контроллера и отображения, у нас же user id приходит с авторизацией
+
+Sergey Zhukov [16 hours ago]
+я про таблицу в базе
+
+
+Gekov Iliya [16 hours ago]
+Так речь у Тараса шла про класс, а не про таблицу (edited)
+
+
+Sergey Zhukov [16 hours ago]
+ну я и в класс Meal добавил поле userId
+
+
+Taras [16 hours ago]
+Именно так. Как я понял, в дальнейшем будет что-то вроде `@ManyToOne User user`, когда этот класс станет полноценныи Entity. А пока что в классе это совершенно лишняя информация (на этом этапе).
+
+
+Gekov Iliya [16 hours ago]
+@Sergey Zhukov в материалах к заданию Григорий отдельно отмечает, что этого делать не нужно было
+
+
+Dima [16 hours ago]
+когда делаешь many to one , то в таблицу надо вставить user_id
+
+
+Taras [16 hours ago]
+Вот даже подсказка была:
+>3.2. userId в класс Meal вставлять НЕ надо (для UI и REST это лишние данные, userId это id залогиненного пользователя)
+
+
+Sergey Zhukov [16 hours ago]
+получается придется делать 2 таблицы meals и таблицу для связи user_id и meal_id (edited)
+
+
+Taras [16 hours ago]
+@Dima Это JPA само сделает. А сейчас мы `jdbcTemplate` “мучаем“.
+
+
+Dima [16 hours ago]
+само jpa не создаст поле колонку в таблице. Оно к нему обращаться будет
+
+
+Taras [16 hours ago]
+@Sergey Zhukov Вспомни, на предыдущем шаеге как мы InMemory.. разруливали — тоже `Meal` не меняли.
+
+
+Gekov Iliya [16 hours ago]
+Зачем? Просто добавляем в таблицу к meal поле user_id и все
+
+
+Gekov Iliya [16 hours ago]
+И вяжем его с таблицей users
+
+
+Sergey Zhukov [16 hours ago]
+@Taras а я менял, вроде не запрещено)
+
+
+Taras [16 hours ago]
+@Gekov Iliya Правильно!
+
+Taras [16 hours ago]
+@Sergey Zhukov Пункт 3.2 задания.
+
+
+Sergey Zhukov [16 hours ago]
+да поле то я добавил в таблицу и связал уже, но по логике и в классе поле нужно делать
+
+
+Taras [16 hours ago]
+Да и на самом деле он не нужен. Мы всегда работаем с едой какого-то конкретного пользователя.
+
+
+Gekov Iliya [16 hours ago]
+Зачем? Какую оно функцию будет выполнять как поле объекта Meal?
+
+
+Dima [16 hours ago]
+в Spring JPA в Meal надо только сделать User user с аннотацией Many to One
+
+
+Sergey Zhukov [16 hours ago]
+да, сейчас админ у нас не лезет в чужую еду, тока юзеров разруливает, но хочется пологичнее сделать
+
+
+Gekov Iliya [16 hours ago]
+Если судить по итоговому приложению, он этого и не будет делать. Плюс Григорий об этом говорил в одном из видео, что он решил, что админ не будет лезть в еду пользователя
+
+
+Dima [16 hours ago]
+Логично, что админ может управлять юзерами, а их едой не за чем
+
+
+Sergey Zhukov [15 hours ago]
+админ должен управлять всем
+
+
+Alexey_b [Yesterday at 11:17 PM]
+Не могу сделать пункт  3.3. JbdcTemplate работает через сеттеры. Вместе с конструктором по умолчанию их нужно добавить в Meal.  Добавляю конструктор в Meal, убираю модификаторы final c полей класса, но они при обращении к дефолтному конструктору сетятся нулями. Что подразумевается тут сделать? (edited)
+
+
+29 replies
+ABaykov [16 hours ago]
+https://javarevisited.blogspot.com/2014/01/why-default-or-no-argument-constructor-java-class.html
+
+вот тут хорошо написано, для чего тебе default constructor
+javarevisited.blogspot.com
+Why Default or No Argument Constructor is Important in Java Class
+Almost all Java developers knows that compiler adds a default constructor or better known as no argument constructor in every Java class, b... (8 kB)
+
+
+pal548 [16 hours ago]
+а сеттеры ты добавляешь?
+
+
+
+Alexey_b [16 hours ago]
+сеттеры добавил для jdbcTemplate, для остальных уже были
+
+
+Alexey_b [16 hours ago]
+результатом того что я написал, пока является пустая таблица при getAll
+
+
+ABaykov [16 hours ago]
+А как у тебя SQL запрос написан?
+
+
+Alexey_b [16 hours ago]
+return jdbcTemplate.query("SELECT * FROM meals", ROW_MAPPER);
+
+ABaykov [16 hours ago]
+и в классе Meal есть конструктор без параметров и сеттеры для всех полей, так?
+
+
+Gekov Iliya [16 hours ago]
+А в базе данные то есть? Если просто выполнить sql запрос из консоли все ок?
+
+
+Alexey_b [16 hours ago]
+да, там есть 4 записи
+
+Alexey_b [16 hours ago]
+мне кажется проблема в дефольном констркторе
+Pasted image at 2018-10-22, 11:38 PM
+
+
+
+Ilya [16 hours ago]
+проблема в том что в meal у тебя нет сеттеров для полей, кроме id, который в абстрактном классе
+
+Dima [16 hours ago]
+getAll чего используешь? в нем же надо еще user_id ставить, а в запросе у тебя этого не видно
+
+Gekov Iliya [16 hours ago]
+RowMapper инициализирован Meal.class-ом?
+
+ABaykov [16 hours ago]
+@Dima user_id позже вставит) ему бы сначала получить список Meal
+
+Это уже будет следующий шаг) (edited)
+
+
+Alexey_b [16 hours ago]
+спасибо, действительно не было сеттеров на старые поля, давно еще делал геттеры и решил что и сеттеры там же
+
+
+Alexey_b [16 hours ago]
+одна голова хорошо, а много лучше)
+
+
+
+ABaykov [16 hours ago]
+Ну а теперь нужно задействовать user_id  и немного подпилить sql запрос)
+
+Alexey_b [16 hours ago]
+нет, теперь нужно срочно спать)
+
+oleg_sv [15 hours ago]
+А у меня наоборот, все поля вытягиваются из базы нормально, а mealId - всегда null, с чем это может быть связано, кто знает?
+
+
+pal548 [15 hours ago]
+см в консоли что пишет драйвер постгреса. Он пишет, какие поля установились, какие нет
+
+
+Ilya [15 hours ago]
+@oleg_sv проверь унаследован ли meal от AbstractBaseEntity и его сеттер или возможно у тебя в базе поле имеет имя не id
+
+Dima [15 hours ago]
+База Heroky как раз дана, чтоб все повторить в своей базе
+
+oleg_sv [15 hours ago]
+@Ilya спасибо, ты оказался прав - у меня в таблице ключ назывался meal_id. Со сменой имени заработало. Но теперь я не понимаю, почему можно называть только "id" это ограничение самой sql, или я где-то неправильно связал ключи и поля?
+
+
+Gekov Iliya [15 hours ago]
+У нас поле id в Meal унаследовано от AbstractBaseEntity, а оно там называется просто id
+
+Ilya [15 hours ago]
+пункт 10 в разделе проверка HW03
+
+Ilya [15 hours ago]
+если хочешь называть по разному, то тогда придется самому обходить ResultSet
+
+
+Dima [15 hours ago]
+RowMapper, который ты ставляешь в каждый запрос пытается парсить базу по полям твоего Meal. у классе Meal нет поля userId
+
+
+Ilya [15 hours ago]
+и сопостовлять
+
+
+oleg_sv [15 hours ago]
+теперь всё понятно, всем спасибо
+
+
+Sergey Zhukov [Today at 1:03 AM]
+В getBetween получается чтобы захватить весь день приходится ставить ... AND date_time<? и передавать параметр endDate.plusDays(1).toLocalDate()
+Можно проще записать? (edited)
+
+
+7 replies
+Gekov Iliya [14 hours ago]
+AND datetime BETWEEN ? AND ?
+
+
+
+Sergey Zhukov [14 hours ago]
+точно :slightly_smiling_face:
+
+
+Gekov Iliya [14 hours ago]
+Главное не забывать во время написания тестов, что время тоже участвует в этом сравнении, я немало времени потерял, пытаясь понять, что не так) В реальной работе приложения это не составляет проблему, так как в getBetweenDates MealService проставляются минимальные и максимальные значения для времени
+
+
+Ilya A. Kvyatkovsky [14 hours ago]
+Timestamp в LocalDateTime как конвертируете? Из того что нашел, как-то длинновато получается. Может есть более лаконичный вариант!? (edited)
+
+
+Gekov Iliya [14 hours ago]
+Никак, само справляется
+
+
+Sergey Zhukov [14 hours ago]
+@Ilya A. Kvyatkovsky не надо конвертить, так передавай в запрос
+
+
+Ilya A. Kvyatkovsky [14 hours ago]
+Сорян, Timestamp библиотека кривая подтянута. Подключил java.sql.Timestamp теперь "само" работает) (edited)
+
+
+Vlad [Today at 1:53 AM]
+Добрый вечер всем) У меня появился вопрос, по поводу 1 пункта задания. У меня не работает создание бина JdbcUserRepositoryImpl, я для него установил Qualifier. Так же заметил, что проблема в создание  JdbcTemplate, так как для него не установлен Qualifier. Но так как класс не наш, я не могу его изменять, может кто подскажет как решить проблему?
+
+
+
+
+Код ошибки:
+[ERROR] ru.javawebinar.topjava.web.InMemoryAdminRestControllerTest  Time elapsed: 0.094 s  <<< ERROR!
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jdbcUserRepositoryImpl' defined in file [E:\Java\topjava\target\classes\ru\javawebinar\topjava\repository\jdbc\JdbcUserRepositoryImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+    at ru.javawebinar.topjava.web.InMemoryAdminRestControllerTest.beforeClass(InMemoryAdminRestControllerTest.java:23)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+    at ru.javawebinar.topjava.web.InMemoryAdminRestControllerTest.beforeClass(InMemoryAdminRestControllerTest.java:23)
+
+
+6 replies
+Илья Чиликин [12 hours ago]
+Qualifier не нужен, если у тебя один класс-кандидат на роль бина. Проблема именно в создании JdbcTemplate, а невозможность создания твоего repository - это следствие.
+
+
+oleg_sv [12 hours ago]
+Возможно, проблема в конфигурации, которую ты используешь при запуске приложения. Судя по наличию MemoryAdminRestControllerTest в стек-трейсе, ты запускаешь SpringMain, который остался только для тестов. Попробуй сменить конфигурацию на Tomcat-local (edited)
+
+Ilya [6 hours ago]
+для решения этой проблемы я скопировал конфигурацию спринга в ресурсы папки тест и назвал spring-app-test.xml и во всех тестовых классах где происходит подключение контекста спринга указал использовать его (edited)
+
+
+Ilya [6 hours ago]
+с заменой ru.javawebinar.**.repository.jdbc на ru.javawebinar.**.repository.inmemory
+
+Vlad [3 minutes ago]
+Класс JdbcUserRepositoryImpl не может создаться так как не может создаться JdbsTemplate который у репозитория находиться в конструкторе с пометкой autowired. Пробовал решить проблему через создание отдельного spring xml  для тестов.  А так же через добавление qualifier и в spring-app использовал ru. javawebinar.**.repository
+
+
+Ilya [< 1 minute ago]
+файл spring-db.xml есть в ресурсах?
+
+
+Pavel Mikhalev [7:31 AM]
+@Grigory Kislin, заметил, что у нас в User используется java.util.Date, хотя в Meal и до этого мы использовали java 8 LocalDateTime. По ссылке описано как работать с Local Date https://jdbc.postgresql.org/documentation/head/8-date-time.html. Думаю, что это часть задания :slightly_smiling_face:
+jdbc.postgresql.org
+Using Java 8 Date and Time classes
+The official site for the PostgreSQL JDBC Driver
+
+
+Marat Tagirov [Today at 11:26 AM]
+у меня одного после накатки всех патчей занятия стал вылетать такой Exception при поднятии томката и попытке в браузере посмотреть еду пользователей?
+java.lang.NullPointerException
+    ru.javawebinar.topjava.util.MealsUtil.getFilteredWithExcess(MealsUtil.java:37)
+    ru.javawebinar.topjava.util.MealsUtil.getWithExcess(MealsUtil.java:29)
+    ru.javawebinar.topjava.web.meal.MealRestController.getAll(MealRestController.java:47)
+    ru.javawebinar.topjava.web.MealServlet.doGet(MealServlet.java:88)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+    org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+
+
+6 replies
+Gekov Iliya [4 hours ago]
+IMG_20181023_112728.jpg
+
+
+
+Gekov Iliya [4 hours ago]
+Откуда еда пользователя возьмется, если класс репозитория через ДБ пустой, его надо самостоятельно реализовывать
+
+
+Marat Tagirov [4 hours ago]
+да, я продебажил и увидел, что постоянно возвращается null. просто смутило немного, что накатка патчей привела проект в "нерабочее" состояние)
+
+
+Marat Tagirov [4 hours ago]
+блин, я слепой.
+
+
+Gekov Iliya [4 hours ago]
+Ну для того чтобы смущения не было, это отдельно отмечено в материалах жирным шрифтом)
+
+
+Marat Tagirov [4 hours ago]
+это же в описании есть. спасибо)
+
+
+Marat Tagirov [Today at 11:30 AM]
+вообще, дебаг показал, что метод getAll в JdbcMealRepositoryImpl всегда возвращает null. Так и задумано?
+
+
+1 reply
+Ilya A. Kvyatkovsky [3 hours ago]
+Нет, там нужно реализовать сортированную выборку из базы для текущего пользователя -> все выбранные строки должны корректно мапиться по ROW_MAPPER -> метод возвращает List<Meal> (и все это помещается в одну строку) смотри аналогии в JdbcUserRepositoryImpl (edited)
+
+
+Janna S [Today at 2:28 PM]
+всем привет!
+Напомните плиз кто знает
+Если я подключилась сейчас
+я накатываю все патчи с урока номер 0?
+
+
+1 reply
+Ilya [1 hour ago]
+Привет, да все с 0го

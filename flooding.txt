@@ -657,3 +657,22 @@ Dima [16 hours ago]
 
 lifter4ik [16 hours ago]
 О, благодарю! Заработало
+
+
+Ilya A. Kvyatkovsky [Yesterday at 5:34 PM]
+Кто подскажет, в каком редакторе создана эта схема?
+https://hsto.org/getpro/habr/post_images/fd0/940/3bf/fd09403bf3bc3e96c0862386cbbcd721.png (85 kB)
+(edited)
+
+
+3 replies
+JavaHolic [22 hours ago]
+возможно draw.io
+
+
+Ilya A. Kvyatkovsky [22 hours ago]
+@JavaHolic спасибо, похоже на то.
+
+
+Tony [21 hours ago]
+такое можно нарисовать в майкрософт визио и энтерпрайз архитект.
