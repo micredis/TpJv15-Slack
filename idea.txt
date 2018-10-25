@@ -431,3 +431,31 @@ Maxim Valeev [2:11 PM]
 
 Ilya [2:14 PM]
 @Maxim Valeev Точно! спасибо!
+
+
+Grigory Kislin [4:18 PM]
+есть универсальная клавиша подсказок горячих клавишь: Ctrl+Shift+A
+пишешь там param и смотришь подсказку
+
+
+Bygaga63 [Oct 23rd at 9:50 PM]
+Народ, подскажите пожалуйста, куда купон вводить? Я воткнул его в activation code, пишет invalide. Новые купоны уже обновили в профиле пользователя? или я что-то не так делаю?
+
+
+1 reply
+Grigory Kislin [1 day ago]
+делаешь по инструкции в письме с купоном
+
+
+AleksandrBLK [4:29 AM]
+купон вводить на сайте Intelliji IDEA в своем кабинете
+потом логинишся своим логином, не нужно вводить activation code
+
+
+Bygaga63 [Yesterday at 8:18 PM]
+я в личном кабинете не нашел где там. Я типо нажал купить, там кнопка была: введите купион, я ввел, вышло такое сообщение: This coupon code is not applicable to the products in the shopping cart. Есть мануал может? или может кто обьяснить где так активировать?
+
+
+1 reply
+Grigory Kislin [14 hours ago]
+инструкция в письме с купоном - не помогла?

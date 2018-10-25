@@ -1,0 +1,42 @@
+Grigory Kislin [11:46 PM]
+joined #hw4.
+
+Grigory Kislin [11:48 PM]
+Четвертое занятие нашего проекта: популирование данных через Spring, JPA/Hibernate, HSQLDB
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson04.md
+Материалов по JPA огромное количество. Чтобы не утонуть - не надо пытаться освоить все сразу. Пока достаточно того, что нужно для выполнения HW4
+После выполнения этого достаточно несложного ДЗ можно приступать к выполнению выпускного проекта:  канал  #graduation
+Миграцию на JUnit 5 будем делать после освоения JUnit 4 (он сейчас самый распространенный) на 7-м занятии (edited)
+
+Gekov Iliya [11:52 PM]
+joined #hw4 along with 18 others.
+
+Илья Чиликин [2:53 AM]
+Внезапно в проект врывается Travis CI! Приятная неожиданность.
+
+
+Илья Чиликин [Today at 3:01 AM]
+@Grigory Kislin Григорий, поясните, почему в патче 4_3 в InMemoryRepository для проверки на null используется `Objects.requireNonNull`, а в ServiceImpl `Assert.notNull`? (edited)
+
+
+1 reply
+Grigory Kislin [1 hour ago]
+для пояснения материала видео. в реальности в одном проекте везде используются один подход. напишу в урок
+
+
+KaryNaiKo [Today at 8:58 AM]
+Что такое meals_index и что с этим делать?
+
+
+2 replies
+Sergey Zhukov [3 hours ago]
+индексы были в задании HW3 Optional, если коротко то задаем столбцы для индексирования, поиск по ним будет происходить быстрее
+вот же есть ссылка в описании
+https://postgrespro.ru/docs/postgresql/9.6/indexes.html
+postgrespro.ru
+PostgreSQL : Документация: 9.6: Глава 11. Индексы (9 kB)
+ 
+
+
+Grigory Kislin [1 hour ago]
+@KaryNaiKo ссылки на индексы есть в ДЗ уроке 3. добавил туда эту, по русски

@@ -676,3 +676,7 @@ Ilya A. Kvyatkovsky [22 hours ago]
 
 Tony [21 hours ago]
 такое можно нарисовать в майкрософт визио и энтерпрайз архитект.
+
+
+Yevhen Maksymovych [5:48 PM]
+ребят, никто WebFlow + LocaleInterceptor не сдруживал?

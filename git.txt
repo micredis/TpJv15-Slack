@@ -391,3 +391,24 @@ bahur [Oct 12th at 12:10 PM]
 1 reply
 indisbk [10 days ago]
 ясно, понял, спасибо.
+
+
+Nikita Ganin [Yesterday at 10:08 AM]
+В репозитории @Grigory Kislin есть бранч doc, его можно как-то добавить в свой репозиторий?
+
+
+3 replies
+Grigory Kislin [1 day ago]
+можно сделать clone от https://github.com/JavaWebinar/topjava и переключиться на ветку doc (edited)
+
+
+Grigory Kislin [1 day ago]
+или даже вычекать только doc: https://stackoverflow.com/questions/4811434/clone-only-one-branch
+Stack Overflow
+Clone only one branch
+I would like to know how I could clone only one branch instead of cloning the whole Git repository.
+ 
+
+
+Nikita Ganin [22 hours ago]
+Спасибо

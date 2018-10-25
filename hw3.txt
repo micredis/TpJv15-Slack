@@ -1136,3 +1136,665 @@ Janna S [Today at 2:28 PM]
 1 reply
 Ilya [1 hour ago]
 Привет, да все с 0го
+
+
+Janna S [1 day ago]
+просто выглядит так как буд-то все есть что касается 3 урока  ..
+Снимок экрана 2018-10-23 в 3.55.19 ПП.png
+
+
+
+Janna S [1 day ago]
+я не в тот репозтторий смотрю, так?
+
+
+Janna S [1 day ago]
+так вижу
+
+
+Taras [1 day ago]
+Сложно сказать, что там у тебя.. Накати патчи один за одним, сравни с тем, что написано в тексте. Не забудь создать src/test в соответствующем разделе.
+
+
+Janna S [1 day ago]
+у меня др проблема
+
+
+Janna S [1 day ago]
+я повторно
+те уже все есть и репозиторий и тд
+теперь либо ждать до 5 урока
+либо попутаться сделать un fork и все с нуля
+что я и хотела ..
+
+
+Grigory Kislin [1 day ago]
+@Janna S можешь уже с патчами взять из https://github.com/JavaWebinar/topjava (edited)
+
+
+Taras [1 day ago]
+@Janna S А-а, я понял, ты склонировала текущее состояние master. Там патчи накатаны.
+
+
+Janna S [1 day ago]
+ага и можно там дальше уже создавать ветки начиная с HW-3
+так ?
+
+
+Janna S [1 day ago]
+спасибо
+
+
+Taras [1 day ago]
+Если хочешь последовательно пройти сама с самого начала (и заодно попробовать самостоятельно ДЗ сделать), возьми отсюда нужный тебе коммит: https://github.com/JavaWebinar/topjava/commits/master
+
+
+Taras [1 day ago]
+Например, начальное состояние проекта (после Prepare_to_HW0, когда надо сделать HW0) — https://github.com/JavaWebinar/topjava/tree/0ae37b48bc68e286028d84e5d2188c0afb7f4eb2
+
+
+Taras [1 day ago]
+клонируешь себе, далее делаешь для каждой домашки отдельную ветку HWnn, а в master заливаешь патчи один-за-одним. Удачи!
+
+
+Janna S [21 hours ago]
+спасибо!!
+
+
+Sergey Zhukov [Oct 23rd at 4:31 PM]
+кто как сравнивал еду в тестах с эталонами? через toString ?
+
+
+22 replies
+Gekov Iliya [1 day ago]
+Также как Григорий показывал на примере User, AssertJ вроде библиотека
+
+
+Sergey Zhukov [1 day ago]
+org.assertj.core.api.Assertions.assertThat ? он вроде только id сравнивает, я пробовал менять поля в эталонах - тест не валится
+
+
+Gekov Iliya [1 day ago]
+Там куча методов, сравнивать каждое поле, сравнивать только определенные поля, сравнивать своим компаратором, сравнивать дефолтным компаратором, на каждый случай найдется подходящий)
+
+
+Sergey Zhukov [1 day ago]
+сейчас гляну что там за методы есть)
+
+
+Sergey Zhukov [1 day ago]
+спасибо
+
+
+Gekov Iliya [1 day ago]
+Кода перед глазами нет, не могу точно сказать, там есть методы, которые каждое поле сравнивают
+
+
+Sergey Zhukov [1 day ago]
+ну да в еде надо все сравнить
+
+
+Taras [1 day ago]
+@Sergey Zhukov Посмотри `UserServiceTest`, как там объекты и списоки между собой сравниваются.
+
+
+Sergey Zhukov [1 day ago]
+вот нашел такой isEqualToComparingFieldByFieldRecursively
+:slightly_smiling_face: работает (edited)
+
+
+Gekov Iliya [1 day ago]
+:+1: аналогичные есть для сравнения коллекций
+
+
+Raisa [1 day ago]
+как коллекции сравнивали? .usingFieldByFieldElementComparator().isEqualTo(expected);?
+
+
+Gekov Iliya [1 day ago]
+.usingDefaultElementComparator()
+
+
+
+Raisa [1 day ago]
+заработало, спасибо
+
+
+Gekov Iliya [1 day ago]
+@Raisa я дико извиняюсь, ввел в заблуждение, еще раз перепроверил, для коллекций usingDefaultElementComparator() не подходит, тот, что вы изначально указали - подходящий
+
+
+Raisa [1 day ago]
+@Gekov Iliya ничего страшного, я же и сама стараюсь думать :slightly_smiling_face: у тебя не падает с ним тест? (edited)
+
+
+Gekov Iliya [1 day ago]
+Нет, вроде все ок
+
+Raisa [1 day ago]
+у меня падает именно на этом методе с ошибкой (это create тест): java.lang.AssertionError:
+Expecting:
+<[Meal{id=100009, dateTime=2018-01-03T08:00, description='Завтрак', calories=500},
+   Meal{id=100005, dateTime=2018-01-02T08:00, description='Завтрак0', calories=510},
+   Meal{id=100004, dateTime=2018-01-01T17:00, description='Ужин0', calories=510},
+   Meal{id=100003, dateTime=2018-01-01T12:00, description='Обед0', calories=1000},
+   Meal{id=100002, dateTime=2018-01-01T08:00, description='Завтрак0', calories=500}]>
+to be equal to:
+<[Meal{id=100009, dateTime=2018-01-03T08:00, description='Завтрак', calories=500},
+   Meal{id=100005, dateTime=2018-01-02T17:00, description='Завтрак0', calories=510},
+   Meal{id=100004, dateTime=2018-01-01T17:00, description='Ужин0', calories=510},
+   Meal{id=100003, dateTime=2018-01-01T12:00, description='Обед0', calories=1000},
+   Meal{id=100002, dateTime=2018-01-01T08:00, description='Завтрак0', calories=500}]>
+when comparing elements using field/property by field/property comparator on all fields/properties
+Comparators used:
+- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}
+- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}
+but was not.
+
+
+Gekov Iliya [1 day ago]
+У вас meal c id 100005 отличается по времени)
+
+Gekov Iliya [1 day ago]
+Значит тест работает как надо)
+
+Raisa [1 day ago]
+точно :smile::+1:
+
+Raisa [1 day ago]
+спасибо, нужно быть внимательнее
+
+Nikita Ganin [1 day ago]
+Только сейчас проверил, если поменять какое-нибудь поле в эталонных данных, то тесты не проходят. Делал по аналогии с тестами для UserService. Дополнительные методы не использовал.
+
+
+Sergii Oct 23rd at 5:10 PM
+4 Проверить работу MealServlet, запустив приложение - это "затомкатить" , подергать, закрыть, проверить что изменения еды попали в базу ? (edited)
+
+Gekov Iliya 1 day ago
+Да
+
+Sergii 1 day ago
+Спасибо
+
+
+Стецко Максим [Oct 23rd at 5:25 PM]
+осталось только тесты доделать, дак блин чем больше изучаю, тем больше понимаю что дофига еще не знаю, прям печаль
+
+
+30 replies
+Dima [1 day ago]
+у меня как-то наоборот. Я понимаю,что нифига не знаю и поэтому хочу знать еще больше
+
+
+Стецко Максим [1 day ago]
+Я про тоже) Хоть новое и изучается, но такая куча всего еще остается)
+
+
+Стецко Максим [1 day ago]
+даж про которые еще не знаешь даже пока)
+
+
+Gekov Iliya [1 day ago]
+Учитывая с какой скоростью появляется новое и устаревает прошлое, никогда все и не узнаешь, надо как то приспосабливаться к перманентному состоянию обучения)
+
+
+Dima [1 day ago]
+вот и я ща читаю спринг 5 ин экшн и параллельно ангуляр.
+
+
+Gekov Iliya [1 day ago]
+Мы  вот активно спринг изучаем, а мне преподаватель на других курсах сказал, что спрингу скоро придет конец как популярному фреймворку, прав он, не прав, кто знает)
+
+
+Gekov Iliya [1 day ago]
+Хотя глядя на статистику в это слабо верится
+
+
+Dima [1 day ago]
+каждый хвалит свое поле как гворится) Придет так придет, главное вовремя поменять билеты на поезд разработки)
+
+
+Valery.Shkerdin [1 day ago]
+А на работу возьмут ))) может быть совсем другим будешь заниматься, например, другой фреймворк использовать ))) Путь программиста постоянная гонка за новыми знаниями )))
+
+
+Grigory Kislin [1 day ago]
+>  чем больше изучаю, тем больше понимаю что дофига еще не знаю
+это нормально, есль же даже картинка на моих вебинарах. начинаешь взрослеть:)
+http://javaops.ru/view/resources/tobe-programmer
+https://docs.google.com/presentation/d/1YwtCCZsaGMdl-V15kTDHiJxiS52IAl-qqheNPpiNr54/edit#slide=id.g2c68387d9a_1_34
+Java Online Projects
+Видео: быть программистом: от детства к зрелости
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise (29 kB)
+
+
+fonto [1 day ago]
+@Gekov Iliya и какой тогда по его мнению придет на смену Спринга?;)
+
+
+Dima [1 day ago]
+по идее Summer Framework )
+
+
+
+Gekov Iliya [1 day ago]
+Не помню, давно это было, я тогда еще Спринг от Стринга и Стринг от Свинга не отличал)
+
+
+fonto [1 day ago]
+Ну я уже понял, что зная один фреймворк, на другой перейти не сложно), так что это не проблема) (edited)
+
+
+shomnest [1 day ago]
+@Dima,что за спринг 5 ин экшен?
+
+
+Dima [1 day ago]
+@shomnest Spring in Action 5th
+
+
+Dima [1 day ago]
+я свежатину читаю, 5 версию
+
+
+Dima [1 day ago]
+там не то, что xml, уже javaConfig старье, только spring boot и аннотации
+
+
+shomnest [1 day ago]
+Уже вышла что ли книженция? Вроде в ноябре должна была быть или я запутался в месяцах) на Амазоне заказывал?
+
+
+Gekov Iliya [1 day ago]
+Такими темпами скоро в спринге просто будет одна кнопка по середине экрана "Сделать красиво")
+
+
+Dima [1 day ago]
+спер по ссылке друга с канала JavaOps.
+PDF
+Spring in Action 5th149.pdf
+18 MB
+PDF
+ Click to view
+
+
+
+
+Dima [1 day ago]
+читайте други!!
+
+
+
+Стецко Максим [1 day ago]
+Я все собираюсь поучить создание интерфейсов, сразу на JavaFX учить, или свинг пока еще актуален?
+
+
+Gekov Iliya [1 day ago]
+Мне кажется десктопные приложения вообще тихонько умирают) я бы лучше андроид попробовал)
+
+
+
+shomnest [1 day ago]
+@Стецко Максим electron
+
+Стецко Максим [1 day ago]
+@Gekov Iliya ну вдруг надо будет програмку написать, мы ща пишет как тонкий клиент, а можно реализацию толстого сделать.
+
+
+Gekov Iliya [1 day ago]
+@Стецко Максим ради интереса вбил на hh.ru, swing упоминается в 42 вакансиях по всей России, javaFx в 10)
+
+
+Стецко Максим [1 day ago]
+хм) значит только поиграться для домашнего пользования)
+
+
+Sergey Zhukov [1 day ago]
+@Dima JavaConfig рано со счетов списывать, SpringBoot его использует :grinning:
+
+
+Dima [1 day ago]
+та это понятно, но бины уже автоматом попадают в контекст, только укажи одну из аннотаций @Component. Только разве чтото подкрутить специфическое (edited)
+
+
+Raisa [Oct 23rd at 6:47 PM]
+подскажите, что значит в мавене [ERROR] Tests run: 23, Failures: 0, Errors: 3, Skipped: 0, что за ошибки? когда запускаю тесты без мавена - проходят без ошибок
+
+
+7 replies
+Taras [1 day ago]
+Ищи в логи вот такие строки:
+```[ERROR] Failures: 
+[ERROR]   UserServiceTest.delete:61 
+Expecting:
+ <[User (id=100001, email=admin@gmail.com, name=Admin, enabled=true, roles=null, caloriesPerDay=2000)]>
+to be equal to:
+ <[User (id=100001, email=admin@gmail.com, name=Admin, enabled=true, roles=[ROLE_ADMIN], caloriesPerDay=2000),
+    User (id=100000, email=user@yandex.ru, name=User, enabled=true, roles=[ROLE_USER], caloriesPerDay=2000)]>
+when comparing elements using field/property by field/property comparator on all fields/properties except ["registered", "roles"]```
+
+
+Taras [1 day ago]
+По логу видно, где ошибка: `UserServiceTest.delete:61`
+… у тебя не так, это я специально, чтобы показать, сделал… :slightly_smiling_face:
+
+
+Raisa [1 day ago]
+спасибо :slightly_smiling_face: а то там огромная простыня выпадает с разными ошибками, не понятно толком где смотреть :exploding_head:
+
+
+Taras [1 day ago]
+Лучше для разработки запускай весь пакет тестов вот так. Будет удобно: видно, какие не прошли.
+Pasted image at 2018-10-23, 7:18 PM
+
+
+
+
+Taras [1 day ago]
+Мавеновский “прогон” больше для всяких разных автоматизированных тулзов проходит, или когда важен просто факт — проходит/не проходит, для принятия дальнейшего решения (`install`, `deploy` и т.п.)
+
+
+Raisa [1 day ago]
+ура, пофиксила все тесты, спасибо
+
+
+Taras [1 day ago]
+:smiley:
+
+
+Dima Pugovkin [Oct 23rd at 8:54 PM]
+pom.xml сломался депенденси не пашут кто знает как победить это беду?
+Screen Shot 2018-10-23 at 19.53.19.png
+
+
+
+19 replies
+Gekov Iliya [1 day ago]
+Пробовал Reimport All Maven Projects?
+
+Dima Pugovkin [1 day ago]
+в первую очередь - ноль эффекта
+
+
+Gekov Iliya [1 day ago]
+Попробуй еще в идее File -> invalidate caches and restart
+
+
+Dima Pugovkin [1 day ago]
+тоже сделано
+
+
+Raisa [1 day ago]
+у меня было такое после накатки патча 3_08, откатила патч, накатила обратно - все подтянулось
+
+
+Dima Pugovkin [1 day ago]
+пробовал перекатывать патчи - не помогло
+
+
+Gekov Iliya [1 day ago]
+а сам проект то работает?
+
+
+Raisa [1 day ago]
+еще можно попробовать свой мавен поставить вместо родного мавена идеи
+
+
+Gekov Iliya [1 day ago]
+Можно еще удалить все зависимости из pom, подождать пока он обновится и обратно скопировать
+
+
+Dima Pugovkin [1 day ago]
+проект не работает
+
+Dima Pugovkin [1 day ago]
+удалил депенденси, вставил заново - теперь ругается на КАЖДУЮ :slightly_smiling_face: не может ниодну распознать
+
+Dima Pugovkin [1 day ago]
+кажись репо умерло
+
+Gekov Iliya [1 day ago]
+может в настройках мавена изменить путь к репозиторию и сделать реаимпорт, я так понимаю он должен будет туда скачать все зависимости заново
+
+
+Dima Pugovkin [1 day ago]
+rm -r ˜/.m2   помогло, все остальные методы до одного места были. странно
+
+Gekov Iliya [1 day ago]
+Что за команда?
+
+
+Dima Pugovkin [1 day ago]
+папку с репо скрытую удалил. та у меня на маке пока что каждый пункт идет по принципу “танцуем с бубном пока не надоест”
+
+
+Dima Pugovkin [1 day ago]
+postgresql через homebrew тоже с танцами ставился :+1:
+
+Taras [1 day ago]
+@Dima Pugovkin Не обязательно надо было так ставить, там же на официальной странице есть нормальный инсталлятор под Мак. Сижу на Маке, и всё работает как часы. С мавеном — рискну предположить, что, _возможно_, проблема была с правами доступа. Ты там ничего через sudo не ставил? Посмотри, как починить permissions тут: https://macpaw.com/how-to/repair-disk-permissions
+MacPaw
+How to repair permissions on Mac
+If you’ve noticed that your Mac isn't performing at its silky smooth best, disk permissions may be to blame. In this article, we’ll give you the lowdown on what permissions are and show you how to go about fixing the ones that have gone rogue with the help of Disk Utility and CleanMyMac. (141 kB)
+
+
+Yuri [1 day ago]
+@Dima Pugovkin Postgres проще не ставить, а через Docker запустить
+
+
+regorov [Yesterday at 1:05 AM]
+Всем привет! Почему в методах jdbc template repository для получения 1 объекта используются методы query, а не queryForObject? Просто чтобы показать, что так тоже можно?
+
+
+1 reply
+Gekov Iliya [1 day ago]
+В материалах занятия написано почему
+
+
+ABaykov [1:18 AM]
+нет, потому что они работают по разному
+и понять, почему используется метод query вместо queryForObject, можно почитав сорсы
+
+under4eg [2:59 AM]
+`ERROR: syntax error at or near ":"` - почему пробелы не всегда хороши или краткое руководство о том, как выкинуть 3 часа из своей жизни.... :slightly_smiling_face:
+
+
+Marat [Yesterday at 7:35 AM]
+Подскажите как использовать второй параметр userId в методах JdbcMealRepositoryImpl ?
+public boolean delete(int id, int userId) {
+       return jdbcTemplate.update("DELETE FROM meals WHERE id=?", id) != 0;
+   }
+
+
+2 replies
+Dima [1 day ago]
+После слова WHERE условия можно перечислять через AND
+
+
+
+Marat [1 day ago]
+Понял, спасибо
+
+
+Alexey_b [Yesterday at 12:20 PM]
+По моему отдельный файл с тестовыми данными к каждому классу избыточен, не лучше ли запихать все в тестовый класс? Ну  или если уж заводить отдельное место, то положить туда всё централизованно, и забирать при надобности ?
+
+
+2 replies
+Taras [1 day ago]
+Логично же — тестируем MealService, тестовые данные для него же.. Ничего не пересекается, быстрее въехать. Представь, что у нас под сотню таких сервисов….
+
+
+Alexey_b [1 day ago]
+Наверно с точки зрения MealService, да, согласен. Мне показалось что тестовый файл предполагается для каждого класса
+
+
+YuriyUh [Yesterday at 12:38 PM]
+При реализации 7 пункта из optional, вылетает PSQLException: ERROR: duplicate key value violates unique constraint "meals_unique_date_time_idx" при попытке создать еду с одинаковой датой, это как то надо обрабатывать(н-р пробросить эксепшн до сервлета и там на какуюнибудь страницу отобразить) иль я не верно реализовал?
+
+
+2 replies
+Taras [1 day ago]
+Я решил, что это в дальнейшем будет реализовано, мы тут не обрабатываем ошибки. В первом задании я на странице с едой сверху выводил красным текст, переданный в параметре error (если возникла ошибка), но мне сказали, что это не нужно было делать, обработка ошибок будет потом… Можно в контроллере средствами spring mvc перехватить заданный exception и вернуть нужную страницу/код ошибки…
+
+
+YuriyUh [1 day ago]
+Ясно, спасибо
+
+
+Marat [Yesterday at 12:52 PM]
+При запуске выходит ошибка java.lang.NoSuchMethodException: ru.javawebinar.topjava.model.Meal.<init>()
+Но в задании нет что нужно этот метод создать
+
+
+6 replies
+Gekov Iliya [1 day ago]
+Его и не должно быть, где-то косяк, но я даже не могу предположить как вы такое исключение умудрились получить
+
+
+Gekov Iliya [1 day ago]
+На какой стадии хотя бы оно вылетает?
+
+
+fonto [1 day ago]
+Такое исключение можно получить, вызывая метод у несуществующего класса.
+
+
+fonto [1 day ago]
+Например в мапе по ключу получить объект и вызвать у него метод, но если объект не существует, то вылетит такая ошибка (edited)
+
+
+Marat [1 day ago]
+Разобрался, внимательней прочитал задание - нужно было создать конструктор по умолчанию.
+
+
+Marat [1 day ago]
+И поля сначала сделать не final
+
+
+Marat [Yesterday at 1:22 PM]
+Выполнил основное задание, все фильтры работают, добавление, удаление тоже. Но не разобрался как это все работает. Сделал все по аналогии с пользователем.
+Это нормально?
+
+
+2 replies
+Gekov Iliya [1 day ago]
+Ну как может быть нормально, если не разобрался)
+В материалах есть ссылки на теорию по JDBC, вполне доступно разъяснено
+Дальше у нас вообще будет реализация работы с базой, где даже запросы как таковые не придется самому писать и мапить, если сейчас не разобраться, потом вообще будет все казаться магией (edited)
+
+
+Sergey Zhukov [1 day ago]
+Для понимания основы JDBC надо почитать, например, в книге "Хорстманн К., Корнелл Г. - Java. Библиотека профессионала. Т2 - 2014" Главу 4 Работа с базами данных.
+
+
+Sergey Zhukov [Yesterday at 2:20 PM]
+по initDB подскажите, команда CONSTRAINT meals_idx UNIQUE (столбец1, столбец2) я правильно понял, задает уникальность пары значений?
+
+
+2 replies
+Grigory Kislin [24 hours ago]
+да. + индексы для поиска по (столбец1) и по  (столбец1, столбец2)
+
+
+Sergey Zhukov [24 hours ago]
+спасибо
+
+
+under4eg [Yesterday at 7:50 PM]
+как вам такое?  java.lang.AssertionError:
+Expecting:
+<Meal{id=5000, dateTime=2017-05-20T10:00, description='Ужин', calories=1500}>
+not to be equal to:
+<Meal{id=5000, dateTime=2015-05-30T10:00, description='Завтрак', calories=500}> - при тестинге апдейта с вкидыванием и вытаскиванием в базу совсем новой еды и `assertThat.isNotEqualTo`. для assertj эти два объекта - вполне себе одинаковы (edited)
+
+
+7 replies
+Gekov Iliya [18 hours ago]
+Конено одинаковые, у нас equals абстрактного энтити возвращает true если id равны
+
+
+under4eg [18 hours ago]
+о, точно. спасибо)
+
+
+Gekov Iliya [18 hours ago]
+В материалах есть статьи, где объясняется почему так и почему это правильно в случае с энтити и БД
+
+
+Dima [18 hours ago]
+поэтому там в конце урока написано, делать тесты не через Equals
+
+
+Gekov Iliya [18 hours ago]
+Вот эта особенно понравилась: https://web.archive.org/web/20171211235806/http://www.onjava.com/pub/a/onjava/2006/09/13/dont-let-hibernate-steal-your-identity.html
+
+
+
+under4eg [18 hours ago]
+через Equals никто и не делал, если что)
+
+
+Gekov Iliya [18 hours ago]
+Ну isNotEqualTo и EqualTo - это по сути одно и то же, логика то одна применяется
+
+
+fibz [Yesterday at 10:17 PM]
+как подтягивается конфигурация логгера из logback.xml? Как логгер понимает, что из ресурсов надо брать именно этот файл? (edited)
+
+
+2 replies
+Yuri [16 hours ago]
+https://logback.qos.ch/manual/configuration.html
+
+
+fibz [16 hours ago]
+спасибо
+
+
+Dima [Today at 9:16 AM]
+Ща посмотрел реализацию тестов ,возник вопрос. Если есть админ и его еда,не легче ли было использовать именно этот список еды? Чтоб не писать 6 meal'ов,а только два реальных и один фейковый
+
+
+2 replies
+Sergey Zhukov [4 hours ago]
+тесты должны быть простые и понятные,
+я в своих тестах до кучи финалил отдельно IDшники еды )) по типу ADMIN_MEAL_ID1 ... и юзеру также потом еще еду финалил ADMIN_MEAL1 ...
+открываешь тест и видишь что он делает, чьи константы
+
+
+Dima [2 hours ago]
+С таким успехом давайте сто записей наплодим в тестах) для проверки списка достаточно две записи
+
+
+Pushkin [Today at 10:48 AM]
+И в моей ветке и в master после наката патча с решением ДЗ. Запускаю все кнопкой "Play" и ошибка. Если выполнять по одному блоку последовательно - все работает
+Populate.db падает
+[23503] ERROR: insert or update on table "user_roles" violates foreign key constraint "user_roles_user_id_fkey"
+Detail: Key (user_id)=(100000) is not present in table "users".
+
+
+
+3 replies
+Sergey Zhukov [3 hours ago]
+Да там не починены контексты, я так понял нужно донакатить до 4_5_create_inmemory_test_ctx.patch.
+Накатывать нужно на master, свою ветку лучше не портить, чтобы было с чем сравнивать. (edited)
+
+
+Pushkin [2 hours ago]
+Контексты у меня в порядке, это точно. Что-то с базой - скрипт как-то непоследовательно выполняется что-ли? Или коммиты надо делать промежуточные, хотя я пробовал вставлят commit; после каждого блока - не помогло
+
+
+Taras [1 hour ago]
+Суть ошибки в том, что у тебя нет записи в таблице users. А ты пытаешься вставить запись в user_roles с этим несуществующим ещё пользователем. И где ты такое в HW3 нашёл?
+
+
+Sergey [Today at 12:38 PM]
+Коллеги - а это нормально что у нас 2 интерфейса (UserService и UserRepository) в цепочке слоев по разному называют один метод? Сначала create, потом save ?
+   public User *create* (User user) { return repository. *save* (user);  } (edited)
+
+
+1 reply
+Gekov Iliya [1 hour ago]
+Мне кажется да, у нас на слое сервиса две операции - создать и изменить, которые в репозитории по сути сливаются в одну - сохранить
