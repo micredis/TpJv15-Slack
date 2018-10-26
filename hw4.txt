@@ -40,3 +40,165 @@ PostgreSQL : Документация: 9.6: Глава 11. Индексы (9 kB)
 
 Grigory Kislin [1 hour ago]
 @KaryNaiKo ссылки на индексы есть в ДЗ уроке 3. добавил туда эту, по русски
+
+
+under4eg [Yesterday at 3:35 PM]
+после подключения QAPlug идея начала материться на невозможность сохранить настройки, анализ кода, соответственно, тоже не работает
+проблема совместимости идеи 2017.2.5 с плагином, который идея сама тянет, версии 1.3.15. установка более новых версий плагина успеха не принесла, решилось обновлением идеи до 2017.3.5 (edited)
+
+
+2 replies
+Grigory Kislin [3 hours ago]
+У меня idea 2018.2.5, QAPlug 1.3.18
+все работает (edited)
+
+
+under4eg [2 hours ago]
+3.18 не захотел устанавливаться вообще
+
+
+Roman Baranov [Yesterday at 7:34 PM]
+@Grigory Kislin
+ссылка
+*Comparison Preconditions in Java* (https://www.sw-engineering-candies.com/blog-1/comparison-of-ways-to-check-preconditions-in-java) - битая
+
+
+2 replies
+creilyss [6 hours ago]
+похоже правильная теперь тут : https://www.sw-engineering-candies.com/comparison-of-ways-to-check-preconditions-in-java
+
+
+
+Grigory Kislin [3 hours ago]
+спасибо! поправил в уроке
+
+
+fibz Yesterday at 11:09 PM
+Накатил патчи, настроил persistence data source ,  jpa provider выставил, но тесты на сервис выкидывают org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set.   В чём может быть проблема? (edited)
+
+Dmitriy 14 hours ago
+Попробуй SQL Dialects выбрать PostgreSQL
+
+fibz 14 hours ago
+@Dmitriy где его прописывать? в SQL скриптах? Если да, то я думаю дело не в этом (edited)
+
+Ilya 13 hours ago
+прописывать нужно в jpaPropertyMap , но какой не скажу) сам сейчас мучаюсь, что нить типо такого org.hibernate.dialect.PostgreSQL95Dialect
+
+Ilya 13 hours ago
+да это сработало) но чтобы все это работало дальше нужно реализовать JpaMealRepositoryImpl
+
+Grigory Kislin 3 hours ago
+это странно. обычно ругается на диалект, если приконектится к базе не может. попробуй убрать и поверить еще раз
+
+
+fibz [Today at 12:00 AM]
+@Grigory Kislin попробовал решить проблему описанную выше копией исходников с гитхаба. Не помогло. В чём может быть проблема? По прежнему пишет  `Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set` (edited)
+
+
+1 reply
+fibz [14 hours ago]
+Вопрос решился, посмотрел весь лог, после патчей сбились credentionals базы, всё работает
+
+
+Gekov Iliya [Today at 12:07 AM]
+https://habr.com/post/140344/ небольшая статья про travis для тех, кто как и я не сразу понял его назначения) (edited)
+
+
+
+1 reply
+Grigory Kislin [3 hours ago]
+спасибо, добавлю ссылку в урок
+
+
+Raisa Today at 8:20 AM
+у меня еще раз проект topjava форкнулся после интеграции с codacy и travis, это нормально?
+
+Grigory Kislin 3 hours ago
+Раиса, ты попробовала отредкатировать read.me в моем репозитории, github сделал fork.
+в settings удали topjava-1 и отредактируй свой read.me
+
+
+Andrew Kalugin [Today at 8:43 AM]
+-отключил в настройках (remove pattern) проверку assert в JUnit (проверяем через матчеры)
+где??? JUnit tests should include assert() or fail()   это?
+-сделал remove pattern на Cross Site Scripting (XSS),
+Using unsanitized JSP expression can lead to Cross Site Scripting (XSS) attacks  ????
+- и последнее - отключить в настройках meta http-equiv="content-type" в JSP
+где искать?
+
+
+7 replies
+Gekov Iliya [5 hours ago]
+В настройках на своей странице codacy
+
+
+Raisa [5 hours ago]
+вы бейдж с codacy прямо в readme в master коммитили? вручную?
+
+
+Gekov Iliya [5 hours ago]
+Да
+
+
+Andrew Kalugin [5 hours ago]
+@Gekov Iliya а по подробнее можно
+
+
+Raisa [5 hours ago]
+в конце видео 4_2 Григорий показывает как удалять, с 7:02 (edited)
+
+
+
+Gekov Iliya [5 hours ago]
+Да, видео методы улучшения качества кода, в конце показано как это делается. Лично я вообще не стал заморачиваться и убрал проверку всей папки webapp) (edited)
+
+
+
+Andrew Kalugin [5 hours ago]
+Спасибо. В видео видел этот момент. Но что-то понесло меня в настройки искать :slightly_smiling_face:
+
+
+Raisa [Today at 9:21 AM]
+попробовала в настройках проигнорировать md файлы - пропали все issues. Сделала как было, issues не вернулись. Подскажите плиз в чем может быть причина?
+Pasted image at 2018-10-26, 1:21 PM
+
+
+
+3 replies
+Gekov Iliya [4 hours ago]
+У меня они тоже проигнорированы, все нормально. Попробуйте запустить анализ заново
+
+
+Raisa [4 hours ago]
+как его запустить повторно?
+
+
+Raisa [4 hours ago]
+нашла, вдруг кому пригодится https://support.codacy.com/hc/en-us/articles/213840489-How-do-I-reanalyze-my-project-
+Codacy
+How do I reanalyze my project?
+Click on the latest commit from your list in the Commit view and click to reanalyze as the latest commit includes all the code of all the PRs'. (46 kB)
+
+
+fonto Today at 12:20 PM
+Я для инициализации базы, создал отдельную базу, в ресурсах добавил отдельные контексты и файлы базы. И делал это через аннотации:
+@ContextConfiguration({
+        "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-db-test.xml"
+})
+@RunWith(SpringRunner.class)
+@Sql (value = {"classpath:dbTest/populateDB-test.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, config = @SqlConfig(encoding = "UTF-8"))
+
+fonto 1 hour ago
+Я создавал актуальные данные, но таким же образом можно и базу инициализировать предварительно. Таким образом с базой для тестов мы можем делать, что угодно и не париться) (edited)
+
+
+This message was deleted.
+ 
+Marat 1 hour ago
+Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jdbcMealRepositoryImpl' defined in file [C:\Users\m.kaziyev\Google Drive\Java\topjava\target\classes\ru\javawebinar\topjava\repository\jdbc\JdbcMealRepositoryImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+    at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:767)
+
+Marat 29 minutes ago
+Разобрался

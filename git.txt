@@ -412,3 +412,14 @@ I would like to know how I could clone only one branch instead of cloning the wh
 
 Nikita Ganin [22 hours ago]
 Спасибо
+
+
+Flashheart [4 hours ago]
+*.md все локально сохраняй и смотри когда нужно. это же html обычный
+
+
+Sergey Zhukov11:22 AM
+У кого github определяет неправильно язык проекта, у меня тестовое считал основным языком JavaScript, видимо переборщил со скриптами.
+Решается просто: добавляем в корень проекта файла .gitattributes (точка должна быть в начале) с двумя строчками:
+* linguist-vendored
+*.java linguist-vendored=false
