@@ -423,3 +423,41 @@ Sergey Zhukov11:22 AM
 Решается просто: добавляем в корень проекта файла .gitattributes (точка должна быть в начале) с двумя строчками:
 * linguist-vendored
 *.java linguist-vendored=false
+
+
+pal548 [Today at 6:15 PM]
+Если кому интересно, могу поведать, как не накатывать патчи один за одним, а накатить в свой репозиторий все изменения урока одним cherry-pick-ом
+
+
+7 replies
+creilyss [1 hour ago]
+интересно
+
+
+pal548 [1 hour ago]
+нужно склонировать к себе на машину репозиторий Григория. Там все патчи сделаны. Далее в этом репозитории создаем ветку lesson04, от ветки мастер, т.е. она будет указывать на последний коммит. Далее самое главное - делаем ей reset с опцией --soft на последний коммит предыдущего урока. То есть ветка будет указывать на последний коммит предыдущего урока, а в рабочей директории будет версия файлов последнего коммита 4 урока.
+
+
+pal548 [1 hour ago]
+с гитом я работаю в программе SmartGit, не в консоли и не в Идее. Там все это мышкой делается.
+
+
+pal548 [1 hour ago]
+Т.е. получится вот так
+Screenshot_9.png
+
+
+
+pal548 [1 hour ago]
+Далее коммитим эти изменения, сообщение коммита например "lesson04 all patches" (edited)
+
+
+pal548 [1 hour ago]
+Далее подключаем этот репозиторий к своему как remote. Потом, находясь в ветке master,  черри-пикаем этот коммит "lesson04 all patches" из ветки lesson04 того репозитория (edited)
+
+
+pal548 [1 hour ago]
+Это называется cherry-pick from another repository https://stackoverflow.com/questions/5120038/is-it-possible-to-cherry-pick-a-commit-from-another-git-repository
+Stack Overflow
+Is it possible to cherry-pick a commit from another git repository?
+I'm working with a git repository that needs a commit from another git repository that knows nothing of the first. Typically I would cherry-pick using the HEAD@{x} in the reflog, but because this ...

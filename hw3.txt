@@ -1798,3 +1798,124 @@ Sergey [Today at 12:38 PM]
 1 reply
 Gekov Iliya [1 hour ago]
 Мне кажется да, у нас на слое сервиса две операции - создать и изменить, которые в репозитории по сути сливаются в одну - сохранить
+
+
+Sergey [Yesterday at 6:21 PM]
+Вопрос1 по работе с "InMemoryMealRepositoryImpl" @Grigory Kislin сделал хранилище как 'Мапа  в мапе': после получения внутренней мапы , когда мы меняем её ( команда meals.remove(id) ) - снова записывать во внешнюю не надо? Т.е. она хранит ссылку и мы меняем сразу именно тот объект (мапу) который лежит во внешней мапе? *А в каких случаях возвращается копия обьекта и перезаписывать все таки требуется?*
+   @Override
+   public boolean delete(int id, int userId) {
+       Map<Integer, Meal> meals = repository.get(userId);
+       return meals != null && meals.remove(id) != null;
+   } (edited)
+
+
+1 reply
+Yuri [13 hours ago]
+В данной реализации ни в каких
+
+
+Sergey [Yesterday at 10:23 PM]
+Вопрос2 - изменили interface 'MealRepository' (добавили userId)
+Насколько часто в реальном продуктиве меняют интерфейсы? (edited)
+
+
+1 reply
+Yuri [13 hours ago]
+Это внутренний интерфейс, скорее всего им никто кроме команды которая пишет проект не пользуется, поэтому можно менять. Внешние интерфейсы менять сложнее и тут уже могут быть разные варианты, но и такое бывает. Всегда можно добавить перегруженный метод, если позволяет логика. (edited)
+
+
+regorov [11:51 PM]
+Cannot resolve package inmemory в спринг тесте xml как можно починить? (Для тестовых контекстов поставьте чекбокс Check test files в Inspections) - это сделал
+
+
+regorov [Today at 1:48 AM]
+Delete meal через сервлет не работает с эксепшеном:
+
+27-Oct-2018 01:46:34.563 SEVERE [http-nio-8080-exec-21] org.apache.catalina.core.StandardWrapperValve.invoke Servlet.service() for servlet [mealServlet] in context with path [/topjava] threw exception
+org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [DELETE FROM meals WHERE id=? AND user_id=?]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.BeanPropertyRowMapper. Use setObject() with an explicit Types value to specify the type to use.
+    at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+    at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:72)
+    at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+    at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81)
+    at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1414)
+    at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:632)
+    at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862)
+    at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917)
+    at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927)
+    at ru.javawebinar.topjava.repository.jdbc.JdbcMealRepositoryImpl.delete(JdbcMealRepositoryImpl.java:66)
+    at ru.javawebinar.topjava.service.MealServiceImpl.delete(MealServiceImpl.java:30)
+    at ru.javawebinar.topjava.web.meal.MealRestController.delete(MealRestController.java:41)
+    at ru.javawebinar.topjava.web.MealServlet.doGet(MealServlet.java:75)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+    at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+    at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+    at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+    at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+    at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+    at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:80)
+    at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:624)
+    at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+    at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+    at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:799)
+    at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+    at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+    at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1455)
+    at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+    at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+    at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+    at java.lang.Thread.run(Thread.java:745) (edited)
+
+
+4 replies
+Alexey_b [11 hours ago]
+только delete не работает?
+
+
+regorov [9 hours ago]
+Еще get думаю, но он в контроллере не дергается
+
+Alexey_b [7 hours ago]
+RowMapper нужного типа есть? Отдельно команда выполняется успешно из консоли? DELETE FROM meals WHERE id=? AND user_id=?, с корректными ключами?
+
+regorov [2 minutes ago]
+RowMapper пробовал и BeanPropertyRowMapper<Meal> и кастомный. Отдельно пробовал через консоль команда проходит.
+Метод сделал по примеру
+@Override
+   public boolean delete(int id, int userId) {
+       return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", ROW_MAPPER, id, userId) != 0;
+   } (edited)
+
+
+Alexander [Today at 3:53 PM]
+Кто нибудь сталкивался с таким:
+org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #1 of class path resource [db/populateDB.sql]: DELETE FROM user_roles; nested exception is org.postgresql.util.PSQLException: ERROR: relation "user_roles" does not exist
+?
+Возникает при вызове beforeTestMethod
+Испольнение этой строки непосредственно из скрипта работает нормально (edited)
+
+
+5 replies
+shomnest [3 hours ago]
+Какой junit в зависимостях стоит?
+
+
+Alexander [3 hours ago]
+4.12
+
+
+shomnest [3 hours ago]
+Аннотацию @Before вешете на метод? И ещё вопрос что делает "DELETE FROM user_roles"?
+
+
+Alexander [3 hours ago]
+это 1 строка в скрипте populateDB.sql, котоый появился с патчем. Этот метод насколько я понимаю дергает Spring, благодаря аннотации @Sql. Такое чувство, что приложение не может к бд подключиться и просто говорит что такое таблицы нет.
+
+
+Alexander [1 hour ago]
+просто не к той бд подключался...

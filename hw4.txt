@@ -202,3 +202,101 @@ Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependen
 
 Marat 29 minutes ago
 Разобрался
+
+
+Marat [Today at 2:19 PM]
+Подкажите с named query
+@NamedQuery(name = Meal.ALL_BETWEEN, query = "SELECT m FROM Meal m WHERE m.dateTime " +
+               "BETWEEN :startDate AND :endDate AND m.user=:userId")
+
+Ошибка в WHERE m.dateTime
+
+
+5 replies
+vch [6 hours ago]
+А точно не с `m.user` проблема?
+
+
+Marat [6 hours ago]
+Type mismatch: number, date or string expected less... (Ctrl+F1)
+Inspection info: This inspection controls whether the Persistence QL Queries are error-checked
+
+
+Marat [6 hours ago]
+Именно с возвратом даты
+
+
+vch [6 hours ago]
+Это сообщение об ошибке от IDEA? Или при выполнении вылетел такой текст ошибки? Если ругается IDEA - то см. п. 8 подсказок по HW4
+
+
+Marat [6 hours ago]
+ясно, В IDEA, но она обновленная
+
+
+Marat [Today at 2:49 PM]
+В таблице есть пользователь и его id 100000.
+Но при запуске
+Message Parameter value [100000] did not match expected type [ru.javawebinar.topjava.model.User (n/a)]
+java.lang.IllegalArgumentException: Parameter value [100000] did not match expected type [ru.javawebinar.topjava.model.User (n/a)]
+
+
+3 replies
+Marat [5 hours ago]
+Неправильно соединил таблицы?
+
+
+vch [5 hours ago]
+Всё же рекомендую обратить внимание на эту часть запроса: `m.user=:userId` В ней ошибка (edited)
+
+
+Marat [5 hours ago]
+ок
+
+
+indisbk [3:00 PM]
+Господа, подскажите при User ref = em.getReference(User.class, userId);
+meal.setUser(ref); ведь присваивается прокси-объект? Потому что при assert, тогда получается User сравнивается с прокси-User и выходит что объекты не равны. Шо делать то?
+
+
+Zhinko [Today at 3:05 PM]
+Есть вопрос. В поле user ставлю @ManyToOne(fetch = FetchType.LAZY). Но при попытке тестирования получаю org.hibernate.LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100001] - no Session
+
+
+6 replies
+indisbk [5 hours ago]
+потому что lazy - это инициализация объекта при необходимости, а eager - это глобальная инициализация объекта.
+
+
+vch [5 hours ago]
+Гораздо интереснее вопрос, почему при тестировании происходит обращение к полям User... Это совершенно излишне. С Lazy всё вполне должно работать.
+
+
+Zhinko [5 hours ago]
+При тестировании обращения к полям user не происходит потому что при попытке достать значения из базы я получаю вышеуказанный ексепшн
+
+
+indisbk [5 hours ago]
+Если в своем маппинге вы включите lazy-fetching для этой коллекции, то все обращений будут заменены на "ленивые" прокси, выполняющие подгрузку по мере необходимости. Таким образом, запрос, не затрагивающий каких-либо членов или параметры коллекции, не вызовет ее подгрузку. - такой ответ нашел на стэке
+
+
+vch [5 hours ago]
+В Exception указывается строка кода, где он вылетел. Что в этой строке?
+В момент доставания значения из базы он произойти не может - Exception ясно указывает на то, что сессия работы с БД уже закрыта.
+
+
+Zhinko [5 hours ago]
+Все мой косяк, я невнимательно посмотрел. Забыл исключить поле user в  assertMatch
+
+
+Dmitriy [3:25 PM]
+3.3: вывод сводки в конце класса: имя теста - время выполнения - Использовать @ClassRule?
+
+Nikita Ganin [4:31 PM]
+Как быть с обновлением meal, тоже нужно создавать запрос jpql? Там же тоже нужно проверять userId
+
+Marat [5:15 PM]
+По этой конструкции есть какой-нибудь материал?
+User ref = em.getReference(User.class, userId);
+meal.setUser(ref);
+Как это называется, принцип, стратегия, шаблон?
