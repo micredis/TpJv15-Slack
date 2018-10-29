@@ -300,3 +300,193 @@ Marat [5:15 PM]
 User ref = em.getReference(User.class, userId);
 meal.setUser(ref);
 Как это называется, принцип, стратегия, шаблон?
+
+
+Sergey Zhukov [Oct 27th at 9:28 PM]
+ругается на параметр "name" после патча 4_6
+вроде починил, оказалось при интеграции JPA внизу была кнопка fix и я ее нажал, он мне подгрузил в lib библиотеку javaee.jar, удалил ее, но интеграция похоже слетела (edited)
+Untitled
+@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")
+
+
+
+7 replies
+Raisa [1 day ago]
+на name или на значение? если на значение, то можно попробовать alt+enter, выбрать ресурс (edited)
+
+
+Sergey Zhukov [1 day ago]
+на сам параметр ругалась
+
+
+under4eg [1 day ago]
+вчера игрался с этим, не собиралось, пока не удалил либу JPA 1.0
+
+
+under4eg [1 day ago]
+пытался найти, кто и откуда тянет именно 1.0 версию, с которой эти нюансы - ни одной зависимости не нашел. ослеп, что ли...
+
+
+Sergey Zhukov [1 day ago]
+у меня подтянула сама idea если пытаешься интегрировать JPA до добавления зависимостей в maven, те. я не накатил патчи
+jpa_int.png
+
+
+
+Sergey Zhukov [1 day ago]
+вот зависимость которая содержит нужную нам javaee.jar
+       <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-entitymanager</artifactId>
+           <version>${hibernate.version}</version>
+       </dependency>
+
+
+under4eg [1 day ago]
+не, я вроде всё делал последовательно, но по итогу сматерилось на либу JPA, пока её не удалил - не работало, при чем все вопросы по этой теме были отвечены, мол, "ну ты поменяй 1.0 на 2.0 в зависимостях и всё", а зависимости как таковой я не обнаружил в проекте вообще
+
+
+Maxim Valeev [Yesterday at 8:50 AM]
+Привет. Если делать апдейт еды, у нас же ни в одной еде нету инициализированного User, в итоге все падает т.к. userId равно null. А если я в апдейте буду делать User ref = em.getReference(User.class, userId);
+       meal.setUser(ref); то где тогда проверяется принадлежность еды к юзеру?
+
+
+5 replies
+Maksim [1 day ago]
+Может просто вынуть и проверить
+
+
+Maxim Valeev [1 day ago]
+em.merge(meal) не сработает в jpa реализации для Meal? нужно запросом делать чтоб можно было поверять принадлежность еды к пользователю?
+
+
+Zhinko [1 day ago]
+можно вызвать метод get и проверить что он возвращает если null То еды с этим id пользователя в базе нет
+
+
+Maxim Valeev [1 day ago]
+почему не получается это сделать через namedQuery?
+Ловлю:
+Caused by: java.lang.IllegalArgumentException: Update/delete queries cannot be typed (edited)
+
+
+Maxim Valeev [1 day ago]
+сделал нетипизированный namedQuery. Проверяю что изменилась хотя бы одна запись
+
+
+Zhinko Yesterday at 9:52 AM
+Кто-нибудь сделал вывод в лог время выполнения каждого теста? Как это сделать эффективно?
+
+Dima 20 hours ago
+Ну я сделал два TestWatcher, один на методы, другой - на класс. Первый отсчитывал время начала и конца метода, выводил в лог нашим логгером и заодно кидал в мапу "ИмяМетода - Время". А второй просто в конце тестов выводил мапу. Думаю, если покапаться, можно и получше сделать)
+
+Zhinko 18 hours ago
+Кстати отличная идея
+
+
+Vladimir Gorbatenko [6:08 PM]
+В этом видео:
+Видео: Вячеслав Круглов — Как начинающему Java-разработчику подружиться со своей базой данных?
+https://www.youtube.com/watch?v=dFASbaIG-UU
+в конце, лектор приводит в пример интересную утилиту - log4jdbc.
+Поэкспериментировал, понравилось.
+******************************************
+1. Добавил в проект зависимость.
+<dependency>
+           <groupId>com.googlecode.log4jdbc</groupId>
+           <artifactId>log4jdbc</artifactId>
+           <version>1.2</version>
+</dependency>
+******************************************
+2. В конфиг postgres.properies изменил url и driver:
+#database.url=jdbc:postgresql://localhost:5432/topjava
+database.url=jdbc:log4jdbc:postgresql://localhost:5432/topjava
+#database.driverClassName=org.postgresql.Driver
+database.driverClassName=net.sf.log4jdbc.DriverSpy
+******************************************
+3. В конфиг тестового логирования logback-test.xml добавил такое:
+<logger name="jdbc.sqltiming" additivity="false" level="DEBUG">
+       <appender-ref ref="console"/>
+   </logger>
+   <!--
+   <logger name="jdbc.connection" additivity="false" level="FATAL">
+       <appender-ref ref="console"/>
+   </logger>
+   <logger name="jdbc.resultset" additivity="false" level="INFO">
+       <appender-ref ref="console"/>
+   </logger>
+   <logger name="jdbc.audit" additivity="false" level="INFO">
+       <appender-ref ref="console"/>
+   </logger>-->
+   <!--<logger name="jdbc.sqlonly" additivity="false" level="DEBUG">
+       <appender-ref ref="console"/>
+   </logger>-->
+То что закомментированно, тоже содержит интересную информацию.
+Жаль только проект мутный, и видимо переходил из рук в руки, и в текущей версии не получилось вывести resultsettable, а было бы удобно. (edited)
+Еще пара полезных моментов можно добавить в "logback-test.xml" для вывода параметров и просмотра resultSet'a
+<logger name="org.hibernate.SQL" level="DEBUG" />
+<logger name="org.hibernate.type" level="TRACE" />
+
+
+Alexey_b [Yesterday at 8:37 PM]
+Почему-то не срабатывает валидация   @NotBlank:
+ @Column(name = "description", nullable = false)
+ @NotBlank
+ private String description;
+Ввожу в поле ""  и ничего подозрительного в логах не вижу, все работает (edited)
+
+
+6 replies
+Alexey_b [15 hours ago]
+Named query не использую
+
+
+Ilya [14 hours ago]
+может не тот импорт подтянулся?
+
+
+Alexey_b [14 hours ago]
+не, вроде все ок . import javax.validation.constraints.NotBlank;
+
+
+Sergey Zhukov [14 hours ago]
+у меня все норм с пустой description валится
+empty.png
+
+
+
+Sergey Zhukov [13 hours ago]
+а да еще в подсказках
+```5: При записи в базу через namedQuery валидация ентити не работает, только валидация в бд```
+
+
+Alexey_b [5 hours ago]
+не, я повыше писал, что named не использую, поиграю с этим сегодня вечером, напишу тест (edited)
+
+
+Sergey Zhukov [11:11 PM]
+только сейчас заметил, у нас в pom.xml
+       
+```<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>```
+а в видео говорится что надо под JPA брать
+       
+```<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>```
+(edited)
+
+fibz [11:43 AM]
+после пуша в гитхаб travis не смог собрать проект. Пишет:
+
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /home/travis/build/f1bz/topjava/src/main/java/ru/javawebinar/topjava/model/Meal.java:[3,25] package javax.persistence does not exist
+[ERROR] /home/travis/build/f1bz/topjava/src/main/java/ru/javawebinar/topjava/model/Meal.java:[4,25] package javax.persistence does not exist
+
+как быть в таком случае? (edited)

@@ -549,3 +549,43 @@ indisbk [21 hours ago]
 
 Yuri [19 hours ago]
 Табличка хоткеев есть в пункте меню Help
+
+
+Marat [Yesterday at 1:40 PM]
+В папке .idea лежат настройки как понимаю. Если эту папку указать в игнорируемые, то потом если на другом компьютере открыть прект, то IDEA нужно будет настраивать заново? А если не игнорировать, то настраивать не нужно будет?
+
+
+2 replies
+Grigory Kislin [18 hours ago]
+твои настройки на другой компьютер никак не повлияют. если вопрос в том- чекинить ли в репозиторий .idea- ответ НЕТ. (edited)
+
+
+Marat [8 hours ago]
+Понятно
+
+
+pal548 [Today at 12:07 AM]
+Что значит подчеркивание SimpleRule ? (edited)
+Screenshot_10.png
+
+
+
+5 replies
+Sergey Zhukov [12 hours ago]
+тоже интересно :slightly_smiling_face: у меня не подчеркивает
+
+
+pal548 [12 hours ago]
+и у меня пропало
+
+
+Sergey Zhukov [12 hours ago]
+:joy:
+
+
+Sergey Zhukov [12 hours ago]
+куда эти рулы класть? рядом с тестами?
+
+
+pal548 [12 hours ago]
+ну я в пакет rules положил. Они же рулят) пакет в тестах ессно

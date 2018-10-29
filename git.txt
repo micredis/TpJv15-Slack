@@ -461,3 +461,20 @@ pal548 [1 hour ago]
 Stack Overflow
 Is it possible to cherry-pick a commit from another git repository?
 I'm working with a git repository that needs a commit from another git repository that knows nothing of the first. Typically I would cherry-pick using the HEAD@{x} in the reflog, but because this ...
+
+
+creilyss [13 hours ago]
+спасибо!
+
+
+regorov [Yesterday at 4:35 PM]
+@Grigory Kislin Если я хочу предложить изменения в мастер основного проекта надо в Javawebinar/topjava пул реквест присылать?
+
+
+2 replies
+Grigory Kislin [17 hours ago]
+нет, пиши в личку плз
+
+
+regorov [15 hours ago]
+это только у меня в ветке не работало, в мастере норм)

@@ -1919,3 +1919,67 @@ Alexander [3 hours ago]
 
 Alexander [1 hour ago]
 просто не к той бд подключался...
+
+
+Sergey [Yesterday at 1:00 PM]
+Привет! Вопрос - делаю тесты: из папки тестов видно основные классы, а из основной НЕ видно тесты. Это нормально? (так и должно быть?) (edited)
+Screenshot 2018-10-28 15.44.23.png
+
+
+
+2 replies
+Maksim [23 hours ago]
+Да, так и должно быть
+
+
+
+Sergey [23 hours ago]
+@Maksim спасибо
+
+
+pal548 [Yesterday at 4:15 PM]
+подскажите, где в Идее настроить интеграцию с JPA ?  В видео не могу найти никак
+
+
+3 replies
+Alexey_b [20 hours ago]
+в репозитории с патчами для HW03 есть картинка, если я правильно понял вопрос (edited)
+
+
+Dima [20 hours ago]
+File->ProjectStructure->Facets-> + -> JPA -> потом снизу интеграция Hibernate -> потом слева или справа окна появляется вкладка Persistance (такая же как Maven, Web, DataBase), В ней выбираешь свой проект, правой кнопкой мыши : Assign Data Sources, там вибираешь свою БД
+
+
+pal548 [20 hours ago]
+спасибо!
+
+
+pal548 [Yesterday at 6:15 PM]
+пробую загрузить Meal через `em.find(Meal.class, id);`, выдаётся эксепшн `LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100001] - no Session`
+Никто не сталкивался?
+
+
+6 replies
+vch [18 hours ago]
+Думаю, многие сталкивались... Проблема не в find, а в том, как этот Meal позже используется. Exception должен показать номер строки кода, где происходит ненужное обращение к meal.user
+
+
+pal548 [18 hours ago]
+да, сейчас обнаружил, что эксепшн возникает в момент сравнения полученного объекта с эталонным (запускаю тесты)
+
+
+pal548 [18 hours ago]
+Т.е. вызывается user, и Hibernate не может загрузить его
+
+
+pal548 [18 hours ago]
+помогла установка @Transactional над методом теста
+
+
+vch [18 hours ago]
+Обычно просто исключают юзера из сравнения...
+
+
+Grigory Kislin [18 hours ago]
+> помогла установка @Transactional над методом теста
+в тестах мы тестируем функционал приложения. а не чтото само по себе

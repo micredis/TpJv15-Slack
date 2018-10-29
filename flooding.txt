@@ -680,3 +680,22 @@ Tony [21 hours ago]
 
 Yevhen Maksymovych [5:48 PM]
 ребят, никто WebFlow + LocaleInterceptor не сдруживал?
+
+
+Kirilo [Today at 7:41 AM]
+Думал будет easy. Халявные балы за помощь... :zany_face: https://screenshots.firefox.com/ZM0SgCX1Tvw0L8av/stackoverflow.com
+
+https://stackoverflow.com/questions/53037476/java-program-to-count-positive-values-in-a-collectioninteger
+screenshots.firefox.com
+Java program to count positive values in a Collection
+From stackoverflow.com (188 kB)
+ Stack Overflow
+Java program to count positive values in a Collection
+I am working on a program to count the positive values in an integer Collection and having an issue. I am somewhat new to Java, and wondering if someone would be able to point out where I went wro...
+ 
+(edited)
+
+
+1 reply
+shomnest [1 hour ago]
+Это шутка или что? Слишком тонко.
