@@ -699,3 +699,42 @@ I am working on a program to count the positive values in an integer Collection 
 1 reply
 shomnest [1 hour ago]
 Это шутка или что? Слишком тонко.
+
+
+Kirilo [1 day ago]
+заминусовали, пришлось ответ удалить. Правильный ответ не всегда уместный. В даном случае меня обвинили в том, что для новичка стримы тяжелее, чем циклы, и в том, что я скопировал другой похожий ответ. (edited)
+
+
+[Yesterday at 10:50 AM]
+https://javagame.odkl.ru
+
+
+6 replies
+Sergey Simonov [1 day ago]
+зачет )
+
+
+Vladimir Gorbatenko [17 hours ago]
+Из Украины не открывается, заблокировано.
+
+
+[17 hours ago]
+Жаль, ссылка на прикольную игрушку по проверке своих знаний по джаве из вот этой статьи с хабра https://habr.com/company/odnoklassniki/blog/427735/ (edited)
+
+
+MATiAiX [3 hours ago]
+Ссылка шикарна
+
+
+Ilya A. Kvyatkovsky [2 hours ago]
+Судя по результатам, я ничего не знаю((
+
+
+Sergey Simonov [43 minutes ago]
+Прелесть тестов в том, что бы осознать в каких темах ты слабоват, нащупать глубину своих знаний, и в дальнейшем прокачаться в них. Так ты крепче встаёшь на ноги. А если ты на все везде отвечаешь  правильно, значит ты либо сверхразум, либо тесты уже не твоего уровня и смысла в них для тебя нет )))
+
+Это так, философские мысли ) (edited)
+
+
+Tony [33 minutes ago]
+@Vladimir Gorbatenko Опера ВПН вам в помощь
