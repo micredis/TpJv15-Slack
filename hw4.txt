@@ -1358,3 +1358,327 @@ https://logback.qos.ch/manual/layouts.html
 
 Igor [2 hours ago]
 Спасибо. У меня была даже открыта эта ссылка, просто не долистал до нужного места :joy:
+
+
+Roman Baranov [1 day ago]
+а как вы различаете какие логи раскрасить?
+
+
+Igor [1 day ago]
+@Roman Baranov я сделал с помощью маркеров и фильтров в аппендерах по ним. Но не уверен что это хорошая практика, т.к. ещё утром я даже не знал что такое аппендер...
+
+
+Oct 31st at 4:19 PM]
+Не пойму, возможно ли в jpa сделать update meal только при условии совпадения user_id? У меня получается либо писать update с перечислением всех полей в NamedQuery, либо делать в два вызова - em.find, проверить совпадение userId, потом em.merge. Оба варианта не особенно нравятся. (edited)
+
+
+2 replies
+Gekov Iliya [2 days ago]
+Уже обсудили это в ветках выше, в том числе с учетом ркомендаций, которые дали тем, кто уже сдал ДЗ https://topjava15.slack.com/archives/CDP4RVD9U/p1540926695102600 (edited)
+
+
+[2 days ago]
+Спасибо, посмотрю.
+
+
+
+ Oct 31st at 8:47 PM
+как читать запросы hibernate?
+Hibernate:
+   /* SELECT
+       m
+   FROM
+       Meal m
+   WHERE
+       m.user.id=:userId
+       AND m.dateTime BETWEEN :startDate AND :endDate */ select
+           meal 0_.id as id 1_0_,
+           meal 0_.calories as calories 2_0_,
+           meal 0_.date_time as date_tim 3_0_,
+           meal 0_.description as descript 4_0_,
+           meal 0_.user_id as user_id 5_0_
+       from
+           meals meal0_
+       where
+           meal0_.user_id=?
+           and (
+               meal0_.date_time between ? and ?
+           )
+Что это за приписки в конце 1_0_? (edited)
+
+Grigory Kislin 1 day ago
+приписки - не читай
+
+
+Yesterday at 1:21 PM]
+подскажите, почему не выполняется(пропускается) команда ALTER SEQUENCE global_seq RESTART WITH 100000;  в файле  populateDB.sql если в идее запускаю весь файл? запускается только если делаю execute отдельно этой команды
+
+
+18 replies
+Taras [1 day ago]
+Точка с запятой в конце предыдущей строчки не пропала? Какая ошибка высвечивается?
+
+
+[1 day ago]
+точка с запятой есть.Эта строка стоит после команд очистки таблиц и когда запускаешь первый раз все ок. Если повторно запускаю populate.sql, выпадает ошибка, потому что команда ALTER не выполнена
+
+
+[1 day ago]
+вот...[2018-11-01 13:49:05] Connected
+sql> set search_path = "public"
+[2018-11-01 13:49:05] completed in 42 ms
+sql> DELETE FROM user_roles
+[2018-11-01 13:49:05] completed in 123 ms
+sql> DELETE FROM users
+[2018-11-01 13:49:05] 2 rows affected in 187 ms
+sql> delete  from meals
+[2018-11-01 13:49:05] completed in 3 ms
+sql> INSERT INTO users (name, email, password) VALUES
+      ('User', 'user@yandex.ru', 'password'),
+      ('Admin', 'admin@gmail.com', 'admin')
+[2018-11-01 13:49:06] 2 rows affected in 271 ms
+sql> select all (id,name, email, password)  from users
+[2018-11-01 13:49:07] 2 rows retrieved starting from 1 in 389 ms (execution: 7 ms, fetching: 382 ms)
+sql> INSERT INTO user_roles (role, user_id) VALUES
+      ('ROLE_USER', 100000),
+      ('ROLE_ADMIN', 100001)
+[2018-11-01 13:49:07] [23503] ОШИБКА: INSERT или UPDATE в таблице "user_roles" нарушает ограничение внешнего ключа "user_roles_user_id_fkey"
+[2018-11-01 13:49:07] Подробности: Ключ (user_id)=(100000) отсутствует в таблице "users".
+
+
+Taras [1 day ago]
+Слушай, а у тебя в этот момент приложение, или другой экземпляр idea, или какой-то администратор postgresql не запущен? Странно, что пропускает изменение секвенции, по идее это может быть только если кто-то её «держит». Хотя и странно, что не ругается при этом. Проверь, пожалуйста
+
+
+[1 day ago]
+все закрыла, идею перезапустила-ничего. Но кажется поняла... Идея почему-то не подсвечивает SEQUENCE и RESTART, не воспринимает их как синтаксис SQL
+
+
+Taras [1 day ago]
+У тебя указано, что это синтаксис postresql?
+
+
+Taras [1 day ago]
+Не, должно распознавать, ты же написала, что первый раз всё работает. А в базу первый раз всё пишется нормально? Секвенция проинициализирована правильным номером?
+
+
+[1 day ago]
+да, первый раз работает с 100000, но я команду выполняла отдельно выделяла. Не указывала синтаксис,а где нужно указывать?
+
+
+Taras [1 day ago]
+Ты попробуй с самого начала, init сделать, потом populate. Я сейчас не за компом, не могу сейчас показать, где диалект поставить, через час могу. Посмотри справа то ли в свойствах то ли вверху справа в окне редактора должно быть.
+
+
+Taras [1 day ago]
+О, а пришли копию этого sql файла, в сниппет, чтоб всё сохранилось.
+
+
+[1 day ago]
+populateDB.sql
+DELETE FROM user_roles;
+DELETE FROM users;
+delete from meals;
+ALTER SEQUENCE global_seq RESTART WITH 100000;
+​
+Click to expand inline 34 lines
+
+
+Taras [1 day ago]
+Если ты правой кнопкой мыши кликнешь на этой файле, какой у тебя диалект стоит?
+Pasted image at 2018-11-01, 4:13 PM
+
+
+
+Taras [1 day ago]
+И проверь драйвер в свойствах базы данных на вкладке Database, мало ли..
+
+Taras [23 hours ago]
+Кстати, совет. Поменяй начало скрипта.
+
+Taras [23 hours ago]
+DELETE FROM user_roles;
+DELETE FROM meals;
+DELETE FROM users;
+
+Taras [23 hours ago]
+пояснить?
+
+Pushkin [21 hours ago]
+Вот эту ветку почитай, мы пофиксили :slightly_smiling_face: https://topjava15.slack.com/archives/CDHLQFL3Z/p1540453713000100
+Andrew Pushkin
+И в моей ветке и в master после наката патча с решением ДЗ. Запускаю все кнопкой "Play" и ошибка. Если выполнять по одному блоку последовательно - все работает
+Populate.db падает
+Plain Text
+
+Thread in #hw3Oct 25th at 10:48 AM
+
+
+[19 hours ago]
+@Taras @Pushkin спасибо! :smiley:решилось все сменой диалекта. @Taras согласна, нужно сначала meals чистить-не подумала
+
+
+[11:22 AM]
+Пытался сегодня настроить HSQLDB, вроде всё сделал как в видео, база появляется, но после запуска тестов не наполняется. Никто не сталкивался? (edited)
+
+
+Today at 11:22 AM]
+Безымянный.png
+
+
+
+41 replies
+Andrey Tolkachev [6 hours ago]
+а в настройках spring-db базу переключил? в пропертях нужные вещи не закомментированы? На данном этапе проекта, мы это пока должны делать вручную. (edited)
+
+
+[5 hours ago]
+Да переключил <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
+
+[5 hours ago]
+Я вот ещё выполнить не могу скрипт инициализации initDB_hsql.sql
+
+Andrey Tolkachev [5 hours ago]
+в URL мне кажется ошибка, там слеш повернут в другую сторону
+
+
+[5 hours ago]
+Нее если слеш повернуть то вообще ошибка подключения (edited)
+
+
+Andrey Tolkachev [5 hours ago]
+попробуй file:C:/googleDrive/db/topjava (edited)
+
+
+[5 hours ago]
+Вот что выводит при попытке выполнить скрипт
+2.png
+
+
+
+[5 hours ago]
+"попробуй file:C:/googleDrive/db/topjava" - ошибка подключения
+
+Andrey Tolkachev [5 hours ago]
+а в пропертях раскомменчена строка
+database.url=jdbc:hsqldb:file:С:...? (edited)
+
+[5 hours ago]
+да
+
+Andrey Tolkachev [5 hours ago]
+хм
+
+[5 hours ago]
+Дак к базе я подключаюсь
+
+
+[5 hours ago]
+Я понять не могу почему у меня не получается выполнить скрипт создания таблиц
+
+
+Andrey Tolkachev [5 hours ago]
+так, а диалект выбран для hsqldb?
+
+Andrey Tolkachev [5 hours ago]
+я вижу у тебя красным выделяются строки
+
+[5 hours ago]
+Вот, я не могу найти где выбирать его, в самом файле он не ругается
+
+Andrey Tolkachev [5 hours ago]
+правой кнопкой мыши по полю в скрипте
+
+Andrey Tolkachev [5 hours ago]
+там будет Change Dialect
+
+
+[5 hours ago]
+да есть такое но alt+Enter не дает выбрать смену
+
+
+[5 hours ago]
+нету(((
+
+Andrey Tolkachev [5 hours ago]
+Pasted image at 2018-11-02, 1:54 PM
+
+
+
+Andrey Tolkachev [5 hours ago]
+Pasted image at 2018-11-02, 1:56 PM
+
+
+
+Andrey Tolkachev [5 hours ago]
+но примени только для этого файла, не для всего проекта
+
+
+[5 hours ago]
+Да я знаю, нету у меня в идее этого пункта меню
+
+[5 hours ago]
+сейчас через настройки попробую
+
+Andrey Tolkachev [5 hours ago]
+хм, а версия идеи и операционка какие? идея последняя сейчас 2018.2.5
+
+[5 hours ago]
+1.5... диалект поставил, сейчас рестартану идею
+
+
+[4 hours ago]
+неа не помогло
+
+
+Andrey Tolkachev [4 hours ago]
+а драйвер стоит для базы?
+
+
+[4 hours ago]
+ладно, буду дальше разбираться
+
+[4 hours ago]
+да
+
+
+Andrey Tolkachev [4 hours ago]
+мистика
+
+Andrey Tolkachev [4 hours ago]
+думаю нужно загуглить, что у тебя именно выводится окно DBNavigator при попытке запустить скрипт
+
+
+[4 hours ago]
+да
+
+
+[4 hours ago]
+и в нём выбрать ничего нельзя
+
+
+[4 hours ago]
+буду гуглить)
+
+Andrey Tolkachev [4 hours ago]
+и обнови на всякий случай идею, проверь стоит ли плагин Database Tools
+Pasted image at 2018-11-02, 2:10 PM
+
+
+
+[4 hours ago]
+Плагин стоит
+
+
+Andrey Tolkachev [4 hours ago]
+Еще как последняя мера: проверь POM файл, все ли там хорошо, и все ли есть.
+Если все ок, сделай maven clean. Если и это не помогло, то попробуй склонировать проект Григория с мастер ветки и попробуй настроить заново (edited)
+
+
+Andrey Tolkachev [4 hours ago]
+больше не знаю, чем еще помочь..) потом только гугл
+
+
+[4 hours ago]
+Ок, спасибо за помощь

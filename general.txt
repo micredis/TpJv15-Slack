@@ -1032,3 +1032,72 @@ Gekov Iliya [Today at 12:02 AM]
 1 reply
 Taras [1 hour ago]
 Можешь попытаться параллельно, как это делаю я. Только времени, увы, нет. В MasterJava тебе даётся сразу весь материал, проходи в том темпе, в котором удобно.
+
+
+fibz [Oct 31st at 5:51 PM]
+@Grigory Kislin мы будем писать тесты с Selenium?
+
+
+1 reply
+Grigory Kislin [1 day ago]
+нет. план есть в read.me нашего репозитория
+
+
+Marat [Oct 31st at 7:18 PM]
+Если предложат первую работу разработчика,  но где нет востребованных технологий как Spring, но есть куча разного и старого, то все равно туда стоит идти?
+
+
+4 replies
+Tony [1 day ago]
+Если не жалко потерять полгода-год, но есть необходимость в строке резюме "опыт работы", то почему нет? Контора большая? Есть возможность перейти внутри на другой проект со временем? Как с рынком труда в вашем городе? (edited)
+
+
+shomnest [1 day ago]
+@Marat "разное и старое" что например?
+
+
+Alexey_b [1 day ago]
+А что за старые технологии? Я бы swing не хотел  эксплуатировать, а сейчас сам работаю на проекте где нет спринга, но есть его старый платный аналог Oracle ATG, там тоже свой orm и DI, по сути разницы никакой кроме некоторых тонкостей
+
+
+Grigory Kislin [1 day ago]
+тут уже ответили: it depends
+
+
+Grigory Kislin [11:33 PM]
+@here
+*-----------------------------------------------------------------------------------------*
+Добро пожаловать: #hw5
+Заканчиваем с базой, на следующем занятии перейдем к слою web
+*-----------------------------------------------------------------------------------------*
+
+Grigory Kislin [12:17 PM]
+До второй половины 04.11 буду ограничен в доступе (за городом). Если что-то срочное- шлите sms на +7 921 855 0482
+
+
+Marat [Yesterday at 5:51 PM]
+Подскажите как делается авторизация через соцсети в Java приложении. Или это зависит от конкретного фреймворка? В интернете почти все про php.
+
+
+4 replies
+Ilya [24 hours ago]
+https://m.habr.com/company/hh/blog/278957/
+habr
+ScribeJava — даже ваша бабушка сможет работать с OAuth
+Именно этой фразой нас приветствует библиотека для работы с OAuth &mdash; ScribeJava (https://github.com/scribejava/scribejava). Если быть точнее, то фраза звучит... (50 kB)
+ 
+
+
+fonto [23 hours ago]
+Лучше использовать oAuth2
+
+
+fonto [23 hours ago]
+https://spring.io/guides/tutorials/spring-boot-oauth2/
+spring.io
+Spring Boot and OAuth2
+this tutorial is designed to be completed in 2-3 hours, it provides deeper, in-context explorations of enterprise application development topics, leaving you ready to implement real-world solutions. (12 kB)
+
+
+Ilya [22 hours ago]
+библиотека что по ссылке аос2 тоже умеет
