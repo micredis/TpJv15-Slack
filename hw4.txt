@@ -1682,3 +1682,74 @@ Andrey Tolkachev [4 hours ago]
 
 [4 hours ago]
 Ок, спасибо за помощь
+
+
+Grigory Kislin [5 hours ago]
+@gleb @Andrey Tolkachev привет! у нас база imemory. те живет в java, пока исполняются тесты. если хочешь чтобы чтото оставалось поменяй на file (сверху hsqldb.properties закомментировано)
+
+
+gleb [5 hours ago]
+Да, знаю, поменял, но это не помогло, вообще странно, на рабочем компе не получилось это исправить, пришёл домой и с первого раза всё заработало.
+
+
+Yuri [Yesterday at 6:46 PM]
+Ни у кого проблем с настройкой persistent context в идее не возникало? Добавляю в настройках проекта, выбираю провайдера, внизу на вкладке persistence есть topjava, но в ней нет ни одной entity :(
+
+
+4 replies
+Dima [1 day ago]
+А самом persistance добвил базу данных-? (edited)
+
+
+Yuri [1 day ago]
+Хз. Я её добавляю, но ничего не происходит. Похоже идея вообще не видит, что это JPA
+
+
+Taras [1 day ago]
+А спринг-контекст в настройках проекта подключен?
+
+
+Yuri [1 day ago]
+Да, но это на работе, сейчас на ноуте проверил и все работает. Странно, завтра проверю на работе еще раз
+
+
+Yuri [Yesterday at 6:52 PM]
+@Grigory Kislin привет, а зачем над email и password нужны `@NotBlank` аннотации если там уже есть constraints `@Email` `@Size`? В случае с password ещё можно как то притянуть её за уши, но если кто-то введет пароль из 5 пробелов или из одного non-whitespace символа и 4 пробелов, то легче все равно не станет
+
+
+2 replies
+Grigory Kislin [5 hours ago]
+@NotBlank в случае null или пробелов поругается - поле не может быть пустым.. ошибки будет на 10м занятии обрабатывать. думаю что более правильно, хотя принципиальной разницы нет
+
+
+Yuri [5 hours ago]
+В случае с email, с пустой строкой оно не сматчитца по патерну и упадет. Про пароль уже выше написал. Мне кажется `@NotNull`+второе ограничение было бы вполне достаточно
+
+
+Yuri [6:53 PM]
+@Grigory Kislin В эталонной реализации мы дважды вызываем isNew(), можно упростить:
+Untitled 
+public Meal save(Meal meal, int userId) {
+	meal.setUser(em.getReference(User.class, userId));
+	if (meal.isNew()) {
+		em.persist(meal);
+		return meal;
+	} else {
+		return Objects.nonNull(get(meal.getId(), userId)) ? em.merge(meal) : null;
+	}
+}
+
+
+Grigory Kislin [Today at 8:21 PM]
+1. тогда при `!meal.isNew() && get(meal.getId(), userId) == null` мы meal присваиваем reference на User. Для нас никак не влияет, но может и привести к ошибке, если дальше с meal что-то делать
+2. `Objects.nonNull` сделано на замену лямбд референсом не метод. в коде проще с null сравнивать (edited)
+
+
+1 reply
+Yuri [2 hours ago]
+1. Если я правильно понял, то ref на User мы присваиваем после проверки:
+```if (!meal.isNew() && get(meal.getId(), userId) == null) {
+    return null;
+}
+meal.setUser(em.getReference(User.class, userId));```
+2. С одной стороны сделали для вызова как reference method в лямбдах, а с другой вызов метода лучше чем голая проверка. Кстати емнип Joshua Bloch советует пользоваться именно ими для проверки на null в новой редакции Effective Java (edited)

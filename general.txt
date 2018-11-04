@@ -1101,3 +1101,36 @@ this tutorial is designed to be completed in 2-3 hours, it provides deeper, in-c
 
 Ilya [22 hours ago]
 библиотека что по ссылке аос2 тоже умеет
+
+
+Grigory Kislin [6 hours ago]
+посмотри в папке topjava 14 на последнем уроке- есть доработки topjava- там авторизация по aouth2
+
+
+nilon [Today at 12:02 PM]
+Всем привет! Подскажите, может кто-то решал уже подобную проблему: не могу подключиться к postgresql.
+Юзера через pgAdmin создал, привилегии включил. Пробовал в файлике  pg_hba.conf менять
+# IPv4 local connections:
+host all all 127.0.0.1/32 trust
+# IPv6 local connections:
+host all all ::1/128 trust
+тоже не помогло
+Pasted image at 2018-11-04, 1:02 PM
+
+
+
+4 replies
+Yuri [9 hours ago]
+Был подобный глюк, снес каталог с базами и создал все с нуля
+
+
+shomnest [6 hours ago]
+@nilon изначально, когда ставил сервак и воркбенч через wininstaller, назначал пароль для аккаунта 'root'@'localhost' ?
+
+
+shomnest [6 hours ago]
+Ну и закеж настройки pg в идее
+
+
+Grigory Kislin [6 hours ago]
+а из pgAdmin- подключаешься?
