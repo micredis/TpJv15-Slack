@@ -961,3 +961,583 @@ JDBC---106
 JPA---10
 DataJPA---18```
 видимо разница просто в написании как именно достается
+
+
+[1 day ago]
+у меня такой большой разницы нет, в зависимости от теста.
+```UserDataJpaServiceTest.getByEmail               29
+UserJpaServiceTest.getByEmail                    8
+UserJdbcServiceTest.getByEmail                  16```
+
+
+```UserDataJpaServiceTest.update                   17
+UserJpaServiceTest.update                       16
+UserJdbcServiceTest.update                      21```
+(edited)
+
+
+Nov 4th at 10:54 PM]
+получаю пользователя
+```User user = userRepository.getOne(userId);```
+есть смысл проверять его на null, прежде чем отдавать методу в meal-репозитории?
+Вроде как пользователь уже авторизован должен быть на данном этапе и точно будет получен из базы. (edited)
+
+
+1 reply
+[1 day ago]
+проверить не получится. метод getOne(userId), бросит исключение если не найдет запись
+     ```/**
+     * Returns a reference to the entity with the given identifier.
+     *
+     * @param id must not be {@literal null}.
+     * @return a reference to the entity with the given identifier.
+     * @see EntityManager#getReference(Class, Object)
+     * @throws javax.persistence.EntityNotFoundException if no entity exists for given {@code id}.
+     */
+    T getOne(ID id);```
+(edited)
+
+
+Nov 4th at 11:25 PM]
+Можно ли реализовать save() не через query, а через crudRepository.save(meal);
+Нужно как-то выставить объект meal.user, получается это никак не сделать в Data JPA ?
+
+
+10 replies
+[1 day ago]
+конечно,  в подсказках 6й пункт
+ ```В Data-Jpa метод для ссылки на entity (аналог em.getReference) : T getOne(ID id)```
+
+
+[1 day ago]
+https://stackoverflow.com/questions/45831695/alternatives-to-getreference-method-in-spring-data-jpa
+Stack Overflow
+Alternatives to getReference method in Spring data JPA
+I found myself struggling to implement customizable methods in Spring Data JPA. For example, I have a Pet class, which has an Owner(Many to One rel.) What if I have a method to save(Pet pet, int ow...
+ 
+
+
+[1 day ago]
+https://stackoverflow.com/questions/45831695/alternatives-to-getreference-method-in-spring-data-jpa
+
+[1 day ago]
+вот тут пишут один в один реализацию нашего репозитория, только говорят, что нужно это делать в сервисе
+
+[1 day ago]
+Ты смотрел что там в конце написано ?
+
+
+[1 day ago]
+Должно на мысли навести
+
+
+[1 day ago]
+да я думаю все понятно, только получается в Meal-репозитории будет зависимость от User-репо
+
+
+[1 day ago]
+Ну да это минус, но по другому видимо никак
+
+
+[1 day ago]
+почему минус? раз проверяем принадлежность к юзеру, значит ходим в юзер-репо
+
+
+[1 day ago]
+или используй нативный query
+
+
+Maxim Valeev [Yesterday at 5:26 AM]
+не могу разобраться как для разных имплементаций  подключать разный профиль реализации. Сейчас у нас профиль базы выбирает ActiveDbProfileResolver.class, в нем мы руками выставляли профиль реализации. Как сделать чтобы автоматом ставился профиль?
+
+
+8 replies
+Gekov Iliya [1 day ago]
+Аннотации ActiveProfiles суммируются при наследовании, ставим профиль бд в базовом классе тестов, а профили доступа к базе в классах конкретных имплементаций
+
+
+Maxim Valeev [1 day ago]
+Спасибо)
+
+
+Sergey Zhukov [1 day ago]
+кто нибудь оставлял этот резолвер в тестах? я понял что он нужен для смены профилей во время запуска без перекомпиляции
+
+
+Gekov Iliya [1 day ago]
+Да, оставил
+
+
+Gekov Iliya [1 day ago]
+Он нужен, чтобы определять профиль БД по тому, какой драйвер подгружен через мавен (edited)
+
+
+Sergey Zhukov [1 day ago]
+вместе он у меня пока не очень хочет работать, т.е в абстрактном тесте ставим резолвер, а в имплементациях указываем точно?
+
+
+Gekov Iliya [1 day ago]
+В абстрактном оставляем резолвер, а в имплементациях указываем способ доступа (jdbc jpa datajpa)
+
+
+Sergey Zhukov [1 day ago]
+окей спасибо
+
+
+Nikita Ganin [Yesterday at 9:25 AM]
+"7: Проверьте, что в DataJpaMealRepositoryImpl все обращения к DB выполняются в одной транзакции" как это можно сделать?
+
+
+2 replies
+pal548 [1 day ago]
+Не разобрался?
+
+
+Nikita Ganin [21 hours ago]
+Нет, вернее начал optional делать, а это оставил напоследок
+
+
+Zhinko [Yesterday at 11:14 AM]
+Как можно протестировать задание 7? Нам же надо дополнительные методы в общий интерфейс добавлять
+
+
+15 replies
+Gekov Iliya [1 day ago]
+Ну, написать соответствующие тесты
+
+
+Zhinko [1 day ago]
+У меня почему то спринг ругается. Ты эти методы в отдельном классе делал?
+
+
+Gekov Iliya [1 day ago]
+Ну по id пользователя вместе с его едой соответственно в юзер сервисе, по id еду вместе с пользователем в мил сервисе
+
+
+Zhinko [1 day ago]
+А как ты вызвал эти методы если у общего интерфейса их нет ?
+
+
+Gekov Iliya [1 day ago]
+Не пойму, у какого общего интерфейса?
+
+
+Zhinko [1 day ago]
+Ну DataJpaMealRepository реализует интерфейс MealRepository. Если мы добавим новый метод dataJpa репозиторий , то в MealRepository его не будет, а тесты работают через MealRepository
+
+
+Gekov Iliya [1 day ago]
+Так никто не мешает их добавить и в MealRepository)
+
+
+Gekov Iliya [1 day ago]
+Или, если не хотим менять основной репо, то можно написать к примеру отдельный класс тестов и инжектить туда не по репозиторию, а конкретную реализацию только datajpa репозитория
+
+
+Zhinko [1 day ago]
+Вот я хочу 2 вариант
+
+Gekov Iliya [1 day ago]
+Правда в задании сказано протестировать сервис, а не репозиторий, так что я так понимаю все-таки надо по первому варианту делать
+
+
+Gekov Iliya [1 day ago]
+Если бы у нас были отдельные тесты для сервисов и для репозиториев, тогда проблем нет
+
+
+Gekov Iliya [1 day ago]
+Только сейчас обратил внимание: "5: Для уменьшения количества кода при реализации Optional (п. 7, только DataJpa) попробуйте сделать default метод в интерфейсе"
+
+
+Gekov Iliya [1 day ago]
+Как я понимаю, чтобы не пришлось делать пустые заглушки в остальных реализациях, просто делаем дефолтный метод и реализуем его только в datajpa
+
+Nikita Ganin [1 day ago]
+Тоже через профиль?
+
+Gekov Iliya [1 day ago]
+Нет, просто добавляем дефолтные методы в соответствующие репозитории, но реализуем только в datajpa репозитории
+
+
+Vladimir Gorbatenko [Yesterday at 11:54 AM]
+У кого-то получилось прикрутить spring.profiles.active через web.xml?
+У меня что-то не хочет активировать профайлы... Пробовал и через <context-param> и через <init-param>.
+
+
+5 replies
+Gekov Iliya [1 day ago]
+Вроде в задании написано, что надо поднимать контекст без spring.profiles.active
+
+
+
+Vladimir Gorbatenko [1 day ago]
+В задании - да, но почему бы не перепробовать всеми возможными способами для расширения кругозора.
+
+
+Taras [1 day ago]
+Насколько я понимаю, context-param требует listener, который это дело обрабатывает. А он из spring mvc.
+
+
+Stepan [17 hours ago]
+Не понял, как можно поднять контест без spring.profiles.active, то есть без такой строки
+System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, "postgres, jdbc");
+Киньте ссылку почитать
+
+
+Gekov Iliya [17 hours ago]
+Я ставил через setActiveProfiles, главное выставить до сканирования xml
+
+
+Marat [Yesterday at 12:29 PM]
+Когда мы переопределяем методы, то они из разных интерфейсов берутся. Как-то все запутано
+Pasted image at 2018-11-05, 4:29 PM
+
+
+
+1 reply
+Gekov Iliya [1 day ago]
+Да на самом деле ничего запутанного, иерархия простая: есть базовый интерфейс Repository его имплементит CrudRepository, добавляя методы crud, его в свою очередь имплементит PagingAndSortingRepository, который добавляет возможность разбития на страницы, его имплементит JpaRepository, всё, вот и вся иерархия
+
+
+Gekov Iliya [Yesterday at 2:27 PM]
+"7.1: достать по id пользователя вместе с его едой" Означает ли это, что в User добавляем коллекцию Meal?
+
+
+7 replies
+ABaykov [1 day ago]
+так Григорий же и говорил в видео и писал об этом
+
+
+
+Gekov Iliya [1 day ago]
+Да? Как-то я это пропустил(
+
+
+Gekov Iliya [1 day ago]
+Тьфу, слепой, действительно пропустил в подсказках пункт
+
+
+lifter4ik [1 day ago]
+только где это поле из подсказки добавлено? казалось, я его видел во время применения патчей. сейчас в упор не вижу. или оно только в видео мелькало?
+
+
+Gekov Iliya [1 day ago]
+Не, нет его, надо самостоятельно добавлять видимо
+
+
+lifter4ik [1 day ago]
+отвечаю, я его видел))) осталось найти в каком видео уроке
+
+
+Gekov Iliya [1 day ago]
+Ну видео то старые, уж 10 раз все поменяться могло
+
+
+Sergey Zhukov [Yesterday at 7:42 PM]
+В Jpa и DataJpa UserServiceTest лезет Error SQL но все тесты проходит.
+Это надо чинить?
+SQLerror.png
+
+
+
+8 replies
+Gekov Iliya [22 hours ago]
+Если не ошибаюсь, это в тесте на дублирующий емейл, так и задумывалось)
+
+
+Sergey Zhukov [22 hours ago]
+да он, я тоже подумал название теста подходит под ситуацию ))
+
+
+Sergey Zhukov [21 hours ago]
+@Gekov Iliya в итоговый отчет вставлял разделители по классам?
+
+
+Gekov Iliya [21 hours ago]
+Неа
+
+
+Sergey Zhukov [21 hours ago]
+там простыня в которой повторяются имена методов, нафик нужен такой отчет
+
+
+Gekov Iliya [21 hours ago]
+Меня так последний optional вымотал, что тупо не охота с логами морочиться)
+
+
+Gekov Iliya [21 hours ago]
+Но идея хорошая)
+
+
+Sergey Zhukov [21 hours ago]
+я их еще не начинал )
+
+
+KaryNaiKo [Yesterday at 8:16 PM]
+Не понимаю, почему не хочет находить ${jpa.showSql}, ведь я назначил активный профиль через
+       ConfigurableEnvironment environment = springContext.getEnvironment();
+       environment.setActiveProfiles("postgres");
+       springContext.refresh(); (edited)
+
+
+11 replies
+pal548 [20 hours ago]
+а jpa/jdbc ?
+
+
+pal548 [20 hours ago]
+appCtx.getEnvironment().setActiveProfiles("postgres", " *jdbc* ");
+
+
+pal548 [20 hours ago]
+а, нет, должно работать и так
+
+
+Dima [20 hours ago]
+делал через System.setProperty перед инициализацией контекста
+
+
+creilyss [18 hours ago]
+так чтобы выполнить getEnvironment springContext у тебя уже должен быть где-то проинициализирован. Так и падает он во время инициализации не доходя до проставления профиля. Я тоже делал как Дима.
+
+
+Sergey Zhukov [18 hours ago]
+А через GenericXmlApplicationContext неверный путь?
+Через него получаю ConfigurableEnvironment, сетю профили, потом с помощью метода load загружаю контекст и делаю refresh()
+Я смутно понимаю что я делаю, но оно работает
+
+
+pal548 [18 hours ago]
+тоже так сделал, думаю все норм
+
+
+Vladimir Gorbatenko [7 hours ago]
+Не понимаю, как оно с одним параметром профайла будет работать? У меня не работает.  При том что он и  базу postgres не ставит как актив, который у нас "прошит в pom.xml"  по умолчанию. И если в базу по умолчанию я бы понял что он выбрал, то как  ему выбирать какой профиль "jdbc/jpa/datajpa"?
+
+
+Sergey Zhukov [7 hours ago]
+у меня 2 параметра, через запятую перечислил (edited)
+
+
+Vladimir Gorbatenko [7 hours ago]
+2 параметра это да, у меня тоже работают, но выше писали мол и с одним должно...
+
+
+Sergey Zhukov [7 hours ago]
+да это задачка, тогда нужно копать как контекст спринга получит профиль из pom
+
+
+This message was deleted.
+
+
+3 replies
+under4eg [20 hours ago]
+второй работает
+
+
+Gekov Iliya [20 hours ago]
+Да и третий должен
+
+
+Ilya A. Kvyatkovsky [20 hours ago]
+Решил! Глупая была ошибка. Спасибо!
+
+
+Ilya [Yesterday at 9:15 PM]
+Вопрос, почему idea не предлагает переключать профили в xml?
+
+
+4 replies
+Ilya [20 hours ago]
+Pasted image at 2018-11-05, 10:17 PM
+ 
+
+
+Ilya [20 hours ago]
+починил. отбой
+
+
+Dima [20 hours ago]
+ну зайди  в settings -> Languages & Frameworks -> Spring -> и там галочку посмотри Show Profiles panel
+
+
+Ilya [19 hours ago]
+нет там дело было в другом. project structure в спринге не было контекстов
+
+
+Stepan [Yesterday at 9:53 PM]
+Почему-то когда запускают все тесты через мавен, запускаются только 2 теста из папки веб, остальные игнорятся...в чем может быть проблема? идею перезапускал
+
+
+2 replies
+pal548 [19 hours ago]
+Названия тестов должны оканчиваться на Test, у меня такое было
+
+
+Stepan [19 hours ago]
+Благодарю
+
+
+Roman Baranov [Yesterday at 10:20 PM]
+```5: Для уменьшения количества кода при реализации Optional (п. 7, только DataJpa) попробуйте сделать default метод в интерфейсе```
+подскажите что здесь имеется ввиду? мы добавляем по методу в каждый репозиторий. что тут сокращать?
+
+
+2 replies
+Dima [18 hours ago]
+если добавишь просто метод в репозиторий, то придется его реализовывать в каждой имплементации. Если делать метод default - то этого не придется делать
+
+
+Roman Baranov [18 hours ago]
+спасибо
+
+
+Sergey Zhukov [Today at 12:19 AM]
+по 5 пункту
+ставлю @Profile("hsqldb") - бин инжектится, ставлю @Profile("postgres") - ничего не происходит
+подскажите где переключается
+
+
+6 replies
+Gekov Iliya [17 hours ago]
+А в мавене переключаешь базу?
+
+
+Sergey Zhukov [17 hours ago]
+в мавене на postgres галка стоит
+
+
+Sergey Zhukov [17 hours ago]
+есть еще какой материал наводящий по @Profile?
+
+
+Gekov Iliya [17 hours ago]
+Да там больше ничего и не требуется, ставишь Profile с бд и в зависимости от того какая сейчас бд стоит в activeprofiles, такая имплементация jdbc репозитория срабатывает
+
+
+Sergey Zhukov [16 hours ago]
+короче что-то с интеграцией idea, в тестах обращается к нужной имплементации, но подсветка как кандидата на инжекцию не показывается, при переключении в мавене, все время листики на hsqldb
+почему он не рисует :four_leaf_clover: - "должно повезти"
+
+
+Nikita Ganin [11 hours ago]
+Попробуй сделать clean
+
+
+Marat [Today at 7:44 AM]
+Подскажите зачем мы используем этот конструктор?
+public User(Integer id, String name, String email, String password, Role role, Role... roles) {
+       this(id, name, email, password, DEFAULT_CALORIES_PER_DAY, true, new Date(), EnumSet.of(role, roles));
+   }
+
+
+1 reply
+Roman Baranov [8 hours ago]
+пользователь может иметь несколько ролей.
+
+
+Sergey Zhukov [Today at 9:51 AM]
+по 5 скажите, верно я понял шаблонный метод?
+    ```@Override
+    public Meal save(Meal meal, int userId) {
+        return convertToTimeStampAndSave(meal, userId, false);
+    }```
+у меня в этом методе в зависимости от переданного флага конвертит или нет
+для hsqldb соответственно вызываю с true (edited)
+
+
+10 replies
+Gekov Iliya [7 hours ago]
+Я думаю разные варианты можно придумать, я к примеру маппинг вынес в отдельный метод и в hsqldb реализации его переопределил (edited)
+
+
+Sergey Zhukov [7 hours ago]
+это под паттерн попадает или я что-то горожу из другого паттерна
+
+Sergey Zhukov [7 hours ago]
+```2: В реализациях JdbcMealRepository код не должен дублироваться.```
+как переопределить мапинг без дублирования?
+
+Gekov Iliya [7 hours ago]
+Я вообще разделил метод сейв на два этапа - два метода, один мапит, второй вносит в базу, мапинг переопределил в реализации hsqldb, соответственно в зависимости от базы вызывается разный мапинг, а в базу заносится одним и тем же методом
+
+
+
+Gekov Iliya [7 hours ago]
+Не уверен, что именно это правильно с точки зрения паттерна, но дублирования кода нет
+
+
+ABaykov [6 hours ago]
+Шаблонные метод - это когда у тебя есть каркас в методе
+
+Типа такого -
+шаг 1 - сделай маппинг
+шаг 2 - сохрани в базу
+шаг 3 - верни результат
+
+Ты переопределяешь для разных реализаций конкретно шаг 1. А шаг 2 и 3 так и остаются общими (edited)
+
+
+Nikita Ganin [5 hours ago]
+Можно создать абстрактный метод конвертации времени, и сделать две реализации в зависимости от профиля, в одном для одной базы в другом для другой
+
+
+
+Sergey Zhukov [5 hours ago]
+@ABaykov спасибо, вроде понял
+у меня значит паттерн "дичь", т.к. подрузумевает 2 варианта развития событий :grin: (edited)
+
+
+Sergey Zhukov [4 hours ago]
+@Nikita Ganin сделал так, но Object заменить дженериком пока не  могу
+
+
+pal548 [3 hours ago]
+Я вынес добавление параметра в мапу параметров в отдельный метод. Но не стал делать его абстрактным, а в нем сделал реализацию для Pg. Соответственно, класс дня Hsql наследуется от класса Pg и переопределяет этот метод. Не знаю, насколько это по фен-шую) (edited)
+
+
+Sergii [Today at 12:37 PM]
+Попробовал всю еду по юзеру организовать без реализации, методами Spring Data и получил в результате List<Meal> getAllByUserOrderByDateTimeAllSortedDesc(User user) . Это нормально ? Имеет право на жизнь ? (edited)
+
+
+11 replies
+Nikita Ganin [5 hours ago]
+Ну в этом и плюс Spring Data:slightly_smiling_face:
+
+
+Sergii [5 hours ago]
+За такое в приличных конторах по башке не дадут ?)
+
+
+Sergii [5 hours ago]
+А я всегда по методу шланга делаю - сначала делаем , как понимаем , потом понимаем , что не взлетело и ... переходим к чтению инструкций)
+
+
+Gekov Iliya [5 hours ago]
+Я перепутал, там про другой момент речь)
+
+
+ABaykov [5 hours ago]
+а почему собственно за это должны давать по башке? если такое объявление избавляет тебя от написания query запроса) Всё четко и лаконично
+
+
+Sergii [5 hours ago]
+Накалякать накалякал - теперь пойду проверять, что оно там действительно возвращает)
+
+Sergii [4 hours ago]
+getAllByUserOrderByDateTimeDesc - так получше
+
+Sergey Zhukov [4 hours ago]
+когда between добавляешь вообще каляка получается
+
+
+Sergii [4 hours ago]
+с битвином - вообще жуть) в моей практике это первое место по длине имени метода)
+
+
+Sergii [4 hours ago]
+ФайндАбраКадабраБайАбырвалгКиргудуБарбарбия)
+
+
+Ilya [1 hour ago]
+в спринге все с такими названиями
