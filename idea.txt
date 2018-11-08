@@ -589,3 +589,13 @@ Sergey Zhukov [12 hours ago]
 
 pal548 [12 hours ago]
 ну я в пакет rules положил. Они же рулят) пакет в тестах ессно
+
+
+Marat [Today at 7:25 AM]
+Подскажите из-за чего pom файл красный?
+
+
+1 reply
+Roman Baranov [5 hours ago]
+файл не трекается системой контроля версий
+надо сделать `git add pom.xml`

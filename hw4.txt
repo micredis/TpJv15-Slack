@@ -1753,3 +1753,27 @@ Yuri [2 hours ago]
 }
 meal.setUser(em.getReference(User.class, userId));```
 2. С одной стороны сделали для вызова как reference method в лямбдах, а с другой вызов метода лучше чем голая проверка. Кстати емнип Joshua Bloch советует пользоваться именно ими для проверки на null в новой редакции Effective Java (edited)
+
+
+
+Grigory Kislin [16 hours ago]
+1. да, после проверки
+2. а можно ссылку- есть в инете?
+https://stackoverflow.com/a/28140226/548473 (edited)
+
+
+stepan1006 [7:33 PM]
+Слушайте не поможете:
+
+
+stepan1006 [Yesterday at 7:33 PM]
+Почему горит крассный
+
+
+1 reply
+Taras [18 hours ago]
+Смотри в ошибку: NoSuchBean... означает, что не может найти имплементацию MealRepository. Посмотри внимательно, какие пакеты сканируется для того, чтобы найти её.
+
+
+stepan1006 [7:36 PM]
+Снимок экрана 2018-11-07 в 18.32.23.png 

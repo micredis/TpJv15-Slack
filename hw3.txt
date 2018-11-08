@@ -2003,3 +2003,34 @@ Yevhen Maksymovych [7 hours ago]
 
 Vitaly [3 hours ago]
 Нет, был 4. Переустановка на последнюю версию idea спасла
+
+
+Lamekhova Alisa [10:04 AM]
+Не могу тестовые данные в таблицу meals добавить. INSERT INTO meals (datetime, description, calories, user_id)
+VALUES ('2015-05-30 10:00:00', 'Завтрак', 500, 100000),
+      ('2015-05-30 13:00:00', 'Обед', 1000, 100000),
+      ('2015-05-30 20:00:00', 'Ужин', 500, 100000),
+      ('2015-05-31 10:00:00', 'Завтрак', 500, 100000),
+      ('2015-05-31 13:00:00', 'Обед', 1000, 100000),
+      ('2015-05-31 20:00:00', 'Ужин', 510, 100000),
+      ('2015-06-01 14:00:00', 'Админ ланч', 510, 100001),
+      ('2015-06-01 21:00:00', 'Админ ужин', 1500, 100001);
+      
+      
+Lamekhova Alisa [Yesterday at 10:04 AM]
+Пишет [2018-11-07 12:57:18] 8 rows affected in 47 ms
+sql> select current_database() as a, current_schemas(false) as b
+[2018-11-07 12:57:18] completed in 6 ms, таблица пустая
+
+
+3 replies
+Yevhen Maksymovych [1 day ago]
+гхм, а что ты ожидаешь в ответ на запрос? имя схемы?
+
+
+Yuri [1 day ago]
+Изменения не закомитил. Вверху есть галочка
+
+
+Grigory Kislin [16 hours ago]
+`select * from meals;` еще попробуй

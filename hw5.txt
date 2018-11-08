@@ -1541,3 +1541,544 @@ Sergii [4 hours ago]
 
 Ilya [1 hour ago]
 в спринге все с такими названиями
+
+
+Илья Чиликин [1 day ago]
+`getAllByUserOrderByDateTimeAllSortedDesc` равносильно
+`getByUserOrderByDateTimeDesc` - уже короче.
+А если Sort передать параметром, остаётся `getByUser`. (edited)
+
+
+KaryNaiKo [Nov 6th at 6:44 PM]
+Господи... -2 дня на устранение ошибки в профилях... Видите разницу в "jdbc" и "jdbs"? А я вот не видел(((
+Объясните, плс, а зачем помечать аннотацией @Profile помимо сервисов (тут понятно, разная реализация repository) еще и все controller'ы? Ведь контроллеры сканятся в spring-app, где нет профилей + у нас одна реализация сервисов.
+
+
+18 replies
+Gekov Iliya [1 day ago]
+А почему решили что контроллеры и сервисы надо помечать? Достаточно репозитории пометить (edited)
+
+KaryNaiKo [1 day ago]
+Я так сначала и сделал, но вылетает ошибка, что сервисы не найдены
+
+
+Taras [1 day ago]
+Посмотри внимательно какие пакеты сканируются.
+
+
+Dima [1 day ago]
+я тоже помечал все @Profile, без этого не находит нужные бины контекст.
+
+
+Gekov Iliya [1 day ago]
+@Dima у нас же только в jdbc репозитории разделение на профили бд идет, если все пометить, то при каждом смене БД в мавене надо вручную все аннотации менять?
+
+
+Gekov Iliya [1 day ago]
+Да и теряется вся логика. Profile определяет какой бин попадет в спринг контекст в зависимости от активных профилей, нам регулировать в данном случае нужно только бин jdbc репозитория
+
+
+
+Dima [1 day ago]
+ну не совсем вручную) я использовал константы из класса Profiles. Я гуглил как надо делать, только либо я тугой, либо никто должным образом не уделяет этому нормальных статей, ничего не нашел, почему приходится указывать каждому классу со спринговой аннотацией профиль.
+
+
+Dima [1 day ago]
+без профайлинга в xml спринг подгружает все сам, как только появляется профайлинг, то спринг уже не может найти класс(даже с аннотацией @Component), если на нем нет @Profile.
+
+
+Gekov Iliya [1 day ago]
+У меня всего стоит две аннотации Profile над двумя реализациями jdbc репозитория., больше нигде. Всё работает.
+
+
+
+Dima [1 day ago]
+хотя если смотреть на <context:component-scan> , то там отображаеются сервисы
+
+
+Gekov Iliya [1 day ago]
+А при запуске сервлета указали оба активных профайла? (к примеру "hsqldb", datajpa"").
+
+
+Dima [1 day ago]
+обязательно.
+
+
+Gekov Iliya [1 day ago]
+Странно, какая то беда с настройкой профилей
+
+
+Dima [1 day ago]
+обновление: за закомментил все @Profile, кроме репозиториев и приложение поднялось. Видимо глючит идея или магия)
+
+
+Gekov Iliya [1 day ago]
+Наверное надо было проект пересобрать. Теперь можно оценить насколько это удобное решение - переключаешь БД в мавене и всё, нужная реализация Jdbc репозиторя автоматически подгружается :+1: (edited)
+
+
+Dima [1 day ago]
+эти пляски с бубном иногда кумарят)
+
+Gekov Iliya [1 day ago]
+Боюсь представить первые дни работы на настоящем проекте)
+
+
+Nikita Ganin [1 day ago]
+У меня например в сервисах идея ругается на репозиторий, что существует больше одного бина, но все равно работает
+
+
+ABaykov [7:25 PM]
+Такой вопрос. Если мы достаем юзера с едой по id
+То как нам сравнить двух юзеров с едой?
+
+
+ABaykov [Nov 6th at 7:27 PM]
+если сравниваю чисто списки еды, то тест проходит. А вот assertThat двух юзеров с едой - сыпется
+
+
+4 replies
+Gekov Iliya [1 day ago]
+Я решил так - сравниваю отдельно еду (без поля юзер) и самого юзера
+
+
+
+ABaykov [1 day ago]
+Не. С этим как раз проблем нет. Если я достал еду с юзером, то сравнение двух премов пищи с юзером внутри - проходит. А когда достал юзера с инициализированной колекцией еды внутри, тут затык. Можно, конечно, сравнить сначала двух юзеров без еды. А потом отдельно еду у них) спасибо за идею
+
+
+Gekov Iliya [1 day ago]
+Да, я это и имел в виду) Наверняка можно сделать красивее, но у меня не получилось)
+
+
+ABaykov [1 day ago]
+сейчас попробую в AsserJ порыться. Но как-то я пилю это с 11 утра... и порядком устал)
+
+
+Roman Baranov [Nov 6th at 8:50 PM]
+```9: Проверьте, что все тесты запускаются из Maven (имена классов тестов удовлетворяют соглашению) и итоги тестов класса выводятся корректно (не копятся)```
+это получается надо дублировать сбор результатов и печать в каждом тестовом классе?
+
+
+2 replies
+lifter4ik [1 day ago]
+я сделал в абстрактном через @BeforeClass, что бы сводка обнулялась
+
+
+Roman Baranov [1 day ago]
+super :+1:
+я както не дошел до этого
+
+
+pal548 [Nov 6th at 11:06 PM]
+Как реализовали п.5, Optional ДЗ, метод, возвращающий нужный объект DateTime ?
+
+
+7 replies
+pal548 [1 day ago]
+я сделал абстрактный
+protected abstract <T> T getDateTimeForParams(LocalDateTime dateTime);
+потом в наследнике пишу так:
+@Override
+   protected *Timestamp* getDateTimeForParams(LocalDateTime dateTime)
+
+
+pal548 [1 day ago]
+идея говорит, что тут будет непроверяемое приведение типа. Ну можно конечно сделать через дженерик-класс, а не метод.
+
+
+Sergey Zhukov [1 day ago]
+у меня тоже ругнулась на это, в итоге
+я сделал без дженериков, возвращал Object в абстрактном методе, посмотрю в четверг как правильно
+
+
+pal548 [1 day ago]
+а, впринципе все проще, можно параметризовать базовый тип
+
+pal548 [1 day ago]
+JdbcMealRepositoryAbstractImpl<T>
+а наследовать с указанием типа
+public class JdbcMealRepositoryPgImpl extends JdbcMealRepositoryAbstractImpl<LocalDateTime>
+
+
+Sergey Zhukov [1 day ago]
+отоночо :slightly_smiling_face: попробую так же сделать
+
+
+ABaykov [1 day ago]
+cделал так же так шо параметризуйте)
+
+
+Vitaliy Ivkin [Yesterday at 9:23 AM]
+Вроде работает. Следовало ли создавать новый абстрактный класс для тестов, или достаточно просто объявить мил/юзерСервисТест абстрактными и унаследоваться всеми тестами от них?
+Pasted image at 2018-11-07, 10:23 AM
+
+
+
+6 replies
+Gekov Iliya [1 day ago]
+Если не создавать один общий класс, то остается много дублирующего кода
+
+
+Vitaliy Ivkin [1 day ago]
+Я решил объявить исходные два тестовых класса абстрактными, скопировал код с @Rule из Мил в Юзер + метод для вывода в лог. Вот и весь дублирующий код
+
+
+Gekov Iliya [1 day ago]
+Плюс аннотации с конфигами и профилем, зачем приводить к копипасту если этого можно избежать?
+
+
+Vitaliy Ivkin [1 day ago]
+Применил аннотации профилей как в вебинаре для тестов, так что копирования по минимуму. Или ты про описанное выше?
+Pasted image at 2018-11-07, 10:37 AM
+ 
+
+
+Gekov Iliya [1 day ago]
+Еще расположение конфигов спринга, а если что то придется менять или добавлять, придется уже в двух местах менять вместо одного. Минимум копирования, максимум, ка как по мне не важно, это в любом случае зло, избежать этого можно за 2 минуты работы. Но это всего лишь мое мнение, можно и копировать
+
+
+
+Vitaliy Ivkin [1 day ago]
+Спасибо за совет, я постараюсь с этим разобраться
+
+
+Ilya [Yesterday at 9:33 AM]
+дошел до пункта 6. Но приложение выдает ошибку, кто нибудь  с этим сталкивался? Код пока не менял. Судя по ошибки что то с томкатом, не видит сервлетов
+Pasted image at 2018-11-07, 10:33 AM
+
+
+
+15 replies
+Gekov Iliya [1 day ago]
+Профили в сервлете выставил?
+
+
+Ilya [1 day ago]
+нет
+
+
+Gekov Iliya [1 day ago]
+В этом и суть пункта 6)
+
+
+Ilya [1 day ago]
+а я думал в другом) ок сейчас проверю
+
+
+Gekov Iliya [1 day ago]
+Но вообще если я правильно понимаю, то без профилей ошибку должен выдавать на этапе попытки подключения к базе, а не сразу при загрузке локалхоста, так что возможно проблема и не в этом...
+
+
+Ilya [1 day ago]
+ну вот и я про тоже так думаю. Профили не помогли(
+
+
+Gekov Iliya [1 day ago]
+Как варинт - после запуска глянуть список бинов в контексте, все ли на месте
+
+
+Vladimir Gorbatenko [1 day ago]
+какую страницу он не может открыть (найти)? (edited)
+
+
+Ilya [1 day ago]
+прикол в том что в init он не заходит(
+
+
+Ilya [1 day ago]
+users
+
+
+Ilya [1 day ago]
+что то с диплоем не так(
+
+
+Ilya [1 day ago]
+все ок, нашел)
+
+
+Ilya [1 day ago]
+JRE 11 надо было поставить
+Pasted image at 2018-11-07, 10:58 AM
+
+
+
+Zhinko [1 day ago]
+вообще я так понимаю, что без выставления профилей спринг не будет понимать к какой базе коннектиться и какую реализацию использовать
+
+
+Gekov Iliya [1 day ago]
+Если быть точнее, спринг просто не загрузит бины, объявленные в этом профиле, в свой в контекст (edited)
+
+
+indisbk [Yesterday at 12:49 PM]
+Подскажите, пожалуйста, в каком направлении думать чтоб выполнить 7.2 пункт?)  Как реализовать в SpringData meal.getUser()?
+
+
+4 replies
+Zhinko [1 day ago]
+в подсказках к дз есть
+
+
+Zhinko [1 day ago]
+Ordering a join fetched collection in JPA using JPQL/HQL
+
+
+Zhinko [1 day ago]
+там практически готовое решение
+
+
+indisbk [1 day ago]
+ок разберемся)
+
+
+senadnepr [3:23 PM]
+Просто прелестно! Вместо такой вот жути:
+ ```@Query("select m from Meal m where m.user.id = :user_id and m.id = :id")
+    Meal get(@Param("id")int id, @Param("user_id")int userId);```
+Вот такая красота!
+```Meal getByIdAndUser_Id(int id, int userId);```
+
+
+senadnepr [Yesterday at 3:24 PM]
+А вот это вообще прекрасно!
+```List<Meal> findByDateTimeBetweenAndUser_IdOrderByDateTimeDesc(LocalDateTime startDate, LocalDateTime endDate, int userId);```
+
+
+6 replies
+Igor [23 hours ago]
+Программирование через именование методов меня смущает. Уж лучше старый добрый sql запрос. Хотя может я старомоден...
+
+
+
+Dima [23 hours ago]
+вот именно, ты программируешь, а не думаешь как там писать запросы на sql
+
+
+Sergey Zhukov [22 hours ago]
+зачем писать User_Id, можно без пробела UserId
+
+
+Ilya [21 hours ago]
+запросы бывают разные, ничего сложнее простой выборки тут все равно не написать) так что sql жив)
+
+
+senadnepr [21 hours ago]
+User_Id - нагляднее, как аналог meal.User.Id. Так и в документации написано.
+
+
+Илья Чиликин [16 hours ago]
+Дайте ссылку, где в документации советуют использовать подчёркивания.
+
+
+Raisa [Yesterday at 5:44 PM]
+падают тесты с hsqldb, причина: Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot resolve reference to bean 'dataSource' while setting bean property 'dataSource'; nested exception is org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [org.apache.tomcat.jdbc.pool.DataSource] for bean with name 'dataSource' defined in class path resource [spring/spring-db.xml]; nested exception is java.lang.ClassNotFoundException: org.apache.tomcat.jdbc.pool.DataSource
+Related cause: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [org.apache.tomcat.jdbc.pool.DataSource] for bean with name 'dataSource' defined in class path resource [spring/spring-db.xml]; nested exception is java.lang.ClassNotFoundException: org.apache.tomcat.jdbc.pool.DataSource
+
+подскажете, в чем может быть проблема?
+насколько я поняла, datasource не может найти, что это значит? (edited)
+
+
+5 replies
+Vladimir Gorbatenko [20 hours ago]
+org.apache.tomcat.jdbc.pool.DataSource - для профиля postgres
+
+
+Raisa [20 hours ago]
+я переключила профили в мавене и в spring-db, почему он может искать для postgres?
+
+
+Gekov Iliya [20 hours ago]
+Или профили неправильно настроены или аннотации над тестовыми классами (edited)
+
+
+
+Taras [18 hours ago]
+Не видит dataSource. Проверь, как ты разнесла определение бинов по профилям. И jpa и datajpa требуют dataSource.
+
+
+Raisa [2 hours ago]
+проблема была в неправильной аннотации над тестовым классом :slightly_smiling_face: сделала resolver в абстрактном классе, все заработало
+
+
+Marat [Yesterday at 6:46 PM]
+Не могу додуматься как сделать реализацию сохранения еды
+Meal save(Meal meal, Integer userId);
+
+
+1 reply
+Gekov Iliya [19 hours ago]
+Если проблема в том, как юзера установить, то смотрим пункт 6 подсказок
+
+
+Raisa [Yesterday at 7:06 PM]
+у кого-нибудь падали тесты JdbcMealSevisTest с bad SQL grammar c hsqldb?
+
+
+2 replies
+Zhinko [19 hours ago]
+Это потому что hsql не поддерживает LocalDateTime. Тебе нужно использовать класс Timestamp.
+
+
+Raisa [19 hours ago]
+спасибо :slightly_smiling_face:
+
+
+Sergey Zhukov [Yesterday at 10:34 PM]
+по 7 подскажите кто сделал.
+1. Мы добавляем список еды пользователю
+2. чиним тесты которые уже есть, добавлением игнора поля в assert
+3. добавляем дефолтные методы в интерфейсы
+4. добавляем в существующий класс тестов datajpa тесты для этих методов
+Что-то упустил?
+
+
+14 replies
+Gekov Iliya [15 hours ago]
+Вроде нет
+
+
+Sergey Zhukov [15 hours ago]
+@Gekov Iliya ты как тестил?
+       ```User user = service.getById(USER_ID);
+        UserTestData.assertMatch(user, USER);
+        MealTestData.assertMatch(user.getMeals(), MEALS);```
+
+
+Gekov Iliya [15 hours ago]
+Также
+
+
+Sergey Zhukov [14 hours ago]
+@Gekov Iliya
+```11: В релизации 7.1 учесть, что у юзера может отсутствовать еда```
+это если пустой, то что делаем?
+
+
+Sergey Zhukov [14 hours ago]
+список останется null?
+
+Sergey Zhukov [14 hours ago]
+Jpa его даже не инициализирует пустым?
+
+
+Gekov Iliya [14 hours ago]
+Я сделал как с юзер ролями, то есть в сеттере присваиваем новый пустой список
+
+Gekov Iliya [14 hours ago]
+Но не уверен что именно это имелось в виду
+
+
+Sergey Zhukov [14 hours ago]
+может наоброт в гетере проверять что со списком
+
+
+Sergey Zhukov [14 hours ago]
+хотя вроде логично в сетере, чтобы нулпоинтер не словить
+```CollectionUtils.isEmpty(meals) ? Collections.emptyList() : meals;```
+
+
+Gekov Iliya [14 hours ago]
+Ага
+
+
+Sergey Zhukov [14 hours ago]
+@Gekov Iliya а NotFound-тесты писал?
+
+
+Gekov Iliya [14 hours ago]
+Неа, поленился)
+
+
+Sergey Zhukov [14 hours ago]
+тоже уже не успел закомичу без них
+
+
+Ilya [Yesterday at 11:12 PM]
+http://www.javarticles.com/2013/12/spring-profiles.html
+
+
+
+4 replies
+Ilya A. Kvyatkovsky [14 hours ago]
+Спасибо! Отличная статься с подробным объяснением и понятными примерами. Статья необходима в материалах к этому уроку.
+
+
+Zhinko [14 hours ago]
+Да статья хороша
+
+
+Sergey Zhukov [14 hours ago]
+тоже парсил эту статью, когда искал как починить SpringMain и MealServlet
+тяжело осваивать пока не сделают нормальную интеграцию профилей в IDEA, в галках путаешься поначалу
+
+
+Vladimir Gorbatenko [5 hours ago]
+отличная статья
+
+
+Kirill Shiryaev [12:30 PM]
+PDF 
+Walls C. - Spring in Action - 2019.pdf
+18 MB PDF
+
+
+Marat [12:34 PM]
+Привет всем. Подскажите, вот у нас есть интерфейс interface CrudUserRepository extends JpaRepository. При этом есть класс DataJpaUserRepositoryImpl implements UserRepository. Но почему он не имплементирует CrudUserRepository?
+
+
+Sergey Zhukov [Today at 12:38 PM]
+чтобы не получить имплементацию с кучей ненужных методов, делегируем
+
+
+11 replies
+Gekov Iliya [1 hour ago]
+Ну не совсем так, Григорий в видео объяснял делегируем, чтобы обойти ограничения, например в jparepository delete возвращает int, а мы по нашей логике хотим boolean
+
+
+Marat [1 hour ago]
+Понял, спасибо
+
+
+Gekov Iliya [1 hour ago]
+Если сигнатуру методов дефолтных изменять не надо, то можно так и не заморачиваться
+
+
+Sergey Zhukov [1 hour ago]
+@Gekov Iliya ограничения только архитектурные.
+Тот же boolean delete(int, int) получим без ограничений
+Или еще есть ограничения?
+crud_meal.png
+
+
+
+Gekov Iliya [43 minutes ago]
+Ну да, архитектурные, чтобы наша логика построенная, к примеру, в сервисе на основе возвращаемых значений не сломалась
+
+Gekov Iliya [37 minutes ago]
+Если бы нас например устраивало, что delete возвращает void, то мы могли бы просто сразу crudmealrepository в сервис инжектить да и всё, без всяких прослоек в виде своего mealrepository (edited)
+
+Sergey Zhukov [24 minutes ago]
+В сервис мы инжектим MealRepository, чтобы заинжектить надо реализовать а если мы имплементим еще и JpaRepository то надо уже и все его методы реализовать... т.е. получаем такую вот фигню
+короче делегирование самый простой способ все заиметь в одной реализации
+Нам Спринг подсунет SimpleJpaRepository (edited)
+crud_meal2.png
+
+
+
+Sergey Zhukov [19 minutes ago]
+он нам не нужен в спринге, но в реале там подсунута реализация
+я отвечаю на вопрос топикстартера
+```Но почему он не имплементирует CrudUserRepository?```
+
+
+Sergey Zhukov [17 minutes ago]
+в выпускном можно фигарить JpaRepository или CrudRepository прям в сервис, но тут другая ситуация, ублажаем готовый сервис
+
+
+Gekov Iliya [17 minutes ago]
+Аа, понял, ну да, все верно, я думал мы уже отошли от той темы)
+
+
+Gekov Iliya [10 minutes ago]
+Я видимо изначальный вопрос не так понял, думал речь идет о том, почему userrepository не имплементит cruduserrepo (edited)
