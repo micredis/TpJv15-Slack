@@ -23,3 +23,40 @@ Spring 5 для профессионалов, 5-е издание
 chitai-gorod.ru
 Java Persistence API и Hibernate (Бауэр К., Кинг Г., Грегори Г.)  – купить книгу с доставкой в интернет-магазине «Читай-город». ISBN: 9785970601808.
 В книжном интернет-магазине «Читай-город» вы можете заказать книгу «Java Persistence API и Hibernate» (Бауэр К., Кинг Г., Грегори Г.) по низкой цене. Бесплатная доставка по всей России, скидки и акции по карте любимого покупателя!
+
+
+
+Стецко Максим 20 hours ago
+https://dmkpress.com/catalog/computer/programming/java/978-5-97060-180-8/ тут вообще 999р) но доставка только почтой России
+ dmkpress.com
+Java Persistence API и Hibernate (82 kB)
+
+ 
+Стецко Максим 20 hours ago
+это сам издатель
+
+
+Zhinko [Yesterday at 3:29 PM]
+После накатки патча hibernate cache стала в pom  версия hsql красным показываться. У кого такое было?
+question2.png
+
+
+
+2 replies
+Grigory Kislin [19 hours ago]
+если реимпорт не подтягивает- попробуй удалить
+org.hsqldb.hsqldb из локального maven репозитория
+
+
+
+Zhinko [18 hours ago]
+Это помогло спасибо
+
+
+fibz [Yesterday at 10:34 PM]
+У меня томкат 7 не может запустить сервер в InteliJ с 11 jdk.  Это решается только апгрейдом томката?
+
+
+1 reply
+fonto [12 hours ago]
+9.0.12 ставь

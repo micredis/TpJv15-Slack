@@ -2082,3 +2082,92 @@ Gekov Iliya [17 minutes ago]
 
 Gekov Iliya [10 minutes ago]
 Я видимо изначальный вопрос не так понял, думал речь идет о том, почему userrepository не имплементит cruduserrepo (edited)
+
+
+Grigory Kislin [20 hours ago]
+> в выпускном можно фигарить JpaRepository или CrudRepository прям в сервис
+и даже прямо в контроллер
+
+
+fonto [19 hours ago]
+@Grigory Kislin  это сарказм?;)
+
+
+Marat [17 hours ago]
+Что значит фигарить? Наследоваться сразу в сервисе вот так class MealServiceImpl implements MealService extends JpaRepository? (edited)
+
+
+Gekov Iliya [17 hours ago]
+@Marat Нет, если не относительно нашего проекта: создаем интерфейс MyRepository,экстендим JpaRepository, всё, репозиторий по сути готов. Далее в сервисе, к примеру, MyService инжектим поле MyRepository. Всё, репозиторий готов к работе, реализаций в виде класса для репозитория не требуется (edited)
+
+
+Sergey Zhukov [16 hours ago]
+инжектоавтоварить
+
+
+Sergey Zhukov [14 hours ago]
+@Marat фигарить вылетело, я имел ввиду @Autowired :grin:
+
+
+KaryNaiKo [Yesterday at 8:18 PM]
+Объясните, зачем нужна аннотация @Modifying?
+
+
+6 replies
+Sergey Zhukov [14 hours ago]
+из гугла
+```@Modifying говорит о том, что указанный метод должен быть интерпретирован как модифицирующий запрос```
+я так понял это команда будет в базу дана, готовься к апдейту
+
+
+Gekov Iliya [14 hours ago]
+https://www.logicbig.com/tutorials/spring-framework/spring-data/modifying-queries.html
+
+
+Sergey Zhukov [14 hours ago]
+почти угадал )
+
+
+Gekov Iliya [14 hours ago]
+После выполнения модифицирующих запросов в контексте энтити менеджера может остаться неактуальная инфа по сущностям, эта аннотация, как я понимаю, дает спрингу понять, что этот запрос именно update и надо очистить энтити менеджер от устаревшей инфы
+
+
+Sergey Zhukov [14 hours ago]
+наверно не спрингу а хибернейту
+
+
+Gekov Iliya [14 hours ago]
+Ну да, имеется в виду, что спринг сканирует аннотации и дальше по цепочке отдает команды, в итоге это конечно ляжет на плечи хибернейта (edited)
+
+
+Roman Baranov [9:40 PM]
+а отчего используются запросы с индексами параметров
+`@Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id = ?1 and m.user.id = ?2")`
+а не с именнованными параметрами
+`@Query("SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id AND m.user.id=:userId")`
+ведь с именнованными параметрами легче читать
+
+
+Sergey Zhukov [Today at 10:34 AM]
+по предложенному решению:
+в чем отличия?
+предложено:
+    ```@Override
+    public Meal get(int id, int userId) {
+        return crudMealRepository.findById(id).filter(meal -> meal.getUser().getId() == userId).orElse(null);
+    }```
+мое решение, может я что-то не учел?
+    ```@Override
+    public Meal get(int id, int userId) {
+        return mealRepository.getByIdAndUserId(id, userId);
+    }```
+*upd* одно отличие я заметил, мне пришлось его объявить в интерфейсе, чтобы JPA сгенерил мне запрос, Григорий использовал дефолтный метод (edited)
+
+
+2 replies
+Gekov Iliya [12 minutes ago]
+Кода перед глазами нет, не помню, второй способ что возвращает если не найден такой мил?
+
+
+Sergey Zhukov [8 minutes ago]
+тесты проходят, значит null

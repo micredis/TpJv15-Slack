@@ -1777,3 +1777,16 @@ Taras [18 hours ago]
 
 stepan1006 [7:36 PM]
 Снимок экрана 2018-11-07 в 18.32.23.png 
+
+
+Lamekhova Alisa [Yesterday at 6:01 PM]
+Поле enabled в юзере показывает залогинен он или нет? Что-то не могу найти когда его добавили
+
+
+2 replies
+Taras [14 hours ago]
+Как я понял, это задел на будущее. Пока не используется.
+
+
+Lamekhova Alisa [3 hours ago]
+Ок, понятно)

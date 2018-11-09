@@ -587,3 +587,12 @@ Marat [Today at 2:05 PM]
 Dima [< 1 minute ago]
 в репозитории можно ничего не указывать, предварительно записав в обьект нужные данные:
 ```Vote vote = new Vote(); vote.setRestaurantId(restId); vote.setUserId(userId); voteRepo.save(vote);```
+
+
+Maxim [Yesterday at 10:55 PM]
+Кто как планирует\сделал работать с бд: Spring data, Hibernate, JPA?
+
+
+1 reply
+Dima [12 hours ago]
+у меня все через spring data, но чувствую все придется через @Query делать, потому что много запросов к базе.

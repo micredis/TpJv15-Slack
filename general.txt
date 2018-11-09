@@ -1185,3 +1185,49 @@ Sergey Zhukov [Today at 12:04 AM]
 1 reply
 Tanya [12 hours ago]
 считается что опоздал на последнее ревью :wink: (edited)
+
+
+Grigory Kislin [Yesterday at 3:11 PM]
+https://topjava15.slack.com/archives/CDXHK5KKJ/p1541678517014400
+Стецко Максим
+кому нужно ссылка spring 5 для профессионалов http://diamail.com.ua/book/8303.html (поступление декабрь), а пока сегодня заказал Java Persistence API и Hibernate 1700р (https://www.chitai-gorod.ru/catalog/book/1061404/) похоже последнюю забрал (стоит 2019, видимо новая редакция).
+Thread in #hw6Yesterday at 2:01 PM
+
+
+8 replies
+Стецко Максим [20 hours ago]
+https://dmkpress.com/catalog/computer/programming/java/978-5-97060-180-8/ 999р
+dmkpress.com
+Java Persistence API и Hibernate (82 kB)
+
+
+Sergey Zhukov [19 hours ago]
+эта 2017 года, различия изданий какие?
+
+
+Стецко Максим [19 hours ago]
+да мне кажется это когда напечатано, в 2017г было 200 копий тираж всего)
+
+
+Стецко Максим [19 hours ago]
++ где 999 это сайт самого издателя
+
+
+fonto [18 hours ago]
+В электронном виде будет эта книга?)
+
+
+Стецко Максим [18 hours ago]
+обыскался, но не нашел на русском) вроде на eng есть в инете
+
+
+Tanya [13 hours ago]
+Java Persistence API и Hibernate сама книга на нагл от 2015г, но перевод только вышел
+
+
+fonto [12 hours ago]
+Да мне без разницы на перевод, я про Спринг 5 для профессионалов. И ещё вопрос в чем отличие этой книги от spring in action 5 или допустим от книг издательства packt?
+
+
+Tabacco974 [5:51 PM]
+Добрый вечер!
