@@ -969,3 +969,105 @@ https://jsehelper.blogspot.com/p/welcome.html отличная ссылка дл
 jsehelper.blogspot.com
 Welcome
 Вопросы на собеседование Junior Java Developer, Питання на співбесіду Junior Java Developer, Junior Java Developer Interview questions , что должен знать java junior, jsehelper home page
+
+
+Dima [7:23 AM]
+Состояние выпускного проекта (edited)
+RestaurantProject 
+
+
+izgarshev.pavel [Yesterday at 3:27 PM]
+Товарищи, нужна помощь. Второй день мучаюсь. Гугл уже не помогает, хотя вроде подобрался близко к разгадке. Есть БД, например, с одним столбцом. Нужно: с помощью джавакода получить случайную строку из этой БД.
+
+
+22 replies
+izgarshev.pavel [1 day ago]
+Я себе представляю 2 пути решения. 1 это sql запрос, который показывает в таблице количество записей, но я не знаю, как из этого resultset получить число, с которым можно работать. А 2 - это ввожу интовую переменную, делаю sql: select * from table, дальше в цикле иду по всем записям и увеличиваю переменную, получаю кол-во записей
+
+
+izgarshev.pavel [1 day ago]
+Но возникает вопрос, как в сам запрос вставить число из метода, который мне уже расчитывает рандомное число, которое является номером строки в таблице
+
+
+izgarshev.pavel [1 day ago]
+может есть какой-то более простой способ достать рандомную запись из таблицы? :disappointed_relieved:
+
+
+izgarshev.pavel [1 day ago]
+То есть вариант с "SELECT WORD FROM  TABLE WHERE ID = (getRandomInt); не работает (edited)
+
+
+Dima [24 hours ago]
+https://www.petefreitag.com/item/466.cfm
+
+Dima [24 hours ago]
+выше по ссылке суть такая: сортируешь при помощи функции random() и выбираешь 1 элемент
+
+
+Dima [24 hours ago]
+можно сделать в два запроса:
+```1. SELECT COUNT(*) FROM table```
+это мы получили количество строк в таблице, потом у коде генерим число от 0 до (количество строк - 1) , и делаем еще запрос
+```SELECT строка FROM table LIMIT $сгенерированное число, 1```
+
+
+Sergey Zhukov [24 hours ago]
+из гугла, вроде должно работать, нативный sql запрос SELECT * FROM `table` ORDER BY RAND() LIMIT 1 (edited)
+
+
+Sergey Zhukov [24 hours ago]
+с помощью джавакода что имеется ввиду? в сринге jdbc, jpa или на низком уровне - connection, statement, resultset?
+
+
+izgarshev.pavel [23 hours ago]
+@Sergey Zhukov с помощью джавакода это я имел ввиду connection, statement, resultset ) Сейчас попробую эти решения, которые вы предложили
+
+
+izgarshev.pavel [23 hours ago]
+@Sergey Zhukov "SELECT * FROM `table` ORDER BY RAND() LIMIT 1" это сработало, спасибо большое. Странно, что я не нашел этот вариант раньше
+
+
+Dima [22 hours ago]
+это работает только для мелких таблиц, если таблица большая - может и заглючить
+
+
+izgarshev.pavel [22 hours ago]
+а если большая что поможет? )
+
+
+Dima [22 hours ago]
+вначале подсчитать кол-во строк, рандомизировать по нему и запрос уже конкретный, я ж выше писал. погугли "sql random row" - куча вариантов)
+
+
+Grigory Kislin [21 hours ago]
+@izgarshev.pavel с чем связана такая задача?
+
+
+izgarshev.pavel [21 hours ago]
+@Grigory Kislin пишу десктопную игру Активити, по моей логике при нажатии на кнопку (выборе карточки) из базы достается случайное слово, которое игрок должен объяснить дргуим игрокам
+
+
+Dima [21 hours ago]
+@Grigory Kislin ну можно использовать такое для отображения рандомной скидки на ресторан,предварительно договорившись с владельцами)
+
+
+Grigory Kislin [20 hours ago]
+а база слов- часто изменяется?
+
+
+izgarshev.pavel [20 hours ago]
+планирую сделать её определенного размера, но с возможностью добавления новых слов (edited)
+
+
+izgarshev.pavel [20 hours ago]
+нечасто (edited)
+
+
+Grigory Kislin [20 hours ago]
+варианты разные...
+- например все в List затянуть на старте и там уже random брать
+- SELECT * FROM t LIMIT 1 OFFSET x; - так многие базы понимают (х от 0 до count-1)
+
+
+Grigory Kislin [20 hours ago]
+если в память затягивать, но заодно можно удалить, чтобы не дублировалось

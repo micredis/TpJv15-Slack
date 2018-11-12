@@ -661,3 +661,96 @@ Pasted image at 2018-11-06, 10:12 PM
 
 Raisa [15 minutes ago]
 но я нигде не нахожу этот репозиторий или что это
+
+
+Raisa [6 days ago]
+конечно, в папке resourcers еще был локальный репозиторий (edited)
+
+
+Raisa [6 days ago]
+вот здесь еще можно было посмотреть, оказывается:
+Pasted image at 2018-11-06, 10:42 PM
+
+
+
+Raisa [6 days ago]
+когда пытаюсь добавить файлы, пишет:
+Pasted image at 2018-11-06, 10:49 PM
+
+
+
+shomnest [6 days ago]
+А второй репозиторий ты удалила?
+
+
+Raisa [6 days ago]
+да, папку .git удалила из recources. это был подмодуль
+
+
+Raisa [6 days ago]
+навряд ли у кого-то еще такое произойдет :joy: но вот ссылка, если что https://stackoverflow.com/questions/24472596/git-fatal-pathspec-is-in-submodule
+Stack Overflow
+Git: fatal: Pathspec is in submodule
+I'm trying to get TravisCI to automatically deploy my Hakyll static site, according to this guide. Here's how my repo is set up. I have my source branch, which contains my hakyll and markdown file...
+ 
+ 
+
+
+Raisa [6 days ago]
+@shomnest спасибо большое :slightly_smiling_face:
+
+
+shomnest [6 days ago]
+Да особо и не зачто, пара догадок)
+
+
+Alexey_b [Nov 9th at 9:39 PM]
+а откуда можно запулить мастер ветку, готовую к накату патчей из HW06 ?
+
+
+10 replies
+Ilya [3 days ago]
+https://github.com/JavaWebinar/topjava/tree/master
+
+
+
+Ilya [3 days ago]
+конец 5го урока https://github.com/JavaWebinar/topjava/tree/ec7ee1cfb764831d0bf2840c34d7eaba85d57554
+
+
+Alexey_b [3 days ago]
+получается я ее вычекаю в новой ветке, и потом надо попытаться замержить в свой мастер?
+
+
+Alexey_b [3 days ago]
+что-то не сходится, у меня же свой мастер, разве получиться добавить код из другого репозитория?
+
+
+Ilya [3 days ago]
+я думаю надо запулить последнюю версию и если хочется самому накотить патчи, то после пула, сделать reset до нужного коммита
+
+
+Alexey_b [3 days ago]
+@Ilya  у меня вечерний тупняк, но хочется сегодня с веткой разобраться.  Я сейчас пытаюсь продолжить работать с другого ноута,  по гит логу я вижу что последний пуш от меня в мою мастер ветку был 28.10.  Это значит что все после наката патчей из HW05  я просто закомитил их, но не запушил.  Доступа к тому ноуту сейчас нет, накатывать заново все патчи лень.
+
+
+Alexey_b [3 days ago]
+если я склонирую заново как новый проект https://github.com/JavaWebinar/topjava/tree/master  то как потом его подсунуть в мой мастер?
+
+
+Alexey_b [3 days ago]
+ok, замержил свой hw05  в мастер и там откатился до патчей
+
+
+pal548 [3 days ago]
+вопрос был в том, как не накатывать патчи руками? Я делал в отдельной ветке большой коммит со всеми патчами, потом делал черри-пик этого коммита. А ты как сделал? Или не в этом вопрос
+
+
+Grigory Kislin [1 day ago]
+можно:
+1. git clone https://github.com/JavaWebinar/topjava
+2. git remote set-url origin url_на_твой_репозиторий.git
+3. git remote set-url --push origin url_на_твой_репозиторий.git
+4. git push -u origin master
+
+кто был на basejava- знают:) там так делаем (edited)

@@ -60,3 +60,616 @@ fibz [Yesterday at 10:34 PM]
 1 reply
 fonto [12 hours ago]
 9.0.12 ставь
+
+
+Andrew Kalugin [Nov 9th at 12:59 PM]
+после патча 6_05 должны работать тесты. Почему-то ничего не работает, не только тесты. В ошибках:
+13:43:13.665 WARN  o.s.context.support.AbstractApplicationContext.refresh:554 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#43d65a81' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#43d65a81' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBContext (edited)
+ошибки в тестах.jpg
+
+
+
+36 replies
+Andrew Kalugin [3 days ago]
+откатился, залил патчи по 6_02, тесты не работают :disappointed: что за ....
+
+Gekov Iliya [3 days ago]
+Посмотрите в pom зависимость по .*jaxb есть?
+
+Andrew Kalugin [3 days ago]
+<artifactId>jaxb-runtime</artifactId>
+<version>2.4.0-b180830.0438</version>
+такое есть
+
+
+Andrew Kalugin [3 days ago]
+может в ней какие проблемы. в mavan подтягиваться на отрез отказывалась. Только после обновения  IDEA и ручной заливки в репозиторий появилась в mavon
+
+
+Gekov Iliya [3 days ago]
+Вообще эта ошибка появляется из за этой зависимости
+
+Gekov Iliya [3 days ago]
+При переходе на джаву 11ю
+
+Gekov Iliya [3 days ago]
+Посмотрите в мавене ничего красным не подчеркнуто? А в таргет папке в либах jar - jaxb-api... И jaxb-runtime... есть?
+
+
+Andrew Kalugin [3 days ago]
+раньше она была красная в mavan - обновил IDEA и залил сам в jar - jaxb-api
+
+
+Andrew Kalugin [3 days ago]
+попробовать удалить?
+
+Gekov Iliya [3 days ago]
+Да, надо добиться чтобы мавен сам подтянул
+
+Gekov Iliya [3 days ago]
+Удалить из либ, удалить из пом, подождать пока мавен сделает апдейт и снова на место поставить зависимость, мне обычно это помогает (edited)
+
+Andrew Kalugin [3 days ago]
+щас попробую
+
+
+Gekov Iliya [3 days ago]
+Если не поможет, то удалить из локального репозитория мавена, чтобы он снова загрузил из инета
+
+
+
+Gekov Iliya [3 days ago]
+Ну и там соответственно clear сделать у мавена и пересобрать проект
+
+
+Gekov Iliya [3 days ago]
+По итогу в target -> WEB-INF ->lib должны попасть jaxb-api-2.3.1.jar и jaxb-runtime-2.3.1.jar
+
+
+Andrew Kalugin [3 days ago]
+почему 2.3.1? а 2.4.0-b180830.0438?
+
+
+Andrew Kalugin [3 days ago]
+я 2.4.0-b180830.0438 пытаюсь воткнуть
+
+Gekov Iliya [3 days ago]
+В pom мавена да, но в итоге в либы попадает этот jar (edited)
+
+Gekov Iliya [3 days ago]
+Думаю версия не столь важна, главное чтобы мавен увидел и добавил
+
+Andrew Kalugin [3 days ago]
+ааа... но 2.4.0-b180830.0438 все равно подчеркнут красным. удалил из локального репозитория - такая же хрень. По идее mavan должен же скачать новый jar
+
+
+Gekov Iliya [3 days ago]
+Реимпорт в мавене не помогает?
+
+
+Andrew Kalugin [3 days ago]
+нет
+
+
+Gekov Iliya [3 days ago]
+И соответственно в папке таргет как выше писал эти джарники мавен не добавляет?
+
+
+Andrew Kalugin [3 days ago]
+было уже это все - поэтому в ручную и заливал его в локальный репозиторий, но толку чуть
+
+
+Gekov Iliya [3 days ago]
+Проблема точно в этом. Если совсем ничего не помогает, может попробовать скачать самостоятельно мавен и в идее переключиться на него, вместо встроенного, может он с этой задачей справится
+
+
+Andrew Kalugin [3 days ago]
+неа... пробовал, в настройках уже изменил на свой mavan
+
+
+Andrew Kalugin [3 days ago]
+печалька :disappointed:
+
+
+Gekov Iliya [3 days ago]
+Черт, у меня идеи иссякли)
+
+
+Andrew Kalugin [3 days ago]
+у меня уже давно иссякли :))
+
+
+Andrew Kalugin [3 days ago]
+не.. одна осталась, пойду попробую
+
+
+Andrew Kalugin [3 days ago]
+@Grigory Kislin все, здаюсь. не знаю в чем дело
+
+
+Grigory Kislin [3 days ago]
+привет!
+Илья верно сказал:
+1. удалить каталог `org.glassfish.jaxb` из локального maven репозитория
+2.  на всякий случай еще можно удалить `javax.xml` и `javax.activation`
+3. сделать mvn clean test
+можно поставить свой maven и сделать вообще из консоли, чтобы idea не мешала
+
+
+Andrew Kalugin [3 days ago]
+@Grigory Kislin удалил эти каталоги из локального репозитория - теперь красных строчек стало больше. Mavan просто ни чего не грузит вместо удаленных файлов. Обновил Mavan до последней версии. В чем дело не знаю.
+ошибки в тестах2.jpg
+
+
+
+Grigory Kislin [3 days ago]
+@Andrew Kalugin
+у тебя кнопочка опущена в idea- работа в оффлайн
+в таких случаях надо отделять проблему- как я советовал из консоли мавен запускать
+нажми 5ю справа кнопку в окне maven (edited)
+
+
+Andrew Kalugin [3 days ago]
+@Grigory Kislin спасибо!!!! я тут доки mavan как раз изучал и тоже на эту плохую... кнопку наткнулся. 2 дня убил из-за какой-то хрени.... еще раз спасибо!
+
+
+Grigory Kislin [3 days ago]
+это к тому, что надо к проблеме грамотно подходить.  те отделать ее последовательно- в idea проблема или в mvn например...
+
+
+Dima [Nov 9th at 2:31 PM]
+пункт задания 1.1 это шарада? что за mock.xml и классы тестов?
+
+
+1 reply
+Grigory Kislin [3 days ago]
+поправил `mock.xml`->`inmemory.xml`
+переименовали (edited)
+
+
+Dima [3:36 PM]
+и еще вопрос: куда делись style.css в патче 6.14, upd:увидел, но не сразу) (edited)
+
+
+fonto [Nov 9th at 5:31 PM]
+@Grigory Kislin
+Вопрос такой, почему внутренние классы JdbcMealRepositoryImpl, вы сделали static?? Чтобы Спринг смог их заинжектить, я правильно понимаю?)
+
+
+2 replies
+Sergey Zhukov [3 days ago]
+да все падает если не статик... спринг не может создать инстанс класса без создания экземпляра внешнего класса... а он абстрактный, вообще такое не провернуть ))
+реализация не для слабонервных...
+я делал проще, чтобы избавится от дублирования кода (чтобы не вызывать конструкторы суперкласса)
+        ```public TimestampJdbcMealRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+            super(jdbcTemplate, namedParameterJdbcTemplate);
+        }```
+заинжектил уже настроенный бин
+    ```@Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Autowired
+    private SimpleJdbcInsert insertMeal;
+
+    @Bean
+    public SimpleJdbcInsert getSimpleJdbcInsert(){
+        return new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("meals")
+                .usingGeneratedKeyColumns("id");
+    }```
+с новой версией HSQLDB уже не актуально
+
+
+fonto [3 days ago]
+Ну то что с новой версией не актуально то я понял)), мне просто было интересно, вдруг есть какая-то другая причина)
+
+
+Grigory Kislin [7:30 PM]
+если классу не нужен родитель, его следует делать статик
+
+Taras [11:19 PM]
+Это общее правило (рекомендация spring)?
+
+YuriyUh [10:49 AM]
+После накатки патча со спринговой локализацией, приложение при вызове из браузера падает с ошибкой, стоит ubunta, думал мож проблема с путями, но нет, локальный репозиторий мавена обновлял, в идее с помощью мыши и контрл скачет куда надо в проперти с локализациями.
+org.apache.jasper.JasperException: An exception occurred processing [/WEB-INF/jsp/fragments/headTag.jsp] at line [8]
+
+5: <head>
+6:     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+7:     <title><spring:message code="app.title"/></title>
+8:     <link rel="stylesheet" href="resources/css/style.css">
+9: </head>
+
+
+YuriyUh [Nov 10th at 10:50 AM]
+Root Cause
+
+javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'.
+    org.springframework.web.servlet.tags.MessageTag.doEndTag(MessageTag.java:293)
+    org.apache.jsp.WEB_002dINF.jsp.fragments.headTag_jsp._jspx_meth_spring_005fmessage_005f0(headTag_jsp.java:174)
+    org.apache.jsp.WEB_002dINF.jsp.fragments.headTag_jsp._jspService(headTag_jsp.java:135)
+    org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+
+
+2 replies
+vch [2 days ago]
+Походит на проблемы с переменной окружения. Она точно выставлена?
+
+
+YuriyUh [2 days ago]
+Спасибо за подсказку, локально была выставлена, а вот  в системном окружении нет. Заработало.
+
+
+lifter4ik [Nov 10th at 2:27 PM]
+На что здесь IDEA возмущается? При этом все запускается нормально. У всех так?
+trouble.png
+
+
+
+13 replies
+Dima [2 days ago]
+Обычно так подчеркивает,если идея не может определить отображения( нет страницы jsp) с таким именем по тому пути ,который написан в viewResolver
+
+
+lifter4ik [2 days ago]
+Вопрос почему она не может определить-то. Все строго по патчам, ничего не менял.
+
+
+Dima [2 days ago]
+Ну у меня точно не подчеркивает, попробуй сделать мэйвену clean и переподключи зависимости
+
+
+lifter4ik [2 days ago]
+Делал, не помогает(
+
+lifter4ik [2 days ago]
+Удалил модуль Spring из Project Structure. Потом он сам находит и подчеркивания исчезают. Но в контекст автоматом не влетает spring-tools.xml. Когда вручную делаешь - подчеркивать снова начинает. Морока какая-то
+
+
+lifter4ik [2 days ago]
+Хотя spring-tools.xml же импортится, так что все ок
+
+
+lifter4ik [2 days ago]
+Понять бы просто почему при autodetected ничего не подчеркивает, а когда вручную делаешь, начинает тупить...
+
+
+Dima [2 days ago]
+111111.jpg
+
+
+
+Dima [2 days ago]
+ну вот у меня так выглядит структура springa, при этом ничего руками не делал
+
+
+Dima [2 days ago]
+и все поддерживается и не подчеркивает
+
+
+lifter4ik [2 days ago]
+Я про тоже, что автоматически если, то все ок сразу.
+
+
+Grigory Kislin [1 day ago]
+структура Spring должна быть такой, как на картинке в уроке после 9. Spring Web MVC. проверь (edited)
+
+
+lifter4ik [1 day ago]
+если делать в точности как на картинке из урока, то начинает подчеркивать в контроллере. первый скрин как раз при такой структуре
+
+
+Zhinko [Nov 10th at 3:51 PM]
+У одного меня проблема с накаткой патчей из-за bodyHeader.jsp? (edited)
+
+
+1 reply
+Grigory Kislin [1 day ago]
+у меня все хорошо. ссылку куда смотреть кинул в личку
+
+
+KaryNaiKo [Nov 10th at 4:16 PM]
+Лол, как быть?
+1. Не понимаю как работает и не понимаю, что не понимаю :smile:
+Зачем нам mappedBy = "user" в
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+   @OrderBy("dateTime DESC")
+   protected List<Meal> meals;
+2. Как через обычный sql взять user с его едой, у нас же нет в БД связей таких
+
+
+2 replies
+pal548 [1 day ago]
+Через обычный sql 
+`Select u.*, m.*`
+`From users u`
+          `Left join meals m on m.user_id = u.id`
+`Where u.id = :user_id` (edited)
+
+
+
+Sergey Zhukov [1 day ago]
+Если не указать *mappedBy = "user"* то связь будет односторонняя. Этот параметр указывает хиберу, что надо искать аннотацию *@ManyToOne* на поле *user*.
+
+
+KaryNaiKo [Yesterday at 11:48 AM]
+Я правильно понимаю, что у нас в проекте 3 способа избежать проблемы "N+1"?
+1. Fetch join в запросе;
+2. @BatchSize(size = 200) при jpa реализации
+3. @EntityGraph при datajpa реализации
+И их не обязательно все вместе использовать, так?
+
+
+2 replies
+Grigory Kislin [1 day ago]
++
+использовать что-то одно
+
+
+Grigory Kislin [1 day ago]
++ вроде еще есть варианты. например FetchMode.SUBSELECT
+
+
+Gekov Iliya [Yesterday at 12:17 PM]
+https://youtu.be/KuCqVD9rDqA хорошее видео по проблеме N+1
+YouTube Java World
+Lesson 31 - N + 1 Selects Problem
+ 
+
+
+30 replies
+Ilya [1 day ago]
+да, интересно, получается что выборка н+1 при больших объемах данных выгоднее вычитывания сразу всех?
+
+
+Gekov Iliya [1 day ago]
+Если правильно понимаю, то да, но с использованием BatchSize
+
+
+Ilya [1 day ago]
+а, чтобы порциями читал, так в запросе мы такое указать не можем?
+
+
+Gekov Iliya [1 day ago]
+Вот этого не знаю, это же получается разбивка на несколько запросов в завистмости от объема выборки, указанного в батчсайзе, одним запросом то как это провернуть
+
+
+Ilya [1 day ago]
+select first 100 from user where id not in ( тут указываются ид которые уже вычитали )
+
+Gekov Iliya [1 day ago]
+Да, но мы получается получим эти 100 и всё, а нам нужно вычитать все, но запросами по 100, то есть нам нужно N/100 таких запросов (edited)
+
+
+Ilya [1 day ago]
+да, но если мы вычитываем с eager то там получается на каждый 100 записей 100 запросов
+
+
+Ilya [1 day ago]
+а просто вычитывание N/100 запросов
+
+Ilya [1 day ago]
+N - записей в таблице
+
+Gekov Iliya [1 day ago]
+Ну да, получается если мы запросы будем вручную писать, то нам нужно высчитать это N/100 и отправить это количество запросов, а аннотация батчсайз сделает это за нас, если я правильно понимаю
+
+
+Ilya [1 day ago]
+она работает с namedQuery?
+
+
+Gekov Iliya [1 day ago]
+Не знаю
+
+
+Ilya [1 day ago]
+я так понял что батчсайз вычитывает к примеру 200 записей и делает 200 запросов еще на связанные данные.
+
+
+Ilya [1 day ago]
+причем на каждую связанную таблицу
+
+
+Ilya [1 day ago]
+тоесть их может быть не 200))
+
+
+Ilya [1 day ago]
+если студен связан с курсом, с группой, историей обучения, еще какой таблицей) то вычитывание умножается на все эти списки(
+
+
+Gekov Iliya [1 day ago]
+Да, все это очень не просто) надо книжки серьезные почитать по хибернейту
+
+
+Ilya [1 day ago]
+понятно почему его не любят)
+
+
+Gekov Iliya [1 day ago]
+Ну если не любят, пусть придумают лучше, будем только рады, а пока придется разбираться)
+
+
+Ilya [1 day ago]
+я так понял просто запросами обычно делаеют)
+
+
+Ilya [1 day ago]
+без объектной модели
+
+
+Ilya [1 day ago]
+зависит конечно от задачи.
+
+
+Gekov Iliya [1 day ago]
+В сложных случаях по любому приходится заморачиваться
+
+
+Gekov Iliya [1 day ago]
+Так что к серьезной книжке по хибернейту надо прибавить серьезную книжку по sql'у)
+
+
+Ilya [1 day ago]
+это точно,а к ней книжку по проектированию бд и так до бесконечности) (edited)
+
+
+Dima [1 day ago]
+Если имплементироваться от PageAndSortRepository,то можно читать столько записей сколько хочешь.
+
+
+Ilya [1 day ago]
+он списки не вычитывает?
+
+
+Gekov Iliya [1 day ago]
+Это да, вопрос в ситуации, когда мы хотим считать именно все записи, получить адекватное время вычитки и не положить базу (edited)
+
+
+Dima [1 day ago]
+Он читает так ,как укажешь,eager или lazy. Надо смотреть по логам
+
+
+Dima [1 day ago]
+Ща приеду с работы,тоже посмотрю видос,буду с вами в теме
+
+
+KaryNaiKo [3:22 PM]
+В чем отличия spring cache в UserServiceImpl и hibernate cache в User?
+
+
+lifter4ik [Yesterday at 4:05 PM]
+Почему style.css если подключать напрямую к jsp не подключается, а через фрагменты подключается?
+
+
+1 reply
+lifter4ik [24 hours ago]
+торможу. мы же файл перенесли в патче, а путь не поменяли. все работает.
+
+
+Sergey Simonov [Yesterday at 4:39 PM]
+кто как указывал что нужно игнорировать метод валидации в jdbcXXXServiceTest? Assume.assumeTrue(boolean) в начале тела метода?
+когда условие игнора теста выпослняется то выводит в лог такую штуку
+
+org.junit.AssumptionViolatedException: got: <false>, expected: is <true>
+    at org.junit.Assume.assumeThat(Assume.java:95)
+    at org.junit.Assume.assumeTrue(Assume.java:41)
+...
+
+кто знает как покрасивше сделать? (edited)
+
+
+2 replies
+Dima [22 hours ago]
+в инете куча вариантов, этот самый простой. В JUnit 5 есть для этого аннотации @Disabled, но у нас пока 4-й
+
+
+pal548 [21 hours ago]
+можно добавить сообщение в метод `Assume.assumeTrue(String, boolean)`
+
+
+pal548 [Yesterday at 8:03 PM]
+Делаю контроллер спринг-МВС, но у нас в прошлом контроллере было много логики. По идее хорошо бы сделать сервис, куда всю эту логику переместить, и уже его дергать из мвс-контроллера ?
+
+
+2 replies
+Grigory Kislin [20 hours ago]
+для юзеров есть UserServiceImpl и AbstractUserController
+
+
+pal548 [20 hours ago]
+так сделано, чтобы аутентификация была не в сервисах, например?
+
+
+Sergey [Yesterday at 8:14 PM]
+Я совсем не могу понять блок datajpa  в spring-db: зачем нужны все эти строки с "<entry key" ?
+не могу понять блок datajpa  в spring-db
+​
+  <beans profile="jpa,datajpa">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+       p:dataSource-ref="dataSource"
+       p:packagesToScan="ru.javawebinar.**.model">
+      <!--p:persistenceUnitName="persistenceUnit">-->
+​
+      <property name="jpaPropertyMap">
+        <map>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+              value="${hibernate.use_sql_comments}"/>
+          <!--<entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="${hibernate.hbm2ddl.auto}"/>-->
+​
+          <!--https://github.com/hibernate/hibernate-orm/blob/master/documentation/src/main/asciidoc/userguide/chapters/caching/Caching.adoc#caching-provider-jcache-->
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).CACHE_REGION_FACTORY}"
+              value="org.hibernate.cache.jcache.internal.JCacheRegionFactory"/>
+          <entry key="#{T(org.hibernate.cache.jcache.ConfigSettings).PROVIDER}"
+              value="org.ehcache.jsr107.EhcacheCachingProvider"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SECOND_LEVEL_CACHE}" value="true"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_QUERY_CACHE}" value="false"/> <!--default-->
+​
+<!--
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_ACTION}" value="drop-and-create"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="${TOPJAVA_ROOT}/config/ddl/create.ddl"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_DROP_TARGET}" value="${TOPJAVA_ROOT}/config/ddl/drop.ddl"/>
+          <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="create"/>
+-->
+        </map>
+      </property>
+​
+      <property name="jpaVendorAdapter">
+        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${jpa.showSql}">
+        </bean>
+      </property>
+    </bean>
+​
+    <tx:annotation-driven/>
+​
+    <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+       p:entityManagerFactory-ref="entityManagerFactory"/>
+​
+    <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
+  </beans>
+Collapse
+
+
+2 replies
+Dima [18 hours ago]
+https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html#expressions-beandef
+
+
+Dima [18 hours ago]
+entry key -это пара - ключ значение.
+
+
+Zhinko [Yesterday at 8:39 PM]
+Делаю JspMealController так у меня при старте приложения почему то перестали работать css стили , хотя в стилях я ничего не менял. У кого такое было?
+
+
+2 replies
+pal548 [19 hours ago]
+стили в meals.jsp прописаны в самой странице, а нужно подключать тег `<jsp:include page="fragments/headTag.jsp"/>`
+
+
+Dima [18 hours ago]
+попробуй в headTag.jsp заменить обьявление стилей на такое
+```<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">```
+
+
+pal548 [Yesterday at 11:01 PM]
+сделать сервлет без action, это нужно из браузера посылать запросы методом DELETE например, но это возможно только джаваскриптом?
+
+
+3 replies
+Dima [17 hours ago]
+я делал get запрос meals/delete/{idMeal}
+
+
+Zhinko [16 hours ago]
+Я тоже так делал
+
+
+pal548 [16 hours ago]
+да, сам до этого тоже догадался
