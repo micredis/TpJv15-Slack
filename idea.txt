@@ -616,3 +616,31 @@ Vladimir Gorbatenko [4 hours ago]
 
 Dima [2 hours ago]
 Видео Григория сделано на другой Idea, видимо поэтому такого там нет
+
+
+Vladimir Gorbatenko [22 hours ago]
+в вертикальном виде удобочитаемо
+
+
+Vladimir Gorbatenko [Today at 9:46 AM]
+Игрался я тут HSQLDB и понял что есть куча вопросов:
+1) как без POM файла можно узнать есть ли в библиотеках подгруженные либы по зависимостям HSQLDB?
+2) как без POM файла можно узнать какая версия версия либы HSQLDB в проекте?
+3) как подсунуть свои либы в локальный репозиторий (скачанные вручную)?
+  Решено. Установить, пример:
+  mvn install:install-file -Dfile=D:\hsqldb-2.4.1\hsqldb\lib\hsqldb.jar -DgroupId=org.hsqldb -DartifactId=hsqldb -Dversion=2.4.1 -Dpackaging=jar
+4) почему в pom файле указана версия 2,4,1 , а в локальном репозитории ее нет?
+  Решено, таки подхватывался репозиторий по умолчанию:
+  Default: ${user.home}/.m2/repository (edited)
+hsqldb_.JPG
+
+
+
+2 replies
+Grigory Kislin [1 hour ago]
+1-2... ну, можно наверно собрать проект и посмотреть в war какой jar подтянулся. вообще смысл вопроса не понял
+
+
+Vladimir Gorbatenko [31 minutes ago]
+Хотел увидеть hsqldb, просто интересно было. Вот тут (на скрине) есть библиотеки с версиями, а я искал hsqldb и нигде не мог найти. В war-нике тоже не видно... (edited)
+ext_lib.JPG

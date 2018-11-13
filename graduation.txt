@@ -705,3 +705,35 @@ Zhinko [3 hours ago]
 
 Zhinko [2 hours ago]
 Как я понял согласно условию меню меняется каждый день. Ты можешь достать еду из базы совпадающую с сегодняшней датой. Эта еда и будет входить в сегодняшнее меню
+
+
+Lamekhova Alisa [21 hours ago]
+Блин да, это лишнее(
+
+
+Lamekhova Alisa [Today at 9:51 AM]
+В MealRepo есть метод Meal get(int id, int userId); // null if meal do not belong to userId. В своем проекте делаю аналогичный, но в нем ведь не надо проверять принадлежит ли еда к ресторану? Т. е. он просто может гетать еду по id, как в UserRepo
+
+
+1 reply
+Grigory Kislin [1 hour ago]
+если еда привязана к ресторану то надо проверять
+
+
+Lamekhova Alisa [Today at 10:37 AM]
+И еще вопрос: в методах типо                                                                      //Get all votes for the restaurant, null if restaurant not found
+List<Vote> getAllRestaurantVotes(int restaurantId); лучше возвращать null если ресторан не найден или кидать что-то вроде NotFoundException?
+
+
+3 replies
+Dima [4 hours ago]
+Я втаких методах возвращал Optional<Vote> и всамом сервисе получаю List<Vote> voteRepo.getAll(rest).orElseThrow new Exception
+
+
+Dima [4 hours ago]
+И сделал ExceptionHandler,который перехватчвает все мои исключения и отправляет ответ от спрвера красивый
+
+
+Grigory Kislin [1 hour ago]
+1. return List - никогда не возвращай null, всегда пустой список
+2. если restaurantId передан с ошибкой- то это ошибка входящих данный, требуется эксепшен

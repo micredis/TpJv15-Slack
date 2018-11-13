@@ -673,3 +673,141 @@ Zhinko [16 hours ago]
 
 pal548 [16 hours ago]
 да, сам до этого тоже догадался
+
+
+ABaykov [6:06 PM]
+В реальном проекте часто проблему можно решить простым обновлением версии:
+топовый совет
+:+1:
+
+
+KaryNaiKo [Yesterday at 8:22 PM]
+Как в хроме сделать английское отображение проекта?
+
+
+3 replies
+Grigory Kislin [18 hours ago]
+под видео есть
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson06.md#-10-spring-internationalization
+
+
+KaryNaiKo [8 hours ago]
+Я так делал, ничего не получилось(
+
+
+Gekov Iliya [6 hours ago]
+Еще надо в настройках выбранного языка ( chrome://settings/languages )поставить пункт, что то вроде "отобразить chrome на этом языке"
+
+
+Vladimir Gorbatenko [Today at 11:10 AM]
+Ребята, а кто-то понял про пункт "Занятие 6: Добавил тесты на валидацию"?
+Мы ловим исключения javax, который валидирует энтити. Так вот зачем оно нам надо? (edited)
+
+
+7 replies
+Gekov Iliya [3 hours ago]
+Ага, создаем невалидные энтити и ждем исключений (edited)
+
+
+Chensy [3 hours ago]
+Да, чтобы проверить что для всех полей ограничения установлены и не прокатит безнаказанно, например, создать энтитю с пустым именем
+
+
+Vladimir Gorbatenko [3 hours ago]
+Понял, тупо проверка того что там навалидировалось, посмотреть как проругался на кривые поля и при этом ожидаем эксепшены.
+
+
+Vladimir Gorbatenko [3 hours ago]
+Но что нам мешает в тестах прописать такое?
+@Test(expected = ConstraintViolationException.class)
+и обойтись без велосипеда... (edited)
+
+
+Chensy [3 hours ago]
+а ты попробуй и увидишь)
+
+
+Gekov Iliya [3 hours ago]
+В материалах урока по этому поводу все описано, мы же получаем целый стек исключений, а нам нужно только первоначальное, Test(expected..) его просто не увидит (edited)
+
+
+Vladimir Gorbatenko [3 hours ago]
+Да... Оказалось не так как ожидал.  :slightly_smiling_face:
+Всем спасибо!
+
+
+Maxim Valeev [Today at 12:24 PM]
+После 13-го патча, запускаю плагин cargo:run и получаю это. Кто знает в чем проблема?
+Untitled
+"C:\Program Files\Java\jdk-11.0.1\bin\java.exe" -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:62018,suspend=y,server=n -Dmaven.multiModuleProjectDirectory=D:\Study\Java\topjava "-Dmaven.home=C:\Program Files\JetBrains\IntelliJ IDEA 2018.2.2\plugins\maven\lib\maven3" "-Dclassworlds.conf=C:\Program Files\JetBrains\IntelliJ IDEA 2018.2.2\plugins\maven\lib\maven3\bin\m2.conf" -javaagent:C:\Users\Max\.IntelliJIdea2018.2\system\captureAgent\debugger-agent.jar=file:/C:/Users/Max/AppData/Local/Temp/capture2.props -Dfile.encoding=UTF-8 -classpath "C:\Program Files\JetBrains\IntelliJ IDEA 2018.2.2\plugins\maven\lib\maven3\boot\plexus-classworlds-2.5.2.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2018.2.2\lib\idea_rt.jar" org.codehaus.classworlds.Launcher -Didea.version=2018.2.5 -DskipTests=true cargo:run -P postgres
+Connected to the target VM, address: '127.0.0.1:62018', transport: 'socket'
+[INFO] Scanning for projects...
+[INFO]                                     
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Calories Management 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- cargo-maven2-plugin:1.7.0:run (default-cli) @ topjava ---
+[INFO] [en2.ContainerRunMojo] Resolved container artifact org.codehaus.cargo:cargo-core-container-tomcat:jar:1.7.0 for container tomcat9x
+[INFO] You did not specify a container home nor any installer. CARGO will automatically download your container's binaries from [http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.12/tomcat-9.0.12.zip].
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.391 s
+[INFO] Finished at: 2018-11-13T20:20:29+10:00
+[INFO] Final Memory: 10M/37M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.cargo:cargo-maven2-plugin:1.7.0:run (default-cli) on project topjava: Execution default-cli of goal org.codehaus.cargo:cargo-maven2-plugin:1.7.0:run failed: Failed to create deployable with implementation class org.codehaus.cargo.container.tomcat.TomcatWAR for the parameters (container [id = [tomcat9x]], deployable type [war]). InvocationTargetException: Failed to parse Tomcat WAR file in [D:\Study\Java\topjava\target\topjava.war]: Failed to find file [D:\Study\Java\topjava\target\topjava.war]: D:\Study\Java\topjava\target\topjava.war (Системе не удается найти указанный путь) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException
+Disconnected from the target VM, address: '127.0.0.1:62018', transport: 'socket'
+Process finished with exit code 1
+Collapse
+
+
+9 replies
+Maxim Valeev [2 hours ago]
+а если запускаю командой  mvn clean package -DskipTests=true org.codehaus.cargo:cargo-maven2-plugin:1.7.0:run  то получаю  [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.7.0:compile (default-compile) on project topjava: Fatal error compiling: invalid target release: 11 -> [Help 1]
+
+Taras [2 hours ago]
+>После 13-го патча, запускаю плагин cargo:run и получаю это
+У тебя не собран .war файл (если ты запускал ранее через Run Intellij, то он делал .war exploded.
+>а если запускаю командой  mvn clean package
+Да, это war надо с помощью этой команды сделать. Ошибка говорит, что у тебя с версией java проблема. Проверь, мавен должен запуститься под 11-й. Скорее всего, у тебя базовая — 8-я. В таком случае (чтоб не менять базовую), из Intellij сделай в панельке Maven package (со skipTest).
+
+
+
+Maxim Valeev [2 hours ago]
+@Taras попробовал без тестов сделать пакедж, не сработало. Переключил версию джава. Теперь с команды получаю такую ошибку:
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:2.5:clean (default-clean) on project topjava: Failed to clean project: Failed to delete D:\Study\Java\topjava\target\cargo\installs
+\tomcat-9.0.12\apache-tomcat-9.0.12\lib\websocket-api.jar -> [Help 1]
+
+
+Maxim Valeev [2 hours ago]
+а нет стоп, я просто не остановил старый сервер. Версия везде стоит 11 но все равно Fatal error compiling: invalid target release: 11
+
+
+Taras [2 hours ago]
+>Переключил версию джава
+Каким образом? Поменял `JAVA_HOME` и т.п.? `java -version` что выдаёт? Перезапускал IntelliJ после этого? (edited)
+
+
+Maxim Valeev [2 hours ago]
+поменял переменные среды. идею не перезапускал, ща попробую
+
+
+Taras [2 hours ago]
+>а нет стоп, я просто не остановил старый сервер.
+Поэтому файл нельзя удалить, он используется. Теперь должно сработать, если с версиями java не накосячил.
+
+
+Maxim Valeev [1 hour ago]
+да, все запустился. Спасибо)
+
+
+Taras [1 hour ago]
+:smiley:

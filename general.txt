@@ -1231,3 +1231,34 @@ fonto [12 hours ago]
 
 Tabacco974 [5:51 PM]
 Добрый вечер!
+
+
+pavel2107 [Yesterday at 10:30 PM]
+привет. мне нужны опытные программисты на PL/SQL(Oracle). Есть такие ?
+
+
+2 replies
+Grigory Kislin [14 hours ago]
+напиши также в канал vacancies общей группы javaops
+
+
+Vladimir Gorbatenko [5 hours ago]
+Опытные программисты на PL/SQL(Oracle) - это как? Администраторы БД Оракл для написания хранимок, функций, вьюшек и прочего из базы Оракл? (edited)
+
+
+pavel2107 [10:31 PM]
+В СПБ. Никакой удаленки. Белая ЗП. Крупная контора и т.д.
+
+
+pavel2107 [Yesterday at 10:31 PM]
+Java паровозом, но не основное.
+
+
+1 reply
+Vladimir Gorbatenko [5 hours ago]
+Просветите пожалуйста, что значит "паровозом"?
+
+
+pavel2107 [10:36 PM]
+paveltseitlin[собачка]mail.ru
+вопросы задавайте в почту. не сюда
