@@ -754,3 +754,11 @@ Grigory Kislin [1 day ago]
 4. git push -u origin master
 
 кто был на basejava- знают:) там так делаем (edited)
+
+
+Alexey_b [2 days ago]
+понял, по отдельности все команды знаю, в целом не знал что так можно
+
+
+agrusu [11:50 PM]
+salut

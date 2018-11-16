@@ -811,3 +811,683 @@ Maxim Valeev [1 hour ago]
 
 Taras [1 hour ago]
 :smiley:
+
+
+Raisa [3 days ago]
+у меня сервер запускается, но не открывается в браузере
+Pasted image at 2018-11-13, 11:12 PM
+
+
+
+Taras [3 days ago]
+А что браузер пишет? Какой ты адрес пытаешься открыть?
+
+Raisa [3 days ago]
+браузер вообще не открывается , хотя сервер запустился:
+Pasted image at 2018-11-14, 8:10 AM
+
+
+
+Raisa [3 days ago]
+когда без мавена запускаю, все нормально работает
+
+
+Maxim Valeev [3 days ago]
+Ну когда через мавен запускаешь, надо самому заходить на адрес куда приложение разворачивается, браузер сам не откроется
+
+
+Raisa [3 days ago]
+да, значит все работает, спасибо
+
+
+Sergey Zhukov [Nov 13th at 9:11 PM]
+сделал метод
+```@PostMapping("filter")
+...
+return "meals";```
+на странице
+```<form method="post" action="filter">```
+он работает но в урл пишет */filter*... как сделать форвард как в сервлете, чтобы после фильтра возвращал */meals*  ???
+
+
+23 replies
+Gekov Iliya [3 days ago]
+А зачем? Можно сделать "redirect:\meals", но тогда атрибуты модели сбросятся
+
+
+lifter4ik [3 days ago]
+Хочется конечно, что бы фильтр сохранялся при других операциях, удалить/добавить. А он у нас и до mvc слетал. А то что в строке браузера фильтр... фильтр так фильтр, не страшно)
+
+
+Sergey Zhukov [3 days ago]
+в сервлете не слетал и атрибуты передавались
+```request.getRequestDispatcher("/meals.jsp").forward(request, response);```
+
+
+Gekov Iliya [3 days ago]
+есть return "forward:/meals", но он не поддерживается при POST, так как /meals у нас - GET (если я правильно понимаю) (edited)
+
+
+Sergey Zhukov [3 days ago]
+ага forward из POST-метода работает только на POST-метод, я проверил, создавал @PostMapping("/meals")
+
+
+Sergey Zhukov [3 days ago]
+точно, сделать action=meals на странице
+
+
+Sergey Zhukov [3 days ago]
+все работае
+
+
+Gekov Iliya [3 days ago]
+Да, вариант)
+
+
+Sergey Zhukov [3 days ago]
+url не меняется
+
+
+Sergey Zhukov [3 days ago]
+:grin:
+
+
+pal548 [3 days ago]
+а почему вообще работает указывать action=meals, он же должен переводить на meals/meals ? У меня работает одинаково, если указывать в action="", и если action="meals" (edited)
+
+
+Gekov Iliya [3 days ago]
+Потому что это будет не /meals GET а /meals POST - это два разных маппинга
+
+
+pal548 [3 days ago]
+это понятно, у меня же маппинг стоит
+@Controller
+@RequestMapping(JspMealController.MEALS_PATH)
+public class JspMealController extends AbstractMealController {
+.....
+   @PostMapping("")
+   public String filterMeals(...)
+
+и я проверил, запросы уходят в обоих случаях одинаковые
+
+
+Gekov Iliya [3 days ago]
+Думаю action="/meals" изменит ситуацию
+
+
+pal548 [3 days ago]
+да, это будет абсолютный путь, но это не подходит. Еще есть ${pageContext.request.contextPath}, но это уже если все остальное не помогло.
+
+
+Gekov Iliya [3 days ago]
+Я могу ошибаться, но думаю дело в том, что action="meals" без "/" и без ${pageContext.request.contextPath} - это переход на контроллер, замапленный на meals, а так как /meals указан в RequestMapping над классом, то action="" и action="meals" работают одинаково
+
+
+pal548 [3 days ago]
+это глюк файрфокса! Под хромом ожидаемо работает, шлёт на meals/meals
+
+
+Gekov Iliya [3 days ago]
+У меня не шлет
+
+
+Gekov Iliya [3 days ago]
+остается на /meals
+
+pal548 [3 days ago]
+а откуда браузер знает, что надо дописать вначале /topjava/, если в исходном коде страницы проставлено
+<a href="meals/create">Добавить еду</a>
+Страница по адресу /topjava/meals
+
+
+Gekov Iliya [3 days ago]
+Ну потому что адрес без "/" - это относительный путь
+
+
+Gekov Iliya [3 days ago]
+А вообще почти в любом обсуждении этого вопроса на стековерфлоу советуют всегда использовать ${pageContext.request.contextPath}
+
+
+pal548 [3 days ago]
+да, тоже к этому склоняюсь
+
+
+pal548 [Nov 13th at 11:42 PM]
+Вопрос по ссылкам в jsp. Сервер генерирует html `<a href="meals/create">Добавить еду</a>`, а браузер откуда-то понимает, что это ссылка на http://localhost:8080/topjava/meals/create , откуда он берет это */topjava/* ? (edited)
+
+
+14 replies
+Gekov Iliya [3 days ago]
+https://stackoverflow.com/questions/2005079/absolute-vs-relative-urls (edited)
+
+
+pal548 [3 days ago]
+это всё находится на странице http://localhost:8080/topjava/meals, т.е. ссылки должны давать meals/meals
+
+
+Gekov Iliya [3 days ago]
+Это относительная ссылка, если мы указываем "meals" уже будучи на /meals, то путь остается этот же. Укажем другой относительный путь, то к имеющемуся уже приплюсуется новый
+
+
+pal548 [3 days ago]
+я для проверки задеплоился на http://localhost:8080/topjava/test, ссылки те же, "meals/create" на http://localhost:8080/topjava/meals/create
+
+
+Gekov Iliya [3 days ago]
+Не, вру, если указать другой относительный путь не приплюсуется, останется topjava/новый путь. Но опять же это все из-за того, что путь относительный (edited)
+
+
+Gekov Iliya [3 days ago]
+Тоже попробовал, все как ожидается, ссылки меняются на "http://localhost:8080/topjava/test/filter" "http://localhost:8080/topjava/test/meals/create" и т.п.
+
+
+Gekov Iliya [3 days ago]
+http://localhost:8080/topjava/meals/create соответственно не находит
+
+
+pal548 [3 days ago]
+сменил контекст? Я неточно выразился, не задеплоился на тест, а страницу с едой замаппил на /test. Пробовал и задеплоиться на другой аппликейшн-контекст, да, браузер откуда-то узнал об этом новом контексте
+
+
+Gekov Iliya [3 days ago]
+Ну как раз получается берется наш базовый путь http://localhost:8080/topjava/ и к нему все относительные ссылки и плюсуются
+
+
+pal548 [3 days ago]
+да, но откуда браузер знает про этот путь, непонятно
+
+
+shomnest [2 days ago]
+@pal548 у тебя же в конфигурации томката деплой стоит на /topjava
+
+
+Grigory Kislin [20 hours ago]
+относительная ссылка когда браузер берет текущий url и меняет его последнюю часть
+
+
+pal548 [19 hours ago]
+@Grigory Kislin вроде он к контексту приложения добавляет, нет?
+
+
+Grigory Kislin [1 hour ago]
+нет. браузер понятия не имее что это такое
+
+
+Sergey Zhukov [Nov 14th at 10:24 AM]
+```6: В MealController общую часть @RequestMapping(value = "/meals") лучше вынести на уровень класса```
+что это означает?
+
+
+6 replies
+Gekov Iliya [2 days ago]
+Над классом вешаем эту аннотацию, все остальные маппинги над методами будут плюсоваться к этому
+
+
+Dima [2 days ago]
+Значит под @Controller написать @RequestMapping, и следовательно в методах отталкиваться от этого
+
+
+Sergey Zhukov [2 days ago]
+это рекомендация, можно этого и не делать?
+
+
+Gekov Iliya [2 days ago]
+Ну да, но так симпатичнее имхо
+
+
+Sergey Zhukov [2 days ago]
+плюсоваться будут если нет вначале мапинга слеша "/" ?
+т.е относителььные (edited)
+
+
+Sergey Zhukov [2 days ago]
+переделал, но css отваливается в фильтре, пришлось добавить
+```${pageContext.request.contextPath}```
+
+
+Marat [Nov 14th at 11:14 AM]
+Удалить сервлеты и перенести функциональность MealServlet в JspMealController контроллер (по аналогии с RootController). По аналогии в методе идет Model, а нам нужно userId взять из HttpServletRequest request
+
+
+1 reply
+Sergey Zhukov [2 days ago]
+userId уже установлен в SecurityUtil
+меняется в RootController
+из request его доставать не нужно, его там нет (edited)
+
+
+Maxim Valeev [Nov 14th at 11:30 AM]
+я правильно понимаю что в web.xml листенер поднимает контексты апп и дб? (edited)
+Untitled
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath:spring/spring-app.xml
+      classpath:spring/spring-db.xml
+    </param-value>
+</context-param>
+Collapse
+
+
+2 replies
+Taras [2 days ago]
+Да. Контрекст Spring MVC не поднимает их автоматически.
+
+
+Maxim Valeev [2 days ago]
+Спасибо
+
+
+Marat [Nov 14th at 12:27 PM]
+Подскажите зачем в проекте ru.javawebinar.topjava.to.MealTo ?
+
+
+2 replies
+Ansseii [2 days ago]
+Это Transfer Object? И везде отдаем мы именно его?
+
+
+Taras [2 days ago]
+Да, было объяснение в видео ранее.
+
+
+Andrew Kalugin [Nov 14th at 12:54 PM]
+Как сделать, например, update? нужно данные передать на mealForm.jsp. Как это сделать?
+делаю так
+
+   @GetMapping("/meals/update/{id}")
+   public String updateMeals(@PathVariable int id, Model model) {
+       int userId = SecurityUtil.authUserId();
+       Meal meal = service.get(id, userId);
+       model.addAttribute("meal", meal);
+       return "forward:/mealForm";
+   }
+как достать данные в mealForm.jsp?
+
+
+7 replies
+Sergey Zhukov [2 days ago]
+Без forward отдавай mealForm.
+На странице доставай из meal.
+В сервис можно не лазить, если наследовался от существующего контроллера, используй унаследованные методы. (edited)
+
+
+Andrew Kalugin [2 days ago]
+??? так можно было? :slightly_smiling_face: имеешь ввиду MealRestController?
+
+
+Sergey Zhukov [2 days ago]
+```1.3.2 в одном контроллере нельзя использовать другой. Чтобы не дублировать код можно сделать наследование контроллеров от абстрактного класса.```
+
+
+Andrew Kalugin [2 days ago]
+в 1.3.2 вообще не понимаю о чем речь. Я пишу свой контроллер, ни какой другой  не использую.  Или нужно запилить общий абстрактный контролер и от него унаследовать MealRestController и мой контроллер?
+
+
+Andrew Kalugin [2 days ago]
+просто строчка выше сбивает - MealRestController у нас останется, с ним будем работать позже.
+
+
+Sergey Zhukov [2 days ago]
+правильно - пилим абстрактный класс и наследуемся... как в 5 с тестами, тут так же. MealRestController будет пустым, ничего страшного :slightly_smiling_face:
+
+
+
+Andrew Kalugin [2 days ago]
+спасибо, буду пробовать!:+1:
+
+
+Marat [Nov 14th at 5:35 PM]
+Почему у нас каскадное удаление в еде?
+Разве не должно быть наоборот у юзера?
+@ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   @NotNull
+   private User user;
+
+
+1 reply
+Dima [1 day ago]
+эта аннотация будет влиять, если ты будешь генерировать таблицы автоматически hibernatом. У нас внешний ключ и соответственно каскадное удаление обьявляется в таблице meals, следовательно и @OnDelete должен присутствовать в сущности Meal
+
+
+pal548 [Nov 14th at 11:20 PM]
+Подзабыл, зачем у нас профиль tomcat ? В настройках профилей в web.xml стоит профиль postrgres. И еще, где мы указываем, что настройки пула брать из resources/tomcat/context.xml ?
+
+
+3 replies
+Gekov Iliya [1 day ago]
+Для запуска приложения с cargo плагина. Указываем в pom в конфигурации этого плагина <file>src/main/resources/tomcat/context.xml</file>
+
+
+pal548 [1 day ago]
+спасибо!
+
+
+Gekov Iliya [1 day ago]
+Там же кстати и профиль этот указывается <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
+
+
+Raisa [Yesterday at 6:06 AM]
+подскажите, пожалуйста, как разрезолвить бин JpaUtil в JdbcUserServiceTest? я нагуглила способы как устранить unsatisfied dependency при поднятии контекста через JavaConfig, но в этом проекте используются аннотации + xml
+
+
+
+19 replies
+Sergey Zhukov [1 day ago]
+в видео сказано как починить, я вынес в отдельный абстрактный класс
+
+
+Raisa [1 day ago]
+да, посмотрела, после того как добавляешь пакет для сканирования, нужно как-то сказать ему какую именно реализацию репозитория брать. но как?
+
+Raisa [1 day ago]
+я посмотрела видео Тестирование UserService через AssertJ начиная с 11.30 - не добавилось понимания, т.к. там другая ситуация разбирается (когда всего две реализации - для одной сужали пакет сканирования, для другой добавляли xml-файл в директорию test, сейчас их 4 и xml в test - не вариант, насколько я понимаю), хотя проблема та же; пересмотрела два видео Борисова про спринг контекст, там не говорится про выбор конкретной реализации бина. Может я вообще не то смотрю?
+
+
+Sergey Zhukov [1 day ago]
+не пойму это Optional что-ли или 1.1?
+
+
+Raisa [1 day ago]
+это еще 1.2 Починить Jdbc тесты (валидацию исключить) :joy:
+
+
+Raisa [1 day ago]
+у меня только jdbc тесты для meal работают, для user отваливаются. Интересно, у всех так? или я патчи не так накатила? (edited)
+
+
+Sergey Zhukov [1 day ago]
+JpaUtil не должен попадать в JdbcUserServiceTest и не должно быть обращение к нему в @Before
+
+
+Sergey Zhukov [1 day ago]
+поэтому все это я вынес в отдельный абстрактный класс, jpa это все наследует, а jdbc наследует общий класс
+ 
+
+
+Sergey Zhukov [1 day ago]
+видео 6_03 с 12 минуты
+
+
+Sergey Zhukov [1 day ago]
+я валидацию исключил без условия, у нас все равно есть разделение по профилям, просто переопределил в классах testValidation и вызвал Assume.assumeTrue(false);
+
+
+Raisa [1 day ago]
+починила контекст, спасибо :+1: только не уверена, что правильно, глубокого понимания пока нет. После выделения абстрактного класса для jpa тесты в JdbcUserServiceTest работают, падают только валидация и getAll: ожидался один юзер с ролью null, а пришло два с ролями админ и юзер. Проблема с getAll - это отдельная проблема, не связанная с контекстом или я неправильно починила?
+
+
+Sergey Zhukov [1 day ago]
+это в Optional надо проверять и роли, еще добавить роль админу... а в 1 пункте мы все еще игнорим поля roles в тестах, должно все проходить
+
+
+Raisa [1 day ago]
+наверное да, роли игнорятся, а тест не проходит, потому что два юзера приходит, а ожидается один
+
+Sergey Zhukov [1 day ago]
+почему один?
+
+    ```@Test
+    public void getAll() throws Exception {
+        List<User> all = service.getAll();
+        assertMatch(all, ADMIN, USER);
+    }```
+
+
+Raisa [1 day ago]
+наоборот, наверное, нужно два, а приходит один
+Pasted image at 2018-11-15, 2:10 PM
+
+
+Sergey Zhukov [1 day ago]
+с кэшем то правильно все? потому что в jdbc надо тоже инвалидировать кеш в @Before (edited)
+
+
+
+Igor [1 day ago]
+@Sergey Zhukov Подскажи, зачем в `JdbcMealServiceTest.testValidation()` нужно `Assume.assumeTrue(false);`? Почему не оставить без реализации? И почему false, а не true?
+
+
+Sergey Zhukov [1 day ago]
+@Igor задание игнорить
+потому что пустой тест выглядит странно, зачем тогда его создавать :slightly_smiling_face:
+*true* это же значит делай все что следует далее
+я сначала сделал в базовом классе с перебором профилей, строк больше )
+
+
+Igor [1 day ago]
+Все. Понял. Почитал документацию Assume.assumeTrue: _If called with an expression evaluating to false, the test will halt and be *ignored*._ (edited)
+
+
+Andrew Kalugin Yesterday at 12:20 PM
+Подскажите тесты JdbcUserServiceTest перед Optional должны ведь работать. В 1.2 их же чинили. Все работало. Делал 2.1, стал проверять тесты - отвалились.
+Ругается на:
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ru.javawebinar.topjava.service.jdbc.JdbcUserServiceTest': Unsatisfied dependency expressed through field 'jpaUtil'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ru.javawebinar.topjava.repository.JpaUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}.
+Раньше наличие JpaUtil не мешало им работать.
+
+Sergey Zhukov 1 day ago
+не должно отваливаться, в 1.2 нужно не только заигнорить валидацию, но и сделать так чтобы JpaUtil  не попадал в JdbcUserServiceTest
+
+Andrew Kalugin 1 day ago
+логично.... блин,  до этого он нормально работал. JpaUtil вроде не трогал. Может перетощил что-нибудь случайно :slightly_smiling_face: буду разбираться
+
+Gekov Iliya 1 day ago
+Это не случайно, это часть задачи по починке тестов
+
+Andrew Kalugin 21 hours ago
+@Gekov Iliya в том-то и дело, что все работало - 10 раз проверил, все отлично запускалось, валидация игнорилась, а тут оказывается не все так просто. Сейчас починил уже!
+Но вот теперь думаю.... до 12 ночи нельзя сазиживаться.... вероятно я вместо JdbcUserServiceTest 10 раз запускал JdbcMealServiceTest :rolling_on_the_floor_laughing: другого объяснения не могу придумать :slightly_smiling_face:
+
+
+
+Ilya A. Kvyatkovsky [Yesterday at 12:43 PM]
+А особого приглашения на HW7 не будет? Или я что-то пропустил? (edited)
+
+
+7 replies
+Dima [1 day ago]
+22 ноября
+
+
+Ilya A. Kvyatkovsky [1 day ago]
+@Dima как это? :open_mouth: почему?
+
+
+Ansseii [1 day ago]
+Смотрите расписание курса
+
+
+Dima [1 day ago]
+@Ilya A. Kvyatkovsky ну типо сложное задание + выпускной проект пилить
+
+
+Ilya A. Kvyatkovsky [1 day ago]
+Спасибо! Пилю.
+
+
+Sergey Zhukov [23 hours ago]
+@Ilya A. Kvyatkovsky домашку всю запилил?
+
+
+Ilya A. Kvyatkovsky [22 hours ago]
+Unfortunately no! I have problems with base knowledges in Spring/Hibernate and now I try pull up my knowledges with help graduate project.
+
+
+indisbk [Yesterday at 2:24 PM]
+Подскажите по пункту 2.2 Добавить еще одну роль к ADMIN (будет 2 роли: ROLE_USER, ROLE_ADMIN). И так же две роли есть, куда добавлять то?)
+
+
+10 replies
+Dima [1 day ago]
+имеется в виду добавить юзеру Admin вторую роль
+
+
+indisbk [1 day ago]
+ясно, а в чем цимес? это ради последующих пунктов?
+
+
+Dima [1 day ago]
+ну к тому, что админ тоже является юзером, да и потом, когда будем делать security, там разным ролям будем разрешать что либо. Админ должен уметь все)
+
+
+indisbk [1 day ago]
+странно, почему нельзя просто делать проверку на админ и юзер, а нужно делать на юзер и админ + юзер)
+
+
+Taras [1 day ago]
+Так проще. Ты разрешаешь выполнение метода человеку с ролью USER, и тебя не волнует больше ничего. Админ с ролью юзер, или не админ — не важно. Наглядно видно: вот этому с конкретной ролью разрешено. На практике у меня есть программа, где я хоть с ролью админ, но не во всех других ролях прописан, чтоб интерфейс не мешал (ну или случайно чек не мог подписать).
+
+
+indisbk [24 hours ago]
+ясно, спасибо)
+
+
+Grigory Kislin [20 hours ago]
+вообще мы делаем пример того, как у юзера может быть несколько ролей. и смотрим на грабли, которые вылезают с базой
+
+
+Sergey Zhukov [17 hours ago]
+@Grigory Kislin это ситуация когда *у всех* роль ROLE_USER и у админов вторая роль ROLE_ADMIN? тогда запрос будет проще, а одну роль будет сетить всем пользователям, которых достаем из базы (edited)
+
+
+Grigory Kislin [17 hours ago]
+нет. роли произвольные. мы счас на логику приложение как оно с ролями работает вообще не смотрим
+
+
+Sergey Zhukov [16 hours ago]
+:slightly_smiling_face: берем длиииинные грабли
+
+
+Maxim Valeev [Yesterday at 2:50 PM]
+Всем привет. Уже видел этот вопрос в одном из обсуждений, но не смог разобраться все равно. Как сделать так чтоб фильтр не сбрасывался после других манипуляций с едой на странице?
+
+
+7 replies
+Andrew Kalugin [1 day ago]
+Я делал action="filter" на jsp странице. И соответствующий обработчик в контроллере. Правда адрес меняется, но все работает
+
+
+Maxim Valeev [1 day ago]
+а если ты филтруешь а потом жмешь например на "добавить еду" адрес же стакается с фильтром и получается что-то типа http://localhost:8080/topjava/meals/meals/create
+
+
+Maxim Valeev [1 day ago]
+или ты в jsp везде используешь ${pageContext.request.contextPath} для пути ? например ${pageContext.request.contextPath}/meals/create (edited)
+
+
+Andrew Kalugin [1 day ago]
+сейчас не могу точно сказать, от компа далеко. проверить нужно. вроде работало норм.
+
+
+Maxim Valeev [1 day ago]
+а в delete redirect:/meals возвращал, не помнишь? (edited)
+
+
+Andrew Kalugin [1 day ago]
+помоему да - redirect:/meals
+
+
+Andrew Kalugin [22 hours ago]
+@Maxim Valeev проверил. у меня тоже фильтр сбрасывается. но все операции после фильтрации корректно работают.
+какая-то хрень творится, точно помню фильтр не сбрасывался, может в идеи что-то изменил, а в браузере еще старый кэш висел и подумал, что все отлично. (edited)
+
+
+Vladimir Gorbatenko [Yesterday at 5:13 PM]
+2.4 Починить тесты в JdbcUserRepositoryImpl (добавить роли). Доставать можно двумя способами: одним запросом с JOIN либо двумя запросами: отдельно users и отдельно roles.
+Не могу найти инфу, как одним запросом (c JOIN) уложить все роли в юзера,
+С самим запросом проблем нет. Непонятка именно в том как воткнуть роли в юзера.
+
+
+1 reply
+Zhinko [21 hours ago]
+Ну я лично свой ResultSetExtractor делал
+
+
+Maxim [Yesterday at 8:50 PM]
+Помогите с 1.1, никак не пойму как должен родиться WebApplicationContext в inmemory.xml
+
+
+2 replies
+Gekov Iliya [19 hours ago]
+Посмотри в чем проблема в InMemory тестах, идея подсказывает - не получается инжектить бины контроллера. Соответственно нам нужно указать в inmemory, где их искать
+
+
+Maxim [19 hours ago]
+спасибо. решение проще чем я думал.
+
+
+Sergey Zhukov [Yesterday at 11:04 PM]
+Кто еще делает одним запросом к базе?
+Нормально  возвращать пользователей с ролями в виде такой таблицы, которую мой мапер раскладывает по полям?
+subselect1.png
+
+
+
+4 replies
+pal548 [17 hours ago]
+чукча хитрый однако)
+
+
+Grigory Kislin [17 hours ago]
+c join по другому никак:)
+
+
+Sergey Zhukov [16 hours ago]
+вот тут интересные примеры по различным JOIN, мне помогли немного разобраться
+http://www.skillz.ru/dev/php/article-Obyasnenie_SQL_obedinenii_JOIN_INNER_OUTER.html
+skillz.ru
+Объяснение SQL объединений JOIN: LEFT/RIGHT/INNER/OUTER - Блог разработчика
+Объяснение SQL объединений JOIN: LEFT/RIGHT/INNER/OUTER. Блог разработчика
+ 
+
+
+Vladimir Gorbatenko [7 hours ago]
+костыль-way )
+
+
+fibz [10:07 AM]
+Когда будет 7 урок?
+
+Tanya [10:54 AM]
+через неделю
+https://topjava15.slack.com/archives/CDXHK5KKJ/p1541627814003300 (edited)
+
+
+Raisa [Today at 11:27 AM]
+вопрос по заданию 1.3.1: почему, когда нажимаю "update" в браузере, не мапится сюда:
+@GetMapping("/meals/update/{id}"), а сюда попадает: @GetMapping({"/meals", "/meals/all"})?
+в адресной строке отображается: http://localhost:8080/topjava/meals?action=update&id=100007 (edited)
+
+
+3 replies
+Dima [4 hours ago]
+потому что у тебя передается параметр action, который надо ловить в контроллере. Чтоб работало как у тебя, надо из jsp страницы делать запрос
+```/meals/update/{id}```
+
+
+Dima [4 hours ago]
+Если поточнее, то
+```/meals/update/${meal.id}```
+
+
+Raisa [4 hours ago]
+спасибо!
+
+
+Sergey Zhukov [Today at 1:13 PM]
+Сейчас тест *update* для обновления записи в базе работает, я его даже не менял, потому что мы не меняем роли у юзера,
+Надо делать тест на изменение роли?
+Роль может быть user, admin, user+admin. Если надо менять роль, то логика какая будет?
+*user --> admin, admin --> user*  удаляем роль и добавляем новую или меняем существующую? Проще конечно удалять все роли и добавлять из переданного объекта. (edited)
+
+
+
+1 reply
+Grigory Kislin [1 hour ago]
+я сделал тут как проще:)

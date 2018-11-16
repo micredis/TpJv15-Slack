@@ -1262,3 +1262,63 @@ Vladimir Gorbatenko [5 hours ago]
 pavel2107 [10:36 PM]
 paveltseitlin[собачка]mail.ru
 вопросы задавайте в почту. не сюда
+
+
+Marat [Nov 13th at 6:45 PM]
+Делаю тестовое задание. Нужно создать ентити "Врач", "Пациент", "Выписка". Как правильно связать ? У выписки должно быть patient_id и doctor_id ? Или только пациент?
+
+
+4 replies
+Taras [3 days ago]
+Из личного опыта — выписка подписывается врачом и выдается пациенту. :slightly_smiling_face:
+
+
+Lamekhova Alisa [3 days ago]
+по-любому doctor_id нужен)
+
+
+Gekov Iliya [3 days ago]
+Думаю исходить надо из того, как эта информация из базы будет выбираться. Не сложно представить ситуацию, что имеется необходимость выбрать выписки по данным пациента или по данным врача, либо по тому и тому сразу. (edited)
+
+
+Стецко Максим [3 days ago]
+да в общем как тебе удобно, так и делай) хоть id медсестры добавь))
+
+
+senadnepr [10:19 AM]
+Если кому-то актуальна ссылка на "Spring in Action. 5th Edition", то вот она: http://www.allitebooks.com/spring-in-action-5th-edition/.  А вообще, на этом сайте, похоже, есть всё! У тех, книг, что меня заинтересовали - качество отличное. Было бы время...
+allitebooks.com
+Spring in Action, 5th Edition - pdf - Free IT eBooks Download
+Spring in Action, 5th Edition is the fully updated revision of Manning's bestselling Spring in Action. This new edition includes all Spring 5.0 updates, al
+
+
+GerKir [Nov 14th at 8:58 PM]
+Ребят, никак не могу понять, как делать аутентификацию и авторизацию на java, можете подсказать хороший исчерпывающий источник?
+
+
+3 replies
+Sergey Zhukov [1 day ago]
+в SpringBoot вот тут доступно объясняет автор, по авторизации 12 и 13 видео
+https://www.youtube.com/playlist?list=PLaWfw53gNyzaDTEmrlCCj1jjqr6770Nnp
+YouTube GrabDuck!
+Spring на практике - Знакомство с Spring Boot
+ 
+(edited)
+
+
+
+Dmitry Neustupov [22 hours ago]
+тут хороший гайд по JWT авторизации https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/
+CalliCoder
+Spring Boot + Spring Security + JWT + MySQL + React Full Stack Polling App - Part 1
+Building an End-to-End Full Stack Polling App including Authentication and Authorization with Spring Boot, Spring Security, JWT, MySQL database, and React. In this article, we'll bootstrap the project and write the basic domain models and repositories. (112 kB)
+Feb 5th at 12:00 PM
+
+
+GerKir [20 hours ago]
+Спасибо, буду смотреть)
+
+
+Sergey Zhukov [1:43 PM]
+инструменты для разработки схемы БД
+http://www.databaseanswers.org/modelling_tools.htm
