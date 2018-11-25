@@ -2282,3 +2282,89 @@ ibm.com
 Grigory Kislin [14 hours ago]
 да, в занятии есть про это ссылка
 https://jira.spring.io/browse/DATAJPA-601
+
+
+
+Alexey P Nov 17th at 4:59 PM
+Кто-то может объяснить мне почему падает тест с Failed to load ApplicationContext?
+Оставил в spring-db.xml только инициализацию базы, entityManagerFactory, transactionManager и профайл postgres. Как только помещаю
+<context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+       <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+в профайл "datajpa ", тест перестает работать с NoSuchBeanDefinitionException, не находит MealReposotory. Убираю этот профайл, оставляю просто эти строки - все работает.
+
+pal548 8 days ago
+а ты что запускаешь? тесты?
+
+Alexey P 8 days ago
+да
+
+pal548 8 days ago
+можешь скинуть ссылку на твой репозиторий?
+
+Alexey P 8 days ago
+я это не пушил. Ничего не менял, написал только DataJpaMealRepositoryImpl, который проходит тесты и решил заняться профилями в spring-db/ Застрял уже часа на 3)
+
+pal548 8 days ago
+ну запуш в отдельную ветку
+
+pal548 8 days ago
+короче проще глянуть твою конфигурацию)
+
+Alexey P 8 days ago
+https://github.com/AlexeyPavlov2/topjava/tree/HW05
+
+pal548 8 days ago
+а какой тест запускаешь?
+
+Alexey P 8 days ago
+MealServiceTest
+
+pal548 8 days ago
+я юзер сервис тест запускаю, та же ошибка
+
+pal548 8 days ago
+давать ответ?)
+
+Alexey P 8 days ago
+Сдаюсь, 3 часа - слишком много)
+
+pal548 8 days ago
+вопрос наводящий, с какими профилями поднимается спринг контекст?
+
+Alexey P 8 days ago
+postgres, наверное. Ты хочешь сказать, что надо явно  активировать в тесте профиль datajpa?
+
+pal548 8 days ago
+да, именно
+Alexey P 8 days ago
+Да, поле добавления в явном виде @ActiveProfiles({Profiles.POSTGRES_DB, Profiles.DATAJPA}) заработало.
+Спасибо)
+
+pal548 8 days ago
+наздоровье)
+
+Alexey P 8 days ago
+Я что-то думал , что IDE сама модифицирует spring-db перед загрузкой в зависимости от профиля (edited)
+
+pal548 8 days ago
+дальше там с этим разбираешься, выставляешь профили нужные в нужных местах
+Alexey P 8 days ago
+Да, дальше пока понятно. Наверное, сделать абстрактный тест, наследовать от него другие тесты с нужным профайлом
+pal548 8 days ago
+ну да, все так
+
+
+
+Илья Чиликин [Nov 19th at 11:20 AM]
+Друзья, вопрос по Hibernate/JPA. Как обычно реализуется сохранение объекта с дочерними коллекциями? Пример из нашего проекта: Создали юзера `User user = new User(...);`, дали ему еду: `user.setMeals(List.of(MEAL1,...));`, сохранили юзера: `userService.save(user);`. Пользователь сохранится в БД, но его еда нет.
+Позволяет ли Hibernate/JPA сохранять объекты с дочерними коллекциями декларативно (какие здеь нужны аннотации?), или надо отдельно еду пользователя сохранять? (edited)
+
+
+2 replies
+Dima [6 days ago]
+у пользователя должны быть аннотации @OneToMany, у еды - @ManyToOne
+
+
+Grigory Kislin [6 days ago]
+да, этим можно рулить через
+cascade = CascadeType в @OneToMany (edited)

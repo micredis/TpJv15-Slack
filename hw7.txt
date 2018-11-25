@@ -1,0 +1,187 @@
+Grigory Kislin [11:31 PM]
+joined #hw7.
+
+Grigory Kislin [11:31 PM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson07.md
+
+Grigory Kislin [11:31 PM]
+Свежее ДЗ: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson07.md
+Успехов! (edited)
+
+Constantine [11:34 PM]
+joined #hw7 along with 18 others.
+
+
+Andrew Kalugin [Nov 22nd at 9:28 AM]
+@Grigory Kislin 7_01_HW6_fix_tests.patch меняет в SpringMain.java название файла spring-db.xml на mock.xml, наверное имелось ввиду inmemory.xml Или далее по ходу накатки патчей будут какие-то изменения???
+
+
+1 reply
+Grigory Kislin [3 days ago]
+бажка, спасибо
+
+
+Grigory Kislin [1:53 PM]
+@here @Andrew Kalugin
+в пачте `7_01_HW6_fix_tests` бага: замените `mock.xml`->`inmemory.xml`
+я патч обновил, но если уже закомитились- не страшно, просто у себя поменяйте. конфликтов не будет.
+
+
+YuriyUh [Nov 23rd at 8:32 AM]
+Бага какая то, после накатки патча с JUnit5 в idee отвалилась интеграция со спрингом, @SpringJUnitConfig не ссылается на конфиги и бины подчеркивает красным, мол не могу их отыскать. Но все тесты работают.
+
+
+6 replies
+alabra [3 days ago]
+Аналогично похоже просто в idea проблема
+
+
+gleb [3 days ago]
+Такое ощущение что idea пытается сканить пакет inmemory в main а не в test (edited)
+
+
+Zhinko [3 days ago]
+такая же проблема
+
+
+ABaykov [3 days ago]
+как мне кажется, это будет составлять солидный кусок работы))))) Ты что-то накатываешь, или мигрируешь проект на новую версию и Вжуууух - всё сломалось :smile:
+
+
+Roman Baranov [2 days ago]
+извините что ввел в заблуждение, не верно понял ваш вопрос
+
+
+pal548 [1 day ago]
+Ну и как, починилось?
+
+
+Sergey Zhukov [Nov 23rd at 5:31 PM]
+в testUsers() проверяем только одного юзера
+                        ```allOf(
+                                hasProperty("id", is(START_SEQ)),
+                                hasProperty("name", is(USER.getName()))
+                        )```
+
+
+в testMeals() тоже выбрать пару значений и сверить? (edited)
+
+
+6 replies
+Sergey Zhukov [2 days ago]
+*upd* дополнил testUsers
+                ```.andExpect(model().attribute("users", hasItems(
+                        allOf(
+                                hasProperty("id", is(START_SEQ)),
+                                hasProperty("name", is(USER.getName()))
+                        ),
+                        allOf(
+                                hasProperty("id", is(START_SEQ + 1)),
+                                hasProperty("name", is(ADMIN.getName()))
+                        )
+                )));```
+
+
+Sergey Zhukov [2 days ago]
+@Grigory Kislin можно писать покороче?
+```.andExpect(model().attribute("users", hasItems(
+                        List.of(USER,ADMIN).toArray()
+                )))```
+тесты проходят (edited)
+
+
+Grigory Kislin [2 days ago]
+@Sergey Zhukov `.andExpect(model().attribute("users", hasItems(USER, ADMIN)))` вызывает equals в AbstractBaseEntity
+переопределить его мы не можем... сравниваются только id
+
+
+Grigory Kislin [2 days ago]
+однако мы можем скрестить с assertJ:
+                ```.andExpect(model().attribute("users",
+                        new AssertionMatcher<List<User>>() {
+                            @Override
+                            public void assertion(List<User> actual) throws AssertionError {
+                                UserTestData.assertMatch(actual, ADMIN, USER);
+                            }
+                        }));```
+добавлю в проект:)
+
+
+Vladimir Gorbatenko [2 days ago]
+афигеть как закрутил...
+
+
+Sergey Zhukov [2 days ago]
+двойная закрутка с MealTo
+
+
+Sergey Zhukov [Nov 23rd at 11:31 PM]
+MediaType "text/css" не нахожу константу, сравнить текст?
+
+
+5 replies
+Sergey Zhukov [1 day ago]
+нашел в guava com.google.common.net.MediaType (edited)
+
+
+ABaykov [1 day ago]
+Так это... Метод проверки контент типа из спринга не принимает MediaType из гуавы
+
+
+Sergey Zhukov [1 day ago]
+MediaType.parseMediaType("text/css") так оставил
+
+
+ABaykov [1 day ago]
+ну да))) тащить библеотеку целую такое себе, ради одного теста) я тоже так сделал
+
+
+Sergey Zhukov [1 day ago]
+странно почему нет константы (edited)
+
+
+Dima [Nov 24th at 12:36 PM]
+вопрос по проверке полей Meal перед сохранением. Хотел проверять через BindingResult, однако, у нас поле, допустим, user - @NotNull, и получается ,что я должен уже на этапе запроса вставлять userа. Проверять тупо вручную что ли на null поля?
+
+
+2 replies
+Sergey Zhukov [23 hours ago]
+зачем нам проверять user?
+
+
+Dima [16 hours ago]
+При использовании @Valid и BindingResult это поле проверяется автоматически,потому что оно у нас с аннотацией @NotNull (edited)
+
+
+ABaykov [Yesterday at 11:45 AM]
+https://www.baeldung.com/jackson <-- ссылка рабочая?
+Baeldung
+Jackson Tutorial | Baeldung
+Learn Jackson 2 inside out - the marshalling and the unmarshalling from basic mapping to advanced techniques and exceptions. (92 kB)
+Apr 13th, 2015 at 12:15 AM
+
+
+1 reply
+Grigory Kislin [12 hours ago]
+странно, у меня тоже этот сайт в ауте. даже своему провайдеру написал. вот тут можно посмотреть доступность у разных провайдеров: https://ping-admin.ru/free_test/
+ping-admin.ru
+Бесплатная проверка доступности сайта из различных частей мира: Ping-Admin.Ru — мониторинг сайтов и серверов. Проверка работы сайта
+Ping-Admin.Ru осуществляет круглосуточный мониторинг на вашем сервере таких сервисов как: HTTP, HTTPS; FTP; MySQL, PostgreSQL; POP3, SMTP, IMAP; DNS, а также проверки с помощью Ping и Telnet.
+(edited)
+
+
+ABaykov [11:46 AM]
+по видимому да... что-то у меня по ней не проходит
+мдеее... через впн пришлось туда залазать
+
+KaryNaiKo [7:08 PM]
+Поясните, плс, что происходит в 7_05_fix_hint_graph.patch.
+
+Sergey Zhukov [9:52 PM]
+поясните Optional 3
+```работающий при null значениях```
+т.е. нет в параметрах запроса? с этим прекрасно справляется required = false
+а к чему тогда кастомные LocalDate/LocalTime конверторы или форматтеры?
+или будет что-то вроде
+```http://localhost:8080/topjava/rest/meals/between?startDate=2015-05-31&startTime=null&endDate=2018-05-31&endTime=null```
+(edited)

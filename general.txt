@@ -1322,3 +1322,440 @@ GerKir [20 hours ago]
 Sergey Zhukov [1:43 PM]
 инструменты для разработки схемы БД
 http://www.databaseanswers.org/modelling_tools.htm
+
+
+Ilya A. Kvyatkovsky [Nov 17th at 5:36 PM]
+У меня вопрос к @Grigory Kislin и к господам, которые уже в деле!
+На реальных проекта, обычно, объем недельных задач во сколько раз больше от нашего учебного? Если такое сравнение уместно!?
+
+
+2 replies
+Dmitriy [8 days ago]
+По-разному бывает, иногда 1 сложный баг приходится править неделю. А так в среднем задачи на 1 итерацию (1-3 недели) дают, туда входит проработка фичи, написание фичи и тестов к ней. Потом еще мердж. Некоторые сложные фичи могут делать несколько итераций.
+Подводя итог в реальных проектах объем домашнего задания - как 1 рабочий день
+
+
+
+Grigory Kislin [8 days ago]
+да, где-то так.. а если с гуглом/стаковерфолу - то может и больше быть
+
+
+Marat [Nov 17th at 7:54 PM]
+Подскажите как выбирать совместимость Spring  и Spring Data JPA ?
+
+
+7 replies
+Marat [8 days ago]
+Например если у меня Spring версии 4.1.5
+
+
+Grigory Kislin [8 days ago]
+если boot- то там все в коробке идет
+до него еще такая штука была: счас ее уже закрывают: https://www.infoq.com/news/2014/07/springio-platform
+InfoQ
+The Spring IO Platform Released to Simplify Dependency Management
+Pivotal last week released the first version of their new Spring IO Platform 1.0. At its core, the Spring IO Platform is a list of dependencies (and their versions) that work well together. Its implementation is a Maven POM file that you can import into your projects to set the versions for dependencies. These dependencies are curated and harmonized across Spring projects.
+ 
+
+
+Taras [8 days ago]
+А я spring bom использовал в dependencyManagmenr. В нём все версии прописаны, ты просто указываешь что тебе надо, и автоматом притянется нужная версия.
+
+
+Marat [8 days ago]
+Ну как я понят в BOM можно указать все что касается одного проекта, например org.springframework, а если другой проект например org.springframework, то как совместить версии?
+
+
+Marat [8 days ago]
+Сделал через
+<dependencyManagement>
+       <dependencies>
+           <dependency>
+               <groupId>io.spring.platform</groupId>
+               <artifactId>platform-bom</artifactId>
+               <version>1.0.0.RELEASE</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>
+       </dependencies>
+   </dependencyManagement>
+
+Но он старый спринг тянет.
+
+
+Marat [8 days ago]
+4.0.1 версию
+
+
+Grigory Kislin [6 days ago]
+@Marat так выбери нужную версию platform-bom
+
+
+Vladimir Gorbatenko [Nov 18th at 1:24 PM]
+Помогите найти видео, было где-то в уроках, пересмотрел и не вижу.  Его вел Борисов и еще один чувак. кажись про Спринг.
+
+
+2 replies
+Dima [7 days ago]
+Ну набери в ютубе Борисов spring
+
+
+Grigory Kislin [6 days ago]
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md#дополнительно-видео-по-spring
++ в 3м уроке есть про Борисова и жизненный цикл
+
+
+Marat [Nov 18th at 3:13 PM]
+Кто знает как правильно совместить JSF и Spring? Постоянно выходят ошибки что не найден bean и тд.
+
+
+1 reply
+Grigory Kislin [6 days ago]
+topjava материала- мало:)?
+
+
+pal548 [8:23 PM]
+map.computeIfAbsent() я бы назвал getOrPutComputedIfAbsentAndGet
+
+
+Stepan [Nov 20th at 11:50 PM]
+Кто нибудь разбирался в уровнях изоляции?
+НЕ совсем понятно, как данная аннотация будет работать
+@Transactional(isolation=Isolation.ISOLATION_SERIALIZABLE)
+Она переключит у всей БД уровень изоляции транзакций? (Но это было бы как то странно.)
+или только у данной транзакции?Если только у данной транзакции, то кто обеспечивает эту изоляцию, TransactionManager? А если приложение развернуто на нескольких машинах, то есть у них своя собственная jvm.....Кароч не оч понятно кем и как это обеспечивается. (edited)
+
+
+3 replies
+Grigory Kislin [4 days ago]
+данная транзакция будет исполняться с этим уровнем (если его БД поддерживает). обеспечивает сама БД.
+
+
+Stepan [4 days ago]
+Правильно ли я понял, что если у БД уровень изоляции по умолчанию READ COMMITTED,  а мы над методом навесим аннотацию @Transactional(isolation=Isolation.ISOLATION_SERIALIZABLE) и бд это позволяет, то только для этой транзакции изменится уровень изоляции, для всех остальных транзакций уровень изоляции останется дефолтным, то есть READ COMMITTED. И за поддержанием всего этого следит БД, так? (edited)
+
+
+Grigory Kislin [4 days ago]
+да
+
+
+Grigory Kislin [11:33 PM]
+@here
+*---------------------------------------------------------------------------------------*
+*добро пожаловать со свежими силами на #hw7*
+*осталось уже не так много*
+*---------------------------------------------------------------------------------------*
+
+
+Stepan [Nov 22nd at 12:24 AM]
+Требуется помощь. Есть недопонимание с состояниями сущностей, которые находятся под управлением ЭнтитиМенеджера,
+Согласно вот этой статье, да и др. источникам https://www.objectdb.com/java/jpa/persistence/update
+Если  сущность находится в состояние менеджед и есть открытая транзакция, если мы в ней произведем какие то модификации, то они автоматически обнаружатся и сохраняться в бд при коммите. На практике вот такое не отработает, то есть изменения не отразятся в бд
+
+@Override
+   public User get(int id) {
+       User user = em.find(User.class, id);
+       test(user);
+       return user;
+   }
+
+   @Override
+   @Transactional
+   public User test(User user) {
+       user.setPassword("987654321");
+       return user;
+   }
+
+Вопрос почему?
+ObjectDB
+Using JPA to update Java entity objects in the database
+Explains how to use JPA to delete (remove) entity objects from the database.
+
+
+27 replies
+Stepan [4 days ago]
+Но еесли я тело метода test перенесу в метод get, то изменения отразятся
+@Override
+   @Transactional
+   public User get(int id) {
+       User user = em.find(User.class, id);
+       user.setPassword("987654321");
+       return user;
+   }
+
+
+Sergey Zhukov [4 days ago]
+а зачем ты в тест передаешь юзера?
+
+
+Sergey Zhukov [4 days ago]
+надо в тесте получить юзера методом
+
+
+Sergey Zhukov [4 days ago]
+как в учебном
+
+
+Sergey Zhukov [4 days ago]
+тогда все будет в рамках одной транзакции
+
+
+Sergey Zhukov [4 days ago]
+у тебя
+```@Override
+   public User get(int id) {
+       User user = em.find(User.class, id);
+       test(user); // тут откроется и закроется транзакция
+       return user;
+   }```
+
+
+Sergey Zhukov [4 days ago]
+или ставь транзакцию и над get
+
+
+Grigory Kislin [3 days ago]
+повтори видео про то, как работает транзакция- делается обертка proxy над классом. если ты вызов делаешь внутри класса, а не как бин спринга, то вызов делается без всякого прокси (транзакции)
+
+
+Stepan [3 days ago]
+Мне не нужно это делать в рамках одной транзакции, когда в одной транзакции все происходит- все понятно.
+
+Кейс следующий:
+получить энтити в состоянии менеджд,
+открыть транзакцию
+изменить сущность
+закрыть транзакцию
+убедиться что в базе отразились изменения
+
+
+Stepan [3 days ago]
+Григорий, как транзакции работает понятно.
+вот эту фразу не понял "если ты вызов делаешь внутри класса, а не как бин спринга, то вызов делается без всякого прокси (транзакции)"
+
+
+Stepan [3 days ago]
+то есть я хочу повторить, то что сказано в статье
+Employee employee = em.find(Employee.class, 1);
+
+ em.getTransaction().begin();
+ employee.setNickname("Joe the Plumber");
+ em.getTransaction().commit();
+
+
+Sergey Zhukov [3 days ago]
+он наверное имел ввиду откуда берется  EntityManager
+    ```@PersistenceContext
+    private EntityManager em;```
+
+
+Stepan [3 days ago]
+кажется понял, продебажил, действительно, при вызове метода test нет активной транзакции
+
+
+Sergey Zhukov [3 days ago]
+тут в статье нет транзакций, потому что работаешь напрямую с базой
+```Map<String, String> properties = new HashMap<String, String>();
+  properties.put("javax.persistence.jdbc.user", "admin");
+  properties.put("javax.persistence.jdbc.password", "admin");
+  EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+      "objectdb://localhost:6136/myDbFile.odb", properties);```
+и получаешь его из фабрики
+```EntityManager em = emf.createEntityManager();```
+транзакции надо еще прикручивать (edited)
+
+
+Stepan [3 days ago]
+почему нет транзакции в статье, вот же
+em.getTransaction().begin();
+
+
+Sergey Zhukov [3 days ago]
+я имею ввиду аннотация не работает
+
+
+Sergey Zhukov [3 days ago]
+все что ты помечстишь между этими строками будет в рамках транзакции
+em.getTransaction().begin();
+...
+em.getTransaction().commit();
+
+
+Stepan [3 days ago]
+это понятно, в примере мы получили энтити не в рамках транзакции, далее
+1. открыли транзакцию
+2. изменили сущность
+3. закрыли транзакцию
+в итоге изменения попали в БД
+Я пытаюсь повторить тоже самое
+
+
+Sergey Zhukov [3 days ago]
+щас тоже попробую повторить, мне даже интересно стало
+
+
+Stepan [3 days ago]
+попробовал вызывать эти методы из сервиса, то есть сначала get - получаем сущность, далее передаем в метод тест, который помечен Transactional, там изменяем поле. Но опять изменения в бд не попадают
+
+
+Stepan [3 days ago]
+есть предположение, но я в нем не оч уверен, когда мы дергаем гет, создается энтитиМенеджер,  достаем сущность, далее менеджер закрывается, сущность становится detached, далее мы вызываем метод тест, создается новый энтитиМенеджер, а так как сущность detached, то менеджер ничего не знает об изменениях, чтобы он узнал нужно вызвать метод мердж (edited)
+
+
+Sergey Zhukov [3 days ago]
+ну как то так
+в базе все апдейтит
+```EntityManager em = emf.createEntityManager();
+        try {
+
+            em.getTransaction().begin();
+            for(int i = 0; i < 3; i++) {
+                Employee employee = new Employee("Samuel", "Joseph", "Wurzelbacher");
+                em.persist(employee);
+            }
+            em.getTransaction().commit();
+
+            Employee e = em.find(Employee.class, 3L);
+            System.out.println(e);
+
+            em.getTransaction().begin();
+            e.setFirstName("Joe the Plumber");
+            em.getTransaction().commit();
+
+            Employee e2 = em.find(Employee.class, 3L);
+            System.out.println(e2);
+        }
+        finally {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+        }
+        em.close();```
+Flash Video
+2018-11-22 23-16-04.flv
+13 MB
+Flash Video
+ Click to download
+
+
+
+
+Sergey Zhukov [3 days ago]
+ObjectDB прикольная штука
+
+
+Sergey Zhukov [3 days ago]
+вот класс Employee
+```package entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+
+public class Employee {
+    @Id @GeneratedValue
+    long id;
+    private String firstName;
+    private String lastName;
+    private String address;
+
+    public Employee(String firstName, String lastName, String address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
+
+    public Employee() {
+    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+}```
+
+
+Sergey Zhukov [3 days ago]
+причем если закрыть EntityManager и опять создать, все равно все работает и объект апдейтится :grin:
+в мавене у меня такая реализация JPA
+        ```<dependency>
+            <groupId>com.github.naoghuman</groupId>
+            <artifactId>lib-database-objectdb</artifactId>
+            <version>0.6.0</version>
+        </dependency>```
+
+
+Sergey Zhukov [3 days ago]
+если не комитить изменения, будет в режиме "readOnly", в базу писать не будет
+
+Grigory Kislin [2 days ago]
+@Stepan я написал, что у тебя транзакция в твоем коде не открывается.
+см. https://dzone.com/articles/how-does-spring-transactional
+https://stackoverflow.com/a/3867556/548473
+dzone.com
+How Does Spring @Transactional Really Work? - DZone Integration
+Wondering how Spring @Transactional works? Learn about what's really going on. (8 kB)
+ Stack Overflow
+Spring @Transaction method call by the method within the same class, does not work?
+I am new to Spring Transaction. Some thing that I found really odd, probably I did understand this properly. I wanted to have a transactional around method level and I have a caller method within the
+ 
+
+
+Grigory Kislin [Yesterday at 12:59 PM]
+@here
+У некоторых провайдеров проблемы с доступом на https://www.baeldung.com (на него часто ссылки даются) Я своему провайдеру написал, проверить доступность можно на  https://ping-admin.ru/free_test/
+Поставил себе https://www.torproject.org/download/download, через него все работает.
+Baeldung
+Java, Spring and Web Development tutorials
+Java, Spring and Web Development tutorials
+ 
+ ping-admin.ru
+Бесплатная проверка доступности сайта из различных частей мира: Ping-Admin.Ru — мониторинг сайтов и серверов. Проверка работы сайта
+Ping-Admin.Ru осуществляет круглосуточный мониторинг на вашем сервере таких сервисов как: HTTP, HTTPS; FTP; MySQL, PostgreSQL; POP3, SMTP, IMAP; DNS, а также проверки с помощью Ping и Telnet.
+(edited)
+
+
+2 replies
+Sergey Zhukov [11 hours ago]
+Ростелеком - полет нормальный
+
+
+Dmitry Neustupov [8 hours ago]
+Тоже Ростелеком - всё окей

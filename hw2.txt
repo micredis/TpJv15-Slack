@@ -1857,3 +1857,20 @@ Lamekhova Alisa [Today at 7:49 AM]
 1 reply
 Taras [7 hours ago]
 Можешь у меня к истории коммитов найти, я последовательно накатывал: https://github.com/Rekotek/topjava/commits/master
+
+
+Lamekhova Alisa [25 days ago]
+Огроменное спасибо)
+
+
+izgarshev.pavel [Yesterday at 7:41 PM]
+коллеги, не смотрите, что во втором занятии - решил нагонять упущенное... После накатки патча 1.5 (add servlet api) вот эта строка в импортах сервлета подчеркивается красным: import static org.slf4j.LoggerFactory.getLogger; Соответственно, альт+энтер не помогает, Find jar on WEB тоже не помогает, подчеркивает все, что связано с логгером красным и не подтягивает нужное с инета. Как с этим бороться?
+
+
+1 reply
+Yuri [3 hours ago]
+mvn clean install не пробовал сделать?
+
+
+izgarshev.pavel [7:47 PM]
+может как-то вручную нужно проимпортить библиотеки?

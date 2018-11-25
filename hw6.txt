@@ -1491,3 +1491,538 @@ Sergey Zhukov [Today at 1:13 PM]
 1 reply
 Grigory Kislin [1 hour ago]
 я сделал тут как проще:)
+
+
+Sergey Zhukov [9:54 PM]
+2.4.2 можно делать через SimpleJdbcInsert, циклом по ролям?? мне кажется batchUpdate() делает что-то подобное, да и метод еще нужно городить для этого :thinking_face:
+
+Vladimir Gorbatenko [12:03 PM]
+Григорий, в pom.xml в разделе <build><plugins>, изначально у нас было 2 плагина. Зачем они были нужны, какую роль выполняют? Затем мы подключили еще  плагин cargo, в котором есть контейнер и конфигурация. Если честно, совершенно непонятно что это все, и как оно работает. Объясни пожалуйста хотя бы вкратце, а то этот раздел как черный ящик, которому приходится верить "на слово".
+Сюда же можно еще спросить про раздел <profiles>:
+1) почему hsqldb указан как "самостоятельный" профайл, а в postgres дополнительно присутствует зависимость tomcat.
+2) связаны эти профайлы или нет с разделом plugins? и с вот этим указанием активных профайлов <spring.profiles.active>tomcat,datajpa</spring.profiles.active>?
+Как-то у меня все закашилось.... (edited)
+
+
+Raisa [Nov 17th at 12:09 PM]
+добавляю локализацию в mealForm.jsp, в этой строке <h2><${param.action == 'create'? 'Create meal' : 'Edit meal'}></h2> можно без скриплета сделать локализацию?
+
+
+11 replies
+Sergey Zhukov [8 days ago]
+я через *<c:if* по id сделал, я так и не понял как в тернарник ${... вставлять ${.. (edited)
+
+
+Raisa [8 days ago]
+спасибо, попробую через с:if
+
+
+Raisa [8 days ago]
+@Sergey Zhukov я чет не пойму как связать ссылку на create c условием.. присвоить ссылке id, а как его достать в c:if? (edited)
+
+
+Dmitriy [8 days ago]
+я добавил в model атрибут add и так сделал ${add == 'add' ? 'Create meal' : 'Edit meal'}
+
+
+Sergey Zhukov [8 days ago]
+@Raisa всегда передаем meal на эту jsp, meal.id или null(когда create) или нет, вставляем переменные локализации вместо слов
+
+
+Raisa [8 days ago]
+спасибо :+1:
+
+
+Sergey Zhukov [8 days ago]
+@Raisa нашел способ короче - прямо в spring:message вставить тернарник  :grin:
+
+
+Raisa [8 days ago]
+@Sergey Zhukov :+1: попробую тоже :slightly_smiling_face:
+
+
+Raisa [6 days ago]
+@Sergey Zhukov как ты его туда вставил? :exploding_head:
+
+
+Sergey Zhukov [6 days ago]
+@Raisa ну месадж начни <spring:message .. "meals.${тернарник...}"/>
+
+
+Raisa [6 days ago]
+и ведь работает :slightly_smiling_face: спасибо, теперь знаю, что еще и так можно
+
+
+Vladimir Gorbatenko [Nov 17th at 12:22 PM]
+Вопрос про spring_db.xml и профиль tomcat.
+<beans profile="tomcat">
+       <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/topjava"/>
+       <context:property-placeholder location="classpath:db/tomcat.properties" system-properties-mode="OVERRIDE"/>
+</beans>
+Как я понимаю, данный БД-профиль как обертка над драйвером к БД, у нас это postgres, но можно подсунуть и любой другой драйвер (из поддерживаемых). Правильно ли я понимаю? И зачем оно нам в проекте, показать что такая возможность есть, или смысл где-то глубже ?
+
+
+1 reply
+Sergey Zhukov [8 days ago]
+Вроде этот профиль для настройки пула конектов к базе, т.к. создавать конекты дорого. Можно это настроить в xml самого tomcat'a
+
+
+Roman Baranov [Nov 17th at 8:27 PM]
+кто нибудь сталкивался:
+запускаю server с приложением из intellij idea.
+если через run то все работает корректно
+а если через debug то получаю `HTTP Status 500 – Internal Server Error` из за
+```javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'en_US'.
+    org.springframework.web.servlet.tags.MessageTag.doEndTag(MessageTag.java:293)```
+
+
+2 replies
+Grigory Kislin [6 days ago]
+а в run ты параметр JVM с -DTOPJAVA_ROOT не настраивал?
+
+
+Roman Baranov [6 days ago]
+@Grigory Kislin да я переменную настраивал через Intellij IDEA.
+большое спасибо, разобрался. я не обращал внимание а там оказывается есть отдельная настройка переменных для разных режимов запуска приложения - `Run, Debug, Coverage`.
+думаю что произошли какие то изменения в самой Intellij (я как раз перед этим обновлся на новую версию), т.к. раньше все работало
+
+
+Vladimir Gorbatenko [1:16 PM]
+Григорий, скажи, если у нас есть такое:
+<dependencyManagement>
+       <dependencies>
+           <dependency>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-framework-bom</artifactId>
+               <version>${spring.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>
+       </dependencies>
+   </dependencyManagement>
+
+тогда зачем мы держим отдельно еще и такую зависимость?
+
+<dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-test</artifactId>
+           <scope>test</scope>
+</dependency>
+ведь она входит в состав spring-framework-bom.
+Или все дело в <scope>test</scope>?
+
+
+Nikita Ganin [Nov 18th at 3:03 PM]
+Что нужно сделать с пунктом 2.1 добавление транзакционности? Просто добавить DataSourceTransactionManager в spring-db и прописать transactional над нужными методами? Как протестить что все в одной транзакции?
+
+
+1 reply
+Vladimir Gorbatenko [7 days ago]
+Да, просто добавить. И над классом тоже.
+Тестить можно так:
+log.debug("Transaction active:::: {}", TransactionSynchronizationManager.isActualTransactionActive());
+
+
+Nikita Ganin [Nov 18th at 3:10 PM]
+Для чего в пункте 2.2 нужно добавить еще роль для админа?
+
+
+1 reply
+Vladimir Gorbatenko [7 days ago]
+Для того чтоб потом чинить JDBC реализацию.
+
+
+fonto [Nov 18th at 11:58 PM]
+Почему у нас поле registered Date, а не LocalDate или LocalDateTime?
+
+
+2 replies
+Sergey Zhukov [7 days ago]
+вроде чтобы часовой пояс учитывать
+т.е. если одновременно регятся с разных континентов, время в базе было одно и тоже
+а вот еду с разных континетов добавленную в одну секунду - будет уже хранить с конкретным временем и датой не зависещей от временной зоны
+:face_with_rolling_eyes:
+
+
+fonto [7 days ago]
+Ну а разве localdatetime.now() не тоже самое делает?
+
+
+Andrew Kalugin [Nov 19th at 8:57 AM]
+Как 2.4  делали? Достать пользователя вместе с ролями.
+Сделал с помощью JOIN и ResultSetExtractor парсит запрос, но порядок не сохраняет. Может кто подскажет с направлением решения? :slightly_smiling_face:
+
+
+14 replies
+Sergey Zhukov [7 days ago]
+порядок чего? роли в сете не нуждаются в порядке, а записи запросом *Order by* должны в нужном порядке вернуться
+
+
+Andrew Kalugin [7 days ago]
+порядок отсортированных user-ов почему-то ломается. ResultSetExtractor собирает все в map, а потом отдает list. и где-то все это ломается, может слишком заглул с обработкой :slightly_smiling_face:
+
+
+Alla Protopopova [7 days ago]
+https://docs.oracle.com/javase/tutorial/collections/implementations/map.html
+docs.oracle.com
+Map Implementations (The Java™ Tutorials >                     Collections > Implementations)
+This collections Java tutorial describes interfaces, implementations, and algorithms in the Java Collections framework
+
+
+Alla Protopopova [7 days ago]
+Смотри разницу между HashMap, TreeMap и LinkedMap. Я тоже на это напоролась)
+
+
+Andrew Kalugin [7 days ago]
+@Alla Protopopova спасибо за наводку :slightly_smiling_face: что-то я ступил конкретно, очевидная вещь.
+
+
+Alla Protopopova [7 days ago]
+Не ты один грешен)))))))
+
+
+Zhinko [6 days ago]
+А почему сразу не сделать чтобы собирало в list? Я так делал
+
+
+Sergey Zhukov [6 days ago]
+:joy: от ребенка иногда слышится МаПа, я думаю какая хеш или три, оказывается обоих родителей зовет на помощь
+
+
+
+Andrew Kalugin [6 days ago]
+@Zhinko Проще добавлять user-ов получается. Если правильный join написать, то по проще можно сделать. Но у меня с join проблема, самый простой смог собрать, а вот по сложнее не выходит (edited)
+
+
+Zhinko [6 days ago]
+@Andrew Kalugin Но я немного помучился, но у меня получилось в ExtractData сразу в лист сделать)
+
+
+Andrew Kalugin [6 days ago]
+@Zhinko а join какой получился? у меня просто с user_roles по user_id. может ссылочка какая есть полезная почитать? :slightly_smiling_face: (edited)
+
+
+Zhinko [6 days ago]
+@Andrew Kalugin Обычный join. Если хочешь скину в личку, что у меня получилось.
+
+
+Andrew Kalugin [6 days ago]
+@Zhinko давай, интересно глянуть
+
+
+Vladimir Gorbatenko [6 days ago]
+да, свой ResultSetExtractor это тема!
+
+
+Alex [Nov 20th at 5:05 AM]
+Всем привет, застрял на 1.3, не могу проверить как работает контроллер на развернутом приложении, т.к. при старте выпадает эксепшн "org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'." Нарыл, что надо настроить переменные окружения в томкат во вкладке edit configuration. Настроил, не помогло. Кто сталкивался, подскажите
+Pasted image at 2018-11-20, 10:05 AM
+
+
+
+2 replies
+Sergey Zhukov [6 days ago]
+Системная переменная  TOPJAVA_ROOT настроена? в 10 видео 5:40
+
+
+
+Alex [6 days ago]
+Спасибо за подсказку. Сработало, когда добавил ее в конфиги томката
+
+
+regorov [Nov 21st at 3:41 AM]
+У кого-нибудь было такое? В jdbcUser тест на метод getAll отдельно отрабатывает с успехом, но если с остальными тестами то падает. Причина:
+
+Expecting:
+<[User{id=100001, email=admin@gmail.com, name=Admin, enabled=true, roles=[ROLE_USER, ROLE_ADMIN], caloriesPerDay=2000}]>
+to be equal to:
+<[User{id=100001, email=admin@gmail.com, name=Admin, enabled=true, roles=[ROLE_USER, ROLE_ADMIN], caloriesPerDay=2000},
+   User{id=100000, email=user@yandex.ru, name=User, enabled=true, roles=[ROLE_USER], caloriesPerDay=2000}]>
+
+По списку тестов слева внизу перед ним идет тест delete как раз этого отсутствующего юзера (совпадение??)
+Это как так получается скрипт на возврат БД к исходному состоянию не отрабатывает?
+Как можно проверить базу в этот момент, как иначе продиагностировать? (edited)
+
+
+1 reply
+Grigory Kislin [4 days ago]
+проверь, возвращается ли база к исхоному состояние в предыдущем тесте. не портятся ли кэши. не портишь ли константы.
+состояние базы можно в тесте распечатать (edited)
+
+
+regorov [3:56 AM]
+Разобрался, это кеш первого уровня... Его надо было оставить в jdbc
+5 утра, можно комитить ДЗ и просыпаться на работу через 2 часа:grinning:
+
+
+alabra [Nov 21st at 9:12 AM]
+Подскажите с пунктом: 2.4 Починить тесты в JdbcUserRepositoryImpl (добавить роли). Доставать можно двумя способами: одним запросом с JOIN либо двумя запросами: отдельно users и отдельно roles
+Кто нибудь делал одним запросом? Я попробовал сделать одним запросом, но из-за left join к ролям строчки дублируются. Пришлось вручную обходить в цикле результат запроса и анализировать строчки с пользователями и ролями. Есть ли более правильное решение как сделать одним запросом в List<User> с ролями? В какую сторону посмотреть? (edited)
+
+
+45 replies
+Alla Protopopova [5 days ago]
+Я сделала одним запросом с Left join. Из-за дублирующихся строчек писала свой ResultSetExtractor, который обрабатывает resultSet и на выходе отдает уже правильный лист.
+
+
+
+Sergey Zhukov [5 days ago]
+Смотри в сторону группировки результатов.
+Я делал одним запросом и через свой RowMapper.
+
+
+alabra [5 days ago]
+Подскажите как правильно сделать установку ролей при обходе resultSet? Столкнулся с проблемой. Если использовать getter, то он возвращает Set<Role>. Т.к. это абстрактный тип, то add сделать не дает (java.lang.UnsupportedOperationException
+    at java.base/java.util.AbstractCollection.add(AbstractCollection.java:267)). Как правильно это делать? Я преобразовал в HashSet результат геттера, добавил роль, потом обратно установил сеттером
+
+
+alabra [5 days ago]
+Группировку имеется ввиду в sql group by? (edited)
+
+
+Sergey Zhukov [5 days ago]
+да, возвращал из базы без дублей
+
+
+Alla Protopopova [5 days ago]
+user.getRoles().add(role); прекрасно работает. UnsupportedOperationException по какой-то другой причине кидается
+
+
+Sergey Zhukov [5 days ago]
+это приведенный тип, внутри лежит конкретная реализация
+
+
+Alla Protopopova [5 days ago]
+Как ты создаешь Set, когда у пользователя еще нет ни одной роли? (edited)
+
+
+Alla Protopopova [5 days ago]
+Если Set.of(role), то он вроде бы неизменяемым создается. Тогда при попытке Set.add() будет UnsupportedOperationException кидаться как раз...
+
+
+Sergey Zhukov [5 days ago]
+конструктор User() принимает Collection<Role> roles
+я при создании вообще туда отдаю ArrayList
+
+
+Alla Protopopova [5 days ago]
+Если я правильно поняла, то ты отдаешь в конструктор пустой ArrayList. Тогда получается так: из конструктора вызывается setRoles и, так как коллекция пустая, в переменную roles инициализируется Collections.emptySet(). Вот он потом и кидает тебе UnsupportedOperationException, потому что в него нельзя ничего добавлять, он неизменяемый
+
+
+Alla Protopopova [5 days ago]
+Передавай в конструктор сразу Collections.singleton(role) и проблем не будет
+
+
+alabra [5 days ago]
+а точно спасибо не догадался посмотреть в сеттер что он создает empySet. Да проблема была в этом.
+
+
+alabra [4 days ago]
+Пришлось из-за этого сеттера переделывать реализацию :slightly_smiling_face: Мне кажется у @Grigory Kislin здесь ошибка. В чем смысл такого сеттера с точки зрения бизнес логики? Пользователя без ролей мы можем создать. Но если мы создали пользователя без ролей, то добавить роли уже нельзя. Или я что-то пропустил?
+
+
+Alla Protopopova [4 days ago]
+Мне тоже не совсем понятен данный момент(
+
+Grigory Kislin [4 days ago]
+переделали - ок. я сразу готовый set вставляю, те мне не требуется. все по потребности приложения.
+думаю, что тоже поправлю (edited)
+
+
+alabra [4 days ago]
+@Sergey Zhukov Подскажите как вы сделали через группировку и свой RowMapper. Не могу понять с какой стороны подойти? При использовании Group by в запросе по user для ролей придется использовать агрегатную функцию чтобы избежать дублирования?
+
+
+Sergey Zhukov [4 days ago]
+@alabra да я использовал агрегатную функцию, но это не рекомендуют делать, потому что не все базы их поддерживают и возвращают в разном виде.
+Попробуй через экстрактор.
+
+
+alabra [4 days ago]
+Через экстрактор сделал просто было интересно как можно ещё. Все равно не понимаю как вы потом достаёте роли из агрегатной функции
+
+
+Sergey Zhukov [4 days ago]
+ранее я писал тут в ветке и показал в каком виде возвращает запрос, мне их парсил StringTokenizer
+
+
+JavaHolic [4 days ago]
+Добавьте distinct в селект
+
+KaryNaiKo [4 days ago]
+@JavaHolic Просто уел всех :D
+
+
+
+alabra [4 days ago]
+@JavaHolic Как это поможет? Дублирование имеется ввиду не полностью строки, а поля user. Т.е. запрос возвращает
+user1 role_user
+user1 role_admin
+user2 role_user
+
+
+JavaHolic [4 days ago]
+а какая роль из двух нужна? (edited)
+
+
+alabra [4 days ago]
+обе
+
+
+JavaHolic [4 days ago]
+как они должны быть перечслены? через какойто разделитель?
+
+
+JavaHolic [4 days ago]
+в итоговой выборке
+
+
+alabra [4 days ago]
+Нужно получить в итоге
+user1 List<Role>{role_user, role_admin}
+user2 List<Role>{role_user}
+
+
+alabra [4 days ago]
+Я вот тоже не понимаю как это можно сделать
+
+
+Sergey Zhukov [4 days ago]
+завтра узнаете )
+
+
+JavaHolic [4 days ago]
+)
+
+
+alabra [4 days ago]
+Можно в SQL в запросе их объединить в одно поле через разделитель?
+
+
+JavaHolic [4 days ago]
+можно
+
+
+JavaHolic [4 days ago]
+вот пример для Postgres
+SELECT c_id, STRING_AGG(c_grp_id, ',' ORDER BY c_grp_id) AS group_ids
+FROM c_grp_at
+GROUP BY c_id
+
+
+alabra [4 days ago]
+Понял спасибо попробую. Не знал про STRING_AGG
+
+
+Sergey Zhukov [4 days ago]
+@JavaHolic на других базах не прокатит (edited)
+
+JavaHolic [4 days ago]
+ну тогда для HSQLDB так будет
+<group concat function> ::= GROUP_CONCAT <left paren> [ <set quantifier> ] <value expression> [ <order by clause> ] [ SEPARATOR <separator> ] <right paren> (edited)
+
+
+Sergey Zhukov [4 days ago]
+это уже не будет работать на postgres, уничерсальный наверно через экстрактор
+
+
+JavaHolic [4 days ago]
+для разных БД синтаксис для функции агрегации сильно различается, универсального селекта тогда в данном случае сделать не получится
+
+JavaHolic [4 days ago]
+тогда полагаю что агрегацию в данном случае необходимо будет выполнять силами java (edited)
+
+
+alabra [4 days ago]
+@Sergey Zhukov нашел в этой ветке как вы сделали через группировку. Интересно, я не догадался пока не увидел. Для разделения ролей в разные колонки пришлось делать двойной JOIN с условиями в первом role='ROLE_ADMIN' и role='ROLE_USER'? Или как то по другому сделали?
+
+
+Sergey Zhukov [4 days ago]
+да делал так, с двумя колонками не вариант, что если будем добавлять еще роли, количество JOIN увеличится
+
+
+alabra [4 days ago]
+Понял спасибо было интересно именно с технической точки зрения
+
+
+Dima [4 days ago]
+я делал запросом через join, потом через стримы делал Map с ключом номер юзера, значением Set ролей. А потом другим стримом просто бежал по изначальному List и добавлял нужные роли, вытаскивая их из Map.
+
+
+alabra [4 days ago]
+@Dima первоначально делал тоже похожим образом, но так как есть сортировка то можно сделать за один проход цикла
+
+
+under4eg [Nov 21st at 8:20 PM]
+никто не встречал проблемы с кодировкой? фильтр из урока не спасает :disappointed:
+
+
+5 replies
+alabra [4 days ago]
+Был один случай Мне помогло указание кодировки в строке подключения например
+#database.url=jdbc:mysql://localhost:3306/mybasename?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8
+
+
+alabra [4 days ago]
+Можно посмотреть в отладчике в контроллере в каком виде данные из view приходят.  Если там все ок с кодировкой то посмотреть в каком виде пишется в базу включив вывод в лог самих запросов с данными
+
+
+under4eg [4 days ago]
+похоже, что проблема в JSP, а не в базе
+
+
+under4eg [4 days ago]
+вообще не угадал. вот, где была проблема
+Pasted image at 2018-11-21, 9:30 PM
+
+
+
+under4eg [4 days ago]
+криво лег патч
+
+
+Sergey Zhukov [Nov 22nd at 10:28 AM]
+@Grigory Kislin зачем в методах писать super.get (и другие методы), если мы не переопределяем метод, он же и так наследуется, можно просто get. Это чтоб понятней было тем кто будет читать код, или перестраховаться от попытки переопределения рядом, или так принято делать?
+В случае с JpaUtil все понятно, мы переопределяли setUp() потому и вызывали super.setUp(), чтобы не дублировать (edited)
+
+
+1 reply
+Grigory Kislin [3 days ago]
+не обязательно. мы просто будем еще переделывать этот класс
+
+
+Илья Чиликин [Nov 22nd at 11:32 PM]
+*upd: вопрос снят*
+
+Поясните решение с получением ролей в разборе HW6.
+Из патча:
+```Map<Integer, Set<Role>> map = new HashMap<>();
+jdbcTemplate.query("SELECT * FROM user_roles", rs -> {
+    map.computeIfAbsent(rs.getInt("user_id"), userId -> EnumSet.noneOf(Role.class)).add(Role.valueOf(rs.getString("role")));
+});```
+В ситуации, когда у пользователя более одной роли.
+Перебираем resultSet, встречаем строку user_id=1, role=ADMIN.
+Ключа 1 в map нет, выполняется mapping function, в map появляется entry key=1,value=[ADMIN].
+Продолжаем перебирать resultSet, встречаем строку user_id=1, role=USER.
+Ключ 1 в map уже есть, значит mapping function не выполняется (т.к. computeIfAbsent), роль USER в map не попадает.
+
+*upd: вопрос снят* (edited)
+
+
+3 replies
+Gekov Iliya [3 days ago]
+У нас роли в сете, роль просто добавится к этому сету. Суть computeIfAbsent не в том, что оно не выполнится, если ключ присутствует, а в том, что если ключ отсутствует, то создастся пустой сет EnumSet.noneOf(Role.class)), в который добавится роль. Если сет на таком ключе уже существует, то к сету прибавится новая роль (edited)
+
+
+
+Gekov Iliya [3 days ago]
+Из доков: If the specified key is not already associated with a value (or is mapped to null), attempts to compute its value using the given mapping function and enters it into this map unless null.
+
+
+Илья Чиликин [3 days ago]
+А, вопрос снят. Смотрел через окно применения патча, неверно прочёл код в узкой части окна. (edited)
+Pasted image at 2018-11-23, 12:42 AM
+
+
+Alexey_b [9:41 PM]
+Осталось некоторое недопонимание по поводу вынесения в разные места ресурсов, чтобы была возможность менять их и следовательно менять поведение программы в рантайме. Я правильно понимаю, что это нужно только для тестовых целей, так как для продакшена, нам надо собрать всё в единый war,  и в нем уже ничего поменять без пересборки нельзя?

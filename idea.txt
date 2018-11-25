@@ -644,3 +644,101 @@ Grigory Kislin [1 hour ago]
 Vladimir Gorbatenko [31 minutes ago]
 Хотел увидеть hsqldb, просто интересно было. Вот тут (на скрине) есть библиотеки с версиями, а я искал hsqldb и нигде не мог найти. В war-нике тоже не видно... (edited)
 ext_lib.JPG
+
+
+Grigory Kislin [9 days ago]
+а ты собрал проект с maven профилем hsqldb?
+
+
+Vladimir Gorbatenko [9 days ago]
+а, все, разобрался, спасибо )
+
+
+Raisa Nov 19th at 6:32 PM
+идея подчеркивает имена колонок и таблиц в аннотациях в выпускном проекте - не распознает из в БД, хотя имена совпадают. В чем может быть причина?
+
+Dima 6 days ago
+не установлен Facets - > JPA в проекте, сделай по аналогии с учебным проектом
+
+Raisa 6 days ago
+установлен, вроде бы так же все:
+
+Dima 6 days ago
+тогда не подключена база к этому facet, проверь во вкладке Persistance-> првой кнопкой по entitymanager-> Assign data sources, там должно ассоциироваться с твой БД
+
+Raisa 6 days ago
+его там нет, наверное, в этом причина? В topjava он уже был настроен, когда Spring DataJpa добавили. Как его настроить? Буду признательна за ссылки
+
+Dima 6 days ago
+клайни на Entities правой кнопкой  и там будет Assign data sources. По крайней мере должен быть)
+
+Raisa 6 days ago
+:+1:спасибо :slightly_smiling_face:
+
+
+Pushkin [Nov 21st at 12:35 PM]
+Все видели удобную фичу длф редактирования локализаций?
+Resource Bundle.png
+
+
+
+
+4 replies
+Vladimir Gorbatenko [4 days ago]
+да, удобная штука, в видео Григория есть
+
+
+Pushkin [4 days ago]
+Что-то я невнимательно смотрел
+значит
+
+
+Vladimir Gorbatenko [4 days ago]
+если будешь смотреть второй раз - удивишься что в первый раз далеко не все увидел )
+
+
+Pushkin [4 days ago]
+Про спринг просмотрел уже раза 4. Каждый раз удивляюсь :slightly_smiling_face:
+
+
+severek [Nov 22nd at 11:14 AM]
+Всем привет. Кто подскажет почему идея не видит профилей спринга? Подсвечивание в настройках включено, mvn clean делал, namespace все на месте...идея 2018.2.6
+Pasted image at 2018-11-22, 12:14 PM
+
+
+
+7 replies
+Also sent to the channel
+Roman Baranov [4 days ago]
+Надо выбрать активные context. сверху файла должна быть полоска для выбора активных контекстов.
+contexts.png
+
+
+
+severek [4 days ago]
+В том и проблема, что её нету...
+Pasted image at 2018-11-22, 12:32 PM
+ 
+
+
+Roman Baranov [4 days ago]
+в settings idea найди пукт spring. и надо поставить чекбокс show profiles panel
+
+
+severek [4 days ago]
+Pasted image at 2018-11-22, 12:36 PM
+
+
+
+Roman Baranov [4 days ago]
+да это они. я проверял. они отвечают за то чтобы отображать эту панельку для выбора контескта. если это не решает тогда можно попробовать сделать из меню File
+invalidate cache & restart.
+или как второй вариант удалить папку .idea и импортировать проект заново
+
+
+severek [4 days ago]
+Все, заработало, спасибо!:) Помогло invalidate and restart
+
+
+Roman Baranov [4 days ago]
+:+1:
