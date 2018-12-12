@@ -1649,3 +1649,33 @@ Valery.Shkerdin [5 days ago]
 
 Varguss [7:43 PM]
 Можно перед <c:forEach items="${mealList}" var="meal"> прописать строчку <jsp:useBean id="mealList" scope="request" type="java.util.List<ru.javawebinar.topjava.model.MealWithExceed" />, тогда оно будет и переменную правильно идентифицировать, и не будет подсвечивать желтым items.
+
+
+Alexander Dec 1st at 4:09 PM
+Здравствуйте! Возник вопрос по переменной окружения TOPJAVA_ROOT для логгирования в файл. Я работаю в linux (ubuntu), в .bashrc (находит в home директории пользователя и здесь хранятся переменные окружения текущего пользователя) добавил следующу строку export TOPJAVA_ROOT="/media/alexandr/datalin/projects/github_com/topjava" выполнил команду
+source .bashrc и всё, теперь я переменную окружения в консоле вижу. Но вот при запуске tomcat логгирование в файл так и не происходит. Почему не видет переменную окружения текущего пользователя? Или нужно прописывать на системном уровне?
+
+Yuri 11 days ago
+https://topjava15.slack.com/archives/CCPHF8VBN/p1539012788000100
+ Yuri Heiko
+Проблема с логированием под Ubuntu - в упор нехочет видеть переменную окружения TOPJAVA_ROOT. Если в logback.xml указать путь явно, то все работает. Хотя переменная есть в окружении, перезагрузка IDEA и компа не помогает
+Thread in #hw1Oct 8th at 6:33 PMView message
+ 
+Alexander 11 days ago
+Спасибо! Пропустил это сообщение.
+
+Alexander 11 days ago
+Помог вариант, с указанием переменной окружения для tomcat в самой idea, считаю самым оптимальным вариантом для данного случая.
+
+Grigory Kislin 11 days ago
+а idea- перезапускал?
+в idea можно войти в terminal и посмотреть: echo $TOPJAVA_ROOT
+
+Alexander 11 days ago
+да, после добавления переменной, idea перезапустил, через терминал в idea тоже пробовал просмотреть переменную, показывает что есть, но не помогло, поэтому подумал что в пользовательское окружение не достаточно добавить переменную. Отчасти был прав, когда советы прочитал, но решил ограничиться перменными в настройках tomcat в idea (edited)
+
+Alexander 11 days ago
+правда всё таки не понятно, почему не видит переменную, добавленную в пользовательское окружение.
+
+Grigory Kislin 8 days ago
+а в java то вообще- попадает? есть же System.getenv() (edited)

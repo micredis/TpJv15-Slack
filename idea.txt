@@ -742,3 +742,43 @@ severek [4 days ago]
 
 Roman Baranov [4 days ago]
 :+1:
+
+
+shomnest [Nov 27th at 6:36 PM]
+Кто-нибудь знает, на степике ещё дают ключи или теперь только образовательные ide предоставляют?
+
+
+8 replies
+Maxim Valeev [15 days ago]
+Месяц назад ещё точно давали
+
+
+Vladimir Gorbatenko [15 days ago]
+надо чтоб давали, у меня 1 января заканчивается )
+
+
+shomnest [14 days ago]
+@Maxim Valeev я так понимаю ты через степик ключи получал? Не могу разобраться надо решать задачи именно по курсам от jetbrains или по любым курсам программирования?
+
+
+Vladimir Gorbatenko [13 days ago]
+хмм я просто выбрал джаву, решил несколько задачек и ключ готов.
+
+
+shomnest [12 days ago]
+Прошел пять уроков, все задачи порешал, два дня - ключа нет
+
+
+Maxim Valeev [12 days ago]
+Я прошел 1 урок этого курса и через день получил ключ https://stepik.org/course/6858
+Stepik: online education
+Java. Introduction
+This is an introductory course to Java. Join the course to get the basic information about the language, to learn about variables and types, and write your very first Java program. (4 kB)
+
+
+Maxim Valeev [12 days ago]
+ключ упал в уведомлениях на степике
+
+
+shomnest [12 days ago]
+Да, этот же курс, нет уведомлений о ключе
