@@ -1348,3 +1348,845 @@ Zhinko [Nov 22nd at 5:58 PM]
 1 reply
 Gekov Iliya [3 days ago]
 Так же как мы достаем юзера с милсами в topjava. По сути одинаковая ситуация: юзер - мил = ресторан - голос (edited)
+
+
+Lamekhova Alisa [Nov 26th at 9:05 AM]
+Методы типо getAllRestorants/Votes/Users/Meals не нужны получаются? Или это что-то очевидное, что должно быть обязательно?
+
+
+4 replies
+Raisa [18 days ago]
+я добавила.. похоже, что это базовые методы, которые должны быть в любом случае. Сделала выборку сущностей по id владельца, где он есть: id ресторана - выборка еды, по id юзера - выборка голосов. Там где нет владельца - выборку всех, что есть. По аналогии с topjava
+
+
+Lamekhova Alisa [17 days ago]
+Просто непонятно зачем и кому нужна выборка голосов по айди юзера. А вот выборка голосов по айди ресторана по идее нужна юзеру при выборе ресторана.
+
+
+Raisa [17 days ago]
+юзеру, чтобы у него отображалась история его голосований в личном кабинете
+
+
+Raisa [17 days ago]
+ИМХО выборка голосов по id ресторана, мне кажется, уже специфическая функцональность, т.к. ресторан не является владельцем голосов, поэтому ее нужно другими средствами осуществлять
+
+
+Dima [Nov 26th at 12:33 PM]
+Есть вопрос по названию ссылок на ресурсы при ответе сервера. Как называть их принято?есть какие то правила. У меня например вот так названо. Надо ли как то намекать на методы запросов(GET, POST, DELETE) или это все только в документации указывается?
+halResponse.jpg
+
+
+
+3 replies
+Grigory Kislin [17 days ago]
+правиля url недавно искал- там рекомендуют через дефис
+а название ресурсов проще так оставить. только почему у тебя один- с маленькой буквы, а второй- с большой?
+
+
+Dima [17 days ago]
+ну да, просто код уже глаз замыливает)т.е. правильно "registration-new-user" ? типо такого?
+
+
+Grigory Kislin [16 days ago]
+я не знаю, погугли. data-rest не так распространено.  просто с переименованием ресурсов и линками между ними думаю что могут всплыть проблемы. но можно и попробовать
+
+
+Sergey Zhukov [Nov 28th at 9:01 AM]
+можно пользоваться регулярными выражениями в переменных мапинга или не стоит так делать?
+```@PutMapping("/restaurants/{id:\\d+}")```
+
+
+3 replies
+Vladimir Gorbatenko [16 days ago]
+думаю будешь проклят потомками )
+
+
+
+fonto [16 days ago]
+Есть такое выражение. "У меня одна проблема, я решил не добавив регулярку - появилось ещё три проблемы")
+
+
+fonto [16 days ago]
+Но иногда без них никак)
+
+
+Sergey Zhukov [Nov 28th at 10:17 AM]
+Интересно кто как разруливает когда рестораны называются одинаково, добавить адрес, или достаточно города?
+
+
+12 replies
+Dmitry Neustupov [16 days ago]
+Админ может написать Romashka_Msk или Romashka_Spb ) зачем себе голову этим сейчас забивать?
+
+
+Sergey Zhukov [16 days ago]
+Я понимаю, можно индекс сделать (имя, город),
+а можно без индекса, задать адрес с улицей.
+
+
+Dmitry Neustupov [16 days ago]
+Можно и так, по разному можно ) Главное не накрутить лишнего )
+
+
+Sergey Zhukov [16 days ago]
+у ресторана должно же быть что-то из этого
+
+
+Sergey Zhukov [16 days ago]
+:slightly_smiling_face:
+
+
+Dmitry Neustupov [16 days ago]
+У меня индекс по имени)
+
+
+Sergey Zhukov [16 days ago]
+найти бы этого админа и распросить :grin:
+
+
+Dmitry Neustupov [16 days ago]
+:grin:
+
+
+Lamekhova Alisa [15 days ago]
+Не могут рестораны одинаково называться
+
+Lamekhova Alisa [15 days ago]
+В ГК вроде сказано, что организации, осуществляющие схожую деятельность не могут одинаково называться)
+
+
+Dima [15 days ago]
+однако я имя ресторана unique не делал. Имя может совпадать, а вдруг этот сервис станет всемирным))
+
+
+Raisa [15 days ago]
+я сделала ограничение в базе имя+физический адрес. да, думаю, имя может совпадать на практике, пока компании будут судиться, нужно как-то за них голосовать ))
+
+
+Dmitry Neustupov [10:28 AM]
+@Sergey Zhukov я на уровне базы не даю этого сделать
+
+
+ABaykov [Nov 28th at 10:52 AM]
+Вопрос. Рейтинг ресторанов ведь должен каждый день обнуляться для нового голосования ? Вот это не совсем ясно
+
+
+16 replies
+Sergey Zhukov [16 days ago]
+ну можно запросить рейтинг за день или все время
+
+
+ABaykov [16 days ago]
+Т.е. рейтинг сам по себе не отображается сразу? у меня почему-то мысль, что пользователь заходит в систему, видит список ресторанов с текущим рейтингом. Ну и голосует. На следующий день, админ обновляет везде меню, рейтинг сбрасывается
+
+
+Sergey Zhukov [16 days ago]
+мы храним историю голосования, рейтинг любой можешь формировать, просто запрашиваешь за период
+
+
+ABaykov [16 days ago]
+Спасибо. Примерно понял мысль)
+
+
+Sergey Zhukov [16 days ago]
+надо не забывать делаем rest, а вот что там на фронте будет - никому не известно
+
+
+Dima [16 days ago]
++ к запросу за день,в 0:00 он автоматически не найдет голосов и поуажет 0
+
+
+Sergey Zhukov [15 days ago]
+поф, раз в 100 лет такой будет, статистику не испортит :grin:
+
+Grigory Kislin [15 days ago]
+в ТЗ ни слова нет про рейтинг...
+
+
+
+Vladimir Gorbatenko [15 days ago]
+Григорий, спасибо успокоил ) А то я как-то про рейтинг не задумывался пока тут не увидел обсуждения.. И тоже решил - раз голосование, значит должен быть и рейтинг )
+
+
+ABaykov [15 days ago]
+Мда. Что-то я про рейтинг действительно не учёл, что этого в тз нет. Просто как-то мысль сама пошла. Раз есть голосование, слало быть подавай рейтинг :)))
+
+
+Dima [15 days ago]
+голосовалка за день есть, на фронте уже можно делать рейтинг.Надо же что то кроме картинок и слайдеров оставить)
+
+
+Vladimir Gorbatenko [15 days ago]
+а как насчет показать пользователю не только рейтинг ресторана, но еще к ресторану показать список юзеров, которые голосовали за него? )
+и пикчу с пальцем вниз  для ресторана за который меньше всего голосовали ) (edited)
+
+
+Dima [15 days ago]
+это уже на какой то facebook начинает походить)
+
+ABaykov [15 days ago]
+это уже всё потом) за деньги заказчика, как я полагаю) сейчас нужно показать, что мы кое-что умеем, кое в чем шарим, и в принципе понимаем основные концепции)
+
+
+Lamekhova Alisa [15 days ago]
+@Dima, а что за "голосовалка за день"?
+
+
+Dima [15 days ago]
+@Lamekhova Alisa я имел в виду рейтинг.
+
+
+Lamekhova Alisa [Nov 29th at 8:08 AM]
+А если надо было бы вытаскивать рейтинг ресторана, делать это нужно через ресторан или голоса фильтровать по айди ресторана?
+
+
+5 replies
+Vladimir Gorbatenko [15 days ago]
+через запрос, который просто соберет количество голосов.
+Типа
+Select votes.date, restaurants.name, count(*) rate
+from votes
+join restaurans on votes.restaurants_id  = restaurans.id
+group by 1,2 (edited)
+
+
+Lamekhova Alisa [14 days ago]
+@Vladimir Gorbatenko а если разом надо получить несколько ресторанов с рейтингом?
+
+
+Vladimir Gorbatenko [14 days ago]
+@Lamekhova Alisa предыдущий запрос немного не точный.
+вот пример на быструю руку
+Select dm.date, restaurants.name,
+       sum(case
+             when votes.rest_id is null then 0
+             else 1
+           end
+           ) rate
+from
+    (select distinct date, rest_id
+            from daily_menu) dm
+join restaurants on dm.rest_id = restaurants.id
+left join votes on votes.rest_id  = dm.rest_id and dm.date = votes.date
+--where dm.date = '2018-11-11'
+group by 1,2
+order by 1,2 (edited)
+
+
+
+Vladimir Gorbatenko [14 days ago]
+Выбираем даты и рестораны, которые участвовали в конкурсе, затем привязываем рестораны, и голоса
+
+
+Lamekhova Alisa [14 days ago]
+Пойду-ка я хибернейт учить)))
+
+
+Vladimir Gorbatenko [12:43 PM]
+А потом, если количество голосов одинаковое, то манипулировать избирателями можно демпингом цен на еду ))
+И еще прикрутить левых пользователей анонимусов, или ботов, которые кушать не пойдут, но проголосовали ))) (edited) 
+
+
+Lamekhova Alisa [Nov 29th at 7:32 PM]
+А вот с такой фигней никто не сталкивался в постмане? Причем это только при попытке манипуляции с голосами, все остальное норм и урлы не дублирует
+Без имени-1.jpg
+
+
+
+5 replies
+Grigory Kislin [13 days ago]
+spring-boot ?
+
+
+Lamekhova Alisa [13 days ago]
+@Grigory Kislin ага
+
+
+Grigory Kislin [13 days ago]
+а в чем вопрос собственно:)?
+
+
+Lamekhova Alisa [13 days ago]
+Не могу понять почему путь такой странный и связано ли это с тем, что у меня голоса нормально не сериализуются)
+
+
+Grigory Kislin [9 days ago]
+какой из браузера путь приходит, такой и тут. вкладка networkв браузере
+
+
+Raisa [Dec 1st at 5:46 PM]
+делаю unit-тесты, возник вопрос: зачем в тестах topjava нужны классы InMemory...?  InMemoryMealRepositoryImpl сейчас вообще не задействован, InMemoryUserRepositoryImpl какую функцию выполняет? инжектится в InMemoryAdminRestControllerSpringTest, в самих тестах, вроде, не задействован..
+
+
+1 reply
+Grigory Kislin [11 days ago]
+в учебных целях
+
+
+Maxim [Dec 1st at 9:35 PM]
+помогите с выборкой LocalDateTime в postgres к полю TIMESTAMP через Query. ругается что LocalDateTime это не Date. в учебно проекте как это обошли?
+
+
+5 replies
+Grigory Kislin [11 days ago]
+LocalDateTime это TIMESTAMP
+LocalDate это DATE
+должно работать, дай весь эксепшен (edited)
+
+
+Maxim [11 days ago]
+Кратко:
+org.springframework.dao.InvalidDataAccessApiUsageException: Parameter value [2018-12-02T12:46:57.752993200] did not match expected type [java.util.Date (n/a)]; nested exception is java.lang.IllegalArgumentException: Parameter value [2018-12-02T12:46:57.752993200] did not match expected type [java.util.Date (n/a)]
+Подробнее: http://prntscr.com/lpn0lo
+Lightshot
+Screenshot
+Captured with Lightshot (140 kB)
+
+
+Maxim [11 days ago]
+в БД init http://prntscr.com/lpn16s
+Lightshot
+Screenshot
+Captured with Lightshot (11 kB)
+
+
+Maxim [11 days ago]
+РЕШЕНО: При пересмотре выявился косяк. В Entitiy поле подтянулось из БД как TIMESTAMP. заменил на нужное и все заработало
+
+
+Grigory Kislin [11 days ago]
+для именований в базе не используй case в буквах.
+
+
+Lamekhova Alisa [Dec 3rd at 12:28 PM]
+5.2 НЕ надо делать абстрактных контроллеров на всякий случай.Значит ли это, что можно обойтись 3 контроллерами (root(для всех), admin and user).  Т. е. получится, что в админКонтроллер мы будем пихать все операции с юзерами, едой и ресторанами? Норм вообще так делать? С точки зрения ООП это не правильно, но как по-другому без абстрактных контроллеров? (edited)
+
+
+4 replies
+Dima [10 days ago]
+Можно делать много контроллеров,и у каждого свой @RequestMaping
+
+
+Grigory Kislin [10 days ago]
+@Lamekhova Alisa совсем не значит. пихать все в один контроллер- ненормально. а для чего ты хочешь делать абстрактный контроллер?
+
+
+Lamekhova Alisa [10 days ago]
+@Grigory Kislin Один из вариантов как в топджаве с user. Например, в restaurant -> AbstractRestaurantController - ProfileRestaurantController и AdminRestaurantController и т. д. Но тогда на каждую сущность будут контроллеры по такому же принципу создаваться, т. е. их будет очень много. 2) Либо так: Общий контроллер, профиль контроллер и 3 контроллера для админа (мил, ресторан и юзер). Как вообще правильно?)
+
+
+Grigory Kislin [10 days ago]
+ресторан не принадлежит к профилю юзера, не думаю что ProfileRestaurantController  правильное название.
+а вообще правильно- нет такого... сделай как считаешь красивее. я написал что на всякий случай не делать
+
+
+Raisa [Dec 4th at 6:22 AM]
+подскажите, пожалуйста, почему spring  может не находить драйвер jdbc при запуске тестов для service?
+initDb работает, значит jdbc настроен, но spring его не видит
+
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot resolve reference to bean 'dataSource' while setting bean property 'dataSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [spring/spring-db.xml]: Error setting property values; nested exception is org.springframework.beans.PropertyBatchUpdateException; nested PropertyAccessExceptions (1) are:
+PropertyAccessException 1: org.springframework.beans.MethodInvocationException: Property 'driverClassName' threw exception; nested exception is java.lang.IllegalStateException: Could not load JDBC driver class [org.hsqldb.jdbcDriver]
+
+в spring-db (то же, что и в topjava):
+
+<jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+       <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+       <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+   </jdbc:initialize-database>
+
+   <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
+   <bean id="dataSource"    class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+         p:driverClassName="org.hsqldb.jdbcDriver"
+         p:url="${database.url}"
+         p:username="${database.username}"
+         p:password="${database.password}"/>
+
+properties
+database.url=jdbc:hsqldb:mem:voter
+database.username=sa
+database.password=
+database.init=true
+jdbc.initLocation=initDB_hsql.sql
+jpa.showSql=true
+hibernate.format_sql=true
+hibernate.use_sql_comments=true (edited)
+
+
+4 replies
+Lamekhova Alisa [10 days ago]
+А в настройках DataSourse and Drivers правильный драйвер выбран?
+
+
+Raisa [10 days ago]
+вроде бы, да:
+Pasted image at 2018-12-04, 12:44 PM
+
+
+
+Lamekhova Alisa [10 days ago]
+А <scope> у hsqldb в помнике какой указан? У меня такое было с H2, когда <scope>test стоял
+
+
+Raisa [10 days ago]
+спасибо большое! поправила помник, помогло
+
+
+Vladimir Gorbatenko [Dec 4th at 4:52 PM]
+Делаю выпускной проект, и он получается ну какой-то слишком бедный на функционал.
+Сейчас, дабы не морочиться со скриптами, при популяции базы, меню по ресторанам формируется хранимой процедурой - от текущей даты на 4-5 дней вперед,
+Имею сущности: юзер (с ролями), ресторан, блюдо, меню_на_день, голос.
+Итого из функционала получается только:
+1) выбор даты, для отображения меню ресторанов на эту дату.
+2) кнопка "проголосовать" - которая сохраняет голос (на самом деле сохранение происходит на клацаньи по radio).
+По ТЗ вроде как больше и не надо. Но меня подмывает сделать полноценное приложение, причем основной функционал будет на админской стороне - управление ресторанами, блюдами, меню. (юзерами - делаю сразу параллельно с topjava).
+Может я что-то упустил?
+Морда голосовалки
+voting.JPG
+
+
+
+11 replies
+Raisa [9 days ago]
+а зачем сущность "меню на день"? можно ведь из базы брать по дате и ресторану?
+
+
+Vladimir Gorbatenko [9 days ago]
+Each restaurant provides new menu each day.
+Каждый день у ресторана меняется меню. Т.е. на определенный день рестораны показывают что они готовы предложить.
+
+
+Raisa [9 days ago]
+да, к примеру, есть таблица meals, в ней колонки id ресторана, дата и по ним делать выборку, так и получится - вся еда определенного ресторана определенный за день. я просто хочу понять, может я что-то не учла и исправить
+
+
+Vladimir Gorbatenko [9 days ago]
+если твоя meals содержит еще и еду, то это практически аналог моей daily_menu, только в моей таблице находятся айдишки еды, которые привязаны к ресторану.
+у меня есть таблица с едой, и она общая для всех ресторанов.
+предполагается, что администратор на день выбирает ресторан и формирует меню, выбирая еду из доступного списка (который сам же и пополняет) . (edited)
+
+
+Raisa [9 days ago]
+аа, т.е. админ из каталога выбирает еду, а не вносит новую
+
+
+Vladimir Gorbatenko [9 days ago]
+ну да, зачем дублировать...
+
+
+Raisa [9 days ago]
+по поводу доп.функционала ИМХО при выполнении тестовых заданий как никогда подходит "лучше когда нечего отнять, чем когда нечего добавить". Читала несколько печальных историй, когда отказывали после выполнения тестового, если был функционал, к-рого не было в ТЗ. Это, мне кажется, тоже проф.навык - сделать именно так как нужно заказчику. Работодатель навряд ли оценит энтузиазм в этом случае, т.к. подумает, что соискатель будет тратить время на выполнение того, что ему не говорили, а потом еще на удаление всего этого после ревью, а время программиста дорого стоит. Тут нужно как-то умудриться найти баланс (edited)
+
+
+Lamekhova Alisa [9 days ago]
+@Raisa а зачем "вся еда определенного ресторана за день", если можно одним запросом вытянуть сразу все рестораны с меню на сегодня (или на любую дату)?
+
+
+Raisa [9 days ago]
+@Lamekhova Alisa т.е. вытащить все нужные рестораны с их едой за день? да, это общий случай. Просто интересно стало, нужна ли сущность "меню на день". Оказалось, что тут вообще другая концепция обработки информации о еде.
+
+
+Raisa [9 days ago]
+в ТЗ говорится Admin can input a restaurant and it's lunch menu of the day. Т.е. не choose, а input. Насколько буквально понимать ТЗ? :slightly_smiling_face:
+и еще Each restaurant provides new menu each day - т.е. блюда новые каждый день и дублирования не будет. Или он provides новые комбинации уже имеющихся блюд и это считается новым меню?  :slightly_smiling_face: :exploding_head: (edited)
+
+
+Lamekhova Alisa [9 days ago]
+Так это уже детали, кто как понимает, тот так и делает, если норм сохраняется история меню, то какая разница как он его заводит. Новое меню, имеется в виду новое меню-новая дата. Блюда конечно, могут повторятся. По-моему все минимальные требования по ТЗ выполнены. Только голосование бы нормальной кнопкой сделать)
+
+
+Lamekhova Alisa [8:01 AM]
+Кто юзает Spring Boot, как настраивали логирование? Я просто смотрю там в зависимостях уже есть и slf4j, и logback и все каким-то образом уже логируется.
+
+
+Sergey Zhukov [Dec 5th at 8:49 AM]
+>13: Историю еды и голосований сделать НУЖНО!
+*как правильно удалять голоса?*
+- удаляем юзера вместе с его голосами, удаляем ресторан вместе с голосами
+- удаляем юзера и в его голосах обнуляем юзера, удаляем ресторан вместе с голосами
+
+
+9 replies
+Raisa [9 days ago]
+а зачем весь ресторан удалять? достаточно соотв. строки в votes удалить, голоса других юзеров сохранятся
+
+
+Lamekhova Alisa [9 days ago]
+у меня пока сделано - удаляем юзера вместе с его голосами, удаляем ресторан вместе с голосами
+
+
+Vladimir Gorbatenko [9 days ago]
+Юзера то за что удалять?
+
+
+Vladimir Gorbatenko [9 days ago]
+Если таки нужно убить юзера, то надо в базе делать каскадное удаление. Грохнул юзера, автоматом удалились все строки где он участвовал.
+
+
+
+ABaykov [9 days ago]
+А зачем удалять голоса юзера? Если он голосовал, то статистика не должна пострадать. Полагаю, что удалять голоса нужно только при удалении конкретного ресторана.
+
+
+Sergey Zhukov [9 days ago]
+@Lamekhova Alisa так же буду удалять
+
+
+Grigory Kislin [8 days ago]
+я с голосами вообще никаких операций не далал (кроме голосования), когда выполнял это тестовое
+
+
+Sergey Zhukov [8 days ago]
+Короче уже вообще все в кучу смешалось :dizzy_face:
+@Grigory Kislin Получается что Admin это не глобальный админ, который всем правит, как у нас в учебном, а "Администратор" своих ресторанов, другие Админы админят свои рестораны?
+
+
+Grigory Kislin [8 days ago]
+@Sergey Zhukov это все - допы к ТЗ, которые сильно усложнят ваши решения и привнесут туда большое ко-во ошибок (edited)
+
+
+Lamekhova Alisa [Dec 5th at 1:26 PM]
+И все-таки, кто какие контроллеры сделал и из каких соображений? Я что-то не могу нормальной инфы найти на тему: как правильно делать контроллеры. Пока остановилась на варианте: общий контроллер (просомтреть меню на сегодня, гетнуть ресторан, гетнуть мил, гетнуть результат голосования), профиль контроллер (проголосовать, получить свои голоса, изменить информацию о себе, удалить себя и т.д) и админские контроллеры для операций над юзером, милами и ресторанами. Либо нельзя в одном контроллере делать методы над разными сущностными?
+
+
+8 replies
+Vladimir Gorbatenko [8 days ago]
+Кстати интересный момент "удалить свой голос на дату", типа передумал голосовать... Я такого не реализовывал, а вы? )
+
+
+Lamekhova Alisa [8 days ago]
+@Vladimir Gorbatenko нет, норм идея, если додумывать дальше функционал, можно и такое сделать)
+
+
+Sergey Zhukov [8 days ago]
+как минимум 3 нарисовались, ресторана, админа, голосов(юзера) (edited)
+
+
+Lamekhova Alisa [8 days ago]
+@Sergey Zhukov в админ контроллере методы типо создать мил, создать ресторан? а в ресторане тогда что?
+
+
+Sergey Zhukov [8 days ago]
+в админе аналогично учебному, управлерие пользователями, в ресторане действия с рестораном и едой, в юзере голосовалка
+
+
+Gekov Iliya [8 days ago]
+Я помимо вышеназванного разделил контроллеры ресторана и еды, т.к. мне кажется, логика разная. С ресторанами стандартный crud для работы непосредстенно с ними, с едой  отдельные методы для работы с едой.
+
+
+Grigory Kislin [8 days ago]
+как я вижу контроллеры
+-  рестораны
+-  юзеры
+-  меню/еда
+-  ...
+все от фантазии и модели зависит
+
+
+Lamekhova Alisa [8 days ago]
+Спасибо, есть над чем подумать)
+
+
+Егорро [Dec 5th at 3:57 PM]
+Всем привет! Добрался до попыток написания проекта, уже несколько дней мучаюсь с таким вопросом: как все же  полноценно доставать onetomany-коллекции, если в аннотации стоит Lazy? Т.е. использую, например, такой запрос:
+SELECT DISTINCT r FROM Restaurant r JOIN FETCH Dish d ON d.actual=true
+Вроде бы, судя по всей куче перелопаченных материалов, JOIN FETCH как раз и должен мне подтягивать саму коллекцию объектов dishes для объектов Restaurant, но в результате нифига - получаю все равно тупо неинициализированные прокси.... Уже просто все мысли закончились, как эта ерунда может работать (и может ли она работать вообще)...
+
+
+14 replies
+Sergey Zhukov [8 days ago]
+DISTINCT зачем
+еще надо попробовать обратиться к колекции в той же транзакции, дебагер не покажет (edited)
+
+
+Егорро [8 days ago]
+Без DISTINCT он у меня возвращал вообще список из 10 ресторанов вместо 2))
+Насчет обращения - на данный момент рабочим вариантом является как раз такой:
+       List<Restaurant> all = getAll();
+       all.forEach(restaurant -> restaurant.getDishes().removeIf(dish -> !dish.getActual()));
+       return all;
+Но все же хотелось бы разобраться, можно ли это же все сделать сразу через запрос...
+
+
+Sergey Zhukov [8 days ago]
+getAll() это что за метод? у тебя слой сервиса? не тянет может из за того что не в транзакции обращаешься к колекции (edited)
+
+
+Егорро [8 days ago]
+Это пока в репозитории, но скорее всего по смыслу в сервис пойдет
+
+
+Егорро [8 days ago]
+getAll - просто получение общего списка через "SELECT r FROM Restaurant r"
+
+Grigory Kislin [8 days ago]
+1. SELECT DISTINCT r FROM Restaurant r JOIN FETCH Dish - вот так попробуй
+
+Grigory Kislin [8 days ago]
+ON у тебя мне не нравится. попробуй в WHERE его перенести
+
+
+Егорро [8 days ago]
+Вроде уже пробовал такой вариант - еще раз сделал, падает с исключением "ошибка синтаксиса".  Запустилось только с таким:
+SELECT DISTINCT r FROM Restaurant r JOIN FETCH Dish d ON d.restaurant=r WHERE d.actual=true
+Но при этом коллекция так и не инициализируется (проверяю в main через GenericXmlApplicationContext)
+
+
+Егорро [8 days ago]
+Самое тупое что в соседней строчке такой запрос для 1 ресторана:
+SELECT r FROM Restaurant r JOIN FETCH Dish d ON d.actual=true WHERE r.id=:id
+Все отлично достает, сразу с отфильтрованной коллекцией... (edited)
+
+
+Sergey Zhukov [7 days ago]
+у меня вот так работает
+```SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.dishes d WHERE d.added=?1```
+выбирает все рестораны с едой за указанный день
+*так не работает*:
+```SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH Dish d WHERE d.added=?1```
+(edited)
+
+
+Егорро [7 days ago]
+@Sergey Zhukov спасибо! Вот оно, не то в join писал)) Разбираться и разбираться еще в этих премудростях
+
+
+Grigory Kislin [6 days ago]
+@Егорро лучше всего взять пример. потому что на глаз непонятно... в topjava это
+CrudMealRepository.getWithUser или CrudUserRepository.getWithMeals- по истории коммитов с FETCH патч 6_06_HW5_optional_fetch_join
+разницы же никакой (edited)
+
+
+Егорро [6 days ago]
+@Grigory Kislin спасибо, по урокам я сейчас только 6 заканчиваю пересматривать - даже и не подумал, что дальше еще можно посмотреть по репозиториям))
+
+
+Grigory Kislin [6 days ago]
+ну, если по topjava FETCH не проходил- рано его делать в выпускном
+
+
+Gekov Iliya [Dec 6th at 12:01 AM]
+Столкнулся с проблемой рекурсивного маппинга в Json, когда достаю, к примеру, ресторан с едой (в json мапится ресторан, еда, снова ресторан в еде и т.д. до бесконечности, хотя на стороне сервера естественно это все один и тот же объект-ресторан). Нашел следующее решение путем добавление аннотаций @JsonManagedReference  и @JsonBackReference над соответствующими полями, может кому пригодится: https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
+
+*UPD*:
+Данный способ работает только в одну сторону, то есть, к примеру, ресторан с едой сериализуется отлично, но если попробовать получить еду с ресторанами, то рестораны будут игнорироваться. В той же ссылке чуть ниже описан способ с аннотацией @JsonIgnoreProperties, он позволяет работать в обе стороны. Т.е. если мы фетчим ресторан с едой, то у еды не будет сериализоваться поле ресторана, если фетчим еду с ресторанами, то у ресторанов не будет сериализоваться поле с едой. (edited)
+
+
+
+6 replies
+Lamekhova Alisa [8 days ago]
+Такая же проблема была на той неделе и таким же способом решилась)
+
+
+Vladimir Gorbatenko [8 days ago]
+Я использовал @Transient, так как ресторан со списком еды мне нужен только при формировании TO и показа его пользователю.
+
+
+Vladimir Gorbatenko [8 days ago]
+Хмм... Когда вытягиваю в XML формате, еда нормально вытаскивается, а когда JSON, то наш ObjectMapper вырезает геттер еды...
+Пришлось отказаться от мэппера.... (edited)
+
+
+Alexey_b [8 days ago]
+тоже порешал первым способом.  Хочу вопрос по теме задать,  я правильно понимаю что одним пост запросом создать ресторан  уже сразу с листом еды нельзя?
+
+
+Vladimir Gorbatenko [7 days ago]
+@Alexey_b можно! Только перед постом, через джаваскрипт надо сформировать строку блюд, типа
+?dishes=dish1;dish2;dish3.
+И запихнуть либо в гет, либо в элемент инпут (например hidden).
+
+
+Alexey_b [7 days ago]
+не, я использовать это в проекте не буду, но хотелось узнать, вдруг это все же возможно без всяких фокусов
+
+
+Raisa [Dec 6th at 6:14 AM]
+напомните, пожалуйста, как в topjava добились того, чтобы UserTest не падал с org.hibernate.LazyInitializationException: failed to lazily initialize a collection .... could not initialize proxy - no Session, т.е. по причине, что в model.User есть ассоциированная коллекция meals с FetchType.LAZY?
+
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+   @OrderBy("dateTime DESC")
+//    @JsonIgnore
+   protected List<Meal> meals;
+
+Для своего проекта нашла на stackoverflow решение:
+   @OneToMany(mappedBy = "user")
+   @LazyCollection(LazyCollectionOption.FALSE)
+   @Fetch(FetchMode.SELECT)
+   private List<Vote> votes;
+
+Т.е. вместо lazy стратегии сразу вытаскивать из базы родительскую сущность с ассоц.коллекциями, но одним запросом, а не N+1
+Но все же, хотелось бы разобраться. Заодно интересны мнения по поводу такого решения :arrow_up: (edited)
+
+
+3 replies
+Grigory Kislin [8 days ago]
+дак не сравнимай в тестах meals, где мы ее не достаем (edited)
+
+
+Raisa [8 days ago]
+аа, это потому что я поля в игнор не добавила.. глупая ошибка
+
+
+Grigory Kislin [6 days ago]
+в topjava мы подключаем Hibernate5 в JacksonObjectMapper- он автоматически не сериализует lazy ассоциации
+
+
+Alexey_b [Dec 10th at 4:48 PM]
+По поводу авторизации есть вопросы,  нужно сделать эндпойнт по которому юзер/админ может авторизоварься,  и получить кУку, и в следущих curl запросах эту куку прикладывать, или как-то иначе? (edited)
+
+
+1 reply
+Grigory Kislin [3 days ago]
+проще всего rest+basic auth (см topjava) (edited)
+
+
+Lamekhova Alisa [Dec 11th at 7:27 PM]
+Не могу понять в чем проблема, в юзерРепозитории есть метод, он удаляет юзера из базы, но возвращает 0. @Transactional
+   @Modifying
+   @Query("DELETE FROM User u WHERE u.id=?1")
+   int delete(Integer id);
+
+
+14 replies
+Lamekhova Alisa [2 days ago]
+Из за этого валится проверка checkNotFoundWithId, милы и рестораны удаляются нормально такими же методами
+
+
+Lamekhova Alisa [2 days ago]
+Думаю в ролях дело, но не могу понять в чем конкретно
+
+
+Grigory Kislin [1 day ago]
+ты проверяешь- точно удаляет?
+
+
+Sergey Zhukov [1 day ago]
+вот безопасный способ без Query не кидающий никаких WARN и эксепшенов при удалении несуществующих записей
+    ```@Transactional
+    int removeById(int id);```
+
+
+Lamekhova Alisa [1 day ago]
+@Grigory Kislin да, точно удаляется
+
+
+Lamekhova Alisa [1 day ago]
+@Sergey Zhukov в этом методе валится с org.springframework.dao.PessimisticLockingFailureException: could not execute statement; SQL [n/a]; nested exception is org.hibernate.PessimisticLockException: could not execute statement
+
+
+Sergey Zhukov [1 day ago]
+ну тут уже надо смотреть в класс User и как генерится таблица БД, может где-то несоответствие
+сверь с учебным, как у тебя достаются роли
+у меня все способы удаления работают, делал по аналогии с учебным
+
+
+Sergey Zhukov [1 day ago]
+этот метод
+    ```@Transactional
+    int removeById(int id);```
+отрабатывает вот так
+```Hibernate: 
+    /* select
+        generatedAlias0 
+    from
+        User as generatedAlias0 
+    where
+        generatedAlias0.id=:param0 */ select
+            user0_.id as id1_3_,
+            user0_.EMAIL as EMAIL2_3_,
+            user0_.ENABLED as ENABLED3_3_,
+            user0_.NAME as NAME4_3_,
+            user0_.PASSWORD as PASSWORD5_3_,
+            user0_.REGISTERED as REGISTER6_3_ 
+        from
+            users user0_ 
+        where
+            user0_.id=?
+Hibernate: 
+    /* delete collection org.voting.model.User.roles */ delete 
+        from
+            ROLES 
+        where
+            USER_ID=?
+Hibernate: 
+    /* delete org.voting.model.User */ delete 
+        from
+            users 
+        where
+            id=?```
+
+достает юзера, если получилось, то удаляет его роли потом самого юзера
+
+
+Lamekhova Alisa [1 day ago]
+Вот у меня, видимо, с ролями и проблема, он их удалить не может и валится
+
+Lamekhova Alisa [1 day ago]
+Как в потджаве роли сделаны. @Enumerated(EnumType.STRING)
+@CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+@Column(name = "role")
+@ElementCollection(fetch = FetchType.EAGER)
+private Set<Role> roles;
+
+
+Sergey Zhukov [1 day ago]
+роли в базе есть?
+
+Lamekhova Alisa [1 day ago]
+@Sergey Zhukov да, роли нормально добавляются при создании юзера, и вытаскиваются нормально с юзером
+
+
+Lamekhova Alisa [1 day ago]
+Авторизация нормально работает по ролям
+
+
+Grigory Kislin [1 day ago]
+@Lamekhova Alisa перегружалась? PessimisticLockException- это возможно что-то в базе залочилось
+
+
+Sergey Simonov [Today at 11:36 AM]
+Вполне возможно что в будущем в это приложение захотели бы внести дополнения в виде составления меню и голосований ещё и для breakfast, dinner  и ид. (Теоретически)
+Должен ли я учитывать это при проверке на критерий "простое для доработки"?
+
+
+7 replies
+Grigory Kislin [12 hours ago]
+а сам как думаешь? и - как ты хочешь это доработать? (edited)
+
+
+Sergey Simonov [12 hours ago]
+@Grigory Kislin я бы хотел оставить такую возможность, потому что это в принципе может понадобиться клиенту в дальнейшем
+
+Как сделать: 
+1. Сделать в Votes и Dishes в базе и в entity отдельные поля для Date и Time , а не одно DateTime.
+2. Не делать в Vote уникальности по (userId, date). 
+Тогда в java коде, не трогая базу можно было бы:
+1. Вынимать из базы блюда и трансформируя в меню не только по restaurantId, но и + ещё по Time, например считать что блюда с 7:00 до 10:00 это завтрак .
+2. Тогда при обновлении меню у блюд выставлялась бы автоматически только Date, а Time задавал бы админ сам, что бы указать к какому приему пищи сие относит 
+
+Таким же образом считать голосовал ли юзер или нет (edited)
+
+
+Grigory Kislin [11 hours ago]
+1. - да. причем может пригодиться для чегото другого- например анализа поведения. 2- мое мнение - нет. на базу всегда можно миграцию сделать (edited)
+
+
+Sergey Simonov [11 hours ago]
+То есть это уже чисто на мое усмотрение? На качество архитектуры это в данном случае не влияет ? 
+
+Или 1 - относится к тому что я написал про базу и entity? (edited)
+
+
+Grigory Kislin [11 hours ago]
+2. если index по дате не сделаешь- конечно повлияет. на скорость доступа и консистентность (edited)
+
+
+Vladimir Gorbatenko [11 hours ago]
+@Sergey Simonov однозначно к приложению можно придумать (добавить) еще бесконечную гору функционала - для веганов и для обычных, первые/вторые/десерты/напитки, учитывать сезонность, национальность и т.д.
+
+
+Sergey Simonov [11 hours ago]
+@Vladimir Gorbatenko придумать то конечно можно все что угодно,
+Я спрашивал про то должен ли я предусмотреть вышеописанную доработку на уровне базы, т.к java код больше шансов изменить, а бд может быть очень далеко и нельзя так просто её  переделать (edited)

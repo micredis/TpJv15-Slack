@@ -1,0 +1,26 @@
+Grigory Kislin [2:49 AM]
+joined #hw10.
+
+Grigory Kislin [2:49 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson10.md
+
+Grigory Kislin [2:51 AM]
+*Конец близко: предпоследнее занятие* https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson10.md
+Если еще не присоединились к общей Slack группе участников и выпускников из своего профиля, можно приконнектится по ссылке:
+https://join.slack.com/t/javaops/shared_invite/enQtNDk5OTUyOTgxODE0LWQ3MWMzMDAxZTUyYmNhZDYwYTRlNDNjNGJkMWRkMTk2NTg2YTI3ZGQyM2RiMWMzY2QyNjIwNDlhNGU2OTUxZjU (edited) 
+успехов!
+
+Roman [2:54 AM]
+joined #hw10 along with 18 others.
+
+Vladimir Gorbatenko [11:56 AM]
+Фигасебе сколько колбасы с json view для форматирования даты. Но полезно знать.
+Я для форматирования подключал moment.js  -маленькая и простая приблудка для даты-времени.
+
+Vladimir Gorbatenko [3:30 PM]
+@Grigory Kislin в классе RootController в методе
+@GetMapping("/meals")
+   public String meals(Model model) {
+       return "meals";
+   }
+Параметр Model model по всей видимости лишний.

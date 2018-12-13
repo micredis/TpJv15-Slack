@@ -2026,3 +2026,58 @@ Pasted image at 2018-11-23, 12:42 AM
 
 Alexey_b [9:41 PM]
 Осталось некоторое недопонимание по поводу вынесения в разные места ресурсов, чтобы была возможность менять их и следовательно менять поведение программы в рантайме. Я правильно понимаю, что это нужно только для тестовых целей, так как для продакшена, нам надо собрать всё в единый war,  и в нем уже ничего поменять без пересборки нельзя?
+
+
+Grigory Kislin [17 days ago]
+нет, это скорее для продакшена. чтобы поменять вывод не придется передеплаивать все приложение.
+кроме war обычно много чего еще идет, в том числе база данных, конфигурация
+
+
+Vitaliy Ivkin [Nov 27th at 7:00 PM]
+Был вдали от проекта и сейчас спешно нагоняю. На видео 6_05 после установки патча  6_11 следуя видео, я запускаю в топджаве томкат и получаю следующую ошибку:
+19:50:07.679 WARN  o.s.d.r.c.RepositoryConfigurationExtensionSupport.loadRepositoryInterface:406 - JPA - Could not load type ru.javawebinar.topjava.repository.datajpa.CrudMealRepository using class loader ParallelWebappClassLoader
+ context: topjava
+ delegate: false
+----------> Parent Classloader:
+java.net.URLClassLoader@5e91993f
+.
+java.lang.UnsupportedClassVersionError: ru/javawebinar/topjava/repository/datajpa/CrudMealRepository has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0 (unable to load class [ru.javawebinar.topjava.repository.datajpa.CrudMealRepository])
+и так далее
+Сталкивался кто? Может, я что-то пропустил, пока накатывал патчи?
+
+
+8 replies
+Yuri [16 days ago]
+Надо Java 11 поставить
+
+
+Vitaliy Ivkin [16 days ago]
+Поставил джаву, пришлось повозиться с томкатом, ибо он никак не видел переменную JRE_HOME, но итог тот же - выдает ту же ошибку
+
+
+Yuri [16 days ago]
+JAVA_HOME проверь
+
+
+
+Vitaliy Ivkin [16 days ago]
+Джава хом стоит как положено. Дополнительно перед этой ошибкой вылезает следующее
+27-Nov-2018 22:47:21.120 INFO [RMI TCP Connection(3)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+
+
+Vitaliy Ivkin [16 days ago]
+В Path джавахом прописан, других джав в пути нет
+
+
+Vitaliy Ivkin [16 days ago]
+Полностью выглядит вот так
+Pasted image at 2018-11-27, 10:54 PM
+
+
+
+Yuri [16 days ago]
+у тебя 100% ошибка в том, что скомпилирован проект под одной Java,  а стартует под другой. Комп ребутнуть попробуй. (edited)
+
+
+Vitaliy Ivkin [16 days ago]
+решил проблему. Беда была не с версией джавы, а с версией джавы внутри томката. Гугл спас, нужно было отредактировать файл setenv.bat

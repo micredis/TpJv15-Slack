@@ -1,0 +1,813 @@
+Grigory Kislin [12:40 AM]
+joined #hw8.
+
+Grigory Kislin [12:40 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson08.md
+
+Grigory Kislin [12:46 AM]
+Выложил 8е занятие: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson08.md
+Фронтэнд: CSS (Bootstrap), JavaScript (jQuery + plugins), AJAX, добавление к REST контроллерам базовой авторизации
+Заранее скажу свое мнение на тему "Нужно ли разработчику бэкэнда знать css/js?" : на том простейшем уровне, что мы проходим здесь (bootstrap, jQuery, AJAX)- нужно!
+Мне почти на каждой работе приходилось иметь дело с js/AJAX/jQuery. Да и для написания собственных простых приложений пригодится.
+Более сложные вещи, типа angular/reactjs использовать не приходилось. Но если знаете- на некоторых работах (где они используются) будет + (edited) 
+
+Alexey Perelygin [12:49 AM]
+joined #hw8 along with 18 others.
+
+Pushkin [7:50 AM]
+У меня на работе все разработчики так или иначе с фронтэндом имеют дело. Так что придется. Да и интересно это - React особенно - мозги размять хорошо :slightly_smiling_face:
+
+
+fonto [Nov 29th at 8:52 AM]
+Опаздываю на одно занятие, делал ТЗ для того, чтобы попасть на собеседование, на собеседование попал - не прошел. Спрашивали в основном алгоритмы. То что опаздываю ничего страшного?;) (edited)
+
+
+21 replies
+Dima [15 days ago]
+Как я понял,можно по много раз проходить стажировку-так что можно на все опаздать и начать заново)
+
+
+
+fonto [14 days ago]
+Ну хотелось бы в этот раз пройти)
+
+
+Vladimir Gorbatenko [14 days ago]
+Я когда-то интересовался на sql.ru про алгоритмы на собеседованиях, тогда народ сошелся в том что это большая редкость когда грузят ими... Если это был не Гугл, то забей, вероятно маньяки!
+
+
+fonto [14 days ago]
+Я был за последние 2 месяца на 2х собеседованиях и на обоих, мне дали листок с ручкой, чтобы я решал алгоритмы. На первом собеседовании надо было написать бинарное дерево с добавлением и удалением на листе + решить алгоритмы следом, на втором сразу алгоритмы. Компании совершенно разные. (edited)
+
+
+fonto [14 days ago]
+К первому собеседованию я был не особо готов, а вот ко второму очень знатно готовился, но был не готов решать столь не простые алгоритмы от руки на листочке.
+
+
+fonto [14 days ago]
+Причем тз которое я писал для того, чтобы попасть на собеседование им очень понравилось, сказали, что я отлично постарался
+
+
+Gekov Iliya [14 days ago]
+"бинарное дерево на листе" бррр:dizzy_face:
+
+
+
+Vladimir Gorbatenko [14 days ago]
+да, капец какой-то
+
+
+Grigory Kislin [14 days ago]
+меня не поню, чтобы хоть раз чтото такое спрашивали... пару раз - развернуть связанный список не создавая нового. и про O(N) бывает
+на работе тоже достаточно реждко с подобным сталкиваешься
+
+
+fonto [14 days ago]
+Ну видимо я такой счастливчик, что аж дважды на это попался.
+
+
+alabra [13 days ago]
+@fonto Можешь рассказать что за задачки по алгоритмам были? И какие были требования (стек) в вакансиях?
+
+
+fonto [13 days ago]
+@alabra есть 4 массива с разными цифрами(цифры могут повторяться), положи все в один в отсортированном виде, сделать это конечно надо максимально быстрым способом. Стека никого не было, просто отличные знания java8+, sql, структуры данных. Но тестовое было, написать бота с использованием spring boot, те кто плохо написали, даже на собеседование не попадали (edited)
+
+
+alabra [13 days ago]
+Спасибо, а что за бот на spring boot что он должен делать?
+
+fonto [12 days ago]
+Что-то типо того, что мы делаем сейчас на этих курсах, только все через бота. Бот грубо говоря рест контроллер
+
+
+Vladimir Gorbatenko [12 days ago]
+не могу представить ...
+а задачка на массивы прикольная!
+
+
+fonto [12 days ago]
+@Vladimir Gorbatenko Ну вот я представил и написал. А задачка то прикольная, но вот на собеседовании с ходу, да ещё и на листочке решать ее не по приколу, да ещё когда такую не решал ранее. (edited)
+
+
+fonto [12 days ago]
+Кому интересно, решение я нашел позднее https://algorithms.tutorialhorizon.com/merge-k-sorted-arrays/
+Algorithms
+Merge K Sorted Arrays | Algorithms
+Given k sorted array, Merge Them into One sorted array.
+ 
+
+
+fonto [12 days ago]
+Не думаю, что много таких кто это бы решил на листочке;), да и не только на листочке я думаю) (edited)
+
+
+Vladimir Gorbatenko [12 days ago]
+решить еще нужно сортировкой слиянием...
+изначально, при условии что есть несколько массивов (кстати я думал что они переменной длины) я бы решал иначе.
+
+
+fonto [12 days ago]
+Да они все разной длины, в примере просто один 5 остальные все по 4, а так без разницы сколько в каждом массиве будет обьектов
+
+
+Sergey [9 days ago]
+Что за ерунду придумывают? Просто все добавить  в list , сортировка и выгрузка в массив (если надо). А если без повторов - то в set. Я б так делал, и алгоритмов не надо ))    А если прям быстрее надо - можно уже извращаться по конкретной ситуации... (edited)
+
+
+Igor [Nov 29th at 2:37 PM]
+Подскажите, почему не работают примеры curl из патча в винде (ошибка 415):
+Pasted image at 2018-11-29, 3:36 PM
+
+
+
+7 replies
+Gekov Iliya [14 days ago]
+Попробуй в передаваемых данных перед каждым " поставить /
+
+
+Sergey Zhukov [14 days ago]
+у меня GitBash работало если в настройках выставить UTF-8,причем только англ.название еды, пр.кн щелкни в опшинсах посмотри
+
+
+Sergey Zhukov [14 days ago]
+а все заработало только в cygwin
+
+
+Igor [14 days ago]
+Установил cygwin и заменил на него terminal idea. Работает.
+
+
+Sergey Zhukov [14 days ago]
+@Igor как менять терминал?
+
+
+Igor [14 days ago]
+@Sergey Zhukov
+Click File then Settings and search for “terminal”. Change the Shell path to C:\Users\YOUR-USERNAME\.babun\cygwin\bin\bash.exe if you're using Babun. Cygwin users should use C:\cygwin\bin\bash.exe or similar, depending on where you've it installed. Click Ok, open a new terminal (tab) and try running ls -l. Tada!
+
+Отсюда: https://engineroom.teamwork.com/using-cygwins-bash-terminal-in-a-jetbrains-ide-d22dd71b52b4 (edited)
+
+
+Igor [14 days ago]
+Может я и не стану крутым java-разработчиком проходя курс, но гуглить любую проблему по java я уже точно научился :joy:
+
+
+Igor [Nov 29th at 2:38 PM]
+Я так понимаю, что все дело в кавычках, которые надо экранировать, но в видео Григорий запускает в винде и все работает...
+
+
+1 reply
+Gekov Iliya [14 days ago]
+Видимо от версии винды зависит
+
+
+Stepan [Nov 29th at 11:58 PM]
+Зачем вот эта строчка
+<logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug"/>
+Ведь и без нее в лог попадает несмапленный запрос.
+вот пример из лога
+org.springframework.web.servlet.DispatcherServlet.noHandlerFound:1248 - No mapping for GET /topjava/6
+
+
+2 replies
+Sergey Zhukov [13 days ago]
+https://objectpartners.com/2014/10/21/logging-rest-exceptions-with-spring/
+objectpartners.com
+Logging REST Exceptions with Spring | Object Partners
+Logging REST Exceptions with Spring using ResponseEntityExceptionHandler
+
+
+Stepan [12 days ago]
+@Sergey Zhukov спасиб
+
+
+Pushkin [8:11 AM]
+@Vladimir Gorbatenko, я в личку послал.
+
+
+Sergey Zhukov [Dec 1st at 12:21 PM]
+что значит 0 в настройках сортировки в datatables? у нас же уже есть сортировка, зачем нам еще тут?
+Screenshot_20181201-131749.jpg
+
+
+
+3 replies
+Vladimir Gorbatenko [12 days ago]
+первое поле по возрастанию.
+в datatables можно сразу задать любую сортировку, в данном случае думаю это всего лишь демонстрация возможности.
+
+
+Sergey Zhukov [12 days ago]
+а по двум полям можно?
+
+
+Vladimir Gorbatenko [12 days ago]
+тут говорят что да
+https://datatables.net/beta/1.7/examples/basic_init/multi_col_sort.html
+$('#example').dataTable( {
+        "aaSorting": [ [0,'asc'], [1,'asc'] ],
+
+
+Ansseii [Dec 1st at 5:57 PM]
+Коллеги, я правильно понимаю, что мы не боремся с кривой отрисовкой таблиц и кнопок update\delete после нажатия на эти самые кнопки и при сохранении пользователя\еды?
+
+
+
+1 reply
+Vladimir Gorbatenko [12 days ago]
+все правильно понял!
+
+
+Maxim Valeev [Dec 2nd at 11:57 AM]
+после всех патчей, при попытке сохранить юзера получаю ошибку. Кто-нибудь сталкивался?
+Untitled
+19:55:25.850 ERROR org.hibernate.internal.ExceptionMapperStandardImpl.mapManagedFlushFailure:39 - HHH000346: Error during managed flush [Validation failed for classes [ru.javawebinar.topjava.model.User] during persist time for groups [javax.validation.groups.Default, ]
+
+
+
+9 replies
+Grigory Kislin [11 days ago]
+пишент что user=null в Meals
+
+
+Maxim Valeev [11 days ago]
+@Grigory Kislin Не очень понял причем тут Meals. Я добавляю нового юзера и ловлю эту ошибку
+
+
+Sergey Zhukov [11 days ago]
+добавляешь через веб или curl ?
+
+
+Sergey Zhukov [11 days ago]
+там команды бери из файла curl, они с авторизацией
+
+
+Maxim Valeev [11 days ago]
+Добавляю через форму бутстрап как в видео делалось (edited)
+
+
+Sergey Zhukov [11 days ago]
+что-то с валидатором, какие данные вводишь?
+
+
+Maxim Valeev [11 days ago]
+все, ясно, я вводил пароль из 4-ех символов
+
+
+Maxim Valeev [11 days ago]
+спасибо)
+
+
+Sergey Zhukov [11 days ago]
+:grin:
+
+
+Sergey Zhukov [Dec 2nd at 6:35 PM]
+>Apply 8_07_ajax_datatables.patch
+>Переименовал js скрипты по javascript filename naming convention
+нам тоже именовать так же topjava.meals.js вместо mealDatatables.js?
+
+
+1 reply
+ABaykov [11 days ago]
+Я так и назвал topjava.meals.js
+
+
+pal548 [Dec 2nd at 11:54 PM]
+ни у кого не было такого, что у юзеров enabled всегда true отображатся, хотя в базе false? (edited)
+
+
+3 replies
+Ansseii [11 days ago]
+@pal548 После выполнения последнего пункта Optional?
+
+
+Vladimir Gorbatenko [11 days ago]
+@CacheEvict (edited)
+
+
+
+pal548 [10 days ago]
+@Ansseii да
+@Vladimir Gorbatenko точно, наверно оно. Вечером проверю
+
+
+Andrew Kalugin [Dec 3rd at 11:17 AM]
+Подскажите! После редактирования таблицы (удаление/добавление) у нас отрабатывает функция updateTable(), которая делает get запрос, что бы обновить данные таблицы. Этот запрос в хроме выглядит так:
+Request URL: http://localhost:8080/topjava/ajax/admin/users/?_=1543826193805
+Почему для юзеров это проходит, а для еды выдает ошибку 404?
+Выбранная еда удаляется, но обновление таблицы не проходит.
+
+
+26 replies
+Taras [11 days ago]
+У меня тоже появляется этот параметр, но всё работает. Посмотри у себя внимательно, что за запрос, в логе idea будет написано, что он там не может понять. И потрейси JS в браузере, поставь debugger; в тело функции save()..
+
+
+Andrew Kalugin [10 days ago]
+в идеи ругается, что не может найти такого адреса, поэтому и ошибка 404
+
+
+Andrew Kalugin [10 days ago]
+12:14:42.506 DEBUG org.springframework.security.web.FilterChainProxy.doFilterInternal:202 - /ajax/profile/meals/?_=1543828464329 has no matching filters
+
+
+Taras [10 days ago]
+А как адрес выглядит? Ты в сообщении написал про user
+
+Andrew Kalugin [10 days ago]
+скинул
+
+
+Andrew Kalugin [10 days ago]
+в браузере:
+Request URL: http://localhost:8080/topjava/ajax/profile/meals/?_=1543828464329
+
+
+Taras [10 days ago]
+Это не ошибка, это SpringSecurity говорит, что он не при делах на этом адресе. А ты RequestMapping на этот url настроил? Почему там */profile/*?
+
+
+Andrew Kalugin [10 days ago]
+profile - по аналогии с rest контроллером. На этот адрес ни чего не настраивал (зачем?). В юзерах мы тоже ни чего не настраивали, но там все отлично работает
+
+
+Taras [10 days ago]
+Я к тому, не стоит ли у тебя сверху просто /ajax/meals?
+
+
+Andrew Kalugin [10 days ago]
+нет, стоит - /ajax/profile/meals
+
+
+Taras [10 days ago]
+А над методом? И какая сигнатура функции, `getAll()`?
+
+
+Andrew Kalugin [10 days ago]
+@Override
+   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+   public List<MealTo> getAll() {
+       return super.getAll();
+   }
+
+
+Andrew Kalugin [10 days ago]
+изначально таблица отображается нормально и если обновить страницу после удаления, то все изменения также присутствуют
+
+
+Andrew Kalugin [10 days ago]
+для юзеров идея выдает такую же строку, но там все проходит
+
+
+Taras [10 days ago]
+Попробуй поставить `debugger;` внутри updateTable() и внутри delete(). посмотри, когда вызывается.
+
+
+Andrew Kalugin [10 days ago]
+вызывается в updateTable() во время get запрсаа
+
+
+Taras [10 days ago]
+Мистика, но я в нее не верю. Попробуй mvn clean сделать и пересобрать..
+
+Andrew Kalugin [10 days ago]
+Уже делал. Использую topjava.common.js - функцию updateTable(). Ни чего не менял и не правил, просто сделал скрипт по аналогии с topjava.users.js для meal. Удаление уж должно точно работать - там все одинаковое
+
+Taras [10 days ago]
+Если у тебя ajax запрос верный, то проблема в маппинге бэкэнда, может, просто какая-то мелкая орфаграфия в пути. У тебя тесты все работают?
+
+
+Taras [10 days ago]
+Может, напиши тест на ajax запрос, посмотри..
+
+
+Andrew Kalugin [10 days ago]
+интересно, он json не возвращает
+
+
+Taras [10 days ago]
+А поставь breakpoint, запусти тест в дебаге и посмотри, куда реально уходит запрос
+
+
+Taras [10 days ago]
+У тебя вверху RestControoler стоит или просто Controller?
+
+
+Andrew Kalugin [10 days ago]
+@Taras Да, ты прав! стоял просто Controller. Да..... дурацкая ошибка. Как можно было не заметить - не знаю :slightly_smiling_face:
+
+
+Taras [10 days ago]
+Бывает! Хорошо, что разобрались. Удачи!
+
+
+Andrew Kalugin [10 days ago]
+Спасибо!
+
+
+Taras [1:48 PM]
+Интересно, почему в логи дважды попадает одинаковая информация о регистрации кэша:
+```13:40:58.690 INFO  org.ehcache.core.EhcacheManager.createCache:297 - Cache 'users' created in EhcacheManager.
+13:40:58.803 INFO  org.ehcache.jsr107.Eh107CacheManager.registerObject:378 - Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./path/to/target/classes/cache/ehcache.xml,Cache=users
+13:40:58.811 INFO  org.ehcache.jsr107.Eh107CacheManager.registerObject:378 - Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./path/to/target/classes/cache/ehcache.xml,Cache=users```
+
+
+senadnepr [Dec 3rd at 5:34 PM]
+@Grigory Kislin Два вопроса нарисовались: 1. Если приложение не браузерное, а десктопный клиент, допустим доступ к базе на сервере каких-то складов и оформление заказа. В этом случае есть что-то, аналогичное AJAX ? 2. По поводу Sencha GXT. Это же, вроде, написано на основе GWT. А в сети пишут, что GWT не развивается. Вот и тот же Vaadin Flow переписали с использованием Polymer. Так, может, присмотреться к Vaadin ? (edited)
+
+
+2 replies
+Grigory Kislin [10 days ago]
+1. ну конечно у java есть работа с сетью. гуглится по словам java http client. у spring есть обертка RestTemplate
+2. да. можно присмотреться:) но тоже не майнстрим
+
+
+senadnepr [10 days ago]
+Спасибо.
+
+
+Stepan [Dec 4th at 12:19 AM]
+При отправлении формы (добавление еды) выдается 400 статус. В самом методе, который маппится на урл, брекпойнт не срабатывает, то есть туда даже не заходим
+Через rest client с теме же параметрами брекпойнт срабатывает норм. В чем может быть проблема?
+The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing
+
+
+2 replies
+Raisa [10 days ago]
+что в логах томката пишет?
+
+
+Stepan [10 days ago]
+@Raisa ,Утром заработало, это я в ночи затупил  с параметрами)
+
+
+Raisa [Dec 4th at 7:31 AM]
+подскажите, почему может не запускаться js дебаг? настроен как в видео.
+Браузер пишет: Не удается получить доступ к сайту Сайт localhost не позволяет установить соединение.
+Выполните поиск по запросу localhost 8080 topjava в Google
+ERR_CONNECTION_REFUSED
+При этом томкат нормально запускается, если не ставить галочку запуска вместе с дебагом
+Pasted image at 2018-12-04, 12:31 PM
+
+
+
+7 replies
+Stepan [10 days ago]
+@Raisa, Попробуй браузер поменять с дефолтного на Хром
+
+
+Raisa [10 days ago]
+попробовала - не помогает
+Pasted image at 2018-12-04, 1:28 PM
+
+
+
+Raisa [10 days ago]
+Pasted image at 2018-12-04, 1:28 PM
+
+
+
+Roman Baranov [10 days ago]
+я тоже вчера с этим мучался
+сначала надо запустить само приложение через конфигурацию для tomcat
+а потом уже запустить js-debug, откроется новое окно браузера и через него и надо проводить манипуляции если хочешь дебажить  js через idea
+получается нам требуется работающее приложение а js-debug это вроде удаленного коннекта к приложению (edited)
+
+
+Raisa [10 days ago]
+да, так запускается, спасибо. Я и раньше так пробовала, не запускался, видимо, потому что браузер дефолтный был установлен
+
+
+Raisa [10 days ago]
+@Roman Baranov запускается только в обычном режиме, когда запускаю в режиме дебага, в браузере окно не открывается. В обычном режиме не ловит брекпоинты в js файлах
+
+
+Raisa [9 days ago]
+начало работать после перезагрузки идеи
+
+
+Raisa [Dec 4th at 11:10 AM]
+почему при обновлении еды, после onclick save(), может быть статус 404?
+В MealAjaxController прописала @RestController
+@RequestMapping("/ajax/profile/meals"), в topjava.meals.js тоже есть ссылка "/ajax/profile/meals", в meals.jsp есть ссылка на js файлы common и meals. Onclick срабатывают и для add() и для save(). В чем еще может быть причина?
+
+
+16 replies
+Raisa [10 days ago]
+Pasted image at 2018-12-04, 4:14 PM
+
+
+
+Raisa [10 days ago]
+Pasted image at 2018-12-04, 4:15 PM
+
+
+
+Taras [10 days ago]
+А над функцией точно PostRequest?
+
+
+Raisa [9 days ago]
+@Taras @PostMapping
+   public void createOrUpdate(...), как у юзера
+
+Taras [9 days ago]
+У тебя ошибка после save() или все-таки после update, когда должен get пройти?
+
+
+Raisa [9 days ago]
+@Taras после type: "POST" возвращает статус 404
+function save() {
+   let form = $("#detailsForm");
+   $.ajax({
+       type: "POST",
+       url: ajaxUrl,
+       data: form.serialize()
+   }).done(function () {
+       $("#editRow").modal("hide");
+       updateTable();
+       successNoty("Saved");
+   });
+}
+
+
+Taras [9 days ago]
+Breakpoint в браузере ставила на этот вызов? Переменная ajaxUrl точно куда надо указывает?
+
+
+Taras [9 days ago]
+В @PostMapping
+   public void createOrUpdate(...), проверь внимательно параметры в скобках, их соответствие тому, что form.setialize() вернёт.
+
+
+Taras [9 days ago]
+Особенно на дату!
+
+
+Alla Protopopova [9 days ago]
+у тебя маппинг идет на http://localhost:8080/ajax/...... а должен на http://localhost:8080/topjava/ajax.....
+ 
+
+
+Alla Protopopova [9 days ago]
+ajax_url должна начинаться без слеша впереди.
+
+
+Raisa [9 days ago]
+@Taras это нормально, что в таком виде передается form.setialize()  id=&dateTime=2011-12-04T11%3A11&description=%D0%B2%D0%B0%D0%BF%D0%B2%D1%8B%D0%B0%D0%BF&calories=1000 ?
+
+
+Taras [9 days ago]
+Да, только Id лишнее
+
+Taras [9 days ago]
+Это новая еда, там “id” не будет.
+
+Raisa [9 days ago]
+@Alla Protopopova спасибо :joy:  полдня пыталась разобраться
+
+
+Alla Protopopova [9 days ago]
+А я сама на это наткнулась просто)))
+
+
+Maxim Valeev [Dec 4th at 12:32 PM]
+Всем привет. Подскажите пожалуйста по пункту "Т.к. HTML атрибут id у каждого элемента документа должен быть уникален, нужно избавиться от дублирования id="${user.id}" в строках таблиц users (users.jsp) (переместить атрибут id в тэг <tr> или передавать в качестве параметра функций через onclick)"
+Если я вынесу id="${user.id}" в <tr>, ток то как мне его передать в качестве аргумента в  onclick <a class="delete" id="deleteButton" onclick="${}"><span class="fa fa-remove"></span></a> ? Не могу разобраться
+
+
+1 reply
+Vladimir Gorbatenko [9 days ago]
+Либо ты сразу в onclick пишешь id, либо через javascript присваиваешь элементу событие onclick, в которое вставляешь id, которое сидит в TR
+Например так:
+$(".delete").click(function () {
+       deleteRow($(this).closest('tr').attr("id"));
+   }); (edited)
+
+
+Илья Чиликин [Dec 4th at 4:32 PM]
+Подскажите, для чего используются копии вида
+```-        assertMatch(new User(userService.getByEmail("newemail@ya.ru")), updated);
++        assertMatch(userService.getByEmail("newemail@ya.ru"), updated);```
+... вернее, в прошлых патчах это было добавлено, а сейчас снова убрано. (edited)
+
+
+1 reply
+Raisa [9 days ago]
+насколько я помню, Григорий говорил, что в некоторых тестах нужно делать копию сущности, чтобы случайно не поломать основную сущность. тут просто сравнение, может поэтому удалили
+
+
+Lamekhova Alisa [Dec 5th at 10:40 AM]
+А зачем нам enabled у юзера?
+
+
+6 replies
+Sergey Zhukov [9 days ago]
+админа порадовать :grin:
+
+
+Lamekhova Alisa [8 days ago]
+@Sergey Zhukov Не, я реально не понимаю зачем это надо)) Я сейчас пытаюсь делать авторизацию в своем проекте и у меня нет у юзера поля enabled. Я вот и хочу понять что это такое и какую роль оно играет в авторизации)
+
+
+fonto [8 days ago]
+Ну я когда то давно использовал подобное поле для бана пользователя
+
+
+fonto [8 days ago]
+Ну или например, до активации email поле = false. И пока не подтвердио, ему будет при попытке авторизоваться писать - "необходимо подтвердить"
+
+
+Lamekhova Alisa [8 days ago]
+@fonto Спасибо, вот теперь стало понятно)
+
+
+fonto [8 days ago]
+@Lamekhova Alisa пожалуйста)
+
+
+Alexey P [Dec 5th at 7:52 PM]
+Кто сталкивался с ошибкой в JS $(...).datetimepicker is not a function. webjars подключены, с полседовательностью подключения, как советуют, поигрался. Но нет, пикер не работает.
+
+
+13 replies
+Sergey Zhukov [8 days ago]
+для начала подключи его в хедере
+```<link rel="stylesheet" href="webjars/datetimepicker/2.5.20/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="webjars/datetimepicker/2.5.20/jquery.datetimepicker.js" defer></script>```
+
+
+Alexey P [8 days ago]
+Как всегда, был 100% уверен, что подключил)
+Проверил и удивился.
+Спасибо!
+
+
+Sergey Zhukov [8 days ago]
+победил ))
+datetimepicker.png
+
+
+
+Sergey Zhukov [8 days ago]
+пришлось взять другую версию, пониже, ту что предложил Григорий не запускалась
+заработала 2.4.5
+
+
+Alexey P [8 days ago]
+Я пока не победил,показывает только стрелочки
+
+
+Sergey Zhukov [8 days ago]
+ничего сложного не делал
+в скрипте:
+```$('#startDate').datetimepicker();```
+но его еще тюнить надо, вводит какую-то белеберду (edited)
+
+
+Alexey P [8 days ago]
+Это понятно. Но ничего не показывает, кроме стрелочек.
+Вот список лучших datetimepicker'ов, наш -10
+https://www.vandelaydesign.com/30-best-free-jquery-plugins/
+Его страница:
+https://xdsoft.net/jqplugins/datetimepicker/
+Он просто у меня показывает узкую полоку и стрелочки. Попробовал локализовать, как в примере, пока не работает (edited)
+
+
+Alexey P [8 days ago]
+у него внутри уже еть locale ru.
+Не работает,хоть ты тресни)
+
+
+Alexey P [8 days ago]
+вот еще по этому же плагину
+https://xdan.ru/samij-udobnij-datetimepicker.html (edited)
+
+
+Alexey P [8 days ago]
+Вот так отображается календарь.
+Pasted image at 2018-12-06, 2:19 AM
+
+
+
+Alexey P [8 days ago]
+и ошибка в консоли
+jquery.datetimepicker.js:1760 Uncaught TypeError: Cannot read property 'formatDate' of null
+   at jquery.datetimepicker.js:1760
+Хотя я ручками выставлял formatDate. Да и в исходнике есть дефолтное значение.
+Короче, непонятно
+
+
+Sergey Zhukov [7 days ago]
+версию пикера смени
+
+
+Alexey P [6 days ago]
+Версию менял. Не работает. Татьяна подсказала, надо использовать datetimepicker.full.min.js
+
+
+Sergey [Dec 5th at 9:00 PM]
+Привет! Даже прочитав в прошлом уроке ссылку про REST контроллеры: JAX-RS vs Spring MVC все равно *не понял - зачем использовать JAX-RS если в проекте уже есть Spring?*  Спрашиваю - т.к. сам работаю сейчас на большом проекте (225 модулей) где спрингом связывают все, а JAX-RS для REST используют!
+Вот типичный код контроллера:
+
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.***.common.jax.response.PostResponse;
+import ru.***.rmis.app.laboratoryResearches.backend.model.ResearchProfileForm;
+import ru.***.rmis.app.laboratoryResearches.backend.service.ResearchProfileController;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("/research-profile")
+@Produces("application/json;charset=UTF-8")
+public class ResearchProfileRest {
+
+   @Autowired
+   ResearchProfileController controller;
+
+   @POST
+   @Consumes(MediaType.APPLICATION_JSON)
+   public PostResponse create(ResearchProfileForm form) {
+       return new PostResponse(controller.save(form));
+   }
+} (edited)
+
+
+9 replies
+Sergey Zhukov [8 days ago]
+Ну наверно в JAX функционал побогаче будет, есть даже свой клиентский фреймворк JBoss Resteasy. А в конторе что говорят старшие разработчики?
+
+
+Sergey [8 days ago]
+так  JAX с JavaEE 6 еще - вот и подумал что устарела наверное?
+Я работаю разрабом всего 1 месяц  (спасибо @Grigory Kislin за подготовку!) А контора - аутсорсер, работает как субподрядчик над проектом всего 2 мес. (меня и еще людей под проект и наняли). Сама же система государственная от минздрава - так что некого спросить. :slightly_smiling_face: (edited)
+
+
+Sergey [8 days ago]
+Хоть система за много лет и разрослась в жуткую солянку зависимостей с кучей фреймворков - но головная команда очевидно имеет крутых разрабов - например для фронта они написали и поддерживают собственный фреймворк N2O (на базе технологий: Dust.js от LinkedIn, Require.js, Backbone.js, Bootstrap.css ) Довольно удобный - хотя теперь java код почти не вижу - в xml все тегами описывать надо )) (edited)
+
+
+Grigory Kislin [8 days ago]
+JAX-RS- это альтернатива Spring MVC анотациям... поэтому что принято на проекте (причины могут быть совершенно разные) то и делают ..
+из + вроде WADL там есть из коробки.
+мы кстати JAX-RS на мастерждава юзаем.
+
+
+Grigory Kislin [8 days ago]
+а наличие собственных фреймворков- не всегда признак крутости:)
+
+
+Sergey [8 days ago]
+Я вот тоже не понимаю зачем свой велосипед изобретать - решил что сделали потому что могут и хотят. 
+PS 225 модулей это на новом n2o фреймворке, с которым я работаю, а основная часть проекта - после mvn bild весит 17 гигабайт! не считал сколько там модулей :D (edited)
+
+
+Sergey [8 days ago]
+Я кстати мастер джава оплатил , но пока отдаю все силы новой работе, проходить Мастерджава буду наверное в новый год, в праздники.
+
+
+
+Grigory Kislin [8 days ago]
+по поводу велосипедов есть видео от оч. грамотного архитектора, с которым я работал.
+https://www.youtube.com/watch?v=SoofbuxmS_o
+YouTube Wrike Tech Club
+Дмитрий Мамонов, Wrike "От велосипедов к мотоциклам".
+ 
+(edited)
+
+
+Grigory Kislin [8 days ago]
+самый грамотный человкек, с которым пришлось работать. тем не менее его самодельный UI фреймворк я совсем не любил:)
+
+
+pjer [Dec 9th at 3:51 PM]
+Всем привет. Столкнулся с такой проблемой: в jsp не подтягиваются js скрипты common.js , user.js , meal.js. Не подтягиваются как в патче занятия 8, так и в ДЗ, соответственно, никакая функциональность по ajax не работает. В чем может быть дело?
+
+
+3 replies
+Grigory Kislin [4 days ago]
+вкладку network- смотрел? (edited)
+
+
+pjer [3 days ago]
+В network style.css со статусом 404. Все остальное со статусом 200. Чекбоксы enabled работают (меняют состояние в базе).
+
+
+pjer [1 day ago]
+Брейкпоинты в enabled срабатывает (user.js), в common.js ни в одной функции брейкпоинт не срабатывает (add, delete). В консоли при клике на кнопку выводит: "Имя функции, привязанной к кнопке" + is not defined. Пробовал вставлять скрипт прямо в jsp- все то же самое. Может быть,  в идее неправильно настроена версия js?
+
+
+Marat [Today at 7:08 PM]
+Не определяются пути к webjars
+<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+В spring-mvc подчеркиваюся красным classpath:/META-INF/resources/webjars/
+
+
+1 reply
+Grigory Kislin [4 hours ago]
+да, подчеркивает

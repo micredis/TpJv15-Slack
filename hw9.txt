@@ -1,0 +1,747 @@
+Grigory Kislin [2:08 AM]
+joined #hw9.
+
+Grigory Kislin [2:08 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson09.md
+
+
+Grigory Kislin Dec 6th at 2:08 AM
+Добро пожаловать на https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson09.md
+Конец уже близок:)! (edited)
+
+Alexey_b 6 days ago
+Конец уже близок! Неплохое напутствие, с чёрным юмором:grinning:
+
+
+Roman [2:10 AM]
+joined #hw9 along with 18 others.
+
+
+YuriyUh [Dec 7th at 2:07 PM]
+Тесты, в которых идет сравнение списков, падают, но не могу понять почему. Судя по ответу списки вроде одинаковые org.opentest4j.AssertionFailedError:
+Expecting:
+<"[MealTo{id=100007, dateTime=2015-05-31T20:00, description='Ужин', calories=510, excess=true},
+   MealTo{id=100006, dateTime=2015-05-31T13:00, description='Обед', calories=1000, excess=true},
+   MealTo{id=100005, dateTime=2015-05-31T10:00, description='Завтрак', calories=500, excess=true},
+   MealTo{id=100004, dateTime=2015-05-30T20:00, description='Ужин', calories=500, excess=false},
+   MealTo{id=100003, dateTime=2015-05-30T13:00, description='Обед', calories=1000, excess=false},
+   MealTo{id=100002, dateTime=2015-05-30T10:00, description='Завтрак', calories=500, excess=false}] (ArrayList@7c07deff)">
+to be equal to:
+<"[MealTo{id=100007, dateTime=2015-05-31T20:00, description='Ужин', calories=510, excess=true},
+   MealTo{id=100006, dateTime=2015-05-31T13:00, description='Обед', calories=1000, excess=true},
+   MealTo{id=100005, dateTime=2015-05-31T10:00, description='Завтрак', calories=500, excess=true},
+   MealTo{id=100004, dateTime=2015-05-30T20:00, description='Ужин', calories=500, excess=false},
+   MealTo{id=100003, dateTime=2015-05-30T13:00, description='Обед', calories=1000, excess=false},
+   MealTo{id=100002, dateTime=2015-05-30T10:00, description='Завтрак', calories=500, excess=false}] (ArrayList@65374526)">
+but was not.
+
+
+5 replies
+Raisa [6 days ago]
+может, поля какие-то не добавлены в игнор? у меня обычно из-за этого такие ошибки
+
+
+Yana [6 days ago]
+@Override equals & hashcode?
+
+
+
+Grigory Kislin [6 days ago]
+встань дебагом на equals и посмотри по Alt+F8 (edited)
+
+
+Sergey Zhukov [6 days ago]
+тоже попался ))  проверка на внимательность, не сразу понял почему == подсветил:+1: (edited)
+
+
+YuriyUh [6 days ago]
+Мдяя, тест на внимательность. У меня в ide много чего порой светится, даж не обратил внимания. Спасибо
+
+
+Vladimir Gorbatenko [3:57 PM]
+Шахер-махеры с авторизацией это жестяк...
+Не хватает добавления фото к юзерам :slightly_smiling_face:
+
+
+Sergey Zhukov [Dec 7th at 9:36 PM]
+кто знает для чего "render"  делает 5 циклов ? я в консоль вывел type - он мне выдал
+```display
+ type
+ sort
+ filter
+ display```
+просто у меня и без проверки type все работает так же :thinking_face:
+
+
+2 replies
+Sergey Zhukov [6 days ago]
+нагуглил более короткую запись
+https://datatables.net/reference/option/columns.render
+```"render": {
+                        "display": function (data) {
+                            //тут тело функции
+                        }
+                    }```
+(edited)
+
+
+
+Alexey P [6 days ago]
+говорят
+The render function will be called every time DataTables requests data for a given cell, and it can request it for display, sort, filter, etc, so yes, it will be called multiple times.
+
+
+Nikita Ganin [Dec 8th at 9:46 AM]
+В патче 9_01_HW8 AjaxMealController разве не надо делать Update (edited)
+Untitled
+@PostMapping
+  @ResponseStatus(value = HttpStatus.NO_CONTENT)
+  public void createOrUpdate(@RequestParam("id") Integer id,
+                @RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
+                @RequestParam("description") String description,
+                @RequestParam("calories") int calories) {
+    Meal meal = new Meal(id, dateTime, description, calories);
+    if (meal.isNew()) {
+      super.create(meal);
+    }
+  }
+Collapse
+
+
+2 replies
+Sergey Zhukov [6 days ago]
+так по заданию запилить update в п.1
+
+
+Nikita Ganin [6 days ago]
+Ах вот оно что, до задания не дошел еще
+
+
+Stepan [Dec 8th at 1:00 PM]
+Не получается сделать Binding для MealTo, при сохранении в режиме дебага вижу, что все поля равны налл. Добавил сеттеры в MealTo, вообще перестало работать, возвращается 400 статус.
+Что делаю не так? (edited)
+
+
+2 replies
+Stepan [5 days ago]
+Проблема, видимо, в поле dateTime
+
+
+Grigory Kislin [5 days ago]
+@Stepan в лог не смотришь
+
+
+Nikita Ganin [Dec 8th at 3:29 PM]
+Если заходить как User, а потом в Пользователи, то выскакивает это окно. Так и должно быть? Не очень симпатично
+Pasted image at 2018-12-08, 4:29 PM
+
+
+
+2 replies
+Sergey Zhukov [5 days ago]
+доступ только админам, по хорошему убрать у юзеров эту кнопку
+
+
+Grigory Kislin [5 days ago]
+в уроке есть этот вопрос от меня к вам
+
+
+izgarshev.pavel [Dec 8th at 7:37 PM]
+у нас авторизация без jwt?
+
+
+1 reply
+Grigory Kislin [5 days ago]
+basic
+
+
+Roman Baranov [Dec 8th at 8:16 PM]
+а как теперь быть с тестами RootControllerTest?
+теперь же все по ajax приходит, никаких Model attribute 'users', 'meals' (edited)
+
+
+1 reply
+Sergey Zhukov [5 days ago]
+а я то не мог понять почему тесты падают, думал в Optional :+1:
+
+
+Grigory Kislin [8:25 PM]
+@here
+> а как теперь быть с тестами RootControllerTest? теперь же все по ajax приходит, никаких Model attribute
+Роман, спасибо! моя бага. атрибутов никаких нет. добавил fix: 9_13_test_fix (edited) 
+9_13_test_fix.patch 
+Index: src/test/java/ru/javawebinar/topjava/web/RootControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/ru/javawebinar/topjava/web/RootControllerTest.java	(revision 30f7d40e597b3e054ffd85f1e94665c19ad852fb)
++++ src/test/java/ru/javawebinar/topjava/web/RootControllerTest.java	(date 1544293328838)
+@@ -23,15 +23,7 @@
+         .andDo(print())
+         .andExpect(status().isOk())
+         .andExpect(view().name("users"))
+-        .andExpect(forwardedUrl("/WEB-INF/jsp/users.jsp"))
+-        .andExpect(model().attribute("users",
+-            new AssertionMatcher<List<User>>() {
+-              @Override
+-              public void assertion(List<User> actual) throws AssertionError {
+-                assertMatch(actual, ADMIN, USER);
+-              }
+-            }
+-        ));
++        .andExpect(forwardedUrl("/WEB-INF/jsp/users.jsp"));
+   }
+ 
+   @Test
+
+
+Sergey Zhukov [Dec 8th at 9:15 PM]
+как 24-формат включить в пикере?
+
+
+1 reply
+Sergey Zhukov [5 days ago]
+отвечу на свой вопрос
+```H:i```
+
+
+Sergey Zhukov [Dec 9th at 10:26 PM]
+> параметры методов контроллера (даже собранные в объекты через Binding) парсятся конверторами спринга (@DateTimeFormat), а объекты json парсится Jackson и они никак не влияют друг на друга.
+т.е. надо делать кастомный конвертер спринга, а десериализатор json тут не поможет?
+п.с. в итоге решил через js, на стороне сервера пока не могу разрулить :disappointed:
+
+
+6 replies
+YuriyUh [4 days ago]
+Пытался чз @ControllerAdvice организовать, чет не зашло, сделал Formatter<LocalDateTime> в DateTimeFormatters
+
+
+Vladimir Gorbatenko [4 days ago]
+"сделал Formatter<LocalDateTime> в DateTimeFormatters"
+сразу так сделал... (edited)
+
+
+Sergey Zhukov [4 days ago]
+@YuriyUh спасибо, попробую так же сделать
+
+
+Roman Baranov [3 days ago]
+я подал аннотацию @DateTimeFormatter в TO для setter-a
+
+
+Илья Чиликин [3 days ago]
+@Roman Baranov У меня в сеттере что-то не срослось.
+```public void setDateTime(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dateTime) {    this.dateTime = dateTime; }```
+не работает. Перенёс по сути тот же код в отдельный форматтер:
+```public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
+        @Override
+        public LocalDateTime parse(String text, Locale locale) {
+            return LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+        }```
+работает. А что не так с setter?
+
+
+Roman Baranov [3 days ago]
+я делал следующим образом `@DateTimeFormat(iso= DateTimeFormat.ISO_DATE_TIME)  LocalDateTime dateTime` (edited)
+
+
+Vladimir Gorbatenko [Dec 10th at 2:20 PM]
+После логина, когда нас перекидывает на страницу со списком еду, если в браузере нажать кнопку назад, то получаем некрасивое "HTTP Status 403 – Forbidden"
+Понятно что это все из-за вот этого: <intercept-url pattern="/login" access="isAnonymous()"/>
+Но как-то неправильно что ли...
+Вероятно все таки "permitAll()" правильней... (edited)
+
+
+2 replies
+Grigory Kislin [3 days ago]
+спасибо, надо подумать... может кнопку назад переделать...
+
+
+Grigory Kislin [12 hours ago]
+@Vladimir Gorbatenko сделал fix. Пришлось еще из странички login кнопки убирать. Спасибо, добавил +5 бонусов
+
+
+Igor [Dec 10th at 4:26 PM]
+Кто знает почему при редактировании meal в topjava.common.js failNoty(jqXHR) отсутствует свойство `jqXHR.responseJSON`? При редактировании user есть... А тут только jqXHR.responseText. :neutral_face:
+
+
+12 replies
+Grigory Kislin [3 days ago]
+в формат (ContentType)- json?
+
+
+Igor [3 days ago]
+@Grigory Kislin json..
+Pasted image at 2018-12-10, 8:48 PM
+
+
+
+Igor [3 days ago]
+Такое поведение наблюдается когда не валиден description или calories и dateTime одновременно (по отдельности работает).
+В MealTo такие аннотации валидации:
+    ```@NotNull
+    private LocalDateTime dateTime;
+
+    @NotBlank
+    @Size(min = 2, max = 120)
+    private String description;
+
+    @Range(min = 10, max = 5000)
+    private int calories;
+
+    private boolean excess;```
+(edited)
+
+
+Vladimir Gorbatenko [2 days ago]
+У меня немного другая беда. Делаю POST через ajax.
+Когда ajax-у говорю что мне надо Content-type: application/json - получаю ошибку
+Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required Date parameter 'date' is not present]
+Спринг не может замапить параметр date.
+Когда убираю "Content-type: application/json" - все норм, но ответ приходит в "responseText" вместо "responseJSON". Точней "responseJSON" - вообще нет. (edited)
+
+
+Grigory Kislin [2 days ago]
+Content-Type json вижу в респонсе твоем. и нет в реквесте. из формы данные не в json приходят. тело запроса в Network погляди
+
+
+Grigory Kislin [2 days ago]
+скажите- а по сравнению с User- в чем разница? ведь все тоже самое делаете...
+
+
+Vladimir Gorbatenko [2 days ago]
+В HW09  у меня все отлично, это в выпускном такая беда, вылавливаю эксепшены голосования и отправляю их назад. Сейчас наверное не буду зацикливаться на этой проблеме. После того как напишу морды для всех сущностей, там обычные круды, должно быть быстро и просто, и тогда вернусь к проблеме.
+
+
+Igor [2 days ago]
+У меня была проблема в конвертере. Пока что до конца не решил, но дело точно в нем. Возможно кидается эксепшн когда парсится в json строка с /br. Буду с утра разбираться.
+
+
+Grigory Kislin [2 days ago]
+PS: по ТЗ морды не требуются
+
+
+Vladimir Gorbatenko [2 days ago]
+Не требуется, проект на проверку отдавать не буду, но для своей практики это наверное хорошо.
+
+
+Igor [1 day ago]
+У меня был эксепшн в строке `$(json).each(function () {`.
+*message:* _Syntax error, unrecognized expression: description не может быть пусто<br>description размер должен быть между 2 и 120_ (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+Выяснил - не было responseJSON потому что был отключен JacksonObjectMapper.
+
+
+Stepan [Dec 10th at 10:25 PM]
+Не получается сделать валидацию на калории. В MealTo изменил сеттер, но валидатор на параметр в методе не отрабатывает
+public void setCalories(@NotBlank String calories) {
+       this.calories = Integer.parseInt(calories);
+   }
+Над методом тоже пробовал вешать @NotBlank, не помогло (edited)
+
+
+17 replies
+Vlad [3 days ago]
+А зачем тебе вообще String для калорий? Ты можешь сделать валидацию с помощью Integer.
+
+
+
+pal548 [3 days ago]
+```@Min(10)
+@Max(5000)
+private int calories;```
+работает
+
+
+Stepan [3 days ago]
+а если ничего не передать?
+
+
+Stepan [3 days ago]
+то есть пустую строк
+
+
+pal548 [3 days ago]
+а, не заметил что у тебя там строка
+
+
+Stepan [3 days ago]
+Будет NumberFormatException
+
+Vlad [3 days ago]
+Добавь еще NotNull
+
+
+Sergey Zhukov [3 days ago]
+должен быть int откуда стринг?
+
+Sergey Zhukov [3 days ago]
+спринг сам биндит и парсит в нужный формат (edited)
+
+
+Sergey Zhukov [3 days ago]
+может забыл заимплементить интерфейс  Serializable
+
+
+Stepan [3 days ago]
+я переделал на стринг, так как когда был интеджер и я передавал пустую строку, то был NumberFormatException
+Serializable есть.
+поэтому я подумал, что было бы правильно проверить сначала, что сторка не пустая, а дальше привести стринг к инту (edited)
+
+
+Sergey Zhukov [3 days ago]
+ну Integer сделай
+
+
+Stepan [3 days ago]
+Спасибо помогло. Вечно нахожу проблемы, там, где их не должно быть)
+
+
+
+under4eg [3 days ago]
+Кстати, интересный вопрос - почему решили всё же использовать MealTo? В юзере использование понятно и целесообразно, а у нас же по сути используются те же поля, в чем тогда суть использования TO?
+
+
+ABaykov [3 days ago]
+у MealTo нет поля User. Полагаю, что спринг не смог бы забиндить нам сущность Meal из-за поля User user. Ну и к тому же логично, Meal - сущность в базе, а MealTo - это то, что мы отдаёмна UI и с UI принимаем) так сказать, не надо смешивать теплое с мягким)
+
+
+under4eg [3 days ago]
+Григорий в видео объяснил целесообразность использования ТО именно разностью полей, которые биндятся и непосредственно назначаются объекту, в Юзере всё понятно, в Еде отсутствует одно поле юзера, которое, к слову, присваивается в суперклассе контроллера. ИМХО - довольно глупо юзера пихать в вебе, верно? Такое-себе решение по безопасности? Из этого вылезает только один "косяк" - вот тот самый кусок кода с обработкой и выводом ошибок не дает отработать непосредственно сохранению/апдейту, потому, если несколько изощриться, можно убрать из нашего обработчика ошибок кейс про юзера и тогда всё работает красиво и ТО применять не нужно. Но не знаю, насколько это правильно.
+
+
+Grigory Kislin [2 days ago]
+в MealTo еще поле excess есть. + можно переопределять equals/hashCode (edited)
+
+
+KaryNaiKo [Dec 11th at 11:34 AM]
+Я что-то запутался(
+Как связаны Spring validation, Bean Validation, Hibernate validation?
+
+
+3 replies
+Sergey Zhukov [2 days ago]
+вроде когда ставишь @Valid это ты спринг просишь наколдовать валидацию бина, поддерживает аннотации из разных фреймворков, а хибер вроде использует те же аннотации JPA когда из базы достает данные и раскладывает по полям Entity (или сторит, не помню) и плюс свои, типа @NotNull @Size (edited)
+
+
+Grigory Kislin [2 days ago]
+вопрос интересный. можно даже было самомк поэксперементировать...
+- https://beanvalidation.org/
+Bean Validation is a Java specification
+я думаю что это
+           <groupId>javax.validation</groupId>
+           <artifactId>validation-api</artifactId>
+
+а             <groupId>org.hibernate.validator</groupId>
+           <artifactId>hibernate-validator</artifactId>
+это ее реализация. можно попробовать заменить и посмотреть результат..
+Spring validation- это интеграция с этим api + собственные классы
+вот тут еще можно почитать: https://www.baeldung.com/javax-validation
+Baeldung
+Java Bean Validation Basics | Baeldung
+Learn the basics of Java Bean validation, the common annotations and how to trigger the validation process. (54 kB)
+Oct 26th, 2015 at 12:36 PM
+
+
+pal548 [2 days ago]
+For specifying the validation constraints/rules, Spring supports declarative bean validation as defined in JSR-303. This support is activated, automatically, if a JSR 303 provider is found in the application's class path. A popular provider is the Hibernate Validator.
+http://www.geekabyte.io/2014/10/injecting-and-binding-objects-to-spring.html
+geekabyte.io
+Injecting and Binding Objects to Spring MVC Controllers
+A blog by Dadepo Aderemi, mostly on software development.
+
+
+Vlad [Dec 11th at 3:40 PM]
+Не получаеться решить проблему с *jQuery is not defined*. Подключил datetimepicker с помощью webjar. Добавил загрузку "datetimepicker.full.min.js" с defer и "datetimepicker.min.css" в headTag.jsp. В Network статус 200. А так же судя по очереди загрузки, загружаються сначала все библиотечные скрипты, после уже "datetimepicker.full.min.js"   . Кто нибудь сталкивался с такой проблемой?
+
+
+6 replies
+Vladimir Gorbatenko [2 days ago]
+Пробуй так подключить:
+<link rel="stylesheet" href="webjars/datetimepicker/2.5.20/jquery.datetimepicker.css">
+<script type="text/javascript" src="webjars/datetimepicker/2.5.20/build/jquery.datetimepicker.full.min.js" defer></script>
+
+
+Vlad [2 days ago]
+Попробовал, не помогло.
+
+
+Vlad [2 days ago]
+Сделал как ты описал и использую метод `jQuery('#dateTime').datetimepicker();` его добавил в конце jsp внутри тега script после i18n
+
+
+Илья Чиликин [2 days ago]
+В document ready помести инициализацию плагина.
+
+
+Vlad [2 days ago]
+Добавил document ready в вызов функции и вдобавок убрал defer с загрузки библиотеки jquery. После этих манипуляций наконец заработало. Спасибо)
+
+
+Vlad [2 days ago]
+Правда не уверен что убирать defer с jquery хорошая идея
+
+
+fonto [Dec 11th at 4:27 PM]
+Не могу понять в чем проблема...
+topjava [C__Users_admin_Desktop_DEvelop_topjava] - ..._src_test_java_ru_javawebinar_topjava_web_meal_MealRestControllerTest.java [topjava] - IntelliJ IDEA.jpg
+
+
+
+3 replies
+Vlad [2 days ago]
+Проверь метод MealTo.equals
+
+
+
+fonto [2 days ago]
+Действительно, он был переопределен, но переопределен не правильно. С причиной разобрался, спасибо)
+
+
+fonto [2 days ago]
+В такие моменты начинаешь любить тесты)
+
+
+Илья Чиликин [Dec 11th at 9:14 PM]
+@Grigory Kislin Григорий, есть хороший подход, чтобы определить, как более правильно разместить повторно используемый код - в родителя по иерархии или в static  метод Util-класса? От каких факторов зависит? (edited)
+
+
+2 replies
+Roman Baranov [2 days ago]
+в интерфейсе ?
+
+
+Tanya [1 day ago]
+наследование надо использовать, если классы связаны отношениями is-a
+если контроллер не является обработчиком ошибок , то и наследовать не надо (edited)
+
+
+Stepan Dec 11th at 11:06 PM
+Не получается упорядоченно загрузить скрипты. РУгается что нет jquery
+выдает $ is not defined
+Вот мой порядок
+<script type="text/javascript" src="webjars/jquery/3.3.1-1/jquery.js" defer></script>
+   <script type="text/javascript" src="webjars/bootstrap/4.1.3/js/bootstrap.min.js" defer></script>
+   <script type="text/javascript" src="webjars/datatables/1.10.19/js/jquery.dataTables.min.js" defer></script>
+   <script type="text/javascript" src="webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js" defer></script>
+   <script type="text/javascript" src="webjars/noty/3.1.4/lib/noty.min.js" defer></script>
+   <script type="text/javascript" src="webjars/datetimepicker/2.5.20/build/jquery.datetimepicker.full.js" defer></script>
+   <script type="text/javascript" defer>
+       debugger;
+       $('.datetimepicker').datetimepicker();
+   </script>
+
+Stepan 2 days ago
+Хотя во вкладке network показывает, что jquery уже загружен
+
+Grigory Kislin 2 days ago
+а без defer - работает?
+Ctrl+F5- обновлял?
+
+Stepan 2 days ago
+@Grigory Kislin без defer тоже не работает
+обновлял,
+работает только, когда прогрузится вся страница, а потом в консоле набираю
+$('.datetimepicker').datetimepicker();
+
+pal548 2 days ago
+без defer во всех скриптах?
+
+Stepan 1 day ago
+@pal548 если убрать defer, то сначала загрузятся скрипты, а только потом сама страница, то есть класс datetimepicker не будет найден. То есть не работает из без defer во всех скриптах
+
+Tanya 1 day ago
+надо c min
+webjars/jquery/3.3.1-1/jquery. min .js
+webjars/datetimepicker/2.5.20/build/jquery.datetimepicker.full. min .js (edited)
+
+Stepan 1 day ago
+я сначала с ними и пробовал, не работает
+
+Grigory Kislin 1 day ago
+@Stepan
+то сначала загрузятся скрипты, а только потом сама страница, то есть класс datetimepicker не будет найден
+1. грузишь библиотечные скрипты
+2. грузишь страницу
+3. грузишь свои скрипты, которые работают с dom
+
+Grigory Kislin 1 day ago
+те  debugger;
+      $('.datetimepicker').datetimepicker();
+у тебя должен быть на событии - загрузка страницы (edited)
+
+
+
+Artem [Yesterday at 7:33 PM]
+Не могу понять в чем проблема. Почему не может найти перменную. Хотя она в meals определенна. Кто с таким сталкивался?
+Pasted image at 2018-12-12, 10:32 PM
+
+
+
+13 replies
+alabra [1 day ago]
+А что в topjava.common.js? Скопируй сюда
+
+
+Artem [1 day ago]
+let context, form;
+
+function makeEditable(ctx) {
+   context = ctx;
+   form = $('#detailsForm');
+   $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+       failNoty(jqXHR);
+   });
+
+   // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
+   $.ajaxSetup({cache: false});
+}
+
+function add() {
+
+   $("#modalTitle").html(i18n["addTitle"]);
+   form.find(":input").val("");
+   $("#editRow").modal();
+}
+
+function updateRow(id) {
+   $("#modalTitle").html(i18n["editTitle"]);
+   $.get(context.ajaxUrl + id, function (data) {
+       $.each(data, function (key, value) {
+           form.find("input[name='" + key + "']").val(value);
+       });
+       $('#editRow').modal();
+   });
+}
+
+function deleteRow(id) {
+   $.ajax({
+       url: context.ajaxUrl + id,
+       type: "DELETE"
+   }).done(function () {
+       context.updateTable();
+       successNoty("common.deleted");
+   });
+}
+
+function updateTableByData(data) {
+   context.datatableApi.clear().rows.add(data).draw();
+}
+
+function save() {
+   $.ajax({
+       type: "POST",
+       url: context.ajaxUrl,
+       data: form.serialize()
+   }).done(function () {
+       $("#editRow").modal("hide");
+       context.updateTable();
+       successNoty("common.saved");
+   });
+}
+
+let failedNote;
+
+function closeNoty() {
+   if (failedNote) {
+       failedNote.close();
+       failedNote = undefined;
+   }
+}
+
+function successNoty(key) {
+   closeNoty();
+   new Noty({
+       text: "<span class='fa fa-lg fa-check'></span> &nbsp;" + i18n[key],
+       type: 'success',
+       layout: "bottomRight",
+       timeout: 1000
+   }).show();
+}
+
+function failNoty(jqXHR) {
+   closeNoty();
+   failedNote = new Noty({
+       text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + (jqXHR.responseJSON ? "<br>" + jqXHR.responseJSON : ""),
+       type: "error",
+       layout: "bottomRight"
+   }).show();
+}
+
+function renderEditBtn(data, type, row) {
+   if (type === "display") {
+       return "<a onclick='updateRow(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
+   }
+}
+
+function renderDeleteBtn(data, type, row) {
+   if (type === "display") {
+       return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-remove'></span></a>";
+   }
+}
+Stack Overflow
+How to prevent a jQuery Ajax request from caching in Internet Explorer?
+How do I prevent a jQuery Ajax request from caching in Internet Explorer?
+ 
+
+
+Vladimir Gorbatenko [1 day ago]
+Точно переменная так называется?
+
+
+alabra [1 day ago]
+В context что у тебя?
+
+
+Artem [1 day ago]
+var ajaxUrl = 'ajax/profile/meals/';
+в topjava.meals
+
+alabra [1 day ago]
+Ругается что у переменной context нет ajaxurl свойства
+
+
+alabra [1 day ago]
+Можно сделать в topjava.common.js переменную var ajaxUrlMeal и заменить context.ajaxurl на неё
+
+
+Artem [1 day ago]
+тогда user срабатывать не будет
+
+Vlad [1 day ago]
+У меня была похожая проблема, когда я реализовывал таблицу для *meals*, я делал 2 вызова метода `makeEditable`, причем при втором вызове я не передавал нужного параметра. Соответственно `context.ajaxUrl` был *null*, так как был перезаписан
+
+
+
+Grigory Kislin [1 day ago]
+1. Cterl+F5 не забывать
+2. поставь брекпойнт (или debugger) в makeEditable
+
+Artem [1 day ago]
+Vlad спасибо, помогло, два раза makeEditable вызывал
+
+Vladimir Gorbatenko [14 hours ago]
+Мне если честно непонятна проблема.
+Части из topjava.users.js
+const userAjaxUrl = "ajax/admin/users/";
+...
+makeEditable({
+           ajaxUrl: userAjaxUrl,
+           datatableApi: $("#datatable").DataTable({
+               "ajax": {
+                   "url": userAjaxUrl,
+Части из topjava.meals.js:
+const mealAjaxUrl = "ajax/profile/meals/";
+...
+makeEditable({
+           ajaxUrl: mealAjaxUrl,
+           datatableApi: $("#datatable").DataTable({
+               "ajax": {
+                   "url": mealAjaxUrl + "filter",
+
+
+Artem [14 hours ago]
+я вызывал два раза MakeEdatable. В начале и в конце, значение ajaxUrl перезатиралось.

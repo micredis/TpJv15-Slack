@@ -185,3 +185,958 @@ Sergey Zhukov [9:52 PM]
 или будет что-то вроде
 ```http://localhost:8080/topjava/rest/meals/between?startDate=2015-05-31&startTime=null&endDate=2018-05-31&endTime=null```
 (edited)
+
+
+indisbk [18 days ago]
+у меня и при required все равно возвращает статус 400, непонятно что не так.
+
+
+Roman Baranov [17 days ago]
+кастомные LocalDate/LocalTime конверторы или форматтеры используют для того чтобы не ставить аннотацию `@DateTimeFormat` перед параметром
+вместо
+```@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate startDate```
+указать
+```@RequestParam(value = "startDate", required = false) LocalDate startDate```
+
+
+Raisa [Nov 26th at 10:17 AM]
+подскажите, как работает этот тест update из ProfileRestController, а именно:
+1. В каком месте происходит запись обновленного meal в базу?
+2. Зачем создается new User в assertMatch и потом уже сравнивается, почему не берется сразу из базы как в AdminRestControllerTest? (edited)
+Untitled
+@Test
+  void testUpdate() throws Exception {
+    User updated = new User(USER_ID, "newName", "newemail@ya.ru", "newPassword", Role.ROLE_USER);
+    mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
+        .content(JsonUtil.writeValue(updated)))
+        .andDo(print())
+        .andExpect(status().isNoContent());
+    assertMatch(new User(userService.getByEmail("newemail@ya.ru")), updated);
+  }
+Collapse
+
+
+21 replies
+indisbk [18 days ago]
+метод perform имитирует вызов put метода из RestController, который вызывает super метод где и происходит все делегирования и запись в базу. Далее expectим статус и сравниваем уже записанный объект с эталоном. Вроде все так.
+
+
+indisbk [18 days ago]
+на счет нового юзера, я так понял просто из разряда - "и так можно"))
+
+
+Raisa [18 days ago]
+спасибо! тогда я точно не понимаю, что не так с моим тестом update в MealRestControllerTest. вроде бы, ничего не упустила, но возвращается из базы не обновленный объект:
+@Test
+   void testUpdate() throws Exception {
+       Meal updated = getUpdated();
+       mockMvc.perform(get(REST_URL + "update?id=" + MEAL1_ID).contentType(MediaType.APPLICATION_JSON)
+               .content(JsonUtil.writeValue(updated)))
+               .andDo(print())
+               .andExpect(status().isNoContent());
+       assertMatch(mealService.get(MEAL1_ID, USER_ID), updated);
+   }
+
+java.lang.AssertionError:
+Expecting values:
+ <["Обновленный завтрак", 200]>
+in fields:
+ <["description", "calories"]>
+but were:
+ <["Завтрак", 500]>
+in <Meal{id=100002, dateTime=2015-05-30T10:00, description='Завтрак', calories=500}>.
+Comparison was performed on all fields but <["user"]> (edited)
+
+
+Sergey Zhukov [18 days ago]
+вот update юзера
+    ```@Override
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void update(@RequestBody User user, @PathVariable("id") int id) {
+        super.update(user, id);
+    }```
+должен наверное в тестах быть put
+или ты в еде update делаешь через GetMapping?
+
+
+
+Raisa [18 days ago]
+да, это еда (уточнила в вопросе название класса, в который пишу тест). пыталась сравнить с user  и разобраться по аналогии (edited)
+
+
+Raisa [18 days ago]
+делаю через get, как в jspMealController (только для этого класса пока делаем тест?) (edited)
+
+
+Sergey Zhukov [18 days ago]
+делаем rest, используй put для обновления
+
+
+Raisa [17 days ago]
+@Sergey Zhukov что-то не пойму пока как это все взаимосвязано.. меняю на put - падает сервлет при попытке update, что логично, браузеру нужно сначала форму получить через get. Как лучше совместить get и put для одного метода? или что конкретно почитать на эту тему, я уже утонула в потоке информации (edited)
+
+indisbk [17 days ago]
+покажите как выглядит update метод в restcontroller.
+
+
+Raisa [17 days ago]
+@indisbk
+@GetMapping("/update")
+   public String update(HttpServletRequest request, Model model) {
+       model.addAttribute("meal", super.get(getId(request)));
+       return "mealForm";
+   }
+
+
+indisbk [17 days ago]
+http://qaru.site/questions/31224/how-does-the-spring-responsebody-annotation-work-in-this-restful-application-example
+qaru.site
+java - Как работает аннотация Spring @ResponseBody в этом примере приложения RESTful? - Qaru
+У меня есть метод, который аннотируется следующим образом: /** * Provide a list of all accounts. */ // TODO 02: Complete this method. Add annotations to respond // to GET /accounts and return a List<Account> to be converted. // Save your w
+
+
+indisbk [17 days ago]
+вот суть отличия простого mvc от restful.
+
+
+indisbk [17 days ago]
+ваш контроллер должен быть аннотирован @RestController(внутри него есть аннотация @RequestBody)  и далее по аналогии с юзером.
+
+
+Raisa [17 days ago]
+спасибо большое!
+
+Grigory Kislin [17 days ago]
+@Raisa
+1. по ресту: делай по анологии с *AdminRestController*. в ProfileRestController обновляется ющер, а не meal:)
+
+про rest можно прочитать в ссылках урока после видео:  5. REST контроллеры
+принято для действий использовать соответствующие http методы.
+
+2. Зачем создается new User в assertMatch- а вот это личшнее. ничего не добавляет. спасибо, поправлю (edited)
+
+
+Raisa [17 days ago]
+спасибо :slightly_smiling_face:
+
+Raisa [17 days ago]
+@indisbk подскажете, что тут не так?
+
+@RestController
+@RequestMapping(value = JspMealController.REST_URL, method= RequestMethod.GET)
+public class JspMealController extends AbstractMealController {
+   static final String REST_URL = "/meals";
+
+   @DeleteMapping(value = "/delete")
+   @ResponseStatus(value = HttpStatus.NO_CONTENT)
+   public void delete(int id) {
+       super.delete(id);
+   }
+Pasted image at 2018-11-27, 11:38 AM
+
+
+
+Sergey Zhukov [17 days ago]
+не знает откуда взять id, попробуй получить int id из url "/delete"
+см. AdminRestController.delete (edited)
+
+Raisa [17 days ago]
+@Sergey Zhukov т.е. как часть пути его прописать - "/delete/{id}"? тогда падает со статусом 404
+
+Sergey Zhukov [17 days ago]
+@Raisa метод DELETE не проверяется в браузере, браузер умеет только GET(через адресную строку) и POST(через формочки)
+используй curl, soapui, postman
+ 
+
+
+Raisa [16 days ago]
+вот это еще помогло https://www.youtube.com/watch?v=JoxIyddwlSo
+YouTube Компьютерная школа Hillel
+Тестируем Веб-сервисы с помощью SoapUI
+
+
+Alexey P [Nov 26th at 5:26 PM]
+При апдейте meal с помощью curl вылетает ошибка, если писать description русскими буквами. HTTP Status 400 – Bad Request с репортом The server cannot or will not process the request due to something that is perceived to be a client error
+(e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
+Кто знает как победить?
+
+
+29 replies
+Roman Baranov [17 days ago]
+попробуй в кавычках указать
+
+
+Alexey P [17 days ago]
+Не работает. Да и не должно было, наверное
+
+
+Sergey Zhukov [17 days ago]
+У меня тоже самое, может что с кодировкой консоли в Windows, пишет что символы не может распарсить:
+```JSON parse error: Unexpected character (''' (code 39))```
+В soapui и postman PUT и POST работают нормально.
+
+
+Sergey Zhukov [17 days ago]
+Кстати postman умеет генерить curl, можно с консолью не заморачиваться
+
+
+Sergey Zhukov [17 days ago]
+https://www.getpostman.com/docs/v6/postman/sending_api_requests/generate_code_snippets
+
+
+Roman Baranov [17 days ago]
+```curl --header "Content-Type: application/json" \
+   --request PUT \
+   --data '{"id":100002,"dateTime":"2015-05-30T10:00:00","description":"Обновленный завтрак","calories":200}' \     http://localhost:8080/topjava/rest/meals/100002```
+у меня вот так работает
+
+
+Sergey Zhukov [17 days ago]
+это винда?
+
+
+Roman Baranov [17 days ago]
+на винде без слешей
+
+
+Sergey Zhukov [17 days ago]
+кто ставил Git Bash в ней уже есть cURL
+немного настроек с локалью
+и у меня все равно не хочет принимать русский, а английский принимает )) фантастика
+curl1.png
+
+
+
+Alexey P [17 days ago]
+У меня на винде кавычки принимает только так - \"
+
+
+Alexey P [17 days ago]
+curl такой же как написали выше. Правда, у меня еще charset указан. Но с ним или без него не работает.
+
+
+Also sent to the channel
+Gekov Iliya [17 days ago]
+Появилась та же проблема - curl через командную строку отказывался принимать кириллицу в нужной кодировке (Windows 10). Перепробовал всё что можно в написании запроса и параметрах консоли, ничего не помогало. В итоге практически методом тыка решение нашлось следующее - "Язык и региональные стандарты" -> "Сопутствующие параметры" -> "Административные языковые параметры" -> "Изменить язык системы" -> галка "Бета-версия:Использовать Юникод (UTF-8) для поддержки языка во всем мире", перезагрузка. Запросы с кириллицей заработали.
+scrn.png
+
+
+
+
+Sergey Zhukov [17 days ago]
+бета :joy: как же они не хотят UTF-8 "из коробки"
+```"Мышки плакали, кололись, но продолжали упорно жрать кактус."```
+
+
+Alexey P [17 days ago]
+У мня win8, такой штуки не нашел
+
+Sergey Zhukov [16 days ago]
+@Alexey P у меня сразу заработало через *cygwin*
+скачать можно сдесь
+```http://cygwin.com/```
+зеркало сразу добавил Яндекса
+```https://mirror.yandex.ru/mirrors/ftp.cygwin.com/```
+из пакетов выбрал только в разделе *NET* --> curl
+в настройках тоже выбрал везде *ru* и *UTF-8*
+@Grigory Kislin добавь пожалуйста в список программ для cURL под Windows ранее 10
+cygwin.png
+
+
+
+Alexey P [16 days ago]
+В каких настройках выбрал везде *ru* и *UTF-8* ?
+
+
+Sergey Zhukov [16 days ago]
+@Alexey P по окну пр.кнопкой -- настройки -- текст -- формат ru_Ru, набор символов UTF-8, в пункте *окно* язык *ru*
+
+
+Alexey P [16 days ago]
+Все равно не понимаю) Я установил Cygwin Packages, попробовал curl с апдейтом - он не работает. Далее, запустил Cygwin.bat. Но тут нет "пр.кнопкой -- настройки -- текст -- формат ru_Ru, "
+
+
+Alexey P [16 days ago]
+потому что Cygwin.bat запускает bash в cmd. Может что-то другое надо запускать?
+
+
+Sergey Zhukov [16 days ago]
+я ставил инталером 64-битный запускаю с ярлыка на рабочем столе http://cygwin.com/setup-x86_64.exe
+
+
+Sergey Zhukov [16 days ago]
+cygwin2.png
+
+
+
+Alexey P [16 days ago]
+Нашел) Да, подтверждаю, все работает
+
+Alexey P [16 days ago]
+Спасибо)
+
+Alexey P [16 days ago]
+Короче, дело не в curl наверное, а в командном интерпретаторе или его настройках. В виндовском cmd.exe и ConEmu
+
+
+Gekov Iliya [16 days ago]
+Попробовав всего понемногу, curl, postman, soapui, мне кажется реквесты прямо из идеи самая удобная штука
+ 
+
+
+Grigory Kislin [16 days ago]
+я тоже юзаю для тестирования в idea HTTP Client новый
+а в postman держу коллекцию урлов, которые часто дергаю
+
+Grigory Kislin [16 days ago]
+настройки для win10 добавлю в урок, спасибо!  я win10 терпел 2 недели после принудительного апгрейда, потом откатился и запретил обновления. пока сижу на win7 (edited)
+
+
+
+Tanya [16 days ago]
+для SoapUi
+там надо добавить https://community.smartbear.com/t5/SoapUI-Open-Source/Cyrillic-alphabet-characters-in-JSON-response/m-p/141136/highlight/true#M24042 (edited)
+
+
+Pushkin [15 days ago]
+К win10 надо привыкать, конечно. 2 года пользуюсь ею - надо на работе - обплевался сильно. А для Java разработки - если получится перебраться в нее - перейду на Ubuntu. :slightly_smiling_face:
+
+
+Sergey Zhukov [Nov 26th at 6:57 PM]
+curl для Windows https://curl.haxx.se/windows/
+еще можно использовать Git Bash, которую устанавливали вместе с Git (edited)
+
+
+1 reply
+Alexey P [17 days ago]
+Да, этим и пользуюсь
+
+
+pal548 [Nov 26th at 10:43 PM]
+> 3.4.1. Converter SPI
+>The SPI to implement type conversion logic is simple and strongly typed, as the following interface definition shows:
+>...
+Что такео SPI ?
+
+
+3 replies
+Gekov Iliya [17 days ago]
+https://stackoverflow.com/questions/2954372/difference-between-spi-and-api (edited)
+
+
+Gekov Iliya [17 days ago]
+Описание классов\интерфейсов\методов, которые нужно реализовать, чтобы достигнуть какой-либо функциональности
+
+
+pal548 [17 days ago]
+спс
+
+
+Raisa [Nov 27th at 3:30 PM]
+в аннотации @RequestMapping чем отличаются атрибуты path и value? тем, что value placeholder можно вставить? (edited)
+Pasted image at 2018-11-27, 8:30 PM
+
+
+
+2 replies
+Sergey Zhukov [16 days ago]
+в javadoc есть описание
+    ```@AliasFor("path")
+    String[] value() default {};
+
+    /**
+     * The path mapping URIs (e.g. "/myPath.do").
+     * Ant-style path patterns are also supported (e.g. "/myPath/*.do").
+     * At the method level, relative paths (e.g. "edit.do") are supported
+     * within the primary mapping expressed at the type level.
+     * Path mapping URIs may contain placeholders (e.g. "/${connect}").
+     * <p><b>Supported at the type level as well as at the method level!</b>
+     * When used at the type level, all method-level mappings inherit
+     * this primary mapping, narrowing it for a specific handler method.
+     * @see org.springframework.web.bind.annotation.ValueConstants#DEFAULT_NONE
+     * @since 4.2
+     */
+    @AliasFor("value")
+    String[] path() default {};
+
+    /**
+     * The HTTP request methods to map to, narrowing the primary mapping:
+     * GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE.
+     * <p><b>Supported at the type level as well as at the method level!</b>
+     * When used at the type level, all method-level mappings inherit
+     * this HTTP method restriction (i.e. the type-level restriction
+     * gets checked before the handler method is even resolved).
+     */```
+но мне интересно зачем-то сделали перекрестные алиасы :grin: получается равносильно использовать и то и то?
+    ```@AliasFor("path")
+    String[] value() default {};
+...
+    @AliasFor("value")
+    String[] path() default {};```
+
+
+Gekov Iliya [16 days ago]
+https://stackoverflow.com/questions/50351590/difference-between-path-and-value-in-spring-boot-requestmapping да, насколько понимаю, просто чтобы можно было писать как @RequestMapping(path = "/foo") так и @RequestMapping("/foo") (edited)
+
+
+alabra [Nov 28th at 10:07 AM]
+По Rest если делаю запрос из браузера даты возвращаются в каком-то странном формате (с запятыми). В какую сторону смотреть ?
+[{"id":100007,"dateTime":[2015,5,31,20,0],"description":"Ужин","calories":510,"excess":true}
+
+
+7 replies
+Sergey Zhukov [16 days ago]
+это нормально, у меня так же, в тестовых средах отображается нормально
+
+
+alabra [16 days ago]
+Ок спасибо @Sergey Zhukov
+
+
+Sergey Zhukov [16 days ago]
+@alabra попробуй открыть в Firefox - приятно удивишься
+
+
+Sergey Zhukov [15 days ago]
+@alabra проверь что не дублируешь в xml
+mvc:annotation-driven
+за нормальный вид даты отвечает JacksonObjectMapper
+ ```configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);```
+(edited)
+
+
+Sergey Zhukov [15 days ago]
+@alabra я посмотрел не в тот вывод, должно быть
+```"dateTime":"2015-05-31T20:00:00"```
+
+
+alabra [15 days ago]
+@Sergey Zhukov Крутяк :slightly_smiling_face: Действительно задублил mvc:annotation-driven. Добавлял свои форматтеры через xml. И скопипастил из примера
+<mvc:annotation-driven conversion-service="conversionService">, а выше уже было объявление.
+
+
+Sergey Zhukov [15 days ago]
+это есть в Подсказки по HW07 п.5
+
+
+alabra [Nov 28th at 11:38 AM]
+Подскажите по JacksonObjectMapper. Мы описали его в spring-mvc.xml как bean. При этом мы сделали его синглтоном сделав конструктор private и т.д. Мне казалось spring по умолчанию делает бины в одном экземпляре. Если бы мы не стали делать JacksonObjectMapper синглтоном. То при каждом обращении к нему, создавался бы новый экзмепляр класса?
+
+
+3 replies
+Sergey Zhukov [15 days ago]
+см видео 7_8 около 2:30
+мапер используем еще в JsonUtil напрямую - поэтому сделали синглетон
+
+
+alabra [15 days ago]
+Понятно. Теоретически если бы мы в JsonUtil сделали бы JacksonObjectMapper как @Autowired и обращались бы напрямую без getMapper(), то можно было бы не делать его синглтоном?
+
+
+Sergey Zhukov [15 days ago]
+наверно некрасиво делать утильный класс с привязкой к маперу из контекста спринга (edited)
+
+
+Raisa [Nov 28th at 12:18 PM]
+подскажите, пожалуйста, в чем может быть проблема? Это метод create. Поля, вроде бы, все те же, что и в Meal
+
+@RestController
+@RequestMapping(MealRestController.REST_URL)
+public class MealRestController extends AbstractMealController {
+
+   static final String REST_URL = "/rest/meals";
+
+@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal) {
+       Meal created = super.create(meal);
+       URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+               .path(REST_URL + "/{id}")
+               .buildAndExpand(created.getId()).toUri();
+       return ResponseEntity.created(uriOfNewResource).body(created);
+   } (edited)
+Pasted image at 2018-11-28, 5:18 PM
+
+
+
+6 replies
+Sergey Zhukov [15 days ago]
+у меня заработало только когда в soap json записал в одну строку
+
+
+Sergey Zhukov [15 days ago]
+и юзера убери из json
+
+
+Sergey Zhukov [15 days ago]
+id зачем?
+
+
+Raisa [15 days ago]
+получилось, спасибо! интересно, что при update так принимает, при create - в строку
+
+
+Grigory Kislin [15 days ago]
+старанно... а что на стороне сервера за эксепшен?
+
+
+Raisa [15 days ago]
+@Grigory Kislin, все же, из-за того, что юзера указала, был эксепшен: nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `ru.javawebinar.topjava.model.User` (although at least one Creator exists): no int/Int-argument constructor/factory method to deserialize from Number value (100000).
+А так проходит и не в строку.
+Буду внимательнее логи смотреть, спасибо!
+
+
+alabra [Nov 28th at 1:22 PM]
+Вопрос по эксепшенам. Если допустим неправильно задать параметры в url то получаем в браузере эксепшен и портянку из стек трейса. По идее пользователь не должен это видеть. Как на реальных проектах обрабатываются такие ситуации?
+
+
+6 replies
+Dima [15 days ago]
+Ну я использовал в выпускном проекте свои exception, которые перехватываются специальным exceptionHandler ,и юзеру выдается красивый json с кодом ошибки и сообщением.
+
+
+Raisa [15 days ago]
+Григорий, вроде, говорил, что будем учиться красиво обрабатывать
+
+
+alabra [15 days ago]
+Понятно в следующих уроках видимо будет
+
+
+Sergey Zhukov [15 days ago]
+ага, уже пару раз говорил что будем потом делать правильно
+
+
+Grigory Kislin [15 days ago]
+н6у, обрабатывать будет. но результат что юзеру отдавать по разному решается. обычно да- стектрайс прячется
+
+
+Sergey Zhukov [15 days ago]
+@alabra https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Error_Report_Valve
+
+
+Vladimir Gorbatenko [Nov 28th at 3:20 PM]
+Скажите, как должен выглядеть http get запрос для getBetween?
+Сделал так:  http://localhost:8080/topjava/rest/meals/filter?startDate=2015-05-30&endDate=2015-05-30&startTime=11:00:00&endTime=22:00:00
+но что-то мне нравится...
+
+
+6 replies
+alabra [15 days ago]
+?startDate=2015-05-30&startTime=07:00&endDate=2015-05-31&endTime=11:00
+
+
+Vladimir Gorbatenko [15 days ago]
+вот и неправильно )
+вот что в условии пишется
+2.2 в параметрах getBetween принимать LocalDateTime (конвертировать через @DATETIMEFORMAT WITH JAVA 8 DATE-TIME API), а передавать в тестах в формате ISO_LOCAL_DATE_TIME (например '2011-12-03T10:15:30'). Вызывать super.getBetween() пока без проверки на null, используя toLocalDate()/toLocalTime() (см. Optional п.3)
+
+
+alabra [15 days ago]
+Там ниже в Optional 3 переделать надо будет
+
+
+
+Vladimir Gorbatenko [15 days ago]
+тю )
+
+
+Grigory Kislin [15 days ago]
+@Vladimir Gorbatenko а что не нравится?
+
+
+Vladimir Gorbatenko [15 days ago]
+@Grigory Kislin все норм, я в хорошем смысле сказал
+
+
+Vladimir Gorbatenko [Nov 28th at 5:53 PM]
+Были у кого-то проблемы с SoapUI с кодировкой?  Мне вот такое досталось:
+17:33:48.628 WARN  o.s.w.s.handler.AbstractHandlerExceptionResolver.logException:194 - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Invalid UTF-8 middle byte 0xe1; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Invalid UTF-8 middle byte 0xe1
+at [Source: (PushbackInputStream); line: 4, column: 19] (through reference chain: ru.javawebinar.topjava.model.Meal["description"])]
+17:33:48.629 DEBUG org.springframework.web.servlet.FrameworkServlet.logResult:1123 - Completed 400 BAD_REQUEST
+
+
+1 reply
+Sergey Zhukov [15 days ago]
+ссылку дала Татьяна в предыдущем посте https://community.smartbear.com/t5/SoapUI-Open-Source/Cyrillic-alphabet-characters-in-JSON-response/m-p/141136/highlight/true#M24042 (edited)
+
+
+Vladimir Gorbatenko [Nov 29th at 10:58 AM]
+Доброе утро!
+Завис...
+8: Попробуйте в RootControllerTest.testMeals сделать сравнение через model().attribute("meals", expectedValue). Учтите, что вывод результатов через toString к сравнению отношения не имеет.
+Делаю так:
+@Test
+   void testMeals() throws Exception {
+       mockMvc.perform(get("/meals"))
+               .andDo(print())
+               .andExpect(status().isOk())
+               .andExpect(view().name("meals"))
+               .andExpect(forwardedUrl("/WEB-INF/jsp/meals.jsp"))
+               .andExpect(model().attribute("meals", MealsUtil.getWithExcess(MEALS, DEFAULT_CALORIES_PER_DAY)));
+   }
+Соответственно не работает.
+Подскажите куда смотреть?
+
+
+4 replies
+Zhinko [14 days ago]
+Это потому что в MealTo equals и hashcode не переопределен
+
+
+Vladimir Gorbatenko [14 days ago]
+о чудо ) спасибо! (edited)
+
+Grigory Kislin [14 days ago]
+это не чудо...
+
+
+Sergey Zhukov [13 days ago]
+в материалах к занятию ссылка на equals через instanceof, а не правильней ли сравнивать через getClass, сама idea предлагает такой способ
+https://javarevisited.blogspot.com/2011/02/how-to-write-equals-method-in-java.html
+javarevisited.blogspot.com
+Overriding equals() and hashCode() method in Java and Hibernate
+Override equals and hashCode in Java Equals and hashCode in Java are two fundamental methods which are declared in Object class and p... (18 kB)
+
+
+Janna S [Nov 30th at 11:00 AM]
+Доброе утро,
+закинула проект с текущего момента
+Вроде все настроила.
+ошибка (org.apache.jasper.JasperException) в строчке :
+<base href="${pageContext.request.contextPath}"/>
+файла headTag.jsp
+
+Помогите пожалуйста настроить прокект до запуска без ошибок.
+Спасибо. (edited)
+
+
+29 replies
+alabra [14 days ago]
+Проверьте значение переменной topjava_root
+
+
+Grigory Kislin [13 days ago]
+что в эксепшене в логе? при первом обращении к jsp
+
+
+Janna S [13 days ago]
+при запуске
+
+
+Janna S [13 days ago]
+да
+
+
+Janna S [13 days ago]
+я пропустила много
+сейчас проглядываю все видео, может что упущено
+
+
+alabra [13 days ago]
+Можете скопировать полный текст ошибки сюда?
+
+
+Janna S [13 days ago]
+Exception
+
+org.apache.jasper.JasperException: An exception occurred processing [/WEB-INF/jsp/fragments/headTag.jsp] at line [8]
+
+5: <head>
+6:     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+7:     <title><spring:message code="app.title"/></title>
+8:     <base href="${pageContext.request.contextPath}/"/>
+9:     <link rel="stylesheet" href="resources/css/style.css">
+10: </head>
+
+
+Janna S [13 days ago]
+HTTP Status 500 – Internal Server Error.htm
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8099/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>HTTP Status 500 – Internal Server Error</title><style type="text/css">h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} h2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;} a {color:black;} a.name {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 500 – Internal Server Error</h1><hr class="line"><p><b>Type</b> Exception Report</p><p><b>Message</b> An exception occurred processing [/WEB-INF/jsp/fragments/headTag.jsp] at line [8]</p><p><b>Description</b> The server encountered an unexpected condition that prevented it from fulfilling the request.</p><p><b>Exception</b></p><pre>org.apache.jasper.JasperException: An exception occurred processing [/WEB-INF/jsp/fragments/headTag.jsp] at line [8]
+​
+5: &lt;head&gt;
+6:   &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+7:   &lt;title&gt;&lt;spring:message code="app.title"/&gt;&lt;/title&gt;
+8:   &lt;base href="${pageContext.request.contextPath}/"/&gt;
+9:   &lt;link rel="stylesheet" href="resources/css/style.css"&gt;
+10: &lt;/head&gt;
+​
+​
+Stacktrace:
+	org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:593)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:467)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.runtime.JspRuntimeLibrary.include(JspRuntimeLibrary.java:868)
+	org.apache.jsp.WEB_002dINF.jsp.index_jsp._jspService(index_jsp.java:133)
+	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:444)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:170)
+	org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:316)
+	org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+</pre><p><b>Root Cause</b></p><pre>javax.servlet.ServletException: javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'.
+	org.apache.jasper.runtime.PageContextImpl.handlePageException(PageContextImpl.java:667)
+	org.apache.jsp.WEB_002dINF.jsp.fragments.headTag_jsp._jspService(headTag_jsp.java:154)
+	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:444)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.runtime.JspRuntimeLibrary.include(JspRuntimeLibrary.java:868)
+	org.apache.jsp.WEB_002dINF.jsp.index_jsp._jspService(index_jsp.java:133)
+	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:444)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:170)
+	org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:316)
+	org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+</pre><p><b>Root Cause</b></p><pre>javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'.
+	org.springframework.web.servlet.tags.MessageTag.doEndTag(MessageTag.java:293)
+	org.apache.jsp.WEB_002dINF.jsp.fragments.headTag_jsp._jspx_meth_spring_005fmessage_005f0(headTag_jsp.java:177)
+	org.apache.jsp.WEB_002dINF.jsp.fragments.headTag_jsp._jspService(headTag_jsp.java:135)
+	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:444)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.runtime.JspRuntimeLibrary.include(JspRuntimeLibrary.java:868)
+	org.apache.jsp.WEB_002dINF.jsp.index_jsp._jspService(index_jsp.java:133)
+	org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:444)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:386)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:330)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:170)
+	org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:316)
+	org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line"><h3>Apache Tomcat/9.0.10</h3></body></html>
+Collapse
+
+
+alabra [13 days ago]
+скорей всего у вас ошибка в том что он не может найти русификацию в app.title. В папке с проектом в подпапках config\messages должны быть два файла app.properties и app_ru.properties Проверьте что ни есть и что в них есть app.title
+
+
+alabra [13 days ago]
+Если с файлы есть и app.title строчка в них есть, то надо проверить значение переменной окружения topjava_root. Т.к. обращение к этим файлом идет по пути через эту переменную.
+
+
+alabra [13 days ago]
+ошибка в этой строке у вас
+javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'.
+
+
+
+Janna S [13 days ago]
+спасибо (edited)
+
+
+alabra [13 days ago]
+app_ru.properties
+Binary
+app_ru.properties
+Binary
+Click to download
+
+
+alabra [13 days ago]
+app.properties
+app.properties
+app.title=Calories management
+app.home=Home
+app.footer=Project <a href="https://github.com/JavaOPs/topjava" target=_blank>Maven/ Spring/ Security/ JPA(Hibernate)/ Jackson/jQuery</a> application
+app.login=Login as
+user.title=Users
+user.name=Name
+user.email=Email
+user.roles=Roles
+user.active=Active
+user.registered=Registered
+meal.title=Meals
+meal.edit=Edit meal
+meal.add=Add meal
+meal.filter=Filter
+meal.startDate=From date
+meal.endDate=To date
+meal.startTime=From time
+meal.endTime=To time
+meal.description=Description
+meal.dateTime=Date/Time
+meal.calories=Calories
+common.select=Select
+common.delete=Delete
+common.update=Update
+common.save=Save
+common.cancel=Cancel
+Collapse
+
+
+Janna S [13 days ago]
+спасибо
+да вроде все так
+
+
+Janna S [13 days ago]
+а где у вас переменная topjava_root ?
+
+
+Janna S [13 days ago]
+мне кажется тут проблема
+
+
+alabra [13 days ago]
+У меня проект находится в папке C:\Java\Project\topjava15 и переменная окружения настроена на эту папку
+
+
+alabra [13 days ago]
+http://www.javaportal.ru/java/articles/VariableEnvironments/VariableEnvironments.html
+javaportal.ru
+Настройка переменных окружения
+Настройка переменных окружения на сайте JavaPortal, новости и всё о java и javascript
+
+
+Janna S [13 days ago]
+спасибо, да, она не настроена ...
+
+
+Janna S [9 days ago]
+а вот так правильно образаться к свойствам?
+<property name="basenames" value="file:///#{systemEnvironment['TOPJAVA_ROOT']}/config/messages/app"/>
+
+
+Janna S [9 days ago]
+не хотят они у меня подключаться
+
+
+Janna S [6 days ago]
+вопрос решила
+
+
+Janna S [6 days ago]
+проблема была в бине конфига для строк
+
+
+Janna S [6 days ago]
+спасибо за поддержку!
+
+
+Janna S [6 days ago]
+и я переместила их в рессурсы ...
+
+
+Janna S [6 days ago]
+app & app_ru
+
+
+Janna S [6 days ago]
+в этом случае мне и переменная top_java не нужна
+
+
+Janna S [6 days ago]
+но я ее установила
+
+
+regorov [Dec 2nd at 9:24 PM]
+В контроллер тестах идея не может определить (подчеркивает красным) по @Autowired бины cacheManager, userService, mealService? Кто нибудь знает как поправить?
+
+
+1 reply
+Sergey Zhukov [11 days ago]
+у меня тоже подчеркивает, но работает
+
+
+regorov Dec 2nd at 11:00 PM
+Я правильно понял, что параметр List<User> actual передается из значения "users" модели в метод assertion? Как это вообще происходит, или это и есть то о чем говорят "магия спринг"?
+.andExpect(model().attribute("users",
+	new AssertionMatcher<List<User>>() {
+		@Override
+        public void assertion(List<User> actual) throws AssertionError {
+        	assertMatch(actual, ADMIN, USER);
+        }
+    }
+));
+Collapse
+ 
+Grigory Kislin 10 days ago
+магия- это для тех, кто не понимает и не хочет понять как работает:) нужно всего навсего кликнуть на метод attribute и посмотреть параметр Matcher. И далее повторить про анонимные классы
+
+
+Viktor [Dec 9th at 9:50 AM]
+Добрый день! Были у кого нибудь проблемы  с методом static ru.javawebinar.topjava.util.Util.orElse? Ссылка на него есть в AbstactMealController, а самого метода нет
+
+
+3 replies
+Vladimir Gorbatenko [4 days ago]
+package ru.javawebinar.topjava.util;
+
+public class Util {
+
+   private Util() {
+   }
+
+   public static <T extends Comparable<? super T>> boolean isBetween(T value, T start, T end) {
+       return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
+   }
+
+   public static <T> T orElse(T value, T defaultValue) {
+       return value == null ? defaultValue : value;
+   }
+}
+
+
+Vladimir Gorbatenko [4 days ago]
+на текущий (hw09) момент, класс выглядит так
+
+
+Grigory Kislin [4 days ago]
+Util.orElse добавился в патче 4_3_improve_code
+посмотри в проектк github
