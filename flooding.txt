@@ -1559,3 +1559,27 @@ Grigory Kislin [11 hours ago]
 
 Andrey Tolkachev [11 hours ago]
 @Grigory Kislin хорошо!)
+
+
+Vladimir Gorbatenko [4 days ago]
+Поздравляю! 
+Если честно, то я не понял задания.
+
+
+Andrey Tolkachev [4 days ago]
+спасибо!
+если кратко, то смысл в создании 2 хранилищ, одно в памяти, другое на жестком диске, и манипуляции этими хранилищами в зависимости от политики вытеснения объектов из кеша, когда хранилища переполняются.
+
+
+Vladimir Gorbatenko [4 days ago]
+Политика вытеснения объектов из кэша. Не понимаю. Где об этом почитать?
+
+
+Andrey Tolkachev [4 days ago]
+https://en.wikipedia.org/wiki/Cache_replacement_policies
+
+наиболее часто используемые это LRU, MRU и LFU, я их собственно и брал (edited)
+
+
+Gekov Iliya [6:59 PM]
+h.jpg 

@@ -811,3 +811,30 @@ Marat [Today at 7:08 PM]
 1 reply
 Grigory Kislin [4 hours ago]
 да, подчеркивает
+
+
+Marat [Dec 14th at 5:26 AM]
+После наката патчей такая ошибка:
+org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'jspMealController' for bean class [ru.javawebinar.topjava.web.meal.JspMealController] conflicts with existing, non-compatible bean definition of same name and class [ru.javawebinar.topjava.web.JspMealController]
+
+Ни у кого не было такого?
+Что значит conflicts with existing ?
+
+
+4 replies
+Marat [4 days ago]
+org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'jspMealController' for bean class [ru.javawebinar.topjava.web.meal.JspMealController] conflicts with existing, non-compatible bean definition of same name and class [ru.javawebinar.topjava.web.JspMealController]
+
+Но этого класса нет в пакете web ru.javawebinar.topjava.web.JspMealController
+
+
+Grigory Kislin [4 days ago]
+mvn clean давал?
+
+
+Marat [4 days ago]
+Да, это помогло, сразу не догодался.
+
+
+Marat [4 days ago]
+Спасибо

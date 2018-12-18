@@ -24,3 +24,456 @@ Vladimir Gorbatenko [3:30 PM]
        return "meals";
    }
 Параметр Model model по всей видимости лишний.
+
+
+Vlad [Dec 14th at 2:57 AM]
+В *10_05_persist_validate_group.patch* мы создали группу `View.Persist` и установили анотацию `@NotNull(groups = View.Persist.class)` над user в meal. Правильно ли я понимаю, валидация происходит непосредственно перед созданием или редактированием на уровне репозиториев? А если бы мы установили без группы то проверка была сразу после получения с *UI* (edited)
+
+
+3 replies
+Tanya [5 days ago]
+да, поле юзер в Meal в контроллере не валидируется, только при сохранении в БД
+
+
+Grigory Kislin [4 days ago]
+@Vlad
+добавил ответ в урок: Если View никаких нет (что равнозначно javax.validation.groups.Default), то бины, в которых есть аннотации валидации, проверяют Spring в контроллерах (если перед параметром стоит @Valid) и Hibernate перед сохранением и обновлением. Через View мы можем управлять валидацией. В нашем случае мы включили в spring-db.xml указание Hibernate валидировать поля с View.Persist. Так как View.Persist наследуется от Default, то Hibernate будет также валидировать и поля, на которых нет View.
+
+
+Vlad [4 days ago]
+Теперь все ясно, спасибо)
+
+
+Roman Baranov [Dec 14th at 1:04 PM]
+как задается порядок обработки ошибок валидации?
+при ошибке в методе `createOrUpdate` (если к примеру не заполнили все поля) перехват происходит в методе `ExceptionInfoHandler.handleError(HttpServletRequest req, Exception e)` а не в методе `ExceptionInfoHandler.handleError(HttpServletRequest req, NotFoundException e)`
+или `ExceptionInfoHandler.illegalRequestDataError(HttpServletRequest req, Exception e)`
+
+
+3 replies
+Roman Baranov [4 days ago]
+вопрос снимается. хендлится за счет аннотаций `@ExceptionHandler`
+
+
+Grigory Kislin [4 days ago]
+в методах ищется самый близкий эксепшен
+
+
+Sergey Zhukov [3 days ago]
+Мы при апдейте юзера всегда апдетим пароль?
+
+
+Sergey Zhukov [Dec 15th at 5:56 PM]
+это только у меня при создании/апдейте пользователя отвалилась валидация  @Size на поле password?
+у меня создает с любым паролем, а на name срабатывает (edited)
+
+
+14 replies
+Roman Baranov [3 days ago]
+у меня отрабатывает
+
+
+Sergey Zhukov [3 days ago]
+я только закоментил обработку BindingResult и вернул void
+
+
+Sergey Zhukov [3 days ago]
+не понимаю разницу в форме и проверке поля name  и поля password... по идее долдны валидироваться одинаково
+
+
+Sergey Zhukov [3 days ago]
+и там и там Size
+
+
+Roman Baranov [3 days ago]
+а группы валидации не добавлял? может из-за этого не отрабатывает
+
+
+Sergey Zhukov [3 days ago]
+а почему name срабатывает
+
+Sergey Zhukov [3 days ago]
+это может быть из-за того, что не накатил 10_04_opt_json_view.patch и 10_05_opt_validated_groups.patch? (edited)
+
+
+Sergey Zhukov [3 days ago]
+причем @NotBlank срабатывает с этим сообщением видно сообщение из @Size
+но вводишь один символ пароля и сохраняет, меджик
+blank.png
+
+
+
+Sergey Zhukov [3 days ago]
+Все разобрался, я закоментил проверку результатов биндинга :sweat_smile: и мне хибернейт возвращал ошибки валидации и их ловил хендлер.
+А нужно кинуть исключение и обработать его в хендлере.
+
+
+
+Sergey Zhukov [3 days ago]
+не срабатывала валидация хибернейта @Size на поле password в классе User перед сохранением в бд потому что у нас теперь есть PasswordEncoder в классе UserServiceImpl, который из пароля например "1" делает строку "{noop}1"
+
+
+Sergey Zhukov [3 days ago]
+при криптовании пароля отпадает необходимость аннотации @Size на поле *password* в классе User, поставишь {bcrypt} и длина хранимой строки будет приличная на любых паролях (edited)
+
+
+Taras [2 days ago]
+Для БД — да, а вот проверка на длину пароля, пришедшего с UI? В этом тоже есть смысл: юзер не может ввести пароль меньше/больше определеённого.
+
+
+Sergey Zhukov [2 days ago]
+@Taras с UI валидируется UserTO
+
+
+Taras [2 days ago]
+А да, логично…
+
+
+Roman Baranov [Dec 15th at 6:13 PM]
+Подскажите
+суть ДЗ  - вернуть на UI читаемое сообщение об ошибке?
+т.е. вместо
+```org.springframework.validation.BeanPropertyBindingResult: 1 errors Field error in object 'userTo' on field 'password': rejected value [234]; codes [Size.userTo.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [userTo.password,password]; arguments []; default message [password],32,5]; default message [length must between 5 and 32 characters]```
+должно быть
+```"Password" size must be between 5 and 32```
+?
+
+
+2 replies
+Sergey Zhukov [3 days ago]
+у нас уже есть метод который причесывает BindingResult, надо немного отрефакторить (edited)
+
+
+Sergey Zhukov [3 days ago]
+error1.png
+
+
+Sergey Zhukov [Dec 16th at 2:54 PM]
+в пункте 2 какой код возвращать из REST-контроллеров если ошибка?  422?
+
+
+1 reply
+Vladimir Gorbatenko [2 days ago]
+а разве пункт 2 это не аналог пункта 1, но только для REST?
+
+
+Vladimir Gorbatenko [Dec 16th at 7:08 PM]
+Пункт 2 тесты. Не проходят тесты ни по Meal, ни по User... Через RestClient (идеевский) - все норм работает.
+@Test
+   void testValidationError() throws Exception {
+       Meal created = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "Test meal", 100);
+       mockMvc.perform(post(REST_URL)
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(JsonUtil.writeValue(created))
+               .with(userHttpBasic(ADMIN)))
+               .andExpect(status().isUnprocessableEntity());
+   }
+WARN  ru.javawebinar.topjava.web.ExceptionInfoHandler.logAndGetErrorInfo:61 - VALIDATION_ERROR at request  http://localhost/rest/profile/meals/: ru.javawebinar.topjava.util.exception.IllegalRequestDataException: description must not be blank<br>calories must not be null<br>dateTime must not be null.
+
+Не понимаю в чем дело.... (edited)
+
+
+10 replies
+Sergey Zhukov [2 days ago]
+а если
+```...
+.content(JsonUtil.writeValue(new Meal()))
+...```
+
+
+Sergey Zhukov [2 days ago]
+это статус ответа проверяем, интересно а надо ли проверять что уходит в теле ответа, подготовить ErrorInfo и сравнить?
+
+
+Vladimir Gorbatenko [2 days ago]
+Что-что?
+Ничего не понимаю.
+
+
+Sergey Zhukov [1 day ago]
+ну как то так
+                ```.andExpect(jsonPath("$.url", is("http://localhost" + REST_URL + MEAL1_ID)))
+                .andExpect(jsonPath("$.type", is(ErrorType.VALIDATION_ERROR.toString())))```
+проверять *detail* нет смысла т.к. результаты приходят в случайном порядке, а эти поля должны приходить в правильном виде
+но можно проверить сколько вернулось параметров в json
+```.andExpect(jsonPath("$.*", hasSize(3)))```
+
+
+для этого нужно подключить зависимости
+        ```<dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path-assert</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>```
+в учебных целях наверное перебор :grin: (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+Нет, я спрашивал о том, что я отправляю новый правильно заполненный meal,  но в контроллер попадает пустой, все поля невалидны, и сразу же получается ошибка валидации.
+
+
+Sergey Zhukov [1 day ago]
+может поле даты в форматере застревает, если вообще форматер работает, надо дебажить
+не вижу смысла проверять правильный Meal в тесте валидатора, для этого есть другой тест
+
+
+Vladimir Gorbatenko [1 day ago]
+нет, ему все поля не нравятся (description must not be blank<br>calories must not be null<br>dateTime must not be null).
+в том-то и дело, мне нужно было чтоб он ругался когда мил неправильный.
+
+
+Sergey Zhukov [1 day ago]
+у себя проверил
+```.content(JsonUtil.writeValue(new Meal(LocalDateTime.now(),"Test Meal", 0)))```
+ожидаемо
+```11:08:26.087 WARN  ru.javawebinar.topjava.web.ExceptionInfoHandler.logAndGetErrorInfo:68 - VALIDATION_ERROR at request  http://localhost/rest/profile/meals/: java.lang.Exception: calories must be between 10 and 5000```
+посмотри еще раз как ты обрабатываешь MethodArgumentNotValidException в ExceptionInfoHandler
+
+
+Vladimir Gorbatenko [1 day ago]
+Спасибо!
+Я намутил совсем не так как надо было )
+Но эксепшн у меня поболее...
+11:47:41.720 WARN  ru.javawebinar.topjava.web.ExceptionInfoHandler.logAndGetErrorInfo:62 - VALIDATION_ERROR at request  http://localhost/rest/profile/meals/: org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public void ru.javawebinar.topjava.web.meal.MealRestController.createWithLocation(ru.javawebinar.topjava.model.Meal): [Field error in object 'meal' on field 'calories': rejected value [0]; codes [Range.meal.calories,Range.calories,Range.int,Range]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [meal.calories,calories]; arguments []; default message [calories],5000,10]; default message [must be between 10 and 5000]]
+
+
+Sergey Zhukov [1 day ago]
+в Проверка в HW10 п.4
+я обработал e.getBindingResult()
+
+
+Vladimir Gorbatenko [Dec 16th at 8:48 PM]
+Пункт 3 у меня какой-то слишком колхозный получился, Подскажите, куда смотреть?
+
+
+17 replies
+Gekov Iliya [1 day ago]
+Что именно смущает? Я добавил в crud репозиторий метод boolean existsByEmail(String email); вроде неплохо смотрится
+
+
+Vladimir Gorbatenko [1 day ago]
+Твой подход мне тоже кажется колхозным, но он лучше моего )
+
+
+Vladimir Gorbatenko [1 day ago]
+Должно быть что-то более универсальное и простое.
+
+
+Gekov Iliya [1 day ago]
+Ну не знаю, куда уж проще. Без обращения к базе установить, есть ли пользователь с таким мылом, все равно не получится (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+А может и не такой колхозный... Но думаю лучше не в круд это делать, а на сервисе делать существующим методом  getByEmail
+
+
+Gekov Iliya [1 day ago]
+И он кинет NotFound исключение, если такого нет. Зачем делать через исключения, если можно обойтись без них?
+
+
+
+ABaykov [1 day ago]
+Илья дело говорит
+
+
+Gekov Iliya [1 day ago]
+Плюс зачем нам впринципе доставать юзера, нам нужно узнать только присутствует ли он. Думаю это менее затратно в плане доступа к базе (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+Да, в данном случае, этот (существующий) метод не годится. Одинаково затратно. Ну и дополнительный метод. (edited)
+
+
+Gekov Iliya [1 day ago]
+Ну увидим в четверг, может есть более элегантное решение) Во всяком случае если смотреть на пример из ссылки к этому пункту задания, там все вручную проверяется. (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+Не помню примера..
+
+Gekov Iliya [1 day ago]
+Пример с кастомным валидатором к пункту 3.1 http://www.mkyong.com/spring-mvc/spring-mvc-form-handling-example/
+
+
+Gekov Iliya [1 day ago]
+Я собственно по его подобию и делал (это естественно касается только валидации формы с jsp, к ресту и аяксу не относится) (edited)
+
+
+Vladimir Gorbatenko [24 hours ago]
+Я не делал валидатора, завтра повтыкаю и попробую.
+
+
+Vladimir Gorbatenko [12 hours ago]
+Мне вот эта статья понравилась и помогла
+https://www.concretepage.com/spring/spring-mvc/spring-mvc-validator-with-initbinder-webdatabinder-registercustomeditor-example
+А так которая в задании что-то как-то не помогла.
+concretepage.com
+Spring MVC  Validator with @InitBinder and WebDataBinder.registerCustomEditor Example
+On this page, we will learn Spring MVC Validator with @InitBinder and WebDataBinder. Validator is a spring interface using which we create our custom validators.
+
+
+Vladimir Gorbatenko [10 hours ago]
+Вылезла другая проблема.
+Если я при валидации отдаю наши мессаджи, например:
+***********
+if (service.existEmail(userTo.getEmail())) {
+  errors.rejectValue("email","", "user.valid.DoubleEmail");
+}
+*************
+и на форме "inputField.tag" через spring:message вывожу - все красиво на разных языках.
+Но в noty теперь некрасиво получается:
+Error status: 422
+VALIDATION_ERROR
+email user.valid.DoubleEmail (edited)
+
+
+Vladimir Gorbatenko [7 hours ago]
+Нашел красивое решение - вставить в валидатор:
+@Autowired
+   private MessageSource messageSource;
+
+private String getLocaleMessage(String mes) {
+       return messageSource.getMessage(mes, null, LocaleContextHolder.getLocale());
+   }
+// пример использования
+if (service.existEmail(userTo.getEmail(), (userTo.isNew() ? 0 : userTo.getId()))) {
+           errors.rejectValue("email","", getLocaleMessage("user.valid.DoubleEmail"));
+       }
+
+
+Vladimir Gorbatenko [Yesterday at 3:37 PM]
+6: Починить UTF-8 в редактировании профиля и регистрации (если кодировка по умолчанию у вас не UTF-8). Подумайте, почему кодировка поломалась.
+Пересмотрел вдоль и поперек, не могу придумать причину.
+
+
+5 replies
+Grigory Kislin [1 day ago]
+дело в порядке обработки фильтров (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+афигеть..... получилось...
+
+
+YuriyUh [11 hours ago]
+Не совсем понял, а где сломать, дабы потом починить?
+
+
+Vladimir Gorbatenko [10 hours ago]
+@YuriyUh попробуй зарегистрировать юзера с русскими буквами
+
+
+YuriyUh [9 hours ago]
+Ясн спасибо
+
+
+Roman Baranov [Yesterday at 4:34 PM]
+А каким образом можно передать DataIntegrityViolationException, при дублировании email во время регистрации, в ExceptionInfoHandler ?
+
+
+2 replies
+Sergey Zhukov [1 day ago]
+там уже есть такой эксепшен в методе conflict
+
+
+Roman Baranov [1 day ago]
+да. только еxpeption туда не входит (edited)
+
+
+Vlad [Yesterday at 8:37 PM]
+У меня у одного, после накатки всех патчей перестали работать все функции CRUD? Причем, что для пользователя, что для еды. Получаю ошибку: DEBUG org.springframework.security.web.csrf.CsrfFilter.doFilterInternal:110 - Invalid CSRF token found for + <url>
+
+
+1 reply
+Vlad [1 day ago]
+Извиняюсь, ложная тревога. Я не очистил кеш браузера.
+
+
+Vlad [Yesterday at 10:46 PM]
+Пункт 1. Не получается вернуть *статус 422*. Добавил новый метод c `@ExceptionHandler(BindException.class)` и возвращаемым статусом `HttpStatus.UNPROCESSABLE_ENTITY` в класс `ExceptionInfoHandler`. Однако в *network* при ошибке в поле всегда возвращает *статус 500*. В дебагере видно что возникает именно `BindException`. Никак не могу понять, почему в итоге обрабатывает будто был кинуто, какое-то другое исключение и входит в метод помеченный `INTERNAL_SERVER_ERROR`. Пробовал сделать порядок обработки методов с помощью `@Order`, что не дало результат, а так же пробовал закоментить метод с `INTERNAL_SERVER_ERROR`, что так же не помогло, все время получал *статус 500*. (edited)
+
+
+11 replies
+Gekov Iliya [24 hours ago]
+В @ExceptionHandler(BindException.class) вообще не заходит? (edited)
+
+
+Gekov Iliya [24 hours ago]
+У меня этот метод не срабатывал, пока не убрал аргумент BindingResult из метода контроллера
+
+
+
+Vlad [24 hours ago]
+`BindingResult` я убрал, а в `@ExceptionHandler(BindException.class)` просто не заходит
+
+
+Vlad [24 hours ago]
+обработка проходит через `ExceptionInfoHandler`, однако не с тем поведением что я ожидал)
+
+
+Gekov Iliya [24 hours ago]
+А контроллер какой? Аякс или рест?
+
+
+Vlad [24 hours ago]
+Ajax
+
+
+Gekov Iliya [24 hours ago]
+@Valid стоит в методе контроллера?
+
+
+Vlad [23 hours ago]
+Да
+
+
+Gekov Iliya [23 hours ago]
+Странно, всё вроде так же. Есть еще предположение одно, тот ли в хендлере BindException импортирован? Их два идея подсовывает - спринговский и из пакета net, нужен соответственно спринговский
+
+
+
+Vlad [23 hours ago]
+Хорошое предположение) Оказывается да, в этом и была ошибка, теперь работает. Спасибо)
+
+
+Gekov Iliya [23 hours ago]
+:+1:
+
+
+Igor [Today at 3:57 PM]
+При подключении кастомного валидатора `@InitBinder` не работает обычная валидация (@NotBlank, @NotNull etc.). Как это обойти?
+
+
+5 replies
+Sergey Zhukov [6 hours ago]
+как подключаешь?
+
+
+Igor [6 hours ago]
+@Sergey Zhukov
+    ```@Autowired
+    UserToValidator validator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+    }```
+
+
+Sergey Zhukov [6 hours ago]
+set у биндера заменяет дефолтный
+
+
+Sergey Zhukov [6 hours ago]
+поищи другой метод
+
+
+Igor [6 hours ago]
+@Sergey Zhukov Спасибо. Получилось.

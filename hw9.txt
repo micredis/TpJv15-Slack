@@ -745,3 +745,23 @@ makeEditable({
 
 Artem [14 hours ago]
 я вызывал два раза MakeEdatable. В начале и в конце, значение ajaxUrl перезатиралось.
+
+
+
+regorov Dec 14th at 3:43 AM
+А можете еще раз объяснить, не стартует проект с постгресом через томкат запуск в идее, но в мавене же есть зависимость на посгрес. Не стартует по ошибке
+Caused by: java.lang.ClassNotFoundException: Unable to load class: org.postgresql.Driver from ClassLoader:java.net.URLClassLoader@3c19aaa5;ClassLoader:ParallelWebappClassLoader
+ context: topjava
+ delegate: false
+----------> Parent Classloader:
+java.net.URLClassLoader@3c19aaa5
+
+Vladimir Gorbatenko 5 days ago
+Reimport не помог?
+
+Grigory Kislin 4 days ago
+1. tomcat какой версии?
+2. с каким профилем стартуешь?
+
+regorov 3 days ago
+выставил potgres в maven и web.xml и заработало. Вроде так же делал когда не находился постгрес.. (edited)
