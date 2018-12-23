@@ -1,0 +1,996 @@
+Grigory Kislin [1:43 AM]
+joined #hw11.
+
+Grigory Kislin [1:44 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson11.md
+
+Grigory Kislin [1:45 AM]
+Завершающее занятие стажировки: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson11.md
+Письмо будет завтра днем.
+Жду ответы по мини-анкете, отзывы, ваши резюме и выпускные
+Жду на Masterjava:) (edited) 
+
+under4eg [1:53 AM]
+joined #hw11 along with 16 others.
+
+
+Sergey Zhukov [Dec 20th at 8:16 AM]
+@Grigory Kislin не скачивает видео interview
+hw11_interview.png
+
+
+
+1 reply
+Grigory Kislin [3 days ago]
+да, оно не для скачивания..
+
+
+Chensy [8:48 AM]
+joined #hw11 along with Taras.
+
+Vladimir Gorbatenko [3:44 PM]
+по итогу, с валидацией на дубль эмэйла конечно прикольно получилось ))))
+
+
+Gekov Iliya [Dec 20th at 3:57 PM]
+"Обновления базы соискателей буду рассылать по HR ночью на 27.12, постарайтесь успеть" Есть ли смысл отправлять свое резюме для этой базы, если с предыдущим местом работы будет покончено лишь в течении января 2019го? То есть теоретически выйти на новую работу получится лишь к февралю. Будет ли уместно на собеседовании к примеру в начале января заявить, что на самом деле не можешь в ближайшее время выйти на работу, так как не закончил со старой?
+
+
+2 replies
+Grigory Kislin [3 days ago]
+уместно, почему нет? в среднем поиск работы 3 месяца занимает. ты полагаешь, что только после увольнения можно начинать искать?
+и иногда готовы ск-ко угодно тебя ждать, если ценный специалист. а иногда вообще 3 месяца процесс устройства длится (в oracle было) и тебя сразу предупреждают (edited)
+
+
+Gekov Iliya [3 days ago]
+Понял, спасибо)
+
+
+Vladimir Gorbatenko [Dec 20th at 4:47 PM]
+```Добавил локализацию Search в datatable```
+У меня Search так и остался...
+
+
+2 replies
+Gekov Iliya [3 days ago]
+Ага
+
+
+Grigory Kislin [3 days ago]
+бажка, счас доделаю
+
+
+Gekov Iliya [Dec 20th at 7:00 PM]
+@Grigory Kislin после патча 11_07_XSS валится новый тест testUpdateHtmlUnsafe() из-за статуса и типа ошибки. Лечится заменой на: .andExpect(status().isInternalServerError()) и .andExpect(errorType(APP_ERROR))
+UPD
+ложная тревога, проблема с pom была (edited)
+
+
+2 replies
+Grigory Kislin [3 days ago]
+у меня все тесты проходят
+```21:22:58.585 WARN  ru.javawebinar.topjava.util.ValidationUtil.logAndGetRootCause:70 - VALIDATION_ERROR at request  http://localhost/rest/profile/meals/100002: org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public void ru.javawebinar.topjava.web.meal.MealRestController.update(ru.javawebinar.topjava.model.Meal,int): [Field error in object 'meal' on field 'description': rejected value [<script>alert(123)</script>]; codes [SafeHtml.meal.description,SafeHtml.description,SafeHtml.java.lang.String,SafeHtml]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [meal.description,description]; arguments []; default message [description],[Ljava.lang.String;@7d1b96b9,[Lorg.hibernate.validator.constraints.SafeHtml$Tag;@505bc480,org.springframework.validation.beanvalidation.SpringValidatorAdapter$ResolvableAttribute@394a7390,RELAXED]; default message [может содержать небезопасный html контент]] 
+
+ockHttpServletResponse:
+           Status = 422
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8], Cache-Control=[no-cache, no-store, max-age=0, must-revalidate], Pragma=[no-cache], Expires=[0], X-XSS-Protection=[1; mode=block], X-Frame-Options=[DENY], X-Content-Type-Options=[nosniff]}
+     Content type = application/json;charset=UTF-8
+             Body = {"url":"http://localhost/rest/profile/meals/100002","type":"VALIDATION_ERROR","typeMessage":"Ошибка проверки данных","details":["Поле \"Описание\" может содержать небезопасный html контент"]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []```
+
+
+Gekov Iliya [3 days ago]
+Отбой, извиняюсь, у меня jsoup не подгрузился, из-за этого не то исключение кидалось (edited)
+
+
+Grigory Kislin [8:46 PM]
+@here
+не попала в патчи локализация search
+11_12_fix_search_i18n.patch 
+Index: src/main/webapp/resources/js/topjava.common.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/resources/js/topjava.common.js	(revision 05a096c4caa89748747eb0a0d65766f1a77a62d2)
++++ src/main/webapp/resources/js/topjava.common.js	(date 1545330081184)
+@@ -12,6 +12,9 @@
+         },
+         "paging": false,
+         "info": true,
++        "language": {
++          "search": i18n["common.search"]
++        }
+       }
+     ));
+ 
+Collapse 
+
+накатите последним патчем
+
+
+Sergey Zhukov [Dec 20th at 11:34 PM]
+у нас в settings.xml один профиль heroku, в видео два heroku и postgres
+добавлять или нет?
+
+
+3 replies
+Gekov Iliya [3 days ago]
+Работает и так
+
+
+Sergey Zhukov [3 days ago]
+окей
+
+
+Grigory Kislin [2 days ago]
+зависимость postgres подключаем прямо в профиле heroku
+
+
+Andrey Tolkachev [Dec 20th at 11:34 PM]
+при запуске hr.bat выдает
+"mvn" �� ���� ����७��� ��� ���譥�
+��������, �ᯮ��塞�� �ணࠬ��� ��� ������ 䠩���.
+и
+Error: Could not find or load main class webapp.runner.launch.Main
+Может кто сталкивался? Причину пока не нашел (edited)
+
+
+60 replies
+Sergey Zhukov [3 days ago]
+тоже самое
+хотелось бы знать от чего такое случилось
+
+
+Andrey Tolkachev [3 days ago]
+перекомпиляция не помогла
+
+
+Gekov Iliya [3 days ago]
+у меня была проблема с этим hr.bat с огромным списком ошибок, в итоге все упиралось в то, что в переменной окружения Path стояла 8 джава, то есть в идее все собиралось ок, как батник попытался через cmd это сделать сразу все упало
+
+
+Andrey Tolkachev [3 days ago]
+поменял на 11 джаву в Path, не помогло
+
+
+Vladimir Gorbatenko [3 days ago]
+Джаву 8 надо вычистить отовсюду. Чтоб приложение в мавене из командной строки нормально собралось, тогда и пробуйте батник. (edited)
+
+
+Gekov Iliya [3 days ago]
+Скинь полный стек ошибки
+
+
+Andrey Tolkachev [3 days ago]
+cmd.exe /c hr.bat
+"mvn" �� ���� ����७��� ��� ���譥�
+��������, �ᯮ��塞�� �ணࠬ��� ��� ������ 䠩���.
+
+C:\JavaProjects\topjava>call mvn -B -s settings.xml -DskipTests=true clean package
+
+C:\JavaProjects\topjava>rem call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -jar target/dependency/webapp-runner.jar target/*.war
+
+C:\JavaProjects\topjava>call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -classpath target/dependency webapp.runner.launch.Main target/*.war
+Error: Could not find or load main class webapp.runner.launch.Main
+
+Process finished with exit code 1
+
+
+Sergey Zhukov [3 days ago]
+в консоли что показывает java -version?
+
+
+Andrey Tolkachev [3 days ago]
+хм, вроде все вычистил, но консоль показывает, что все еще восьмая, видимо не все вычистил)
+
+
+Vladimir Gorbatenko [3 days ago]
+Хотя, ругается на отсутствие мэйн класса, который в warнике в манифесте... Странно.
+
+
+Gekov Iliya [3 days ago]
+Не, стек ошибок у меня явно другой был
+
+
+Vladimir Gorbatenko [3 days ago]
+Жуков правильно говорит, когда java -version скажет что версия 11, тогда все ок с джавой.
+
+
+Sergey Zhukov [3 days ago]
+вроде не в этом дело ) у меня уже показывает
+```D:\Java_Projects\topjava>java -version
+openjdk version "11.0.1-ojdkbuild" 2018-10-16 LTS
+OpenJDK Runtime Environment (build 11.0.1-ojdkbuild+13-LTS)
+OpenJDK 64-Bit Server VM (build 11.0.1-ojdkbuild+13-LTS, mixed mode)```
+
+один фик не запускает, гдето еще надо покрутить
+
+
+Vladimir Gorbatenko [3 days ago]
+То что в консоле джава 11 это уже хорошо )
+
+
+Andrey Tolkachev [3 days ago]
+поправил версию джавы, консоль показывает 11ую, но ошибка осталась, надеемся на помощь @Grigory Kislin :slightly_smiling_face:
+
+
+Sergey Zhukov [3 days ago]
+я не пойму где должен лежать webapp-runner.jar
+
+
+Sergey Zhukov [3 days ago]
+в WARнике его не нахожу
+
+
+Andrey Tolkachev [3 days ago]
+кажись решил проблему, надо запустить maven clean, потом package, и потом уже запускать hr.bat
+Приложение деплоится на localhost, и все работает (edited)
+
+
+Sergey Zhukov [3 days ago]
+не помогает
+
+
+Andrey Tolkachev [3 days ago]
+еще я обновил томкат до версии 9.0.14.0 как в помнике
+
+
+Sergey Zhukov [3 days ago]
+не помогло
+
+
+Sergey Zhukov [3 days ago]
+пойду спать, завтра мож что придумаю
+
+
+Andrey Tolkachev [3 days ago]
+или Григорий подскажет
+
+
+Sergey Zhukov [3 days ago]
+у тебя есть при пакедже варнинги?
+```WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.thoughtworks.xstream.core.util.Fields (file:/C:/Users/SerZh/.m2/repository/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar) to field java.util.Properties.defaults
+WARNING: Please consider reporting this to the maintainers of com.thoughtworks.xstream.core.util.Fields
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release```
+
+
+Andrey Tolkachev [3 days ago]
+да, есть, это фича 11 джавы, там через рефлекшен более агрессивно проверяется безопасность (edited)
+
+
+Sergey Zhukov [3 days ago]
+подождем что скажет Григорий
+
+
+
+Andrey Tolkachev [3 days ago]
+@Sergey Zhukov разобрался в чем была проблема?)
+
+
+Sergey Zhukov [3 days ago]
+нет
+
+
+Sergey Zhukov [3 days ago]
+а в хероку все работает
+
+
+Andrey Tolkachev [3 days ago]
+видать что-то с компиляцией, попробуй еще classpath в переменные окружения добавь
+CLASSPATH : .;%JAVA_HOME%\lib;%JAVA_HOME%\jre\lib (edited)
+
+
+YuriyUh [2 days ago]
+Тоже падало с Error: Could not find or load main class webapp.runner.launch.Main и ругалось на 11 джаву, установил версию java и javac в системе(ubunta) на 11 и оно таки заработало.
+
+
+Vladimir Gorbatenko [2 days ago]
+Запустил hr.bat, все отработало, последнее что написано:
+```WARNING: The web application [ROOT] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+фхъ 21, 2018 11:33:55 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]```
+Вэбсервер поднялся, но приложение не загружено.
+На http://localhost:8080/ получаю 404,
+
+UPD
+логи сказали что это виновата Java 8 :slightly_smiling_face: (edited)
+
+
+Grigory Kislin [2 days ago]
+привет! (edited)
+
+
+Grigory Kislin [2 days ago]
+hr.bat сотоит из 2х запусков java.. надеюсь внутрь заглядывали??
+1. `mvn -B -s settings.xml -DskipTests=true clean package`
+2. `call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -jar target/dependency/webapp-runner.jar target/*.war`
+
+
+Sergey Zhukov [2 days ago]
+заглядывал
+
+
+Grigory Kislin [2 days ago]
+чтобы поправить кодировку, попробуйте в cmd дать `chcp 65001` перед запуском bat (edited)
+
+
+Grigory Kislin [2 days ago]
+по bat:  в камом месте валится? 1я каоманда отрабатывает?
+
+
+Grigory Kislin [2 days ago]
+если она не выполнилась- то никакого webapp.runner.launch.Main в каталоге target\dependency  не будет
+
+
+Sergey Zhukov [2 days ago]
+hr.png
+
+
+
+Sergey Zhukov [2 days ago]
+первая чтоли валится?
+
+
+Grigory Kislin [2 days ago]
+ребята, основное, чему вы должны были научиться не spring и пр....
+должны были научиться решать проблемы или хотя бы находить, в чем причина
+иначе все это- бестолку...
+
+
+Sergey Zhukov [2 days ago]
+:slightly_smiling_face:
+
+
+Sergey Zhukov [2 days ago]
+там по китайски )
+
+
+Sergey Zhukov [2 days ago]
+да 2 часа ночи было, я забил )
+
+
+Grigory Kislin [2 days ago]
+chcp 65001 - не помогло? (edited)
+
+
+Sergey Zhukov [2 days ago]
+```Microsoft Windows [Version 6.1.7601]
+(c) Корпорация Майкрософт (Microsoft Corp.), 2009. Все права защищены.
+
+C:\Users\SerZh> chcp 65001
+Active code page: 65001
+
+C:\Users\SerZh>```
+
+
+Sergey Zhukov [2 days ago]
+из IDEA
+```C:\>C:\Users\SerZh>chcp 65001
+Отказано в доступе.```
+
+
+
+Sergey Zhukov [2 days ago]
+короче что то с правами
+
+
+Grigory Kislin [2 days ago]
+мавено то- запустишь после chcp??? (edited)
+
+
+Grigory Kislin [2 days ago]
+на что он ругается?
+
+
+Sergey Zhukov [2 days ago]
+все норм это не находит путь к мавену
+
+
+Sergey Zhukov [2 days ago]
+вот так запустилось
+
+
+Sergey Zhukov [2 days ago]
+D:\apache-maven-3.6.0\bin\mvn
+
+
+Sergey Zhukov [2 days ago]
+хотя переменные среды прописаны
+
+
+Sergey Zhukov [2 days ago]
+сколько тут было танцев с бубнами, понял сначала иди проверяй переменные среды :grin:
+
+
+Grigory Kislin [2 days ago]
+дело в том, что это проблема для самого начального уровня пользования компьютером
+и если вы не пытаетесь ее решить сами- это большая проблема в ваших навыках работы программистом
+вам же на работе не будут все жевать и в рот класть... ваша задача была тут чемуто научиться... (edited)
+
+
+Sergey Zhukov [2 days ago]
+вылезли из зоны комфорта, из IDEA, и присели в консоли
+вобщем разобрался, у меня была куча версий maven на диске и прописаны были по разному одна в системных MAVEN_HOME, другую пытался писать в пользовательские M2_HOME
+все удалил оставил одну версию по мануалу
+http://www.apache-maven.ru/install.html
+все теперь работает без абсолютных путей
+@Grigory Kislin спасибо за помощь
+
+
+Alla Protopopova [2 days ago]
+Добавлю свои грабли на эту тему:
+1. Не была установлена переменная окружения mvn
+2. По команде where java находилось аж три исполняемых файла. Соответственно, подтягивалась не последняя версия jre, а какая попало (у меня была 1.8). И команда java -version указывала именно на нее. В итоге получала конфликт в .class файлах и hr.bat падал с ошибкой.
+Лечение: удалила из переменной path лишние пути, кроме нужного.
+На запуск в heroku это влияния никакого не оказывало, естественно.
+
+
+Alla Protopopova [2 days ago]
+И лишние exeшники тоже поудаляла
+
+
+Grigory Kislin [2 days ago]
+:+1:
+
+
+Gekov Iliya [Dec 20th at 11:52 PM]
+В heroku каждые 5 минут (условно) отваливается соединение с приложением, то работает, то нет. Пробовал с разных устройств и браузеров. Я так понимаю это особенность бесплатной версии? (edited)
+
+
+33 replies
+Sergey Zhukov [3 days ago]
+может через прокси какой попробоывать, дай ссылку на свой деплой
+
+
+Gekov Iliya [3 days ago]
+http://gekcalories.herokuapp.com/
+
+
+Sergey Zhukov [3 days ago]
+летает )) уже зарегил еду у тебя )
+
+
+Sergey Zhukov [3 days ago]
+тока я сразу полез через vpn
+
+
+Sergey Zhukov [3 days ago]
+browsec плагин (edited)
+
+
+Gekov Iliya [3 days ago]
+вижу) да, сейчас работает отлично, но в любой момент соединение может отвалиться)
+
+
+Gekov Iliya [3 days ago]
+Может просто повезло сразу нарваться на какие-нибудь временные неполадки у heroku...
+
+
+Sergey Zhukov [3 days ago]
+да у меня и демо topjava всегда тупило
+
+Gekov Iliya [3 days ago]
+да бывало, я думал это связано с 30минутным засыпанием, а тут и 5 минут бывает не проходит
+
+
+Sergey Zhukov [3 days ago]
+щас подожду минут 5 и еще полазию
+
+
+Sergey Zhukov [3 days ago]
+все работает нормально
+
+
+Sergey Zhukov [3 days ago]
+конечноже на бесплатные минимум ресурсов, но сейчас видимо они есть
+
+
+Sergey Zhukov [3 days ago]
+свой задеплоил http://zhukov.herokuapp.com
+перестал заходить на твой адрес ))
+через какое то время отдуплился твой адрес и перестал заходить на мой
+возможно хероку видит что запускаются клоны и останавливает другие такие же проекты :face_with_rolling_eyes:
+
+
+Sergey Zhukov [3 days ago]
+короче - открываешь pom.xml и меняешь все упоминания *topjava* на свое имя *gekcalories*
+я поменял и теперь работают одновременно и твой и мой проекты :grin:
+
+
+Sergey Zhukov [3 days ago]
+хероку не держит артифакты с одним именем
+
+Sergey Zhukov [3 days ago]
+@Grigory Kislin может добавить это в описание урока?
+
+
+Sergey Zhukov [3 days ago]
+хаха один из моих провайдеров блочит хероку :joy:
+Screenshot_20181221-095649.jpg
+
+
+
+Grigory Kislin [2 days ago]
+@Sergey Zhukov
+> хероку не держит артифакты с одним именем
+с одним именем - это как ? в названии pom? (edited)
+
+
+Grigory Kislin [2 days ago]
+опускает каждые 30 мин, да
+
+Sergey Zhukov [2 days ago]
+я лазил по http://gekcalories.herokuapp.com/ и как только задеплоил свой в http://zhukov.herokuapp.com/ сачала отвалился первый, потом заработал мой, я начала обновлять первый, перестал отвечать мой, пока не поменял <finalName>topjava</finalName> ну и до кучи все что нашел в своем pom (edited)
+
+Sergey Zhukov [2 days ago]
+стало нормально открывать оба проекта одновременно
+
+
+Grigory Kislin [2 days ago]
+у меня в http://topjava.herokuapp.com/login стоит topjava... тоже отваливается?
+
+
+Grigory Kislin [2 days ago]
+надо понаблюдать
+
+Sergey Zhukov [2 days ago]
+это надо проверять одновременно открывать несколько проектов
+
+Grigory Kislin [2 days ago]
+все 3 счас открыл
+
+Sergey Zhukov [2 days ago]
+щас свой передеплою обратно на topjava
+
+
+Sergey Zhukov [2 days ago]
+еще 10 минут как я задеплоил свой а уже начал отваливаться http://gekcalories.herokuapp.com
+
+
+Sergey Zhukov [2 days ago]
+мой отвечает
+
+Sergey Zhukov [2 days ago]
+странно как то ведет себя хостинг
+
+Sergey Zhukov [2 days ago]
+оО мой отвалился
+
+Sergey Zhukov [2 days ago]
+@Gekov Iliya в общем это проблема отечественных провайдеров, блокирующих некоторые IP, т.к. у сайта периодически меняется IP адрес
+
+
+Gekov Iliya [2 days ago]
+Да, видимо ничего не поделаешь, хочешь стабильную работу - покупай) Обидно, хотел жене показать, а она даже зарегистрироваться не смогла, на середине отвалилось приложение) Объяснять, что это хостинг виноват, для человека далекого от этого, бессмысленно) (edited)
+
+
+Sergey Zhukov [2 days ago]
+@Gekov Iliya поставь browsec есть на все платформы, я пока не заметил проблем
+
+
+Vladimir Gorbatenko [Dec 21st at 10:07 AM]
+Битая ссылка (Not Found)
+```Apply 11_09_auth_user.patch
+- В JSP: the authentication Tag
+авторизованный пользователь доступен в JSP через tag authentication, интерсептор становится не нужным```
+
+
+1 reply
+Grigory Kislin [2 days ago]
+спасибо, заменил
+https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#the-authentication-tag
+
+
+Ansseii [Dec 21st at 10:18 AM]
+Доброго дня всем, коллеги.
+Начну пожалуй, и выставлю Вам на суд свое резюме. Буду рад  любым конструктивным комментариям, замечаниям и пожеланиям.
+https://clck.ru/EsbUQ
+Google Docs
+Lukash_Aleksandr_JavaDeveloper_resume
+Лукаш Александр 26 лет Россия, Санкт-Петербург Телефон: +79313634771 Skype: a.lukash.92@gmail.com E-mail: a.lukash.92@gmail.com Github: https://github.com/Ansseii ОПЫТ РАБОТЫ Высшая школа менеджмента Санкт-Петербургского государствен... (438 kB)
+
+
+14 replies
+Yevhen Maksymovych [3 days ago]
+опыт, непосредственно, связанный с девелопментом надо бы подвинуть вверх. а остальное - можно и не расписывать, эйчары как правило просматривают пачки таких cv, им лень вчитываться в то, чем ты занимался не предыдущих местах работы, тем более, если ты не планируешь этим заниматься на новом. Просто писать для объема смысла нет :slightly_smiling_face:
+
+
+Yevhen Maksymovych [3 days ago]
+и добавь в самый верх ключевые слова, за которые эйчары могут зацепиться, вот это всё Java, Spring, SQL, Bootstrap, jQuery, Hibernate (edited)
+
+
+Yevhen Maksymovych [3 days ago]
+они, как правило, мало что в этом секут, но им приходят реквесты на скилы соискателей, и им важно увидеть в резюме что-то, что соответствует этим реквестам
+
+
+Yevhen Maksymovych [3 days ago]
+за них сразу зацепится глаз, и сиви попадёт из пачки "разобрать потом" в "позвонить уточнить"
+
+Ansseii [3 days ago]
+@Yevhen Maksymovych Я и так выбросил весь тот опыт, что не связан с IT :smiley: А секции с навыками да, подвину. Спасибо.
+
+Yevhen Maksymovych [3 days ago]
+для верности в к основным ключевым словам дописывай всё, что хоть как-то туманно знаешь, не техническом собеседовании сможешь сказать, да, дескать, сталкивался, плотно не знаю, но использовал, не боюсь, смогу подучить при необходимости
+
+
+Grigory Kislin [2 days ago]
+в резюме обычно секции:
+
+Позиция
+Достижения
+Личные качества:
+Квалификация
+Опыт работы
+Образование
+
+чего-то может не быть, но один только опыт- это мало (edited)
+
+
+Ansseii [2 days ago]
+@Grigory Kislin Секции образования \ навыки, все имеется ниже. Навыки перенесу на первую страницу в начало. А вот что касается достижений.. если честно я не представляю, что сюда писать без серьезного опыта.
+
+
+Andrey Tolkachev [2 days ago]
+в достижения нужно писать все пройденные курсы, сданные экзамены и тесты (если есть), сертификаты (ссылки на них), в том числе по английскому языку (если есть)
+
+
+Grigory Kislin [2 days ago]
+можно без достижений, если не знаешь
+и убери - на базовом уровне
+
+
+Grigory Kislin [2 days ago]
+может Java стажировка повыше в опыте поднять...
+
+
+Andrey Tolkachev [2 days ago]
+еще неплохую структуру резюме делает сайт hh.ru, он сам выделяет главное жирным, а второстепенное опускает ниже.
+я на hh.ru резюме делал, и при трудоустройстве, тим лида и начальника все очень даже устроило (edited)
+
+
+Ansseii [2 days ago]
+@Andrey Tolkachev Да, у меня тоже изначально резюме размещено на hh. Вот только на hh, опять же, структура и очередность секций такая же как я тут описал. Т.е. навыки внизу, о себе - внизу, порядок мест работы/стажировок сортируется сам по времени. Собственно, каркас своего резюме на Google Docs я и брал с hh.
+
+
+Andrey Tolkachev [2 days ago]
+там есть возможность сохранить резюме в формате doc или rtf и перестроить свое резюме под себя, поднимая все самое важное наверх, можно так попробовать)
+
+
+Vladimir Gorbatenko [12:45 PM]
+Что еще за инвалид???
+```C:\Users\.....>heroku logs -app gva-caloriesmanagement
+ !    xz: invalid header magic bytes66...    12 B/1.55 KB```
+
+Grigory Kislin [2:16 PM]
+@here
+сделал webapp-runner без unpack, через copy
+проблема просто решалась: https://github.com/jsimone/webapp-runner#using-without-memcached-or-redis
+11_13_fix_webapp_runner.patch 
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(date 1545331553000)
++++ pom.xml	(date 1545388461343)
+@@ -387,15 +387,16 @@
+               <execution>
+                 <phase>package</phase>
+                 <goals>
+-                  <goal>unpack</goal>
++                  <goal>copy</goal>
+                 </goals>
+                 <configuration>
+                   <artifactItems>
++                    <!--https://github.com/jsimone/webapp-runner#using-without-memcached-or-redis-->
+                     <artifactItem>
+                       <groupId>com.github.jsimone</groupId>
+-                      <artifactId>webapp-runner</artifactId>
++                      <artifactId>webapp-runner-main</artifactId>
+                       <version>9.0.14.0</version>
+-                      <excludes>META-INF/services/javax.cache.spi.CachingProvider</excludes>
++                      <destFileName>webapp-runner.jar</destFileName>
+                     </artifactItem>
+                   </artifactItems>
+                 </configuration>
+Index: hr.bat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- hr.bat	(date 1545331553000)
++++ hr.bat	(date 1545387934309)
+@@ -1,3 +1,2 @@
+ call mvn -B -s settings.xml -DskipTests=true clean package
+-rem call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -jar target/dependency/webapp-runner.jar target/*.war
+-call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -classpath target/dependency webapp.runner.launch.Main target/*.war
+\ No newline at end of file
++call java -Dspring.profiles.active="datajpa,heroku" -DDATABASE_URL="postgres://user:password@localhost:5432/topjava" -jar target/dependency/webapp-runner.jar target/*.war
+Index: Procfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Procfile	(date 1545331553000)
++++ Procfile	(date 1545387991711)
+@@ -1,1 +1,1 @@
+-web: java $JAVA_OPTS -Dspring.profiles.active="datajpa,heroku" -DTOPJAVA_ROOT="." -classpath target/dependency webapp.runner.launch.Main --port $PORT target/*.war
+\ No newline at end of file
++web:  java $JAVA_OPTS -Dspring.profiles.active="datajpa,heroku" -DTOPJAVA_ROOT="." -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
+\ No newline at end of file
+Collapse 
+
+
+Sergey Zhukov [Dec 21st at 5:41 PM]
+положу тут, фотку пока не подобрал
+Жуков Сергей (2).jpg
+
+
+
+2 replies
+Grigory Kislin [2 days ago]
+коротко и по делу:) правна- не СО стеком  а НА стеке технологий
+
+
+Sergey Zhukov [2 days ago]
+ок поправлю
+
+
+Gekov Iliya [Dec 21st at 6:13 PM]
+Вопрос по резюме. Если предыдущие места работы никак с технологиями не связаны, указывать?
+
+
+13 replies
+Raisa [2 days ago]
+я заказывала резюме на hh, они не стали включать опыт не по специальности, но максимально расписали опыт участия в учебных проектах, связанный с ИТ (хотя модераторы того же hh блокируют резюме, если не указан опыт не по спец-ти, говорят, что вводите работодателя в заблуждение :woman-shrugging:). Еще один рекрутер после анализа моего резюме попросила первое высшее включить в резюме, насчет опыта не по специальности даже не спросила. И вообще никто не спрашивал чем раньше занималась. В основном спрашивают про опыт разработки - какие проекты, что конкретно реализовывала, портфолио
+
+
+Gekov Iliya [2 days ago]
+Просто как-то странно будет выглядеть, получил образование, потом лет 7 не понятно чем занимался и тут на тебе, в программисты пошел)
+
+
+Raisa [2 days ago]
+тут, наверное, мотивацию нужно показать, чтобы у работодателя не сложилось впечатление, что кандидат только из-за высоких зп решил сменить профессию. Большинству работодателей важны два момента: кандидат сможет делать работу, кандидат будет делать работу (мотивация).
+
+
+Gekov Iliya [2 days ago]
+Не, я имею ввиду, если не указывать предыдущие места, то пробел получается серьезный)
+
+
+Raisa [2 days ago]
+думаю, им, по сути, и не важно, чем занимались, если это не имеет отношения к вакансии. Просто наличие опыта, к примеру, в ИТ говорит о том, что человек уже знает что это такое, попробовал и не сбежит при первых трудностях. У меня тоже 7 лет пробел и ничего, звали на собеседования. Но приостановила поиски, т.к. знание фреймворков и портфолио везде спрашивают (edited)
+
+
+Sergey Zhukov [2 days ago]
+я не стал, хотя я админ, вроде около, если спросят расскажу
+
+
+Sergey Zhukov [2 days ago]
+про личные качества я еще думаю
+
+
+Sergey Zhukov [2 days ago]
+что писать
+
+
+Gekov Iliya [2 days ago]
+Да это самая туманная часть)
+
+
+Yevhen Maksymovych [2 days ago]
+ну это стандартная телега: стрессоустойчивость, обучаемость, позитивное мышление, умение работать в коллективе, вот это всё
+
+
+Raisa [2 days ago]
+рекрутеры не советуют использовать избитые слова в резюме, тут нужно еще подбирать синонимы :slightly_smiling_face:
+
+
+Илья Чиликин [1 day ago]
+стрессонепереносимость, необучаемость, депрессивное мышление :+1:
+
+
+
+Raisa [1 day ago]
+в вакансиях обычно пишут какие личные качества нужны :slightly_smiling_face:
+
+
+roma [Dec 21st at 6:21 PM]
+У меня вообще вопрос не по теме, но все таки меня спрашивают, а я ответить не знаю как лучше ))) Зачем мы делаем подобные конструкции
+   
+ ```private final UserRepository repository;
+    @Autowired
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }```
+ 
+а не просто
+```@Autowired
+  private final UserRepository repository;```
+Из того что у нас в ссылке к этой теме - я не понял чем вызвана необходимость инжекта через конструктор https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3#implicit-constructor-injection-for-single-constructor-scenarios (edited)
+
+
+7 replies
+Gekov Iliya [2 days ago]
+https://www.vojtechruzicka.com/field-dependency-injection-considered-harmful/ здесь подробно описано (edited)
+
+
+roma [2 days ago]
+спасибо почитаю
+
+
+Grigory Kislin [2 days ago]
+у нас в уроке была ссылка, когда делали конструктор инжекшен (edited)
+
+
+roma [2 days ago]
+@Grigory Kislin да я вроде ее выше указал - но не совсем понял - необходимость из того что там прочитал - сейчас ещё гляну что Илья прислал. Спасибо
+
+
+Vladimir Gorbatenko [2 days ago]
+Без переводчика так и не понял...
+
+
+Sergey Zhukov [2 days ago]
+я на хабре начал читать и сразу 3 характерных минуса 
+- нельзя поля сделать финальными
+- можешь получить в руки неинициализированный объект через new
+- и в обратную не можешь использовать объект вне контейнера, или это очень  проблемно
+читаю дальше... (edited)
+
+
+Vladimir Gorbatenko [2 days ago]
+Вот и стало понятно.
+
+Raisa [Yesterday at 10:52 AM]
+буду рада конструктивной критике, замечаниям..  что-то мне не нравится, а что - не пойму
+PDF
+Резюме Java разработчик.pdf
+88 kB
+PDF
+ Click to view
+
+
+
+
+7 replies
+Raisa [1 day ago]
+с одной стороны, хочется его сделать более профессиональным, с другой - еще как-то "очеловечить"
+
+
+fonto [1 day ago]
+Ну по мне так хорошее резюме), только вот наша стажировка точно считается за опыт?)
+
+
+JavaHolic [1 day ago]
+меня смущает приложение «Calories management» :slightly_smiling_face: ,  лучше тут ,мне кажется, как-то абстрактно выразиться (edited)
+
+
+Vladimir Gorbatenko [1 day ago]
+Красивая девушка! :)
+Резюме как по мне хорошо получилось.
+
+
+Raisa [1 day ago]
+спасибо :slightly_smiling_face: подумаю, как подправить.. еще нужно, наверное, фотку поменять :blush: в очках сфотаться :nerd_face:
+
+
+Sergey Zhukov [1 day ago]
+еще по voting, я бы назвал "разработка REST API для Spring5/JPA Enterprise MVC приложения на стеке..."
+
+
+Grigory Kislin [1 day ago]
+@fonto
+> стажировка точно считается за опыт
+непременно. особенно если дгугого опыта в it нет
+@Raisa да, мне тоже понравилось:) skype: mailbox-rr (edited)
+
+
+Vladimir Gorbatenko [Yesterday at 12:27 PM]
+это только для избранных? )
+Снимок.JPG
+
+
+
+1 reply
+Sergey Zhukov [1 day ago]
+ага для учащихся
+
+
+Vladimir Gorbatenko [12:01 AM]
+@Grigory Kislin скажи пожалуйста, стоит ли указывать в резюме вот это, или это лишнее?
+```-    2002-2004 КА «Шаг»    Одесса
+     Специальность: Сетевые технологии и системное администрирование.
+    Диплом
+-    2005 Компания «Ортемир» оф. дилер «Samsung El.»  Киев
+    Специальность: Инсталляция и эксплуатация телефонных  станций Samsung (IDCS и OfficeServ).
+    Сертификат
+-    2006-2007 Курсы Cisco-Systems (CCNA) Одесса
+    Сертификат
+-   2008 Компания Sybase Киев
+    Производительность и настройка: конфигурация ASE 15.0
+    Сертификат
+-   2009 Компания Sybase Киев
+    Производительность и настройка: оптимизатор запросов ASE 15.0
+    Сертификат
+-   2011 Компания IBM Южный
+    IBM cognos business intelligence
+    Сертификат```
+
+И курсы Javarush в 2016-2017 (edited) 
+
+
+This message was deleted.
+
+
+1 reply
+Vladimir Gorbatenko [10 hours ago]
+Не открывается
+
+
+Nikita Ganin [Today at 1:19 PM]
+Всем привет. Прошу прокомментировать)) https://hh.ru/applicant/resumes/view?resume=24be3ca4ff0500aa730039ed1f644a64487441 (edited)
+
+
+6 replies
+Vladimir Gorbatenko [10 hours ago]
+Думается мне что нужны правки, не серьёзное оно.
+
+
+Sergey Zhukov [10 hours ago]
+я бы добавил JUnit в навыки
+
+
+Sergey Zhukov [10 hours ago]
+на hh он сам так сертификат показывает если ссылку указать?
+
+
+Nikita Ganin [3 hours ago]
+Да, когда в пункте "электронные сертификаты" добавляешь
+
+
+Nikita Ganin [3 hours ago]
+@Vladimir Gorbatenko Не серьезное, ты имеешь ввиду мало информации?
+
+
+Vladimir Gorbatenko [2 hours ago]
+Не знаю, вот у Раисы оно как-то лучше...
+
+
+YuriyUh [Today at 2:31 PM]
+Поправил(не открывалось), что добавить иль убрать? Или вообще порвать и сьесть))
+PDF
+РезюмеУханов.pdf
+48 kB
+PDF
+ Click to view
+
+
+
+
+2 replies
+Raisa [8 hours ago]
+я бы в образование добавила годы, названия компаний для каждого доп.образования. JavaRush уровень, наверное, хорошо бы указать
+
+
+Raisa [8 hours ago]
+и в опыт тоже сроки нужно бы добавить
+
+
+Sergey Zhukov [Today at 2:40 PM]
+в профиле в пункт *Информация для HR (по ней будут решать, стоит ли смотреть твое резюме).* что писать, есть примеры?
+
+
+2 replies
+Raisa [9 hours ago]
+наверное, это аналог сопроводительного письма
+
+
+Grigory Kislin [3 hours ago]
+ну типа... чтонибудь немного. дублировать резюме не надо
+
