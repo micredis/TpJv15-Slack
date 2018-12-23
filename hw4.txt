@@ -3419,3 +3419,12 @@ Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo can
 Grigory Kislin [14 hours ago]
 основное, чему учимся на стажировке- работать с проблемами (эксепшенами). иначе зачем это все??
 обычно проблема- самый верх самого последнего эксепшена
+
+
+Tabacco974 [Dec 20th at 5:01 PM]
+после установки патча 4.5 ругается на @PostConstruct
+
+
+1 reply
+Grigory Kislin [3 days ago]
+https://github.com/JavaOPs/topjava/wiki/Git#patch-не-накатывается-предлагает-merge

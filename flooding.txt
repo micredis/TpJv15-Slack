@@ -1583,3 +1583,36 @@ https://en.wikipedia.org/wiki/Cache_replacement_policies
 
 Gekov Iliya [6:59 PM]
 h.jpg 
+
+
+izgarshev.pavel [Dec 19th at 9:14 PM]
+Всем привет. Хотелось бы услышать мнение (кто уже сталкивался) по поводу модели базы данных EAV(сущность-атрибут-значение). Интересно, что думает об этом @Grigory Kislin . Пытался найти инфу на русском об этой модели, но толкового описания не нашел. Есть ли смысл использовать её и в каких случаях? У нас на работе в проекте около 50 таблиц и я использую 3 нормальную форму, но старшие товарищи настоятельно рекомендуют пересмотреть взгляды и сделать EAV, типа так гибче будет
+
+
+3 replies
+Vladimir Gorbatenko [4 days ago]
+Ух ты какая адская модель... Один простой запрос из нескольких таблиц будет превращаться в труд.
+
+
+Grigory Kislin [4 days ago]
+я завтра погляжу что это за зверь
+
+
+Grigory Kislin [3 days ago]
+ага, освежил знания.
+вот например: https://lvee.org/ru/abstracts/172
+и + и -
+я так понимаю- если чтото массовое с гибкой структурой и поиском в нем. счас вообще альтернатива в поле json хранить... даже спец. тип у postgres есть, если там поиск нужен: https://www.postgresql.org/docs/9.5/functions-json.html
+или NoSQL база. все от потребностей зависит
+LVEE
+Linux Vacation/Eastern Europe (52 kB)
+(edited)
+
+
+
+Vladimir Gorbatenko8:06 PM
+https://cdn.fishki.net/upload/post/2018/12/20/2810590/ed957be498ec09d06c43c1baac87b526.jpg(54 kB)
+https://cdn.fishki.net/upload/post/2018/12/20/2810590/ed957be498ec09d06c43c1baac87b526.jpg
+
+:slightly_smiling_face:
+1

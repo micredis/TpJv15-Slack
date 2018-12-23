@@ -2348,6 +2348,23 @@ Zippospb 4 hours ago
 ReflectionTestUtils вам в помощь. Перед тестом с помощью данного класса меняем поле, с которым сравнивается нынешняя дата. (edited)
 
 
+Raisa [4 days ago]
+заинженктила класс с временем, спасибо :+1: (edited)
+
+
+Grigory Kislin [4 days ago]
+@Zippospb зачем ReflectionTestUtils, если можно сделать обыкновенный сеттер? (edited)
+
+
+Zippospb [4 days ago]
+@Grigory Kislin а есть ли смысл делать сеттер, который нужен лишь для пары тестов?
+
+
+Grigory Kislin [2 days ago]
+ну... мне кажется лучше, чем рефлекшен
+потом- егоже можно в конфигурацию вынести
+
+
 Raisa [Dec 14th at 6:57 PM]
 а учитывать ситуацию, если рестораны наберут равное количество голосов? :slightly_smiling_face:  или вообще никто не проголосует? (edited)
 
@@ -2371,3 +2388,105 @@ fonto [3 days ago]
 
 Grigory Kislin [1 day ago]
 Раиса, по вопросу сужу, что сдалано чтото, чего нет в ТЗ. обычно еще и с кучей ошибок
+
+
+Raisa [4 days ago]
+@Grigory Kislin ресторан, который победил, получается, не нужно определять по ТЗ? :slightly_smiling_face: только голосовать?
+
+
+Grigory Kislin [4 days ago]
+нет:) а где ты увидела в ТЗ?
+
+
+Lamekhova Alisa [Dec 19th at 12:31 PM]
+Как в спринг бут сделать, чтоб при запуске приложения база сразу наполнялась тестовыми данными из sql-ных файлов?
+
+
+4 replies
+Taras [4 days ago]
+А в чем у тебя проблема? При старте, если у тебя есть файлы `schema.sql` и `data.sql`, — они будут автоматически считаны. А можно, не связываясь с ручным вводом данных, сделать так: создать бин `@Component`, в него заинжектить нужные сервисы, и в методе с `@PostConstruct` инициализировать данные путем вставки.
+
+
+
+Grigory Kislin [4 days ago]
+еще вариант для наполнения кодом: https://stackoverflow.com/questions/27405713/running-code-after-spring-boot-starts
+Stack Overflow
+Running code after Spring Boot starts
+I want to run code after my spring-boot app starts to monitor a directory for changes. I have tried running a new thread but the @Autowired services have not been set at that point. I have been...
+ 
+
+
+Marat [4 days ago]
+В resources положить файлы schema.sql и data.sql
+
+
+Lamekhova Alisa [4 days ago]
+Спасибо) они лежали в ресурсах, но в еще одной папке и не запускались)
+
+
+Sergey Zhukov [Today at 12:38 AM]
+если время голосования вышло, каким статусом лучше ответить?
+я склоняюсь к SERVICE_UNAVAILABLE, 503
+
+
+14 replies
+Vladimir Gorbatenko [17 hours ago]
+я использовал
+406 Not Acceptable
+
+
+Vladimir Gorbatenko [17 hours ago]
+SERVICE_UNAVAILABLE - скорей говорит о том что зайдите позже, сейчас все нафиг сломалось )
+
+
+
+Sergey Zhukov [17 hours ago]
+интересно а свой статус можно
+100500 Vote ended :face_with_rolling_eyes:
+
+
+Vladimir Gorbatenko [17 hours ago]
+Решил посмотреть коды и нашел прикольный )
+418 I’m a teapot («я — чайник»);
+
+
+
+Zippospb [17 hours ago]
+по мне так это конфликт 409
+
+
+Sergey Zhukov [17 hours ago]
+что насчет 412 Precondition Failed
+"Предварительное условие не выполнено"
+
+
+Vladimir Gorbatenko [17 hours ago]
+мне не нравится... пользователь будет думать что же он сделал не так
+
+
+Sergey Zhukov [17 hours ago]
+пользователь не увидит этих кодов, они для разработчика UI
+
+
+Sergey Zhukov [17 hours ago]
+Пользователю красиво намекнут - иди читай условия
+
+
+Vladimir Gorbatenko [17 hours ago]
+тогда разработчик задумается что не так с условием
+
+
+Sergey Zhukov [17 hours ago]
+в том то и дело есть условие до 11
+
+
+Vladimir Gorbatenko [17 hours ago]
+разраб тогда и почитает что он опоздал )
+
+
+Vladimir Gorbatenko [17 hours ago]
+может задать вопрос Григорию?
+
+
+Sergey Zhukov [17 hours ago]
+я думаю взять что то из этих, в реале статусы надо согласовывать, в ТЗ наверняка должны быть указаны

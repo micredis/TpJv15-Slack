@@ -477,3 +477,278 @@ Sergey Zhukov [6 hours ago]
 
 Igor [6 hours ago]
 @Sergey Zhukov Спасибо. Получилось.
+
+
+Vladimir Gorbatenko [Dec 19th at 5:30 PM]
+Кто разобрался с паролями (с типами шифрований), можете дать ссылку на толковую литературу, а то я что-то ничего не понял...
+не могу понять что делать если я хочу использовать другой механизм шифрования, отличный от bcrypt (edited)
+
+
+30 replies
+Grigory Kislin [4 days ago]
+см ссылку на PasswordEncoderFactories
+можешь в код createDelegatingPasswordEncoder зайти
+
+
+Sergey Zhukov [4 days ago]
+@Vladimir Gorbatenko
+вместо
+ ```<beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>```
+
+можно сразу выбрать любой энкодер, например из списка той же фабрики
+ ```<beans:bean class="org.springframework.security.crypto.password.Pbkdf2PasswordEncoder" id="passwordEncoder"/>```
+
+надо смотреть какие уже депрекейт
+@Grigory Kislin через фабрику можно в базе держать пароли в разной кодировке?
+
+
+Sergey Zhukov [4 days ago]
+существует ли возможность использовать несколько кодировок последовательно? (edited)
+
+
+Sergey Zhukov [4 days ago]
+да точно, фабрика для того что бы в любой момент можно было сменить кодировку, и старые пароли остались рабочими
+
+
+
+Vladimir Gorbatenko [3 days ago]
+Ага, если поменять на один конкретный энкодер, то норм, такой вариант с заменой бина "passwordEncoder" на конкретный - работает.
+Но, если например как в нашем проекте используется 2 типа, noop и bcrypt (потому что по молчанию), то как сказать чтоб вместо bcrypt использовался Pbkdf2?
+
+
+Vladimir Gorbatenko [3 days ago]
+Все, вопрос снят. Сделал свою фабрику, с двумя типами. Спасибо!
+
+
+Sergey Zhukov [3 days ago]
+в общий написал
+
+
+Sergey Zhukov [3 days ago]
+окей
+
+
+Vladimir Gorbatenko [3 days ago]
+Думал может есть более простой способ, типа параметрами в бин запихнуть нужные типы.
+
+
+Vladimir Gorbatenko [3 days ago]
+В который раз убеждаюсь, что утро вечера мудренее.
+
+
+
+Sergey Zhukov [3 days ago]
+можно
+
+
+Sergey Zhukov [3 days ago]
+в фабрике сеттер сделай
+
+Sergey Zhukov [3 days ago]
+и в xml указывай
+
+
+Vladimir Gorbatenko [3 days ago]
+то уже будет моя фабрика, а я хотел стандартными путями
+
+
+Sergey Zhukov [3 days ago]
+фабрика стандартная чем хороша, если кодировка будет депрекейт, то в новой версии Спринг Секурити автоматом будет актуальная кодировка и поддержка предыдущих
+
+
+Vladimir Gorbatenko [3 days ago]
+Решил таки попробовать коротким пойти путем. В spring-security.xml написал
+*******
+   <beans:bean class="org.springframework.security.crypto.password.DelegatingPasswordEncoder" id="passwordEncoder">
+       <beans:constructor-arg name="idForEncode" value = "pbkdf2"/>
+       <beans:constructor-arg name="idToPasswordEncoder" ref="mapEncoders"/>
+   </beans:bean>
+
+   <util:map map-class="java.util.HashMap" id="mapEncoders">
+       <entry key="pbkdf2" value="org.springframework.security.crypto.password.Pbkdf2PasswordEncoder"/>
+       <entry key="noop" value="org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance()"/>
+   </util:map>
+**********
+Идея ругается на "entry", говорит: Element entry is not allowed here.
+
+
+Sergey Zhukov [3 days ago]
+посмотри в spring-db как мапу прописывали
+
+Sergey Zhukov [3 days ago]
+может также попробовать
+
+
+Sergey Zhukov [3 days ago]
+как то так
+```<bean class...
+    <constructor-arg name="idToPasswordEncoder">
+        <map>
+            <entry key="..." value="..."/>
+            <entry key="..." value="..."/>
+        </map>
+    </constructor-arg>
+    <constructor-arg name="...
+</bean>```
+(edited)
+
+Vladimir Gorbatenko [3 days ago]
+Да, смотрел миллион вариантов перекопал..
+
+
+Vladimir Gorbatenko [3 days ago]
+Получилось так:
+```<beans:bean class="org.springframework.security.crypto.password.Pbkdf2PasswordEncoder" id="pbkdf2"/>
+    <beans:bean class="org.springframework.security.crypto.password.NoOpPasswordEncoder" id="noop"/>
+
+    <beans:bean class="org.springframework.security.crypto.password.DelegatingPasswordEncoder" id="passwordEncoder">
+        <beans:constructor-arg name="idForEncode" value = "pbkdf2"/>
+        <beans:constructor-arg name="idToPasswordEncoder" type="java.util.Map">
+            <beans:map key-type="java.lang.String" value-type="org.springframework.security.crypto.password.PasswordEncoder">
+                <beans:entry key="pbkdf2" value-ref="pbkdf2"/>
+                <beans:entry key="noop" value-ref="noop"/>
+            </beans:map>
+        </beans:constructor-arg>
+    </beans:bean>```
+(edited)
+
+
+Vladimir Gorbatenko [3 days ago]
+@Sergey Zhukov как у тебя получается красиво оформлять код?
+
+Sergey Zhukov [3 days ago]
+в кавычках ```
+
+
+
+Vladimir Gorbatenko [3 days ago]
+))) наконец-то (edited)
+
+Vladimir Gorbatenko [3 days ago]
+все, можно приступать к 11 занятию.
+
+Sergey Zhukov [3 days ago]
+в моем варианте сработает если будет родительский xml
+
+Sergey Zhukov [3 days ago]
+у тебя во вложенном наверна поэтому надо ставить *<beans:* (edited)
+
+Vladimir Gorbatenko [3 days ago]
+может, не сталкивался с этим, кучу времени заняло пока разобрал.
+
+
+Vladimir Gorbatenko [3 days ago]
+и с мапой тоже были траблы, надо было явно указать java.util.Map, причем не HashMap
+
+Sergey Zhukov [3 days ago]
+@Vladimir Gorbatenko я заглянул как мапа попадает в наш spring-db
+в итоге сделал класс бина в котором есть поле и сеттер для него
+   `private final Map<String, Object> propertyMap = new HashMap<>();`
+
+    `public void setPropertyMap(@Nullable Map<String, ?> propertyMap) {`
+        `if (propertyMap != null) {`
+            `this.propertyMap.putAll(propertyMap);`
+        `}`
+    `}`
+в xml
+   `<bean class="Наш бин">`
+        `<property name="propertyMap">`
+            `<map>`
+                `<entry key="ke1" value="1"/>`
+                `<entry key="ke2" value="true"/>`
+                `<entry key="ke3" value="text"/>`
+            `</map>`
+        `</property>`
+    `</bean>`
+потом можно инжектить бин, я еще гетер делал для теста, все сетит как в xml
+
+
+Vlad [Dec 19th at 6:18 PM]
+Пытался реализовать валидацию поля *email*, путем создания собственной аннотации `@Unique`. Аннотацию ставлю над полем *email* и передаю имя поля и сообщение для вывода в случаи ошибки.
+
+Я так же создал новый метод в репозитории, который возвращал *true* или *false*, в зависимости от того существует ли в базе такой *email*. Однако, проблема в том, что при редактировании пользователя мы можем например изменить только *name*, а *email оставить тот же*, в таком случае *валидация не пройдет*, так как в базе уже есть такой email.
+
+Я решил изменить метод, чтобы знать происходит создание или редактирование, через id (создание = null, редактирование != null) Однако не знаю как это сделать. Так как аннотация имеет `@Retention(RetentionPolicy.RUNTIME)`, а это значит что все передаваемые параметры должны быть константами. Поэтому я не могу передать в аннотацию id чтоб узнать создание это или редактирование. Возможно ли вообще это сделать?
+
+
+12 replies
+Grigory Kislin [4 days ago]
+id ты не можешь в аннотацию передать.
+когда делаешь проверку- есть возможность доступа к сохраняемой entity?
+
+
+Vlad [4 days ago]
+Нету, есть доступ только к полю entity и к передаваемым параметрам в аннотацию (edited)
+
+
+Sergey Zhukov [4 days ago]
+я когда делал через собственный валидатор, я включил поле id для зарегистрированных пользователей, и проверял не только есть ли имейл но и совпадает ли id пришедшей записи плюс еще если это админ... короче 3х-этажное условие, которое наудивление отрабатывало во всех случаях
+
+
+Vlad [4 days ago]
+А как ты включил поле id? Мне пришла идея только сделать аннотацию над классом и тогда я буду видеть все поля entity
+
+
+Vlad [4 days ago]
+И кажется так удасться сделать, мне правда не очень нравиться способ но попробую
+
+
+Sergey Zhukov [4 days ago]
+ну изначально в пофиле нет поля id, т.к профиль еще используется при регистрации
+
+
+Vlad [4 days ago]
+ProfileRestController использует UserTo, а он имеет поле id унаследованное от BaseTo
+
+
+Sergey Zhukov [4 days ago]
+оно всегда null приходит с UI, даже с профиля
+
+
+Sergey Zhukov [4 days ago]
+если включить, то из профиля будут приходить вполне конкретные UserTo (edited)
+
+
+Sergey Zhukov [4 days ago]
+может не понятно объяснил, как то так
+```<c:if test="${!register}"><form:hidden path="id"/></c:if>```
+
+
+Sergey Zhukov [4 days ago]
+теперь можно проверять
+>изменить только *name*, а *email оставить тот же*,
+
+
+Vlad [4 days ago]
+Я понял о чем ты, не подумал об этом, правда моя затея все равно не будет работать. Так как, когда я ставлю аннотацию над классом валидации не происходит, вернее входит в метод `isValid`, и после его выполнения не происходит ничего) А в некоторых случаях и того ошибка `javax.validation.ValidationException: HV000028: Unexpected exception during isValid call`
+
+
+Sergey Zhukov [Dec 20th at 10:09 AM]
+@Vladimir Gorbatenko Если заглянуть в код фабрики, то по аналогии можно сделать такую же фабрику содержащую в мапе только необходимые кодировки, с которыми можно будет доставать пароли из базы и указать текущую кодировку *encodingId* и соответственно ее указать в качестве энкодера (edited)
+PasswordEncoderFactories
+public class PasswordEncoderFactories {
+  public static PasswordEncoder createDelegatingPasswordEncoder() {
+    String encodingId = "bcrypt";
+    Map<String, PasswordEncoder> encoders = new HashMap();
+    encoders.put(encodingId, new BCryptPasswordEncoder());
+    encoders.put("ldap", new LdapShaPasswordEncoder());
+    encoders.put("MD4", new Md4PasswordEncoder());
+    encoders.put("MD5", new MessageDigestPasswordEncoder("MD5"));
+    encoders.put("noop", NoOpPasswordEncoder.getInstance());
+    encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+    encoders.put("scrypt", new SCryptPasswordEncoder());
+    encoders.put("SHA-1", new MessageDigestPasswordEncoder("SHA-1"));
+    encoders.put("SHA-256", new MessageDigestPasswordEncoder("SHA-256"));
+    encoders.put("sha256", new StandardPasswordEncoder());
+    return new DelegatingPasswordEncoder(encodingId, encoders);
+  }
+​
+  private PasswordEncoderFactories() {
+  }
+}
+Collapse
+
+
+1 reply
+Grigory Kislin [3 days ago]
+я бы не рекомендовал лепить свои велосипеды. есть хороший класс, им и пользуйтесь
