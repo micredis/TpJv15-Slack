@@ -1616,3 +1616,8 @@ https://cdn.fishki.net/upload/post/2018/12/20/2810590/ed957be498ec09d06c43c1baac
 
 :slightly_smiling_face:
 1
+
+
+new messages
+Vladimir Gorbatenko8:28 PM
+Проверил наше приложение на телике самсунг 6-ой серии - не работает джаваскрипт, все корявенько...
