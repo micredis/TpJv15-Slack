@@ -2144,3 +2144,24 @@ Grigory Kislin [Today at 7:44 PM]
 1 reply
 fonto [2 hours ago]
 Все ещё можно записаться?) Для общения), да и просто иногда заходить читать (edited)
+
+
+Grigory Kislin [12:17 PM]
+Присоединиться к JavaOPs: https://join.slack.com/t/javaops/shared_invite/enQtNDk5OTUyOTgxODE0LWQ3MWMzMDAxZTUyYmNhZDYwYTRlNDNjNGJkMWRkMTk2NTg2YTI3ZGQyM2RiMWMzY2QyNjIwNDlhNGU2OTUxZjU
+Повтор topjava16: https://join.slack.com/t/topjava16/shared_invite/enQtNTExMzA0MjI4NDM2LWEyYjBjYzk3NTJkY2MzOTViMTA4YTg3ZmNjNzVmNTQ3N2U2OTE4MGI3NmJkNTFlNjVkNjkwYjYzMDRlM2MyOWQ
+
+
+Grigory Kislin [Today at 11:49 AM]
+@here
+*Напомню, что сегодня ночью делаю рассылку по HR и фрилансерам*. Им отсылается табличка с контактами, кротко "обо мне" и ссылка на резюме. В табличку попадают все, у кого поднят флаг "в поиске работы" и есть резюме. Следите, что резюме не закрыто и там есть телефон. География в основном- Россия, Украина, Беларусь но есть и другие. Обязательно заполните свой город и готовность к релокации.
+Табличка им будет видна в любое время, но после рассылки просмотров больше всего.
+
+
+2 replies
+Alibek [2 hours ago]
+@Grigory Kislin Григорий, я еще прохожу basejava и снова пройти topjava мне еще предстоит, поэтому прошу ссылку на мой профиль пока не рассылать.
+
+
+Vladimir Gorbatenko [2 hours ago]
+```URL на выпускной проект Topjava``` 
+На гитхаб, да?
