@@ -1276,3 +1276,383 @@ YuriyUh [1:34 PM]
 PDF 
 РезюмеУханов.pdf
 509 kB PDF
+
+
+Grigory Kislin [3 days ago]
+"Предпочтительная специализация"  -думаю лишнее (edited)
+
+
+Grigory Kislin [3 days ago]
+обычно пишут:
+работа- кликабельная ссылка
+должность
+тогда не надо "В должности"
+
+
+Grigory Kislin [3 days ago]
+вроде все...
+
+
+YuriyUh [3 days ago]
+Ок, спасибо, поправил
+
+
+ABaykov [Dec 26th at 3:12 PM]
+Выложил на HH. https://hh.ru/applicant/resumes/view?resume=385fc982ff007f2fd70039ed1f736563726574 (edited)
+
+
+7 replies
+Grigory Kislin [3 days ago]
+а где ссылка на heroku после topjava?
+
+
+Grigory Kislin [3 days ago]
+Обо мне - тут не надо истории:) тут качества, полезные для работодателя
+
+
+Grigory Kislin [3 days ago]
+Ссылка на моё старое резюме- а это зачем??
+
+
+Grigory Kislin [3 days ago]
+В период с 2008 по 2018 год работал сетевым инженером- это в опыт работы!
+
+
+ABaykov [3 days ago]
+Так опыт то не релевантный:) я же не программистом работал :) потому и ссылку дал на старое :) сейчас переделаем
+
+
+ABaykov [3 days ago]
+@Grigory Kislin Переделал )))) проще было допилить немного старое резюме (edited)
+
+
+Grigory Kislin [3 days ago]
+ага. там в описании лишние пробелы. и можно покороче- те основное близкое к it оставить
+
+
+Gekov Iliya [Dec 26th at 4:04 PM]
+Ссылка на резюме на гугл-драйве подойдет ведь для профиля?
+
+
+1 reply
+Grigory Kislin [3 days ago]
+да, можно
+
+
+fibz [Dec 26th at 4:58 PM]
+после клонирования репо с topjava и при попытке запуститься  - падает с ошибкой:
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping': Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'adminUiController' method
+public void ru.javawebinar.topjava.web.user.AdminUiController.delete(int)
+to {[/ajax/admin/users/{id}],methods=[DELETE]}: There is already 'adminAjaxController' bean method
+public void ru.javawebinar.topjava.web.user.AdminAjaxController.delete(int) mapped.
+
+Как исправить это? (edited)
+
+
+7 replies
+Gekov Iliya [3 days ago]
+AdminAjaxController был переименован в AdminUiController, а у тебя почему-то оба остались, как-то не так склонировал
+
+
+fibz [3 days ago]
+у меня в коде нету adminAjaxController, а пишет что такой бин создаётся. Как так?
+
+
+Grigory Kislin [3 days ago]
+mvn clean
+
+
+fibz [3 days ago]
+спасибо
+
+
+Grigory Kislin [3 days ago]
+вообще то это на 3-4 занятии проходили....
+
+
+fibz [3 days ago]
+не думал, что при клонировании репозитория надо делать очистку
+
+
+Grigory Kislin [3 days ago]
+при клонировании - не надо. надо когда target старый осатлся
+
+
+Sergey Zhukov [Dec 26th at 6:28 PM]
+тоже поправил
+https://vladimir.hh.ru/applicant/resumes/view?resume=cdfe3b44ff059a2e5c0039ed1f4c566e66784b
+vladimir.hh.ru
+Программист Java
+HeadHunter (vladimir.hh.ru) позволяет найти работу в городе Владимире. HeadHunter - это качественная база резюме и вакансий и современные сервисы для поиска работы и персонала.
+ 
+
+
+14 replies
+Raisa [3 days ago]
+я думаю, фото будет лучше восприниматься, если прямо смотришь :slightly_smiling_face:
+
+
+Sergey Zhukov [3 days ago]
+потом поменяю )
+
+
+Sergey Zhukov [3 days ago]
+все какие то кривые косые
+
+
+Raisa [3 days ago]
+"небольшое web-приложение ", лучше просто web-приложение )
+
+
+Raisa [3 days ago]
+а так солидно смотрится :+1: здорово, что реальный опыт есть
+
+
+Sergey Zhukov [3 days ago]
+это не программерская контора
+
+
+Raisa [3 days ago]
+стек подходящий
+
+Sergey Zhukov [3 days ago]
+эту может, правда вид усталый, давно уже не высыпаюсь )
+f3.jpg
+ 
+
+
+Sergey Zhukov [3 days ago]
+> стек подходящий
+стек я предложил :grin:
+
+
+Sergey Simonov [3 days ago]
+вообще фото не супер бонус мне кажется,
+в штатах вообще запрещено прикладывать фото к резюме потому что это может расцениться как дискриминация по половому признаку
+
+
+
+Sergey Simonov [3 days ago]
+статья на хабре была
+
+
+Raisa [3 days ago]
+где-то читала, что нужно адаптировать резюме под страну, везде по-разному. читала интервью тимлидов -  для них не важна фотка, для HR-ов обычно важна (edited)
+
+
+Marat [2 days ago]
+Где взять электронный сертификат?
+
+
+Sergey Simonov [2 days ago]
+@Marat в акке на javaops в разделе о стажировке topjava
+
+
+Raisa [Dec 27th at 1:34 PM]
+у вас часто смотрят резюме и молчат? интересно, это нормально или говорит о том, что есть какая-то проблема в резюме?
+
+
+3 replies
+Alexey_b [2 days ago]
+Часто молчат, всё в порядке))
+
+
+ABaykov [2 days ago]
+как в магазине - брать будете? Да неее... я только посмотреть :smile:
+
+
+Alexey_b [2 days ago]
+возможно это всё мы и смотрим)
+
+
+Marat [Dec 27th at 2:08 PM]
+Подскажите где взять электронный сертификат о прохождении стажировки?
+
+
+2 replies
+fibz [2 days ago]
+на сайте javaops.ru
+
+
+Grigory Kislin [2 days ago]
+в профиле javaops есть ссылка
+
+
+Стецко Максим [Dec 27th at 2:09 PM]
+Вчера разместил, сегодня позвонили, кинули тестовое, им требуется стронг джун. Придется JavaScript, JQuery подтягивать, похоже без него никуда.
+
+
+2 replies
+Nikita Ganin [2 days ago]
+Что в тестовом?
+
+
+Стецко Максим [2 days ago]
+@Nikita Ganin да почти CRUD приложение "интернет-магазин"
+
+
+Sergey Simonov [Dec 27th at 2:13 PM]
+Уже с утра позвонили , дали тестовое задание(обработка логов, поиск совпадений)
+Вакансия в микросервисы (edited)
+
+
+
+5 replies
+Dima [2 days ago]
+На javarush помню большая задача была по обработке логов,там я впервые познакомился со стримами
+
+
+
+Andrey Tolkachev [2 days ago]
+да да, помню такую) понравилась в свое время)
+
+
+fonto [2 days ago]
+А мне больше всего понравилась задача ресторан)
+
+
+Sergey Simonov [2 days ago]
+@fonto ага, мне тоже. То что в итоге валидатор сдался и зачем мне ее )
+
+
+fonto [2 days ago]
+Даа в этой задаче с валидатором я тоже поборолся, но задача интересная была), на ней я оттачил stream api
+
+
+Raisa [Dec 27th at 2:17 PM]
+мне вчера написали на "Моем круге", у них только формируется команда, проект под президентский грант, а на hh тишина, только просмотры
+
+
+7 replies
+Стецко Максим [2 days ago]
+будете "осваивать" средства XD
+
+
+Raisa [2 days ago]
+на отечественный софт же переходим :slightly_smiling_face:
+
+
+Dima [2 days ago]
+Гос проекты хороши тем,что деньги выделяются и тратятся,а потом проект закрывается через пару лет)хотя это грант,необязательно (edited)
+
+
+Sergey Zhukov [2 days ago]
+мне с hh звонили час назад, ехал в машине, поспрашивали чем занимаюсь, какие планы, что ожидаю на новой работе, какие запросы по ЗП
+
+
+Gekov Iliya [2 days ago]
+@Sergey Zhukov и чем закончилось то? Просто поболтали?)
+
+
+Sergey Zhukov [2 days ago]
+@Gekov Iliya скинули письмо с описанием конторы, какие условия работы, после 9го числа будем договариваться о техническом интервью (edited)
+
+
+Sergey Zhukov [2 days ago]
+я сам хотел после праздников  отправлять им резюме, как раз выпускной допилить, чтобы было что показать
+
+
+Vladimir Gorbatenko [Dec 27th at 2:26 PM]
+ого как оперативно у вас произошло. а у вас выпускной проект уже полностью готов?
+
+
+16 replies
+Sergey Zhukov [2 days ago]
+пилим
+на 85% где-то
+еще один контроллер покрыть тестами, написать документацию на  API
+
+
+Raisa [2 days ago]
+у меня тоже примерно так - остались тесты для контролеров и документация
+
+
+Gekov Iliya [2 days ago]
+Да, тесты прям ломает делать. Сделал их в первую очередь в начале проекта, так как понимал, что потом будет лень. Потом проект полностью перелопатил и теперь как и ожидалось - лень переделывать тесты))
+
+
+Sergey Zhukov [2 days ago]
+@Gekov Iliya Скрестил TDD и класическую разработку, двойная работа. надо чтото одно выбрать. Я немного под тесты допиливаю, что наваял.
+
+
+Gekov Iliya [2 days ago]
+Ну да, набиваем первые шишки)
+
+
+Vladimir Gorbatenko [2 days ago]
+У меня тестов примерно 25%, и я таки сделал интерфейс почти под всё. Хочу полностью закончить и уже потом на базе этого делать второй проект, в котором отчекрыжыть все лишнее, оставить только требуемое.
+
+
+Grigory Kislin [2 days ago]
+Тесты не обязательно на все делать. Те они вообще желательны, но достаточно несколько тестов, чтобы показать подход. (edited)
+
+
+Dima [1 day ago]
+Я пишу тесты,чтоб генерировать документацию из них же.Так бы забил. Думаю в итоге тупо curl слелаю и все,как в зкдании,а остальное потом
+
+
+Sergey Zhukov [1 day ago]
+блин, я один тут 42 теста навалял? :confused:
+
+
+Vladimir Gorbatenko [1 day ago]
+@Dima писать тесты для генерации доков, это как?
+
+
+Vladimir Gorbatenko [1 day ago]
+@Sergey Zhukov зачем ты их считал? )
+
+
+Vladimir Gorbatenko [1 day ago]
+Тесты это хорошая отладка, вот я их почти не пишу и понимаю, что этим затягиваю процесс разработки, так как на тестах мне кажется проще отловить баги, чем наступать на грабли.
+
+
+
+Raisa [1 day ago]
+@Sergey Zhukov у меня 48 (без контроллеров) :joy:
+
+
+Sergey Zhukov [1 day ago]
+@Vladimir Gorbatenko мавен их считает
+
+
+Dima [1 day ago]
+@Vladimir Gorbatenko это целый пласт spring restdocs,и связь с asciidoctor,очень интересно,но времени полностью разобраться сейчас маловато
+
+
+Vladimir Gorbatenko [1 day ago]
+@Dima интересная приблудка
+
+
+Илья Чиликин [Dec 27th at 11:04 PM]
+Ребята, а где на http://javaops.ru/ разместить резюме? (edited)
+
+
+2 replies
+Ansseii [1 day ago]
+@Илья Чиликин В личном кабинете, в редактировании профиля приложить ссылку.
+
+
+Илья Чиликин [1 day ago]
+Спасибо, нашёл.
+
+
+Raisa [Yesterday at 6:38 PM]
+у вас есть просмотры/звонки после рассылки?
+
+
+4 replies
+Vladimir Gorbatenko [1 day ago]
+Есть только один просмотр от luxoft
+
+
+Gekov Iliya [24 hours ago]
+Неа
+
+
+Стецко Максим [17 hours ago]
+да наверно конец года, всем уже пофиг на работу, а кто-то уже на выходных.
+
+
+Raisa [17 hours ago]
+у меня тоже ни одного просмотра. наверное, не все компании зарегистрированы на hh

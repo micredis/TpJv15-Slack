@@ -2526,3 +2526,56 @@ Grigory Kislin [1 day ago]
 
 Grigory Kislin [1 day ago]
 @Sergey Zhukov открыл:)
+
+
+Raisa [Dec 26th at 4:37 PM]
+еще вопрос: curl ссылку для голосования размещать в обычном виде? она до 11.00 будет работать, это же не правильно? (edited)
+
+
+11 replies
+Gekov Iliya [3 days ago]
+Хороший кстати вопрос, не задумывался даже об этом)
+
+
+Grigory Kislin [3 days ago]
+@Raisa не понял... где ссылку размещать? (edited)
+
+
+Gekov Iliya [3 days ago]
+я думаю имелась ввиду curl ссылка в описании api
+
+
+Raisa [3 days ago]
+да, ссылка для голосования в readme
+
+
+Raisa [3 days ago]
+It should contain the code and README.md with API documentation and curl commands to get data for voting and vote
+
+
+Sergey Zhukov [3 days ago]
+странный вопрос, если в задании приложение должно принимать голоса до 11
+
+
+Sergey Zhukov [3 days ago]
+или есть незадекларированные возможности?
+
+
+Raisa [3 days ago]
+@Sergey Zhukov в тестах у меня, к примеру, два варианта before и after.. может тут тоже как-то так можно
+
+
+Sergey Zhukov [3 days ago]
+в тестах я менял на нужное мне значение до теста, и после теста восстанавливал
+
+
+Grigory Kislin [3 days ago]
+в read.me- в обычном виде
+
+
+Dima [3 days ago]
+А я делал так,чтобы те ссылки,что недоступны юзеру или просто незалогиненому человеку не показывались в ответе
+
+
+Vladimir Gorbatenko [12:33 PM]
+Я вот что думаю - ведь по правилам хорошего тона надо писать javadoc на все подряд, на каждый класс и метод. Кто писал? )
