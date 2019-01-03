@@ -2579,3 +2579,95 @@ Dima [3 days ago]
 
 Vladimir Gorbatenko [12:33 PM]
 Я вот что думаю - ведь по правилам хорошего тона надо писать javadoc на все подряд, на каждый класс и метод. Кто писал? )
+
+
+Sergey Zhukov [Dec 30th at 9:52 PM]
+У кого-нибудь было что Postman получает в ответ на DELETE и PUT с базовой авторизацией
+```There is no PasswordEncoder mapped for the id &quot;null&quot;```
+даже до метода контроллера не доходит
+а в IDEA RESTfull тулза с PUT и DELETE работает (edited)
+
+
+1 reply
+Sergey Zhukov [4 days ago]
+нашел проблему, сохраняю пароль без кодировки
+
+
+ABaykov [7:17 PM]
+кто-нибудь сталкивался?
+
+ABaykov [Jan 1st at 7:17 PM]
+20:16:32.755 WARN  o.h.e.j.s.SqlExceptionHelper$StandardWarningHandler.logWarning:230 - SQL Warning Code: -1100, SQLState: 02000
+20:16:32.756 WARN  o.h.e.j.s.SqlExceptionHelper$StandardWarningHandler.logWarning:231 - no data
+
+
+1 reply
+under4eg [2 days ago]
+И при этом всё работает как надо, верно?
+
+
+under4eg [Yesterday at 12:50 AM]
+Интересно, почему хендлер исключений, сделанный по образу и подобию оного из учебного проекта, категорически не желает ловить что-либо кастомное и на всё отвечает отвалом в 500-й код? При этом возвращая нужный объект с нужной информацией в JSON (кроме кода), если есть обработчик непосредственно общих исключений Exception и убрать обработчики кастомных исключений. Всё аннотировано и расставлены приоритеты, где общий обработчик где-то совсем внизу. (edited)
+
+
+7 replies
+Sergey Zhukov [23 hours ago]
+закоментируй на время общий метод где ловишь Exception.class и увидишь в стектрейсе какое исключение нужно отлавливать в данной ситуации
+
+
+under4eg [23 hours ago]
+в том-то и дело, что обработчик нижнего выбрасываемого исключения есть, а обрабатываться не хочет никак
+
+
+Sergey Zhukov [23 hours ago]
+покажи метод в котором ловишь кастомное
+
+
+under4eg [13 hours ago]
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+   @ExceptionHandler(IllegalRequestDataException.class)
+   @Order(Ordered.HIGHEST_PRECEDENCE + 2)
+   @ResponseBody
+   public ErrorInfo votingDuplicate(HttpServletRequest req, NotFoundException e) {
+       return new ErrorInfo(req.getRequestURL(), e.getLocalizedMessage());
+   }
+
+
+under4eg [13 hours ago]
+допустим, так, это уже даже с попытками насильно просунуть его по важности выше обычного эксепшна
+
+
+Sergey Zhukov [12 hours ago]
+ловишь
+   ```@ExceptionHandler(IllegalRequestDataException.class)```
+в методе обрабатываешь
+```NotFoundException e```
+потому и не работает
+
+
+under4eg [12 hours ago]
+внимательность - моё второе я... спасибо
+
+
+Dima [Yesterday at 6:10 PM]
+При заполнении формы для выпускного проекта есть поле резюме,я его не заполнял,потому что не делал,так прокатит?
+
+
+2 replies
+Grigory Kislin [6 hours ago]
+можно. поле не обязательное
+
+
+Dima [5 hours ago]
+Вот как раз там звездочка стоит,я там просто написал "пока нет"
+
+
+Vladimir Gorbatenko [Yesterday at 6:52 PM]
+Кто-то уже столкнулся с проблемой EET и EST? Как решали? Мне не очень нравится вариант указывания необходимого мне EET в аннотации к полю.
+
+
+1 reply
+Vladimir Gorbatenko [5 hours ago]
+Решилось, в JacksonObjectMapper, добавил
+```setTimeZone(TimeZone.getTimeZone("EET"));```
+Работает корректно, но есть сомнения, еще сам не знаю какие. (edited)

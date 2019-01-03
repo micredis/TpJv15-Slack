@@ -1739,3 +1739,53 @@ Vladimir Gorbatenko [Today at 12:28 PM]
 1 reply
 Andrey Tolkachev [10 hours ago]
 тоже вспомнил свой проект Part List для отбора на стажировку) после topjava он мне кажется каким-то детским прям)
+
+
+Sergey Zhukov [3 days ago]
+ага, я подумываю его зарефакторить
+
+
+Dima [10:34 AM]
+Всех с наступающим!!!!удачи в новом году и счастья!:fireworks: :fireworks: :confetti_ball: :tada: :tada:
+
+Yevhen Maksymovych [11:04 AM]
+присоединяюсь :slightly_smiling_face: желаю всем, кто запланировал - стать девелопером, найти работу, и к следующему НГ уже выйти как минимум на мида :slightly_smiling_face:
+
+Vladimir Gorbatenko [5:04 PM]
+С наступающим! Успехов, достижений, новой работы, отличного коллектива, большой зарплаты!
+
+
+Vladimir Gorbatenko [Yesterday at 11:58 PM]
+Вот и новый год настал, сегодня последний день моей лицензии Intellij Idea. В связи с этим зашел на степик и начал решать задачки - и получил новый ключ :slightly_smiling_face:
+
+
+4 replies
+Dima [14 hours ago]
+Только сегодня активировал ключ))
+
+
+shomnest [12 hours ago]
+@Vladimir Gorbatenko напиши пожалуйста из какого курса на степике решал задачи и сколько решил, а то у меня что-то пару месяцев назад, после решения задач там, не пришел ключ.
+
+
+Vladimir Gorbatenko [12 hours ago]
+@shomnest я выбрал самый простой Adaptive Java
+https://stepik.org/course/2403
+Stepik: online education
+Adaptive Java
+Adaptive problem set to learn Java. Join the course and you can try out the first prototype of the adaptive engine! (21 kB)
+
+
+shomnest [12 hours ago]
+Ок, спасибо, попробую на этом порешать
+
+
+shomnest [11:08 AM]
+Java. Introduction This is an introductory course to Java. Join the course to get the basic information about the language, to learn about variables and types, and write your very first Java program.
+
+https://stepik.org/course/Java-Introduction-6858/
+
+Я вот это проходил.
+Stepik: online education
+Java. Introduction
+This is an introductory course to Java. Join the course to get the basic information about the language, to learn about variables and types, and write your very first Java program.

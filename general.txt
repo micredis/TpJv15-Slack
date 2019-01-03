@@ -2198,3 +2198,19 @@ Raisa [1 day ago]
 
 Grigory Kislin [1 day ago]
 @Raisa да. Сдавай хорошо выпускной:) Поменьше того, чего нет в ТЗ- обычно тут ошибки делают
+
+
+Vladimir Gorbatenko [7:25 PM]
+Не мог нормально понять, что же такое микросервисы и как они между собой взаимодействуют.  Читал разные статьи, но ничего толкового из них не вынес. Попалось видео, которое расставило все по местам.
+https://www.youtube.com/watch?v=HDq1KQT51kM
+собственно первое видео в ютубе по поиску "java микросервисы"
+YouTubeJUG .ru
+Максим Сячин — Микросервисы: первая кровь (StudentDay)
+;
+
+Vladimir Gorbatenko [12:07 PM]
+Noty.js - типы сообщений, положение на экране.
+https://ned.im/noty/v2/layouts.html (edited) 
+ned.im
+noty - a jQuery Notification Plugin
+noty is a jquery plugin which is have too many options for display notification
