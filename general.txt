@@ -2214,3 +2214,12 @@ https://ned.im/noty/v2/layouts.html (edited)
 ned.im
 noty - a jQuery Notification Plugin
 noty is a jquery plugin which is have too many options for display notification
+
+
+Dima [Yesterday at 4:19 PM]
+когда будет известна цена на spring boot и начало?
+
+
+1 reply
+Grigory Kislin [12 hours ago]
+надеюсь, что к концу февраля уже будет готове первое и структура проекта. тогда можно будет запускаться (edited)
