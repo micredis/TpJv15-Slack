@@ -2223,3 +2223,25 @@ Dima [Yesterday at 4:19 PM]
 1 reply
 Grigory Kislin [12 hours ago]
 надеюсь, что к концу февраля уже будет готове первое и структура проекта. тогда можно будет запускаться (edited)
+
+
+Sergey Zhukov [Jan 8th at 2:16 PM]
+в учебном отсутствует подтверждение удаления записи
+в webjars нашел интересные модальные окна подтверждения
+надеюсь приживутся тут на проекте
+http://bootboxjs.com/examples.html
+
+
+
+2 replies
+Grigory Kislin [3 days ago]
+спасибо, интересно
+думаю что прикрутим в topjava16
+
+
+Стецко Максим [3 days ago]
+@Sergey Zhukov у формы onSubmit="return confirm('удалить?')" в html не катит?)
+
+
+Vladimir Gorbatenko [5:43 PM]
+Кто-то заметил когда у нас пропал codacy? :slightly_smiling_face:

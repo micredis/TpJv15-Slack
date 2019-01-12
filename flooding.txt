@@ -1789,3 +1789,15 @@ https://stepik.org/course/Java-Introduction-6858/
 Stepik: online education
 Java. Introduction
 This is an introductory course to Java. Join the course to get the basic information about the language, to learn about variables and types, and write your very first Java program.
+
+
+Vladimir Gorbatenko [10:52 PM]
+кто-то знает как настроить на Linkedin чтоб предлагал вакансии моего города, а не страны?
+
+Vladimir Gorbatenko [11:11 AM]
+https://cdn.fishki.net/upload/post/2019/01/08/2830937/fa1a1a71e4310bf5e25d3957bb70a666.jpg
+https://cdn.fishki.net/upload/post/2019/01/08/2830937/fa1a1a71e4310bf5e25d3957bb70a666.jpg
+
+Yevhen Maksymovych [10:35 AM]
+ребят, а никто не сталкивался с майкрософтским botnetwork? там раньше было bot api, где можно было привязать самостоятельно скайпбота, и указать эндпоинт, на который скайп будет слать сообщения, а теперь я вижу только платформу azure, где можно разместить только там же сконфигуренного бота
+при этом старое апи рабочее, по крайней мере, я могу через него авторизоваться, но непонятно, где сконфигурить эндпоинты со стороны мс

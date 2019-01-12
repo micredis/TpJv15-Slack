@@ -866,3 +866,28 @@ Grigory Kislin [3 hours ago]
 
 Raisa [2 hours ago]
 спасибо, попробую, чтобы знать на будущее! смотрела еще логи в папке томката - помогло (edited)
+
+
+Raisa [Jan 9th at 6:08 PM]
+почему класс выделился светло-серым в идее?
+Pasted image at 2019-01-09, 11:08 PM
+ 
+
+
+4 replies
+Grigory Kislin [3 days ago]
+а как ты это получила:)?
+
+
+
+Roman Baranov [3 days ago]
+https://www.jetbrains.com/help/idea/file-status-highlights.html
+
+
+
+Sergey Zhukov [3 days ago]
+вырезала? ctrl+x
+
+
+Sergey Zhukov [3 days ago]
+наведи ctrl+c нажми (edited)

@@ -2732,3 +2732,653 @@ jacksonObjectMapper.registerModule(jacksonHibernateModule);```
 Но если честно, так и не понял почему раньше работало, а затем перестало, ведь объект (ТО) для сериализации не изменялся.
 Статья из которой взял решение.
 https://code.i-harness.com/en/q/138fa0 (edited) 
+
+
+Grigory Kislin [7 days ago]
+проще делать честный to.
+
+
+Raisa [7 days ago]
+@Vladimir Gorbatenko, если есть справочник еды, общий для всех ресторанов, все равно Restorant и Dish имеют тип связи один-ко-многим? Т.е. не может быть одно и то же блюдо в двух и более ресторанах?
+
+
+Vladimir Gorbatenko [6 days ago]
+@Raisa исправил, это уже таки не нужно. Раньше нужно было для маппера. Связь абстрактная, ее на самом деле нет.
+
+
+Vladimir Gorbatenko [Jan 6th at 7:56 PM]
+Про тесты. Скажите, а вы занимались таким маньячеством, что на каждый метод писать все возможные тесты, или так, поверхностно, по одному, изредка 2 теста?
+
+
+10 replies
+Sergey Zhukov [6 days ago]
+сервисы и контроллеры, как в учебном, с кривыми данными, с левой авторизацией
+причем удобно, если потом вносишь изменения в проекте, сразу видишь какая часть проекта отвалилась и почему (edited)
+
+
+Vladimir Gorbatenko [6 days ago]
+для шикарности, то да, каждый метод покрыть всевозможными данными, но тогда тестов будет нереальная гора....
+
+Vladimir Gorbatenko [6 days ago]
+в topjava да, там почти все в тестах, и их 115.
+в моем сейчас 68 и я понимаю что это только треть от нормального объема.
+
+
+Sergey Zhukov [6 days ago]
+написать кучу тестов в учебном и забыть сразу, надо попробовать применить
+
+
+Grigory Kislin [6 days ago]
+у меня в javaops думаю десяти не будет...
+
+
+Илья Чиликин [6 days ago]
+Ловите джуниора! :slightly_smiling_face: (edited)
+
+
+Vladimir Gorbatenko [5 days ago]
+@Илья Чиликин тебя поздравить с устройством на работу или это прикол на тему "гора тестов"?
+
+
+Илья Чиликин [5 days ago]
+Второе.
+
+
+Vladimir Gorbatenko [5 days ago]
+так а какое же оптимальное соотношение???
+
+
+vch [5 days ago]
+На последнем Joker докладчик рассказывал, что на одном проекте с него требовали 100% покрытие тестами.
+А 100% - это значит, что если где-то есть приватный конструктор, то на него тоже надо тест.
+Приходилось тестировать через Reflection.
+Зал когда это услышал - был в шоке.
+
+
+Илья Чиликин [Jan 7th at 10:40 AM]
+Остаётся непонятным, как в JPA избавиться от бесконечной рекурсии при наличии у родителя и дочерних объектов ссылок друг на друга. Почему при выборке вида `from родитель р join fetch р.дочерние ...` у дочерних тоже выбираются родитель и т.д?
+В нашем topjava такое же поведение. (edited)
+Pasted image at 2019-01-07, 11:40 AM
+
+
+
+10 replies
+Илья Чиликин [6 days ago]
+На скрине мэппинг ресторана и меню и результат работы repository в дебаге, где видна бесконечная вложенность друг в друга.
+Оба fetch lazy, toString, hashCode и equals переопределены и ресторан/меню не затрагивает. Что заставляет JPA выбирать родительский ресторан у меню?
+Или это сам дебагер делает, а на рантайме это не так?
+Сразу скажу, что интересует не json, а именно структура объектов до сериализации.
+
+
+Kashchavtsev Andrey [6 days ago]
+http://keenformatics.blogspot.com/2013/08/how-to-solve-json-infinite-recursion.html
+keenformatics.blogspot.com
+How To Solve JSON infinite recursion Stackoverflow (with Spring and Jackson annotations)
+Infinite recursion picture Coding in Spring 3 with JPA and Jackson is supposed to semplify your life, sparing you from writing thousa... (57 kB)
+
+
+Илья Чиликин [6 days ago]
+@Kashchavtsev Andrey Последнее сообщение в моём комментарии прочитайте. :slightly_smiling_face:
+
+
+Kashchavtsev Andrey [6 days ago]
+http://qaru.site/questions/7212598/spring-data-jpa-bidirectional-relation-with-infinite-recursion
+
+
+Илья Чиликин [5 days ago]
+Ещё раз, вопрос: "Что заставляет JPA выбирать родительский ресторан у меню?" и как этого избежать, а не "как это обойти?". В посте упоминаются Lazy Fetch и toString, equals, hashCode - это всё я отметил в первом комментарии. (edited)
+
+Илья Чиликин [5 days ago]
+Кстати, в нашем topjava также бесконечная вложенность:
+Pasted image at 2019-01-07, 4:56 PM
+
+
+vch [5 days ago]
+>Что заставляет JPA выбирать родительский ресторан у меню
+Вот ключевая ошибка - на самом деле JPA ничего лишнего не читает.
+Что ты планировал получить? Lazy-прокси объекты внизу дерева?
+
+Посмотри последний скриншот свой.
+На самом верху (1 строчка) -  {User@9375}
+Чуть ниже объект `meals` - {PersistentBag@9452}
+Ещё ниже внутри Meal с id=100009 видим снова поле `user` - {User@9375},
+который опять содержит объект `meals` - {PersistentBag@9452}
+'{User@9375}' - говорит о том, что это тот же самый объект в памяти, с которого началось это бесконечное дерево.
+
+Т.е. был 1 SQL-запрос - юзер с `meals`. А дальше JPA начал заносить эти данные в объекты, при необходимости создавая прокси-объекты.
+Но в нашем случае прокси-объекты в `user` не могут появиться - т.к. у JPA уже есть реальный user с id=100001, то он его и помещает в каждый Meal. Нет необходимости в прокси.
+А раз в Meal содержится тот же User - то и `meals` тот же самый - {PersistentBag@9452} (edited)
+
+
+Илья Чиликин [5 days ago]
+@vch Неплохо.
+Отвечаю, что я ожидал получить: user -> meals и далее user = null на третьем уровне. Я ведь просил в запросе соединить только два уровня `user join user.meals`.
+
+Тем не менее, невозможно построить бесконечное дерево, даже если в действительности оно состоит только из двух объектов. Это всё равно stackoverflow.
+
+Я таки снова подозреваю, что такую картину можно увидеть только в дебагере - и уровней не бесконечное количество, а именно столько, сколько я раскрыл. Есть информация на этот счёт? (edited)
+
+
+vch [5 days ago]
+>и уровней не бесконечное количество, а именно столько, сколько я раскрыл.
+По этому поводу всё просто - я же не зря акцентировал внимание, что объект User что в корне дерева, что в середине - один и тот же.
+Не разные объекты с одинаковыми данными, а именно у них одинаковый адрес в памяти.
+Поэтому вложенность бесконечная.
+Бесконечная цепочка из 2 объектов User-Meal-User-Meal...
+
+>Это всё равно stackoverflow.
+stackoverflow будет, только если ты вручную (программно) будешь по всему дереву проходить.
+На уровне JPA проблем нет - ему этого не надо, он просто 1 ссылку на User поставил в каждый Meal, и всё.
+
+
+> далее user = null на третьем уровне
+А вот это было бы неправильно.
+NULL - значит в этом поле пусто.
+Т.е. получились бы неправильные данные, такого не может вернуться.
+Я бы мог ожидать Lazy прокси-объект, но увы - я уже описал выше, почему в данном случае прокси-объекта не будет.
+
+
+
+Илья Чиликин [5 days ago]
+> 1 ссылку на User поставил в каждый Meal, и всё.
+makes sense
+
+
+Raisa [Jan 7th at 11:49 AM]
+проект можно отправить на ревью до 09.01 включительно? я переписываю его полностью, надеюсь успею
+
+
+2 replies
+Gekov Iliya [4 days ago]
+@Raisa цитата из письма, что на почту приходило: "Срок сдачи (если не участник Masterjava): до 09.01 включительно."
+
+
+Raisa [4 days ago]
+@Gekov Iliya, спасибо :slightly_smiling_face: а то я в этом thread-e смотрела - написано просто до 09.01
+
+
+Alexey_b [Jan 7th at 11:59 AM]
+А кто-нибудь возвращал ссылки в теле ответа на созданный ресурс и на остальные методы, как по идее должно быть в HATEOS ?
+
+
+10 replies
+Dima [5 days ago]
+Да,именно spring hateos и использовал
+
+
+Alexey_b [5 days ago]
+я попробовал, но ничего интереснее кроме как возвращать ссылку на себя и на все ресурсы не придумал, получилось типа такого .  "_links":{"self":{"href":"http://localhost:8080/api/restaurants/1"},"restaurants":{"href":"http://localhost:8080/api/restaurants"}}.   Так и должно быть?
+
+
+Dima [5 days ago]
+Я когда возвращаю рестораны,в конце в links делал ссылки ,типо удалить ресторан,создать,апдейтить,но только если админ запросил. Еще у каждого ресторана добавлял ссылку на vote за него,а если зашел аноним,то никаких ссылок,включая голосов нет. Также у меня paging идет по ресторанам,так что в конце ответа ссылки автоматические на след. страницу,последнюю и т.д
+
+
+Alexey_b [5 days ago]
+я тоже попробовал добавлять ссылки про удалить и изменить, но они по факту выглядят точно так же как ссылка на self.
+
+
+Alexey_b [5 days ago]
+не до конца понятная тема в общем, надо еще погуглить)
+
+
+Dima [5 days ago]
+Как я понял на-фронте человек будет юзать ссылки под теми названиями ,которые ты указал. То есть ему надо знать только ,чтоб удалить,надо использовать ссылку "delete" ,а их ты можешь менять
+
+
+Dima [5 days ago]
+А если ты не отдаешь на фронт эту ссылку,то доступа к таким действиям у юзера нет,отдается ссылка "register" допустим
+
+Alexey_b [5 days ago]
+любопытно, спасибо
+
+
+Sergey Zhukov [5 days ago]
+я так понял там сами Entity надо унаследовать от ResourceSupport, тогда появится возможность в них добавлять Link на себя
+https://www.baeldung.com/spring-hateoas-tutorial
+я поздно туда заглянул, решил ничего не менять, делал без линков :face_with_rolling_eyes:
+Baeldung
+An Intro to Spring HATEOAS | Baeldung
+A quick intro to using Spring HATEOAS to add Hypermedia to a practical Spring API.
+Apr 21st, 2016 at 5:25 PM
+ 
+
+
+Vladimir Gorbatenko [5 days ago]
+вот что вы делаете?! я не успеваю доделать придуманный функционал, а вы тут еще добавили интересной работёнки ) (edited)
+
+
+Sergey Zhukov [Jan 7th at 9:12 PM]
+Захотел включить @PreAuthorize("hasRole('ROLE_ADMIN')") над методами в SpringBoot,
+добавил @EnableGlobalMethodSecurity(prePostEnabled = true) в настройки security,
+spring опять начал генерить юзера по умолчанию на старте, где его теперь можно отключить?
+```2019-01-07 22:16:11.770  INFO 9280 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 48fcc147-3c92-4d3b-b553-116c1b4d85fd```
+(edited)
+
+
+4 replies
+Илья Чиликин [5 days ago]
+```Adds an {@link InMemoryUserDetailsManager} with a
+ * default user and generated password. This can be disabled by providing a bean of type
+ * {@link AuthenticationManager}, {@link AuthenticationProvider} or
+ * {@link UserDetailsService}.```
+
+
+Sergey Zhukov [5 days ago]
+попробовал тремя способами
+- .httpBasic().disable()
+- @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+- security.basic.enabled=false
+упорно продолжает генерить юзера на старте :grin: пожалуй забью
+
+
+Vladimir Gorbatenko [5 days ago]
+когда же у меня дойдет дело до переделки на спрингбут?!
+
+
+Ansseii [4 days ago]
+@Sergey Zhukov Добавь в конфиг
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration (edited)
+
+
+Alexey_b [Jan 9th at 8:48 AM]
+Коллеги, а ссылку на ревью выпуского проекта, нужно Григорию в личку посылать? Я как-то этот момент пропустил
+
+
+3 replies
+Dima [4 days ago]
+В письме об окончании стажировки была ссылка на форму,которую нужно заполнить.Там указываешь ссылку на проект
+
+
+Alexey_b [4 days ago]
+@Dima спасибо, потерялось у меня это письмо
+
+
+Dima [4 days ago]
+https://docs.google.com/forms/d/1G8cSGBfXIy9bNECo6L-tkxWQYWeVhfzR7te4b-Jwn-Q/viewform?edit_requested=true
+
+
+Grigory Kislin [Jan 9th at 12:25 PM]
+@here
+Друзья, привет!
+*СЕГОДНЯ последний день сдачи выпускного* : https://docs.google.com/forms/d/1G8cSGBfXIy9bNECo6L-tkxWQYWeVhfzR7te4b-Jwn-Q
+(для участников Masterjava- до 31.03, http://javaops.ru/view/masterjava)
+Заполняйте форму, даже если не доделали до конца (что есть), тесты, обработки ошибок не принципиальны.
++ буду проверять начиная с завтра по очереди, поэтому до проверки еще можно будет внести правки
+если хотите ревью, можно доплатить 1950  руб из профиля как интервью, либо http://javaops.ru/view/payment (edited)
+
+
+4 replies
+Chensy [3 days ago]
+если я собираюсь проходить Masterjava, то до 31.03 в любое время выпускной можно сдать как закончу курс? и если у меня на topjava было оплачено ревью ДЗ, то ревью выпускного после MasterJava у меня будет или надо отдельно оплачивать?
+
+
+Raisa [3 days ago]
+если у меня TopJava с ревью ДЗ, ревью проекта туда входит или отдельно оплачивается? Чтобы отправить проект на ревью нужно скинуть ссылку на репозиторий в канал с ДЗ, а для сдачи проекта заполнить форму? (edited)
+
+
+Ansseii [3 days ago]
+@Raisa Входит. Даже для ревью - заполнить форму. Там есть поле для указания своего канала в Слаке, куда Григорий напишет замечания по проекту.
+
+
+
+Sergey Zhukov [3 days ago]
+:confused: блин, а я доплатил за ревью выпускного, хотя ревью тоже оплачивал. можно на интервью использовать? или аванс в мастерджава? (edited)
+
+
+Grigory Kislin [12:28 PM]
+*напомню- для успешно сдавших выпускной и готовых к трудоустройству в в Москве-СПб  в конце января планируется стажировка в AT Consulting*
+
+
+Vladimir Gorbatenko [Jan 9th at 6:37 PM]
+Включился некоторый полет фантазии, и было решено прикрутить картинки к блюдам, и затем показывать эти картинки при наведении на меню ресторана (tooltip). Поиск по гуглу сразу же выдал простое решение, и вообще кучу ссылок, на все манипуляции прикинул что мне нужно будет около нескольких часов, ну так - чтоб с головой.
+Ага, конечно, убил немеряно времени, потому что во всех примерах, а их было пересмотренно большая гора чего-то обязательно не хватало. И по крупицам, но собралось. Интересный опыт.
+
+
+22 replies
+Grigory Kislin [3 days ago]
+а фото где хранишь?
+
+
+Vladimir Gorbatenko [3 days ago]
+сначала думал в базу, но все таки для быстрого доступа и меньшей нагрузки на базу сделал в отдельной папке (рядом с config) сделал images, в spring-mvc сделал маппинг на нее. Имена файлов переименовываются в UUID+родное расширение.
+
+
+fonto [3 days ago]
+Я делал подобное, фото хранил на диске компа, а так можно и в базе хранить))
+
+
+fonto [3 days ago]
+Все методы реализовывал через spring reactor). Можно конечно и по-другому, но мне было интересно в нем поковыряться) (edited)
+
+
+Vladimir Gorbatenko [3 days ago]
+до реактора я еще не добрался, смотрел один глазом, понял что дело мутное и там надо сесть и нормально разбираться.
+
+
+fonto [3 days ago]
+Я в stream api в свое время влюбился и разобрался в нем не хило). В реакторе в принципе суть похожая) (edited)
+
+
+Vladimir Gorbatenko [3 days ago]
+Первый нерабочий вариант загрузки файла у меня получился минут за 30 ))) Первым препятствием стал ajax, который по нашей схеме (без велосипеда new FormData()) не дружит с файлами.
+
+
+fonto [3 days ago]
+Я использовал vue js, в выпускном проекте хотел накатать на нем ui, но до выпускного так руки и не доходят)
+
+
+fonto [3 days ago]
+1.jpg
+
+
+
+fonto [3 days ago]
+2.jpg
+
+
+
+fonto [3 days ago]
+вот например 2 метода)
+
+
+Vladimir Gorbatenko [3 days ago]
+ты отдельно файлы сохранял.
+я на контроллер файлы отправлял вместе с данными формы...
+
+
+Vladimir Gorbatenko [3 days ago]
+у меня до выпускного, который только с требованиями, тоже руки не доходят, при том что в планах текущий проект перевести на boot.
+еще и постоянно на глаза попадается какая-то новая инфа, которую такой увидел и решил почитать/попробовать, отвлекающие моменты.
+
+
+Sergey Zhukov [3 days ago]
+@Vladimir Gorbatenko можно конвертировать в Base64 и хранить в виде строки в базе, а показывать как то так
+```background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAArCAYAAAA65tviAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHj....```
+
+
+Vladimir Gorbatenko [3 days ago]
+@Sergey Zhukov зачем лишние сложности, UUID генерит хороший уникальный номер
+
+
+Sergey Zhukov [3 days ago]
+чтоб не завязываться на файловую систему
+
+Vladimir Gorbatenko [3 days ago]
+если файлов мало, то да лучше хранить в базе, если много и их надо постоянно доставать, то лучше отдельно.
+
+
+Илья Чиликин [3 days ago]
+@Sergey Zhukov Между тем, смысловые картинки отображать background'ом некорректно, они должны быть в img по семантике.
+
+
+Sergey Zhukov [3 days ago]
+есть и другие варианты хранения в базе, там же есть тип byte, можно отдавать прямо из базы с нужным типом
+```return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(bis));```
+
+
+Sergey Zhukov [2 days ago]
+@Vladimir Gorbatenko вот запилил для пользователя аватарку
+в этой статье подглядел
+http://spring-projects.ru/guides/uploading-files/
+```@Data
+@Entity
+@Table(name = "foto")
+public class Foto {
+
+    @Id
+    private String filename;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "data")
+    private byte[] data;
+
+}```
+
+
+
+```public interface FotoRepository extends JpaRepository<Foto, String> {
+    Foto getByFilename(String filename);
+}```
+
+
+
+
+```@Controller
+public class FileUploadController {
+
+    @Autowired
+    FotoRepository fotoRepository;
+
+        @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                Foto foto = new Foto();
+                foto.setFilename(user.getUsername());
+                foto.setData(bytes);
+                fotoRepository.save(foto);
+                return "redirect:/home";
+            } catch (Exception e) {
+               throw new RuntimeException("Вам не удалось загрузить файл по причине" + e.getMessage());
+            }
+        } else {
+            throw new RuntimeException("Вам не удалось загрузить, потому что файл пустой.");
+        }
+    }
+
+    @GetMapping("/foto/{userName}")
+    public ResponseEntity get(@PathVariable("userName") String userName) {
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(fotoRepository.getByFilename(userName).getData());
+    }```
+
+
+
+```<form method="POST" enctype="multipart/form-data" action="/upload">
+    <input type="file" name="file">
+    <input type="submit" value="Загрузить">
+</form>
+<br/>
+<img th:src="${'/foto/' +  authUser.getUsername()}">```
+(edited)
+
+
+Vladimir Gorbatenko [2 days ago]
+@Sergey Zhukov то да, я видел этот пример, для boot много простых примеров
+
+Sergey Zhukov [2 days ago]
+для любого спринга подойдет, я кстати попробовал на  MySql базе, полет нормальный )
+
+
+Grigory Kislin [12:08 PM]
+@here
+спасибо за выпускные!
+сегодня начну проверять- в течении этой и следующей недели, поэтому имейте терпение
+сроки начала стажировки AT Consulting в процессе уточнения, ориентировочно на 24.01 (edited) 
+
+
+Alexey_b [Jan 10th at 3:51 PM]
+А кто-нибудь использовал spring-boot security starter, который прямо из коробки работает? Я его прикрутил, и для ролей даже не делал никакого ORM, не создавал entity, так как не нашел для этого надобности. Такой подход имеет место быть?
+
+
+5 replies
+Sergey Zhukov [2 days ago]
+из коробки вроде всего один юзер генерится, даже не знаю какая у него роль, по заданию 2 роли должно быть
+т.е. ты прямо в конфиге создал юзеров? скорей всего можно (edited)
+
+
+Dima [2 days ago]
+Не,ну надо наверно было все таки сделать security config,чтоб показать че как
+
+
+Alexey_b [2 days ago]
+Не, я имею в виду что я взял SQL структуру таблицы User и таблицы Authorities на сайте спринга, залил туда юзеров с паролями, добавил роли, тут все по честному. Но никакого custom dataSource я не создавал, спринг буту достаточно предполагать что такие таблицы созданы и он по умолчанию с ними работает. Правда entity User я все таки создал, так как с ним работаю
+
+
+Илья Чиликин [2 days ago]
+На то и convention over configuration. Но разграничить доступ ролей всё равно надо.
+
+
+Alexey_b [2 days ago]
+да не, я наверно непонятно выразился, роли все есть, секрьюрити конфиг есть, просто напрямую из кода таблицу ролей не видно, так как для нее не создано entity. Доступ к ролям осуществляется через principal
+
+
+Vladimir Gorbatenko [10:38 PM]
+Дошло дело до кэширования. Аналогично как у нас для users, проставил аннотации к остальным сущностям - крутяк, но получается какой-то boilerplate. Подозреваю, что должно быть какое-то универсальное средство, в котором например можно указать список сущностей, список методов для CacheEvict, и список методов Cacheable.
+
+
+Vladimir Gorbatenko [Yesterday at 11:44 AM]
+В целях эксперимента решил запустить проект не через *cargo_maven2_plugin*, а через *tomcat7-maven-plugin*. Наш плагин закомментировал, и как везде пишут добавил:
+```<plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+               <configuration>
+                    <path>/${project.build.finalName}</path>
+                    <url>http://localhost:8080/manager</url>
+                    <server>localhost</server>
+                </configuration>
+</plugin>```
+Запускал так:
+```mvn clean install -DskipTests=true tomcat7:run```
+```mvn clean package -DskipTests=true tomcat7:run```
+```mvn clean package -DskipTests=true tomcat7:run-war```
+clean и install/package прошли успешно, а вот на run - вылезла гора ошибок. Последняя такая:
+```Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+        at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:100)
+        at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:54)
+        at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:137)
+        at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+        at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94)
+        at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)```
+Соответственно бины не создались и все повалилось.
+Что в нужно написать в кофигурации этого плагина или где об этом почитать? (edited)
+
+
+3 replies
+Vladimir Gorbatenko [1 day ago]
+С jetty тоже не получилось подружить.
+```<plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.2.11.v20150529</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>```
+ *FAIL*
+
+
+Grigory Kislin [1 day ago]
+думаю что tomcat 7 не работает с jdk 11
+
+
+
+Vladimir Gorbatenko [11 hours ago]
+Победил я змея поганого, правда только через jetty.
+Добавил в *<build><plugins>*
+            ```<plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.14.v20181114</version>
+            </plugin>```
+Так как jetty ругался на julli (tomcat-овский), пришлось в профиле heroku (да, он нужен) отключить зависимость (наш пул коннектов)
+```<dependency>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <version>${tomcat.version}</version>
+                </dependency>```
+На этом этапе достаточно было просто в spring-db заменить класс *class="org.apache.tomcat.jdbc.pool.DataSource"* на *class="org.springframework.jdbc.datasource.DriverManagerDataSource"*, но гугл сказал что у h2 есть свой пул коннектов, а раз есть - надо прикрутить, заменил старый *dataSource* новый
+```<beans>
+        <context:property-placeholder location="classpath:/db/db.properties" system-properties-mode="OVERRIDE"/>
+        <bean id="dataSource" class="org.h2.jdbcx.JdbcConnectionPool" destroy-method="dispose">
+            <constructor-arg>
+                <bean class="org.h2.jdbcx.JdbcDataSource">
+                    <property name="URL" value="${database.url}"/>
+                </bean>
+            </constructor-arg>
+        </bean>
+    </beans>```
+Запуск:
+```mvn clean package -DskipTests=true jetty:run```
+
+
+Alexey P [8:53 PM]
+Кто-нибудь делал свой bean с ObjectMapper в SpringBoot чтобы избежать StackOverFlowError? Пробовал следующие варианты:
+1.
+- в main классе приложения:
+    ```@Bean
+    @Primary
+    public MappingJackson2HttpMessageConverter getMapper() {
+        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper mapper = jsonConverter.getObjectMapper();
+        mapper.registerModule(new Hibernate5Module());
+        mapper.registerModule(new JavaTimeModule());
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        --- далее по тексту
+        return jsonConverter;```
+Далее, в JsonUtil автоварим и получаем мэппер
+2.    
+- в main классе приложения:
+    ```@Bean
+    @Primary
+    public ObjectMapper getMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        --- далее по тексту
+        return mapper;```
+3. Отдельным бином:        
+что-то типа
+    ```@Configuration
+    @EnableWebMvc
+    public class JacksonObjectMapper {
+        private ObjectMapper mapper;
+        public JacksonObjectMapper() {
+            mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+        --- далее по тексту
+        
+    }
+    
+    @Bean
+    @Primary
+    public ObjectMapper getMapper() {
+        return mapper;
+    }
+}```
+main-класс запускал через CommandLineRunner.run
+Но пока не работает. Ошибка остается. Кто-то знает в чем-дело?
+Также пропобовал static блок в JsonUtil и так, как делали на topjava (edited) 
+
+Vladimir Gorbatenko [9:48 PM]
+Ради эксперимента решил перевести на gradle. Делал через *gradle init*. Было сообщение что все прошло успешно. Но *gradle build* вывалился с ошибкой.
+
+
+Илья Чиликин [Yesterday at 11:32 PM]
+@Grigory Kislin Григорий, подскажите, как правильно с точки зрения гита увеличивать номер версии в pom?
+К примеру, я сделал ветку с какой-то фичей. Увеличивать номер версии приложения - явно вне компетенции feature-ветки, поэтому pom version не трогаем.
+Теперь перехожу в develop (или в master) и мерджу feature-ветку. Допустим, никаких изменений кода мердж не потребовал.
+Теперь в ветке develop увеличить версию и делать отдельный commit -m "increase version" с одной только изменённой строкой pom version?
+
+
+2 replies
+Илья Чиликин [1 day ago]
+Собственно, посмотрел в Spring - видимо, всё именно так: https://github.com/spring-projects/spring-framework/commit/754ad4d0d3b3a9f884deb887f68487f335a9f1eb
+
+
+Grigory Kislin [6 hours ago]
+нуда. вообще изменение версии к пше никакого отношения не имеет- только к функционалу приложения

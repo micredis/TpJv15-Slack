@@ -1712,3 +1712,131 @@ summarty обычно: Java developer и все... (edited)
 
 Grigory Kislin [12 hours ago]
 остальное можно в about me
+
+
+Gekov Iliya Jan 7th at 9:50 PM
+@Grigory Kislin Заметил, что у нас при создании юзера, если происходит попытка создать уже с существующим емейлом, в базе выделяется новый id, после чего уже вылетает исключение, хотя сохранения, соответственно, не происходит. То есть если попытаться 10 раз создать пользователя с существующим мылом, то следующий id при успешном создании будет 11.  Мне кажется это не очень правильно, возможно, стоит все таки проверять на дубликат емейла до попытки сохранения в базу....
+
+Vladimir Gorbatenko 5 days ago
+хочешь экономить на айдишках? ))) не жалей их! (edited)
+
+Sergey Zhukov 5 days ago
+@Gekov Iliya это не проблема, а стратегия
+strategy = GenerationType.SEQUENCE
+попробуй
+"enhanced-sequence" (edited)
+
+Grigory Kislin 3 days ago
+я согласен- лишние id не проблема
+это относится к JPA и базе данных- те не надо пытаться их чинить или улучшать (edited)
+
+
+Стецко Максим [Jan 10th at 10:12 AM]
+Позвали на 1 собеседование, сказали написать на какую зарплату расчитываете. Я вот в раздумьях, на джуна у нас Пермском крае диапазон с 30-60, как вообще можно примерно себя оценить?)
+
+
+2 replies
+Pushkin [3 days ago]
+Привет. Вот видео, которое поможет тебе ответить на этот вопрос (6 мин) - https://www.youtube.com/watch?v=Deb5wMHjBHY
+YouTube SiliconValleyVoice
+Собеседование/интервью на работу: как продать себя грамотно - Михаил Портнов - Siliconvalleyvoice
+ 
+
+
+Grigory Kislin [2 days ago]
+http://javaops.ru/view/test
+Java Online Projects
+Тестовое собеседование
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise (24 kB)
+
+
+Vladimir Gorbatenko [5:09 PM]
+Кто-то пробовал из Идеи запускать проект с спринг профилем tomcat? например так:
+```-Dspring.profiles.active=datajpa,tomcat```
+(edited)
+
+
+Igor [Yesterday at 1:54 PM]
+Делаю выпускной проект и столкнулся с одной вещью. Кто-нибудь может объяснить?
+В нашем проекте если выполнить следующий запрос, то он отработает без ошибок, т.е. будет создан новый пользователь, ему будет назначен следующий по-порядку id, вернется статус 204.
+И это при том, что PUT у нас используется для апдейта и ресурса по адресу `http://localhost:8080/topjava/rest/admin/users/1231213` не существует.
+Такое поведение вообще нормально или нужно доработать приложение?
+```curl -X PUT \
+  http://localhost:8080/topjava/rest/admin/users/1231213 \
+  -H 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "name": "AdminNEW",
+        "password": "AdminNEW",
+        "email": "AdminNEW@gmail.com",
+        "caloriesPerDay": 1900
+    }'```
+
+
+6 replies
+Илья Чиликин [1 day ago]
+Проверил: Spring Data считает, что нормально. (edited)
+
+
+Igor [1 day ago]
+Можешь ссылку скинуть?
+По-идее при создании статус должен быть 201
+
+
+Sergey Zhukov [1 day ago]
+для PUT ресурс не нужен, нужен только для GET
+точнее когда задал @PutMaping("/rest/admin/users/{id}")
+ожидается любой набор символов вместо id, далее или его обработает спринг или выкинет исключение, что не может конвертировать в int или long (edited)
+
+
+Sergey Zhukov [1 day ago]
+статус 204 задан с помощью аннотации
+@ResponseStatus(value = HttpStatus.NO_CONTENT)
+или методом created из билдера ResponseEntity
+
+
+Igor [1 day ago]
+Вот эта картинка меня слегка успокоила. 200 - ресурс обновлен, 204 - ресурс создан.
+Pasted image at 2019-01-11, 4:29 PM
+
+
+
+Igor [1 day ago]
+Хотя вот тут написано, что это чисто эстетический выбор:
+```Whether 200 is used in preference to 204 is largely an aesthetic choice. However,
+200 with a response body is more descriptive and actively confirms the server-side
+state, while 204 is more efficient since it returns no representation and indicates that
+the server has accepted the request representation verbatim```
+
+
+Vladimir Gorbatenko [Yesterday at 9:32 PM]
+В нашем pom.xml есть зависимость
+```<dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${javax-el.version}</version>
+            <scope>provided</scope>
+        </dependency>```
+Говорится что это нужно для хибернейт валидатора. Закомментировал зависимость, вводил неверные данные - все работает. (edited)
+
+
+1 reply
+Grigory Kislin [1 day ago]
+в уроке есть ссылка на доку. посмотри- может есть валидации, для которых она нужна
+
+
+Vladimir Gorbatenko [9:35 PM]
+Залез в метод _public ErrorInfo bindValidationError(HttpServletRequest req, Exception e)_ и обалдел какой путь проходит система пока не выдаст отформатированное сообщение.
+
+
+Igor [Today at 12:23 PM]
+Почему в контроллерах по-разному реализован апдейт - RestController через _put_, а в UiController через _post_?
+
+
+2 replies
+Vladimir Gorbatenko [10 hours ago]
+@Igor по правилам rest, как я понял,  надо отдать ссылку на созданный объект, и соответствующий ответ с объектом. (edited)
+
+
+Grigory Kislin [6 hours ago]
+в сервлетах PUT и параметры в теле не работают. в уроке есть ссылкаs
