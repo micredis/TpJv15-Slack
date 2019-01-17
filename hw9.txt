@@ -779,3 +779,31 @@ Sergey Zhukov [4 days ago]
 
 Grigory Kislin [4 days ago]
 да, видео старенькие.... но переделывать - это куча времени. постепенно чтото делаю, на самых устаревших видео. новые все получше..
+
+
+Artem   [Jan 13th at 10:08 AM]
+Добрый всем день! Кто-нибудь сталкивался с такой ошибкой при реализации spring security?
+
+There is no PasswordEncoder mapped for the id “null”
+Притом что я не использую никакого кодирования.
+И даже если оставить бин PasswordEncoder  в spring security, то ничего не меняется ошибка такая же (edited)
+3 replies
+
+Sergey Zhukov   [5 days ago]
+https://topjava15.slack.com/archives/CDMGPS3RA/p1546199566033000
+Sergey Zhukov
+У кого-нибудь было что Postman получает в ответ на DELETE и PUT с базовой авторизацией
+```There is no PasswordEncoder mapped for the id &quot;null&quot;```
+даже до метода контроллера не доходит
+а в IDEA RESTfull тулза с PUT и DELETE работает
+Thread in #graduationDec 30thView message
+
+Sergey Zhukov   [5 days ago]
+если используешь по умолчанию настройки то spring-security будет ожидать что в базе хранятся пароли в {bcrypt}, перед сохранением надо кодировать
+если будешь использовать
+```<beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>```
+то можно руками в базу сохранять некодированные с префиксом {noop}
+
+
+Artem   [4 days ago]
+понял)) Спасибо большое

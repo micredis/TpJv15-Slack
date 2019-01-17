@@ -2245,3 +2245,15 @@ Grigory Kislin [3 days ago]
 
 Vladimir Gorbatenko [5:43 PM]
 Кто-то заметил когда у нас пропал codacy? :slightly_smiling_face:
+
+
+Vladimir Gorbatenko   [Jan 15th at 11:32 PM]
+Если я смог полностью перевести (все конфиги) аналог нашего проекта (голосовалку с немного расширенным функционалом)  на boot, то могу ли я в скилах указывать Spring Boot? :slightly_smiling_face:
+1 reply
+
+Grigory Kislin   [1 day ago]
+можно!
+
+
+Grigory Kislin [12:25 PM]
+до 20.01 - out of office

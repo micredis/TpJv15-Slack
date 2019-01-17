@@ -1801,3 +1801,320 @@ https://cdn.fishki.net/upload/post/2019/01/08/2830937/fa1a1a71e4310bf5e25d3957bb
 Yevhen Maksymovych [10:35 AM]
 ребят, а никто не сталкивался с майкрософтским botnetwork? там раньше было bot api, где можно было привязать самостоятельно скайпбота, и указать эндпоинт, на который скайп будет слать сообщения, а теперь я вижу только платформу azure, где можно разместить только там же сконфигуренного бота
 при этом старое апи рабочее, по крайней мере, я могу через него авторизоваться, но непонятно, где сконфигурить эндпоинты со стороны мс
+
+
+Raisa   [Jan 14th at 1:02 PM]
+TopJava определенно развивает мышление разработчика :+1: :+1::+1: за три дня написала тестовое задание - ToDo Android-приложение на Kotlin. Хотя раньше Kotlin в глаза не видела и с Android SDK было довольно поверхностное знакомство. С проектированием вообще проблем не возникло
+
+UPD
+тестовое понравилось, пригласили попробовать разобраться в проекте на продакшене :slightly_smiling_face: (edited)
+10 replies
+
+Vladimir Gorbatenko   [3 days ago]
+Круть! )
+Что за задание было?
+
+Raisa   [3 days ago]
+интерфейс - добавить задачу, показать список задач, показать список выполненных задач, функциональность - добавление задачи, перенос в список выполненных, удаление ) (edited)
+
+Raisa   [3 days ago]
+сделала 3 активити - главное меню, два для списков задач,  а добавление, удаление, перенос сделала через alertdialog-и, БД SQLite (edited)
+
+Dima   [3 days ago]
+Для мобильных приложений знаний java core вполне хватает.
+
+Raisa   [3 days ago]
+в процессе поисков попадался пример мобильного приложения на Spring ) интересно, насколько это целесообразно и в каких случаях
+
+Vladimir Gorbatenko   [2 days ago]
+@Raisa, умница, быстро схватываешь! Когда-то прошел небольшой курс по андройд, даже написал несколько простеньких приложений. Уверен что без тех знаний и пониманий как оно работает, вряд ли за несколько дней въехал бы.
+
+Grigory Kislin   [1 day ago]
+ОТлично! устроилась?
+
+Raisa   [15 hours ago]
+@Grigory Kislin не, не получилось.. им понравилось, что я быстро вникаю и мои софт скилы.. выбирали между мной и еще одним парнем, но он лучше разбирается, т.к. с лета изучает андроид и какую-то школу по мобильным приложениям закончил и смог слету въехать в работу, что для них критично. Но мы договорились, что будем на связи ) и вот не знаю, продолжать ли копать в направлении андроид-разработки или на джава сосредоточиться.. Мне и то и то очень нравится по-своему.. (edited)
+
+Raisa   [15 hours ago]
+если получится java-разработчиком устроиться, оставлю андроид как хобби )
+
+Grigory Kislin   [11 hours ago]
+не расстраивайся, значит для тебя будет чтото еще лучше. если будешь знатьь и то, и то- то и спрос больше и возможностей (edited)
+
+
+Vladimir Gorbatenko [12:13 AM]
+1394469109_1006945563.jpg 
+
+
+izgarshev.pavel   [Yesterday at 12:15 PM]
+Здравствуйте, еще не поздно поучаствовать в 16 кампании?
+2 replies
+
+Gekov Iliya   [1 day ago]
+Насколько знаю 31.01 стартует, так что не поздно
+
+Grigory Kislin   [1 day ago]
+в личном кабинете кнопка- пойти на повтор
+будет доступна в течении всего topjava16
+
+
+Ansseii   [Yesterday at 11:07 PM]
+Коллеги, спешу с вами поделиться и своей радостной новостью, сегодня мне предложили оффер и с 1 февраля я выхожу на работу как разработчик с испытательным сроком - месяц. В процессе отбора было техническое собеседование и тестовое задание(его, для интересующихся, могу скинуть утром). Наверное, мне повезло, но это было первое собеседование, где пробился до технической части и сразу - успех. До этого около 5-6 заявок было либо проигнорированно, либо отказано без какой либо обратной связи. Весь процесс занял срок с 28 декабря, до сегодняшнего дня. (edited)
+19 replies
+
+Vladimir Gorbatenko   [24 hours ago]
+Поздравляю!!! Конечно скидывай задание
+
+Raisa   [13 hours ago]
+какие вопросы задавали на собеседовании?
+
+
+Ansseii   [13 hours ago]
+Как и обещал, выкладываю ТЗ
+test_schema.sql 
+--
+-- PostgreSQL database dump
+--
+​
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2014-09-19 16:52:53 MSK
+​
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+​
+--
+-- TOC entry 7 (class 2615 OID 16385)
+-- Name: test; Type: SCHEMA; Schema: -; Owner: postgres
+--
+​
+CREATE SCHEMA test;
+​
+​
+ALTER SCHEMA test OWNER TO postgres;
+​
+--
+-- TOC entry 1973 (class 0 OID 0)
+-- Dependencies: 7
+-- Name: SCHEMA test; Type: COMMENT; Schema: -; Owner: postgres
+--
+​
+COMMENT ON SCHEMA test IS 'test schema';
+​
+​
+SET search_path = test, pg_catalog;
+​
+SET default_tablespace = '';
+​
+SET default_with_oids = false;
+​
+--
+-- TOC entry 171 (class 1259 OID 16386)
+-- Name: person; Type: TABLE; Schema: test; Owner: postgres; Tablespace: 
+--
+​
+CREATE TABLE person (
+  id integer NOT NULL,
+  last_name text,
+  first_name text,
+  middle_name text,	
+  birth_date date,
+  comment text,
+  update_date timestamp	
+);
+​
+​
+ALTER TABLE test.person OWNER TO postgres;
+​
+--
+-- TOC entry 1974 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: TABLE person; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON TABLE person IS 'person table';
+​
+​
+--
+-- TOC entry 1975 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN person.id; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON COLUMN person.id IS 'person id';
+​
+​
+--
+-- TOC entry 1976 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN person.last_name; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON COLUMN person.last_name IS 'person last name';
+​
+​
+--
+-- TOC entry 1977 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN person.first_name; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON COLUMN person.first_name IS 'person first name';
+​
+​
+--
+-- TOC entry 1978 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN person.middle_name; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON COLUMN person.middle_name IS 'person middle name';
+​
+​
+--
+-- TOC entry 1979 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN person.birth_date; Type: COMMENT; Schema: test; Owner: postgres
+--
+​
+COMMENT ON COLUMN person.birth_date IS 'person birth date';
+​
+​
+--
+-- TOC entry 1968 (class 0 OID 16386)
+-- Dependencies: 171
+-- Data for Name: person; Type: TABLE DATA; Schema: test; Owner: postgres
+--
+​
+INSERT INTO person (id, last_name, first_name, middle_name, birth_date) VALUES (1, 'Иванов', 'Иван', 'Иванович', '1985-05-06');
+INSERT INTO person (id, last_name, first_name, middle_name, birth_date) VALUES (2, 'Петров', 'Петр', 'Петрович', '1990-12-08');
+​
+​
+--
+-- TOC entry 1860 (class 2606 OID 16393)
+-- Name: person_pkey; Type: CONSTRAINT; Schema: test; Owner: postgres; Tablespace: 
+--
+​
+ALTER TABLE ONLY person
+  ADD CONSTRAINT person_pkey PRIMARY KEY (id);
+​
+​
+-- Completed on 2014-09-19 16:52:53 MSK
+​
+--
+-- PostgreSQL database dump complete
+--
+
+
+Ansseii   [13 hours ago]
+Word Document 
+test_task.docx
+14 kB Word Document — Click to download
+
+Ansseii   [13 hours ago]
+По вопросам - ООП, паттерны, Spring(DI, IoC, то есть вопросы по core), различия между структурами данных, подробно про HashMap. К счастью, компилятором работать не пришлось, и кода на бумажке я избежал:grin:
+
+Vladimir Gorbatenko   [12 hours ago]
+1 - здорово что так шикарно описано ТЗ!!!
+2 - непонятно вот это :
+```- Обязательное условие: веб-приложение должно быть сконфигурировано и запущено при помощи Spring Boot.
+- 4.    В качестве сервера приложения проще всего использовать apache tomcat 7``` 
+Ведь если у нас вэб приложение на spring-boot, то будем мы использовать *spring-boot-starter-web*, а он в себя включает tomcat.embed (сейчас 9,0,14) и запускается приложение через spring-boot
+```@EnableCaching
+@EnableWebMvc
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Application.class, args);
+    }
+}```
+Так вот, зачем нужен Tomcat 7?
+
+Grigory Kislin   [12 hours ago]
+поздравляю!! после испытательного жду истоию успеха.
+
+Vladimir Gorbatenko   [11 hours ago]
+Сколько времени ушло на тестовое задание?
+Много раз читал о том что на собесах спрашивают о HashMap, будто если ты познал его, то сильно приблизился к java-гуру, если честно - не понятно почему так. Для себя когда-то стало интересно как он работает, за короткое время разобрался да и все.
+
+Ansseii   [11 hours ago]
+@Vladimir Gorbatenko условие про томкат осталось с времен, когда тз писали на MVC. Я так понимаю, что в условия причислили Boot, а старые условия не все убрали:slightly_smiling_face:
+
+Vladimir Gorbatenko   [11 hours ago]
+@Ansseii вот и я думаю, что бут это совсем другой компот :slightly_smiling_face:
+
+Ansseii   [11 hours ago]
+На ТЗ было дано 3 дня
+
+Ansseii   [11 hours ago]
+Собственно сильно сложных вещей не было, сильно затормозили меня разборки с  WebSocket, .@Async и фронтом на js:grin:
+
+Nikita Ganin   [11 hours ago]
+3 дня не очень много, если параллельно работать надо) Хотя я так понимаю это все на праздниках было
+
+Nikita Ganin   [11 hours ago]
+Не очень понятно про сервис номер 6. Как реализовать?
+
+Raisa   [10 hours ago]
+интересно, как п.7 реализовать?
+
+Ansseii   [10 hours ago]
+@Nikita Ganin В спринге для запуска в отдельном потоке кода существует аннотоция @Async. На самом деле этот пункт я сам не успел оформить в коде как положено и пришлось делать “заглушку” из упрощенной реализации. На собеседовании был по этому вопрос, я описал свои идеи на словах, пункт зачли, ссылаясь только на правильный ход мышления.
+
+Ansseii   [10 hours ago]
+@Raisa По WebSocket есть на сайте спринга туториал.
+
+Ansseii   [10 hours ago]
+Если кому то интересно мое решение, вот ссылка
+https://github.com/Ansseii/test_task
+Ansseii/test_task
+RESTful Spring Boot app with client side on html5/jQuery
+Language
+Java
+Last updated
+2 days ago
+Ansseii/test_taskJan 13thAdded by GitHub
+
+Vladimir Gorbatenko   [6 hours ago]
+Про @Async прикольно, не знал. Вот статейка
+http://spring-projects.ru/guides/async-method/
+Сколько же в спринге этих неизвестных фишечек???!!!
+
+
+Pushkin   [Today at 4:21 PM]
+https://meduza.io/news/2019/01/17/hakery-opublikovali-bazu-dannyh-s-773-millionami-pochtovyh-adresov-i-22-millionami-paroley
+Meduza
+Хакеры опубликовали базу данных с 773 миллионами почтовых адресов и 22 миллионами паролей — Meduza
+В интернет выложили базу данных с почти 773 миллионами уникальных адресов электронной почты и почти 22 миллионами уникальных паролей. Об этом сообщил эксперт в области компьютерной безопасности Трой Хант.
+5 replies
+
+Vladimir Gorbatenko   [7 hours ago]
+что-то как-то не верю..
+
+Pushkin   [7 hours ago]
+Проверь себя...
+
+Gekov Iliya   [7 hours ago]
+Проверил, вроде пронесло)
+
+Vladimir Gorbatenko   [6 hours ago]
+мое старое мыло попало...
+
+Raisa   [4 hours ago]
+мое основное попало.. спасибо :+1:
+
+
+Pushkin [4:42 PM]
+https://haveibeenpwned.com/
+haveibeenpwned.com
+Have I Been Pwned: Check if your email has been compromised in a data breach
+Have I Been Pwned allows you to search across multiple data breaches to see if your email address has been compromised.

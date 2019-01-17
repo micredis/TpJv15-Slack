@@ -3382,3 +3382,267 @@ Vladimir Gorbatenko [9:48 PM]
 
 Grigory Kislin [6 hours ago]
 нуда. вообще изменение версии к пше никакого отношения не имеет- только к функционалу приложения
+
+
+Илья Чиликин   [3 days ago]
+Григорий, а Вы можете сказать, в какой ветке стоит увеличивать номер версии, и адекватно ли при каждом мердже feature-ветки делать отдельный коммит с увеличением версии в основной ветке?
+
+Grigory Kislin   [3 days ago]
+я может не совсем вопрос понял....
+почему у тебя при каждом мержде версия меняется??
+версия меняется при очередном релизе- совсем нечасто
+
+Илья Чиликин   [3 days ago]
+Если мы говорим про major.minor.patch, то первая цифра меняется редко, а третья достаточно часто. Небольшие багфиксы, например.
+
+Илья Чиликин   [3 days ago]
+Вот наглядный пример: я не знаю, в какой момент Вы будете смотерть мою работу, поэтому любую фичу я стараюсь по мере готовности сливать в мастер и отправлять в github - по сути это релиз.
+
+Grigory Kislin   [1 day ago]
+я не встречал на проектах, чтобы ее в версию мавен заносили... можно просто приклеивать
+но вопрос интересный- попробуй погуглить
+
+
+Vladimir Gorbatenko   [Jan 13th at 11:09 PM]
+Подключил к проекту travis. Некоторые тесты, которые на домашнем компе отлично проходят, там ни в какую не хотели проходить некоторые тесты в которых выборка происходит по дате. Грешил на timezone. Пересмотрел тесты, вставил в тесты конкретный timezone. Не помогло. Начал подгонять тесты и делать вывод в консоль, чтоб на самом трэвисе выяснить причину. И выяснил такой неприятный момент - метод (запрос) который гребет данные, изначально дублировал строки, как Users->Roles когда у юзера 2 роли (получается две строки, в одной роль админ, в другой роль юзер, но нужна одна с Set внутри), реализовал у себя простым путем - HQL-запросом, где Основная таблица и к ней лефтджойнами еще две, в итоге я имел *List<T>* в котором были правильные объекты, содержащие в себе правильные *List<Item>*, но был дубляж. Достаточно быстро было нагуглено простое решение - *Set* хранит уникальные объекты, собственно на слое Сервис сделал возврат *new HashSet<>(List<T>)*. И все это отлично работает на локальном компе и на хероку.  А вот трэвис в упор не видит моего листа и вывод в консоль говорит что данных нет. Переделал запрос на простой "select * from where order by ", и над ним поставил @EntityGraph с нужными мне атрибутами, теперь танцы с преобразованием из лист в сэт не нужны, данные не дублируются. Трэвис по прежнему говорит что данных нет...
+1 reply
+
+Grigory Kislin   [3 days ago]
+копай дельше. travis- этоже просто оболочк5а для запуска java
+
+
+Dima [11:05 AM]
+@Grigory Kislin Спасибо за отзыв по выпускному, подшаманил по замечаниям. Жду инфы по spring boot, может удастся поучавствовать (edited) 
+
+
+Vladimir Gorbatenko   [Jan 15th at 11:10 AM]
+Я тут второй день #цензура# с переводом проекта на spring boot. Сначала показалось все просто - создавал конфиги аналогично нашим xml файлам. Все создал, начал запускать - а оно нифига не работает... Сейчас завис на
+```Could not resolve view with name 'redirect:voting' in servlet with name 'dispatcherServlet'```
+(edited)
+4 replies
+
+Dima   [3 days ago]
+попробуй
+```return "redirect:/voting"```
+
+Sergey Zhukov   [2 days ago]
+@Vladimir Gorbatenko у тебя thymeleaf?
+
+Vladimir Gorbatenko   [2 days ago]
+Нет, все на jsp, меняются только зависимости и конфиги. Проблему уже решил, она просто была очередной в огромной куче. Проблемы вылазят там где их совсем не ждешь.
+Кстати с зависимостями отдельная колбаса. Подключил spring-boot-* и входя в них смотрел какие из наших можно убить, но не убивал, а комментировал, теперь же сталкиваюсь с тем, что некоторые обратно открываю.
+
+Raisa   [2 days ago]
+я тоже столкнулась с тем, что нужно комментировать, а не удалять  то, что кажется не нужным в процессе экспериментов и поиска решений. У меня было три версии одного проекта, потом из каждого какие-то удачные решения собрала в один :+1:
+
+
+Vladimir Gorbatenko [5:25 PM]
+Имею какие-то странные проблемы со статическими путями..
+*Проблема 1* - "messages.app"
+Как я только не пытался прикрутить, чтоб работало в изначальном месте (в папке config) - ничего не выходило.
+В итоге (мне не нравится), переместил папку "messages" в "src\main\resources". И сделал бин
+```@Bean("messageSource")
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages/app");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(5);
+        messageSource.setFallbackToSystemLocale(false);
+        return messageSource;
+    }```
+При чем везде пишут что надо делать  через _classpath:_ *reloadMessage.setBasename("classpath:/messages");*
+*Проблема 2*
+В spring-mvc.xml была такая строка:
+```<mvc:resources mapping="/pictures/**" location="file:///#{systemEnvironment['VOTING_ROOT']}/images/" />```
+Потратил кучу времени никак не получается. Такой вариант не работает. Получаю 404.
+```@Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        final String IMAGES_PATH = "file:///" + System.getenv("VOTING_ROOT").replace("\\","/") + "/images/";
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
+                .addResourceLocations("/webjars/","classpath:/META-INF/resources/webjars/")
+                .addResourceLocations("/pictures/**",IMAGES_PATH);
+    }```
+В который раз убеждаюсь, для того чтоб быстро решить вопрос - надо его кому-то задать )))
+Через 30 сек после поста, сделал так и все заработало :slightly_smiling_face:
+```@Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        final String IMAGES_PATH = "file:///" + System.getenv("VOTING_ROOT").replace("\\","/") + "/images/";
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
+                .addResourceLocations("/webjars/","classpath:/META-INF/resources/webjars/");
+
+        registry.addResourceHandler("/pictures/**")
+                .addResourceLocations(IMAGES_PATH);
+    }```
+
+Roman [9:10 PM]
+Всем привет. У всех отвалилась сборка тревисом на jdk11 ?
+
+
+Roman   [Jan 15th at 9:11 PM]
+Installing oraclejdk11
+$ export JAVA_HOME=~/oraclejdk11
+$ export PATH=“$JAVA_HOME/bin:$PATH”
+$ ~/bin/install-jdk.sh --target “/home/travis/oraclejdk11" --workspace “/home/travis/.cache/install-jdk” --feature “11" --license “BCL”
+install-jdk.sh 2018-10-17
+Variables:
+ feature = 11
+ license = BCL
+      os = linux-x64
+     url = http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7/jdk-11.0.1_linux-x64_bin.tar.gz
+  status = 302
+ archive = /home/travis/.cache/install-jdk/jdk-11.0.1_linux-x64_bin.tar.gz
+Downloading JDK from http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7/jdk-11.0.1_linux-x64_bin.tar.gz...
+The command “~/bin/install-jdk.sh --target “/home/travis/oraclejdk11” --workspace “/home/travis/.cache/install-jdk” --feature “11” --license “BCL”" failed and exited with 8 during .
+11 replies
+
+Gekov Iliya   [2 days ago]
+Не, всё ок вроде
+
+Roman   [2 days ago]
+Ну надо пересборку запустить
+
+Gekov Iliya   [2 days ago]
+Да запускал
+
+Roman   [2 days ago]
+Странно
+
+Gekov Iliya   [2 days ago]
+Ща еще раз попробую
+
+Gekov Iliya   [2 days ago]
+А, да, упал билд)
+
+Gekov Iliya   [2 days ago]
+Та же проблема
+
+Roman   [2 days ago]
+Ну значить проблема на сервисе. Надо им как то кинуть баг репорт
+
+Vladimir Gorbatenko   [2 days ago]
+Я после 3-4 часов копаний и экспериментов с неработащим ( только на тревисе ) методом, забил на него.
+
+Roman   [2 days ago]
+Текуща проблема со сборкой не из-за тревиса, просто jdk недоступна теперь по тому урлу по которому была доступна. (edited)
+
+Roman   [1 day ago]
+переключил на openjdk11 travis, стало нормально собираться
+
+
+Roman [9:12 PM]
+Я правильно понимаю, что worker не может jdk слить с репозитория  oracl’a?
+
+Vladimir Gorbatenko [1:00 PM]
+Дошло дело для тестирования. И выявилось странное дело, - коды возвратов совсем не те, которые ожидаются. например ожидаю редирект, а получаю ошибку, хотя по факту происходит редирект.
+
+Илья Чиликин [4:17 PM]
+Будьте внимательны: у Travis есть идентичные на вид https://travis-ci.com и https://travis-ci.org - используйте *.com*.
+
+
+Igor   [Today at 10:20 AM]
+Никто не думал, что делать, если пользователь и ресторан в разных часовых поясах?? :face_with_rolling_eyes: (edited)
+6 replies
+
+Gekov Iliya   [13 hours ago]
+Как же он в ресторан в этот день пойдет если они в разных зонах?) Даже если предположить, что пользователь собирается все таки успеть добраться, то его локальное время особого значения иметь не будет.
+
+Igor   [13 hours ago]
+Время пользователя действительно значения не имеет. К тому же пользователь может его подменить. А вот сервер и ресторан скорее всего будут в разных часовых поясах.
+
+Gekov Iliya   [13 hours ago]
+Я исходил из самого простого, что сервер и рестораны в одной зоне, а так если развивать эту мысль, то можно добавить возможность админу, к примеру, указывать временную зону ресторану и от этого плясать при подсчете голосов и т.п.
+
+Sergey Zhukov   [13 hours ago]
+да ширина часового пояса ~1000км, когда будет охват аудитории соответствующий, можно расширить функционал.
+можно попробовать взять IP из запроса и выяснять откуда пришел голос,  предусмотреть для этого интерфейс, чтобы в будущем подключаться к сервису с базой IP
+или клиент свое время или тайм-зону указывает в запросе, это проще реализовать
+
+Илья Чиликин   [12 hours ago]
+Люди из разных часовых поясов выбирают, где бы совместно пообедать сегодня до 11 утра. :face_with_rolling_eyes:
+
+
+Gekov Iliya   [12 hours ago]
+Счастливые часов не наблюдают)
+
+
+Vladimir Gorbatenko   [Today at 11:21 AM]
+Запнулся на security, вот на этом моменте:
+```<http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+        <http-basic/>
+        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/profile/register" access="isAnonymous()"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <http>
+        <intercept-url pattern="/login" access="permitAll()"/>
+        <intercept-url pattern="/register" access="isAnonymous()"/>
+
+        <intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <form-login login-page="/login" default-target-url="/meals"
+                    authentication-failure-url="/login?error=true"
+                    login-processing-url="/spring_security_check"/>
+        <logout logout-success-url="/login"/>
+    </http>```
+При реализации получилось "2 группы". Работает либо одна, либо другая. (edited)
+1 reply
+
+Grigory Kislin   [12 hours ago]
+https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity
+https://stackoverflow.com/questions/33603156/spring-security-multiple-http-config-not-working
+Stack Overflow
+Spring Security : Multiple HTTP Config not working
+I am trying to use Spring Security and I have a use case where I want different login pages and different set of URLs to be secured. Here is my configuration: @Configuration @Order(1) public static
+
+
+Vladimir Gorbatenko [11:22 AM]
+Untitled 
+     http
+        .httpBasic().and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .requestMatchers()
+          .antMatchers("/rest/**")
+        .and().authorizeRequests()
+          .antMatchers("/rest/admin/**").hasRole("ADMIN")
+          .antMatchers("/rest/profile/register").anonymous()
+          .antMatchers("/**").authenticated()
+        .and().csrf().disable();
+​
+    http
+        .authorizeRequests()
+          .antMatchers("/login").permitAll()
+          .antMatchers("/register").anonymous()
+          .antMatchers("/**/admin/**").hasRole("ADMIN")
+          .antMatchers("/**").authenticated()
+        .and().authorizeRequests()
+        .anyRequest()
+        .authenticated().and().formLogin()//csrf().disable().
+          .loginPage("/login").defaultSuccessUrl("/voting")
+          .failureUrl("/login?error=true")
+          .loginProcessingUrl("/spring_security_check")
+        .and().logout()
+          .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+          .logoutSuccessUrl("/login").and().exceptionHandling()
+        .and().csrf();
+Collapse 
+
+Grigory Kislin [12:17 PM]
+@here
+AT Consulting планирует старт очередной стажировки в начале февраля.
+Часть выпускных я проверил, остальных проверю и напишу результаты на следующей неделе.
+До вечера 20.01 буду малодоступен (как говорится "Out of office").
+
+Перед начало проверки я всегда обновляю репозиторий, поэтому, если есть что исправить, сделайте!
+Особое внимание обращаю на ТЗ и замечания. Еще раз - админов мало, а юзеров очень много. А голосов на порядок больше, чем юзеров. В который раз - не делайте того, что не просят! Обычно там делается большое количество ошибок. (edited) 
+
+Alexey P [9:40 PM]
+Не смог сходу понять метрики SoapUI LoadTest. Кто-нибудь знает как это интерпретировать?
+SoapLoadTest.png 
