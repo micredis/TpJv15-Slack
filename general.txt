@@ -2257,3 +2257,39 @@ Grigory Kislin   [1 day ago]
 
 Grigory Kislin [12:25 PM]
 до 20.01 - out of office
+
+
+Vladimir Gorbatenko   [Today at 10:58 AM]
+Кто-то пробовал прикрутить RestDocs, получилось?
+2 replies
+
+Dima   [5 hours ago]
+Я делал,curl делает хорошо))
+
+Vladimir Gorbatenko   [3 hours ago]
+Получилось. Пол дня игр с разными вариациями.
+Кому интересно (для Spring-boot и JUnit5):
+1) добавляем зависимость
+```<dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>```
+2) Добавляем аннотацию @ExtendWith...
+```@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+abstract public class AbstractControllerTest {...```
+3) Переносим создание _MockMvc_ из *@PostConstruct* в *@BeforeEach*
+```@BeforeEach
+    void setUp(RestDocumentationContextProvider restDocumentation) {
+
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(webApplicationContext)
+                .addFilter(CHARACTER_ENCODING_FILTER)
+                .apply(documentationConfiguration(restDocumentation))
+                .alwaysDo(document("{method-name}",
+                        preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
+                .apply(springSecurity())
+                .build();
+...}```
+4) Результаты смотреть в директории
+*target/generated-snippets/* (edited)
