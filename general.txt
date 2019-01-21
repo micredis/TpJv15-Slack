@@ -2263,7 +2263,7 @@ Vladimir Gorbatenko   [Jan 18th at 10:58 AM]
 Кто-то пробовал прикрутить RestDocs, получилось?
 3 replies
 
-Dima   [3 days ago]
+Dima   [4 days ago]
 Я делал,curl делает хорошо))
 
 Vladimir Gorbatenko   [3 days ago]
