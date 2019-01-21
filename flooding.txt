@@ -2118,3 +2118,24 @@ https://haveibeenpwned.com/
 haveibeenpwned.com
 Have I Been Pwned: Check if your email has been compromised in a data breach
 Have I Been Pwned allows you to search across multiple data breaches to see if your email address has been compromised.
+
+
+Nikita Ganin   [Jan 18th at 4:05 PM]
+А кто-то из устроившихся уже вышел на работу? Расскажите как проходят первые дни. Интересно, как происходит ввод человека в проект. (edited)
+5 replies
+
+Vladimir Gorbatenko   [3 days ago]
+в чьем-то видео была ткая картинка :slightly_smiling_face:
+https://vokrug.tv/pic/news/2/3/2/5/23250e1719f371152a4283025919f4ef.jpeg
+
+Raisa   [3 days ago]
+@Vladimir Gorbatenko про микросервисы :slightly_smiling_face:
+
+Vladimir Gorbatenko   [3 days ago]
+@Raisa да, вроде там )
+
+Yevhen Maksymovych   [3 days ago]
+примерно так
+
+Yevhen Maksymovych   [3 days ago]
+Pasted image at 2019-01-18, 6:02 PM 
