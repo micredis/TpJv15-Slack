@@ -3709,3 +3709,119 @@ Sergey Zhukov   [2 days ago]
 Vladimir Gorbatenko   [2 days ago]
 да, норм запустилось через мавен
 ```mvn clean package -DskipTests=true spring-boot:run```
+
+
+pjer   [Yesterday at 12:07 AM]
+Народ, помогите, пожалуйста. Несколько дней назад начал писать выпускной проект, но не очень понимаю, то должно получиться. Я не прошу давать комментарии по ТЗ. Не понимаю, что значит REST API. Я читал про ограничения, но как как должна выглядеть архитектура всего приложения, непонятно. Должны ли там быть JSP (хотя бы для стартовой страницы), или REST API- это просто набор контроллеров, которые возвращают JSON? Есть ссылка, где толково про это написано? Что значит,  без фронтэнда? Тестировать только юнит тестами  и через SoupUI?
+6 replies
+
+Sergey Zhukov   [1 day ago]
+без фронта - значит нет никакого пользовательского интерфейса, пишем REST-контроллеры
+для примера можно взять REST-контроллеры из учебного (edited)
+
+Alexey_b   [1 day ago]
+Еще тестировать с помощью утилиты curl
+
+pjer   [1 day ago]
+А c-url самому писать, или есть гтовые в тз? Видел у кого то в сообщении, что уже готовые
+
+Sergey Zhukov   [1 day ago]
+самому, и их потом в readme разместишь
+
+Sergey Zhukov   [1 day ago]
+если будешь тестировать приложение в postman - он может сам сгенерировать curl-команды для каждого теста
+
+Grigory Kislin   [1 day ago]
+сомтри на rest контроллеры topjava
+про rest две ссылки в замечаниях есть
+
+
+Vladimir Gorbatenko   [Yesterday at 12:23 PM]
+Кажется нашел причину по которой на трэвисе не проходили тесты в которых выборка происходит по дате.
+Есть данные, которые вносятся при запуске приложения (populateDB.sql), пример:
+```INSERT INTO daily_menu (date, rest_id) VALUES
+(DATE '2018-11-21', 100002);```
+В сущности поле анотированно так:
+```@Column(name = "date")
+    @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Temporal(TemporalType.DATE)
+    private Date date;```
+Затем в тестах я создаю новую запись с такой же датой и сохраняю ее.
+Делаю _select * from mytable where date = :date_
+Получаю 2 записи, начальная и добавленная. Вывожу список и вижу что в поле _date_ разные значения:
+Начальная дата выглядит так: *date=2018-11-21*
+Добавленная дата так: *date=Wed Nov 21 00:00:00 EET 2018*
+Но я не понимаю как решить это...
+9 replies
+
+Roman   [1 day ago]
+LocalDate попробуй использовать
+
+Vladimir Gorbatenko   [1 day ago]
+Попробую позже. Интересно разобраться именно с этой бедой, должно быть простое решение.
+
+Vladimir Gorbatenko   [1 day ago]
+Не смог победить. Рефактор на LocalDate отображает теперь корректно, но трэфвису это все равно не нравится.
+
+Sergey Zhukov   [1 day ago]
+а в базе date или timestamp?
+
+Sergey Zhukov   [1 day ago]
+@Type(type="date")
+https://stackoverflow.com/questions/39877923/date-format-with-timestamp-and-hibernate
+Stack Overflow
+Date format with Timestamp and Hibernate
+I have an entity with a Timestamp field corresponding to a DATE column in the Oracle database. @Entity public class Order { private Tiemstamp purchaseDate; //more fields... } When I inser...
+
+Grigory Kislin   [1 day ago]
+а в базе у тебя- какой тип?
+
+Vladimir Gorbatenko   [1 day ago]
+В базе Date
+
+Vladimir Gorbatenko   [1 day ago]
+@Type(type="date") - не помогал
+
+Vladimir Gorbatenko   [12 hours ago]
+Провел эксперимент, перевел базу с H2 на HSQLDB - закомитил, запускаю на трэвисе - все ок. (edited)
+
+
+Vladimir Gorbatenko   [Today at 3:43 PM]
+Решил перевести с JSP на Thymeleaf, с этими нашими хитрыми переменными это какой-то капец.
+8 replies
+
+Sergey Zhukov   [8 hours ago]
+да непривычно th: в тегах, но зато все в одном стиле, и в обычных html- файлах, а  в jsp надо в шапке много всего объявлять
+подскажи как там мультиязычность с бандлами разруливать? ссылочку если есть
+
+Grigory Kislin   [7 hours ago]
+а какие проблемы с переменными?
+
+Vladimir Gorbatenko   [7 hours ago]
+@Sergey Zhukov не понял вопроса, я еще далеко не зашел, но у меня норм работает если так делаю
+*th:text="#{app.title}"*
+```<a href="voting" class="navbar-brand"><img src="resources/images/icon-hand.png" th:text="#{app.title}"></a>```
+Ничего не делал, кроме того что бандл перенес в _resources_ (edited)
+
+Vladimir Gorbatenko   [7 hours ago]
+@Grigory Kislin та что-то они то хотят, то не хотят работать ) ковыряю.
+```Вот даже тут.
+<a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>```
+(edited)
+
+Grigory Kislin   [5 hours ago]
+это не на thymleaf
+
+Sergey Zhukov   [3 hours ago]
+th:href ?
+
+Vladimir Gorbatenko   [36 minutes ago]
+@Sergey Zhukov
+```th:href="${requestScope['javax.servlet.forward.request_uri']}+'?lang=en'"```
+не хочет
+
+Sergey Zhukov   [34 minutes ago]
+вот тут вылезло наружу
+```}+'?lang=en'```
