@@ -2303,3 +2303,7 @@ Sergey Zhukov [7:57 PM]
 SQLBolt - Learn SQL with simple, interactive exercises.
 SQLBolt - Learn SQL - Introduction to SQL
 SQLBolt provides a set of interactive lessons and exercises to help you learn SQL
+
+
+Alexander [8:56 AM]
+Добрый день!  Коллеги может кто подскажет где можно взять исходный проект topjava15? У меня есть исходник topjava14. Я так думаю они отличаются. Спасибо!

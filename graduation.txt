@@ -3825,3 +3825,54 @@ Vladimir Gorbatenko   [36 minutes ago]
 Sergey Zhukov   [34 minutes ago]
 вот тут вылезло наружу
 ```}+'?lang=en'```
+
+
+Vladimir Gorbatenko   [1 day ago]
+чего-чего?
+хотя на самом деле оно и так работает
+```th:href="'?lang=en'"```
+(edited)
+
+Grigory Kislin   [1 day ago]
+в thymleaf нет requestScope. Это же не jsp. гугли
+
+Vladimir Gorbatenko   [24 hours ago]
+гугл со мной не дружит на этот вопрос )
+
+Vladimir Gorbatenko   [15 hours ago]
+а вот интерцептор молодец :slightly_smiling_face:
+
+Vladimir Gorbatenko   [15 hours ago]
+собственно закончил перевод, в целом могу сказать что под конец thymeleaf мне понравился.
+
+
+Gekov Iliya [8:19 AM]
+@Grigory Kislin Благодарю за отзыв, ждём новый проект на буте)
+
+Vladimir Gorbatenko [10:01 AM]
+Кому интересно запустить проект на HTTPS, вот пара статей (все предельно просто):
+1) Для spring boot 1.* . Здесь можно взять первые 2 пункта.
+https://drissamri.be/blog/java/enable-https-in-spring-boot/
+2) Для spring boot 2.* . Тут можно взять 3-ий пункт, который конфиг  (в первой ссылке по первым двум пунктам меньше воды)
+ http://code-adda.com/2018/06/enable-https-with-self-signed-certificate-in-spring-boot/ (edited) 
+drissamri.be
+Enable HTTPS in Spring Boot
+This weekend I answered a question about enabling HTTPS in JHipster on StackOverflow that caught a lot of interest on Twitter so I decided to put a short post on it with some more useful details. JHipster is a Spring Boot application with a lot of neat features and other...
+Code-Adda
+Enable HTTPS with Self-Signed-Certificate in Spring Boot 2.0.2 - Code-Adda
+Hello Spring Boot enthusiasts, I am back again with another article. I hope you enjoyed my last article on different spring boot deployment strategies.  In today’s article, I will demonstrate how to enable SSL/HTTPS in embedded servlet container with a self-signed certificate and access spring
+Jun 6th, 2018
+
+
+Vladimir Gorbatenko   [Today at 11:35 AM]
+Открыл для себя *@ModelAttribute* - шикарная вещь когда есть постоянный контент. (edited)
+1 reply
+
+Sergey Zhukov   [12 minutes ago]
+пока вижу пока только одно удобство, я так понял один объект используем, всегда будет присутствовать в модели
+```create(@Valid @ModelAttribute("authorEntity") AuthorEntity authorEntity) {
+// не нужно каждый раз наполнять и класть нужный объект в модель
+modelAndView.addObject("authorEntity", authorEntity); // можно удалить
+...
+}```
+где еще используешь?
