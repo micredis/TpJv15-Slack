@@ -3876,3 +3876,15 @@ modelAndView.addObject("authorEntity", authorEntity); // можно удалит
 ...
 }```
 где еще используешь?
+
+
+Vladimir Gorbatenko   [5 minutes ago]
+для thymeleaf передаю туда локализованные сообщения, есть замутка с датой, тоже туда ее, тот же RequestURI
+
+
+Roman   [Today at 2:06 PM]
+Привет всем. У кого-то есть  опыт реализации hateoas, где почитать стандарт верный? Как указать http метод(Post Put Delete) для ссылки(или это не входит в стандарт)?
+1 reply
+
+Sergey Zhukov   [< 1 minute ago]
+а разве возвращаем что то кроме get, т.е. ссылки на ресурсы
