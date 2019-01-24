@@ -2307,3 +2307,64 @@ SQLBolt provides a set of interactive lessons and exercises to help you learn SQ
 
 Alexander [8:56 AM]
 Добрый день!  Коллеги может кто подскажет где можно взять исходный проект topjava15? У меня есть исходник topjava14. Я так думаю они отличаются. Спасибо!
+
+
+Vladimir Gorbatenko [3:21 PM]
+Кто-то сталкивался с таким - запускаю приложение:
+1) захожу в *хром*, жмакаю "войти под админом", получаю 403, в идее пишется
+```Invalid CSRF token found for http://localhost:8080/voting/spring_security_check```
+Проверяю наличие в форме csrf - все на месте.
+2) захожу в *оперу*, жмакаю "войти под админом" все норм заходит без каких либо ошибок
+3) захожу в *firefox*, жмакаю "войти под админом" все норм заходит без каких либо ошибок
+
+Sergey Zhukov [3:37 PM]
+кеши почистил?
+
+Vladimir Gorbatenko [4:33 PM]
+чистка помогла... но ошибка сбила меня с толку.
+
+
+Vladimir Gorbatenko   [Yesterday at 4:37 PM]
+Что-то я завтыкал. Поле отмечено как не читаемое для json.
+```@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;```
+Откуда берутся звездочки на поле Пароль в профиле и в редактировании юзера? При редактировании юзера мы тянем json, который не содержит password. При редактировании профиля тоже есть звезды в пароле. (edited)
+3 replies
+
+Gekov Iliya   [20 hours ago]
+Возможно, автозаполнение хромом (иным браузером)?
+
+Grigory Kislin   [20 hours ago]
+профиль мы не через json делаем
+
+Vladimir Gorbatenko   [20 hours ago]
+Да, все так - в профиле мы тянем из из объекта, а в пользователях браузер сам подсовывает сохраненное. У меня что-то хром совсем хромает.
+
+
+Grigory Kislin [6:15 PM]
+@here
+https://github.com/JavaWebinar/topjava инициализировал topjava16
+все уроки-материалы по нашему выпуску находятся в google drive: https://drive.google.com/drive/u/0/folders/15e01dyLbvrtysd0qhFSMiuXrjaV8kdvy (edited) 
+
+
+Vladimir Gorbatenko   [Today at 9:21 AM]
+Ребята, что-то я потерял документ, в котором были ссылки на паттерны, на вопросы к собеседованию.
+4 replies
+
+Nikita Ganin   [3 hours ago]
+https://refactoring.guru/ru/design-patterns я вот эту ссылку изучал
+refactoring.guru
+Паттерны/шаблоны проектирования
+Паттерны проектирования описывают типичные способы решения часто встречающихся проблем при проектировании программ.
+
+Sergey Zhukov   [3 hours ago]
+http://javaops.ru/view/test
+Java Online Projects
+Тестовое собеседование
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+
+Vladimir Gorbatenko   [2 hours ago]
+спасибо!
+
+Vladimir Gorbatenko   [2 hours ago]
+@Nikita Ganin афигенный сайт!

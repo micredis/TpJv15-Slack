@@ -3881,6 +3881,9 @@ modelAndView.addObject("authorEntity", authorEntity); // можно удалит
 Vladimir Gorbatenko   [5 minutes ago]
 для thymeleaf передаю туда локализованные сообщения, есть замутка с датой, тоже туда ее, тот же RequestURI
 
+Grigory Kislin   [20 hours ago]
+в topjava похоже что негде использовать
+
 
 Roman   [Today at 2:06 PM]
 Привет всем. У кого-то есть  опыт реализации hateoas, где почитать стандарт верный? Как указать http метод(Post Put Delete) для ссылки(или это не входит в стандарт)?
@@ -3888,3 +3891,135 @@ Roman   [Today at 2:06 PM]
 
 Sergey Zhukov   [< 1 minute ago]
 а разве возвращаем что то кроме get, т.е. ссылки на ресурсы
+
+
+Sergey Zhukov   [23 hours ago]
+остальное в описании API
+
+Roman   [23 hours ago]
+Я нашел  описание где вместе с объектом возвращаются ссылки на удаление, модификацию и т.д.
+
+Roman   [23 hours ago]
+Но в реализации hateoas в спринге я такого не нашел
+
+Roman   [23 hours ago]
+https://www.nginx.com/blog/building-your-api-for-longevity-best-practices/
+NGINX
+Best Practices for Building APIs that Will Last
+Mike Stowe of MuleSoft discusses best practices to follow when building APIs that will continue to work in the long term.
+Jan 11th, 2017
+
+Roman   [23 hours ago]
+В ссылке выше есть пример
+
+Roman   [23 hours ago]
+https://www.nginx.com/wp-content/uploads/2017/01/Stowe-conf2016-slide40_HAL.png
+
+Sergey Zhukov   [23 hours ago]
+ну тогда также передавай массив методов
+
+Roman   [23 hours ago]
+Да я пытаюсь понять нужно ли это делать или нет по стандарту
+
+Sergey Zhukov   [23 hours ago]
+ну вообще если есть ссылка на ресурс
+/api/users/123
+которые возвращается вместе с объектами по GET /api/users
+то по стандарту REST можно к ней применять все 4 метода GET DELETE PUT POST (edited)
+
+Roman   [23 hours ago]
+http://localhost:8080/admin/users/100001/disable
+
+Roman   [23 hours ago]
+ну вот я пытаюсь сделать вот так
+
+Roman   [23 hours ago]
+как мне описать этот вызов
+
+Roman   [23 hours ago]
+контроллер у меня поддержтвает только POST
+
+Sergey Zhukov   [23 hours ago]
+надо заблочить юзера?
+
+Roman   [23 hours ago]
+ну да
+
+Sergey Zhukov   [23 hours ago]
+такой url можно и с помощью get разобрать
+
+Roman   [23 hours ago]
+{
+   “id”: 100001,
+   “name”: “Admin”,
+   “email”: “admin@gmail.com”,
+   “enabled”: true,
+   “registered”: “23-01-2019 12:08:28",
+   “roles”: [
+       “ROLE_USER”,
+       “ROLE_ADMIN”
+   ],
+   “_links”: {
+       “self”: [
+           {
+               “href”: “http://localhost:8080/admin/users/100001”
+           },
+           {
+               “href”: “http://localhost:8080/admin/users/100001/disable”
+           },
+           {
+               “href”: “http://localhost:8080/admin/users/100001/disable”
+           }
+       ]
+   }
+}
+
+Roman   [22 hours ago]
+я вот так сделал думаю как теперь указать что это надо делать постом
+
+Roman   [22 hours ago]
+Вроде не рекомендуется менять getом ресурсы
+
+Roman   [22 hours ago]
+можно попасть на кеширование
+
+Sergey Zhukov   [22 hours ago]
+да ты прав, а почему только post?
+
+Roman   [22 hours ago]
+ну его достаточно просто.
+
+Roman   [22 hours ago]
+так то можно каким угодно методом сделать (edited)
+
+Sergey Zhukov   [22 hours ago]
+смысл вообще указывать как дизейблить юзера
+
+Sergey Zhukov   [22 hours ago]
+в API описать
+
+Sergey Zhukov   [22 hours ago]
+для клиента мне кажется не нужная информация
+
+Roman   [22 hours ago]
+A как понял эти вещи нужны что бы сгенерировать автоматом клиент как в SOAP
+
+Roman   [22 hours ago]
+Так то вообще не ясно зачем это отдавать если есть описание API
+
+Roman   [22 hours ago]
+только лишние данные гонять по сети
+
+Roman   [22 hours ago]
+Наверное я просто уберу эти ссылки
+
+Grigory Kislin   [20 hours ago]
+если ты про автодокументацию для put-post, то такой нет. только на doc можно указать.
+http://javaops.ru/view/bootjava/lesson01
+вот тут есть ссылки на hateoas
+Java Online Projects
+Старт приложения: HATEOAS + Spring 5.1 + Spring Boot 2.1
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+
+Roman   [20 hours ago]
+спасибо
