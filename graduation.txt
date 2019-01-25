@@ -4023,3 +4023,96 @@ Java программист:от новичка до профессионала.
 
 Roman   [20 hours ago]
 спасибо
+
+
+Lamekhova Alisa [Yesterday at 9:32 PM]
+Ребят, помогите пожалуйста. Вроде почти все доделала, но в тестах полная фигня. Есть 4 тестовых класса и когда их в разном порядке запускаешь происходит фигня. Как лучше сделать, чтоб перед запуском каждого тестового класса база сама дропалась и снова наполнялась данными? Или вообще лучше чтоб перед каждым тестом?
+
+
+10 replies
+Gekov Iliya [18 hours ago]
+Попробуй @Sql(executionPhase=ExecutionPhase.BEFORE_TEST_METHOD,scripts="classpath:/test-sql/group2.sql") над классом (путь только подправить к sql)
+
+
+Gekov Iliya [18 hours ago]
+https://stackoverflow.com/questions/34617152/how-to-re-create-database-before-each-test-in-spring (edited)
+
+Vladimir Gorbatenko [18 hours ago]
+Не могу посмотреть, но это есть в тестах топджавы
+
+
+Vladimir Gorbatenko [17 hours ago]
+Да, @Sql как в топджаве
+
+
+
+Sergey Zhukov [17 hours ago]
+еще @Transactional над тестами делает откат изменений после выполнения каждого теста
+
+
+
+Sergey Zhukov [17 hours ago]
+@Vladimir Gorbatenko как в SpringBoot делал?
+@Sql у меня не хочет работать
+мне помогло @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+у меня скрипты data.sql и schema.sql по дефолту сам springboot подхватывает из resources (edited)
+
+
+Lamekhova Alisa [17 hours ago]
+Всем спасибо, @Sql(executionPhase=ExecutionPhase.BEFORE_TEST_METHOD,scripts="classpath:/) помог, про @Transactional тоже интересно
+
+
+Grigory Kislin [17 hours ago]
+смотри на topjava почаще:) (edited)
+
+
+Sergey Zhukov [16 hours ago]
+все разобрался с @Sql в SpringBoot
+в общем если у нас в тестах вешаем
+```@Sql({"schema.sql", "data.sql"})```
+в классе который лежит в например в
+```/test/java/ru/javawebinar/topjava/controller/AbstractControllerTest.java```
+то файлы sql он ищет в папке
+```/test/resources/ru/javawebinar/topjava/controller/schema.sql
+/test/resources/ru/javawebinar/topjava/controller/data.sql```
+
+
+Vladimir Gorbatenko [6 hours ago]
+@Sergey Zhukov странное дело, у меня скрипты инициализации и наполнения базы лежат в resources. Никуда их не перемещал. В тестах присутствует надпись:
+```@Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))```
+Еще в *pom.xml* добавлено такое (но работает и без этого)
+```<resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>```
+(edited)
+
+
+YuriyUh [Today at 2:07 PM]
+Всем привет, подскажите пжл, а корректна ли такая реализация секьюрности, когда доступ к ресурсу есть у всех(ролей), а более конкретный доступ разруливать на уровне методов в сервисном слое?
+
+
+4 replies
+Sergey Zhukov [1 hour ago]
+я пользовался, а иначе как get и post на один и тот же url разделить, например запросить ресторан юзером, а создание по тому же урл только админом
+
+
+Vladimir Gorbatenko [1 hour ago]
+Думаю лучше на уровне вэб, как у нас оно и реализовано, например такими аннотациями
+*@PreAuthorize("hasRole('ROLE_ADMIN')")*
+
+YuriyUh [1 hour ago]
+Как то не хотелось анотаций наваливать в контроллере, думал мож в интерфейсе сервиса их проставить
+
+
+Sergey Zhukov [9 minutes ago]
+тут вот прямо в интерфейсе сервиса проставляют
+http://webcache.googleusercontent.com/search?q=cache:MBRfXPV0lqIJ:websystique.com/spring-security/spring-security-4-method-security-using-preauthorize-postauthorize-secured-el/+&cd=3&hl=ru&ct=clnk&gl=nl
+WebSystique
+Spring Security 4 Method security using @PreAuthorize,@PostAuthorize, @Secured, EL - WebSystique
+This post shows Method level security using Spring Security 4 @PreAuthorize, @PostAuthorize, @Secured and Spring EL expressions. (36 kB)
+Jul 28th, 2015 at 11:42 PM
