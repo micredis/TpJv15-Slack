@@ -762,3 +762,26 @@ Alexey_b [2 days ago]
 
 agrusu [11:50 PM]
 salut
+
+
+P_Igor   [Jan 28th at 1:36 PM]
+Подскажите! Делаю патчи сразу после этого хочу сделать Commit но в окошке нет изменений.  Можно ли после патчей как то закоментировать в github изменения. или только после изменения в ручную кода?
+comit.jpg 
+5 replies
+
+Gekov Iliya   [6 days ago]
+Можно, через терминал.
+git add --all
+git commit (edited)
+
+P_Igor   [6 days ago]
+Ок! Спасибо!!!:slightly_smiling_face:
+
+Grigory Kislin   [6 days ago]
+в idea через меню git->add на файле лобо Ctrl+Alt+A
+
+Илья Чиликин   [5 days ago]
+Вероятно, изменения лежат в другом changelist - смотри выпадающий список в верхней части окна.
+
+P_Igor   [5 days ago]
+Ок!

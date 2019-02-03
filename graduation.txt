@@ -4116,3 +4116,652 @@ WebSystique
 Spring Security 4 Method security using @PreAuthorize,@PostAuthorize, @Secured, EL - WebSystique
 This post shows Method level security using Spring Security 4 @PreAuthorize, @PostAuthorize, @Secured and Spring EL expressions. (36 kB)
 Jul 28th, 2015 at 11:42 PM
+
+
+Vladimir Gorbatenko   [9 days ago]
+Да, но не думаю что это правильно в целях безопасности, считаю что всякие посягательства надо пресекать  сразу, чтоб не сработало ни одного лишнего шага бизнеслогики.
+
+
+Sergey Zhukov [10:42 PM]
+делаю свой сервис UserDetailsService, так же как в учебном
+```@Service("userService")
+public class UserDetailsServiceCustom implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public AuthorizedUser loadUserByUsername(String username) {
+        User user = userRepository.getByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new AuthorizedUser(user);
+    }
+}```
+```public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
+    private static final long serialVersionUID = 1L;
+
+    private User user;
+
+    public AuthorizedUser(User user) {
+        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
+        this.user = user;
+    }
+
+    public int getId() {
+        return user.getId();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return user.toString();
+    }
+}```
+```public enum Role implements GrantedAuthority {
+    ROLE_USER,
+    ROLE_ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
+}```
+```<authentication-manager>
+        <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>```
+    ```@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
+        return authUser.getUser();
+    }```
+
+авторизация проходит нормально
+```23:41:09.384 DEBUG o.s.s.access.intercept.AbstractSecurityInterceptor.beforeInvocation:243 - Authorization successful```
+
+но когда он мне инжектит юзера в метод почему то он пытается создать новый объект AuthorizedUser вместо того чтобы положить тот который создал при авторизации
+```23:41:09.405 DEBUG o.s.w.s.handler.AbstractHandlerExceptionResolver.resolveException:140 - Resolved [org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.voting.AuthorizedUser]: Constructor threw exception; nested exception is java.lang.NullPointerException]```
+
+кто-нибудь с таким сталкивался? (edited) 
+
+
+Sergey Zhukov   [9 days ago]
+Вытащил вот так и без аннотации @AuthenticationPrincipal
+    ```@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(Authentication authentication) {
+        AuthorizedUser authorizedUser = (AuthorizedUser) authentication.getPrincipal();
+        return authorizedUser.getUser();
+    }```
+https://www.baeldung.com/get-user-in-spring-security
+Baeldung
+Retrieve User Information in Spring Security | Baeldung
+How to get the currently logged in user with Spring Security.
+Jul 16th, 2013
+
+Vladimir Gorbatenko   [8 days ago]
+Интересное решение!
+
+
+pal548   [Jan 25th at 11:02 PM]
+задумал использовать JdbcTemplate вместе с Spring Data JPA, наткнулся на то, что в топджаве в разных профилях сконфигурированы разные транзакшн-менеджеры. Вопрос, как сконфигурировать транзакшн-менеджер и все что с ним связано, чтобы в проекте использовать и jdbc и JPA ?
+7 replies
+
+Vladimir Gorbatenko   [8 days ago]
+А зачем и jdbc и jpa?
+
+pal548   [8 days ago]
+я не хочу в таблице голосов делать id, поэтому не будет сущности Vote. Рерозиторий для Vote соответственно будет на jdbc.
+
+pal548   [8 days ago]
+методом проб выяснилось, что если помечать метод сервиса аннотацией @Transactional, а transactionManager в контексте спринга JPA-евский, то jdbcTemplate участвует в транзакции. И как раз только сейчас нагуглил, что JpaTransactionManaget поддерживает и работу через JdbcTemplate
+
+Vladimir Gorbatenko   [8 days ago]
+Из практики работы с разными бд, моё мнение - id очень облегчает жизнь и лишь немного утяжеляет бд.
+
+Vladimir Gorbatenko   [8 days ago]
+Про без id
+https://github.com/spring-projects/spring-data-examples/blob/master/jpa/example/src/main/java/example/springdata/jpa/simple/User.java
+jpa/example/src/main/java/example/springdata/jpa/simple/User.java
+```/*
+ * Copyright 2013-2018 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package example.springdata.jpa.simple;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+/**
+ * Sample user class.
+ *
+ * @author Oliver Gierke
+ * @author Thomas Darimont
+ */
+@Entity
+@NamedQuery(name = "User.findByTheUsersName", query = "from User u where u.username = ?1")
+public class User extends AbstractPersistable<Long> {
+
+    private static final long serialVersionUID = -2952735933715107252L;
+
+    @Column(unique = true) private String username;
+
+    private String firstname;
+    private String lastname;
+
+    public User() {
+        this(null);
+    }
+
+    /**
+     * Creates a new user instance.
+     */
+    public User(Long id) {
+        this.setId(id);
+    }
+
+    /**
+     * Returns the username.
+     *
+     * @return
+     */
+    public String getUsername() {
+
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the firstname
+     */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    /**
+     * @param firstname the firstname to set
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * @param lastname the lastname to set
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+}```
+
+Show less
+spring-projects/spring-data-examplesAdded by GitHub
+
+pal548   [8 days ago]
+там
+```public class User extends AbstractPersistable<Long>```
+
+pal548   [8 days ago]
+а я даже не буду пользоваться id, если оно есть. Обновление происходит по полям user_id и day
+
+
+Alexey_b   [Jan 26th at 11:51 AM]
+Вопрос по поводу проблемы N+1. Я не очень понимаю суть проблемы. На примере нашего проекта, для случая вытащить все рестораны с едой,  N+1 это сначала найти все id ресторанов, потом по каждому id ресторана вытащить еду?  И правильно ли я понимаю что Spring Data JPA findAll() по умолчанию именно так и делает ?
+3 replies
+
+Sergey Zhukov   [8 days ago]
+если в объектах есть например коллекции других типов, то потом итерируясь по выгруженному списку запросить например все первые элементы из этих коллекций, то хибер будет дополнительно делать еще N запросов
+
+Sergey Zhukov   [8 days ago]
+чтобы он этого не делал вытаскиваем сразу рестораны с едой с помощью одного запроса с JOIN FETCH или @EntityGraph
+
+Alexey_b   [8 days ago]
+@Sergey Zhukov спасибо, что-то я это совсем пропустил. Сейчас включил в настройках spring.jpa.open-in-view=false  и имею JsonMappingException: failed to lazily initialize a collection. Буду разбираться
+
+
+Raisa   [Jan 26th at 1:25 PM]
+подскажите, пожалуйста, почему когда авторизуется юзер, возвращается админ: curl -s http://localhost:8080/votergraduation/rest/profile --user user@yandex.ru:password
+{"id":100001,"name":"Admin","email":"admin@gmail.com","password":"admin","enabled":true,"registered":"2019-01-26T11:17:59.759+0000","roles":["ROLE_USER","ROLE_ADMIN"],"votes
+Настроено все как в учебном проекте
+По плану Spring сначала идет в кастомный юзер сервис, берет из базы юзера по email и это должен быть юзер с id 100000. Что могло пойти не так? (edited)
+Pasted image at 2019-01-26, 6:25 PM 
+10 replies
+
+Sergey Zhukov   [8 days ago]
+разве авторизацию так передают?
+я в Base64 передаю
+```curl -H "Authorization: Basic YWRtaW5AeWFuZGV4LnJ1OnBhc3M=" http://{hostname}/rest/profiles```
+
+Sergey Zhukov   [8 days ago]
+давай посмотрим методы из контроллера и сервиса
+
+Raisa   [8 days ago]
+я нашла, в чем ошибка - в контроллере не на тот класс ссылка. Про Base64 посмотрю, спасибо!
+
+Roman   [8 days ago]
+А это скрин с данными в базе? Пароли обычно в виде хешей хранят. (edited)
+
+Raisa   [8 days ago]
+да, из БД, переделаю, спасибо!
+
+Sergey Zhukov   [8 days ago]
+энкодера нет еще ?
+
+Raisa   [8 days ago]
+неа, я до 9-го урока дошла, потом сессия началась
+
+Grigory Kislin   [8 days ago]
+@Sergey Zhukov @Raisa
+в Topjava мы curl делаем с --user (curl.md). удобнее (edited)
+
+Grigory Kislin   [8 days ago]
+@Raisa а ты - дебажила код?
+
+Raisa   [7 days ago]
+да, я дебажила как проходит авторизация,  а оказывается, в контроллере была ошибка. Нужно вообще все связанное дебажить, комплексно исследовать проблему
+
+
+Vladimir Gorbatenko [4:33 PM]
+Решил попробовать. Запустить приложение через jar-ник.
+В pom.xml package изменил на jar.
+Затем запускаю: mvn clean package -DskitTests=true
+Затем: java -jar target/voting.jar
+Приложение запустилось, локализация работает, но весь русский текст из базы, например название ресторана - каракули.
+Вот так отображается Ресторан 1" = Р РµСЃС‚РѕСЂР°РЅ 1
+
+*UPD*
+Нашлось решение:
+*java -Dfile.encoding="UTF-8" -jar target/voting.jar*
+причем кодировку надо указывать до "-jar" (edited) 
+
+
+regorov   [Jan 27th at 5:48 PM]
+Привет всем! Делаю на спринг бут. 1) никто не сталкивался, сущности  из апи возвращаются с полем "new": false, хотя я его не добавлял 2) Если была ошибка добавления пользователя, то hsql все равно инкрементирует pk. Как то можно изменить? (edited)
+5 replies
+
+Vladimir Gorbatenko   [7 days ago]
+Привет! По пункту 1 - в JacksonObjectMapper вот эти 2 строчки говорят о том чтоб методы не использовать
+```setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);```
+
+regorov   [6 days ago]
+Спасибо, получилось. Но только как в топджава со своим JsonObjectMapper. Через конфиг бута application.properties так и не заработало (почему то БД перестала популировать) - добавлял так
+```spring.jackson.visibility.all=none
+spring.jackson.visibility.field=any
+spring.jackson.serialization.fail-on-empty-beans=false
+spring.jackson.serialization.write-dates-as-timestamps=false
+spring.jackson.default-property-inclusion=non_null```
+(edited)
+
+YuriyUh   [6 days ago]
+Попробуй добавить spring.jackson.visibility.is-getter=none
+
+Vladimir Gorbatenko   [6 days ago]
+прикольно как можно делать
+
+regorov   [5 days ago]
+@YuriyUh ага вот так тоже работает!
+
+
+Vladimir Gorbatenko   [Jan 28th at 9:31 AM]
+Открыл для себя Docker - очень прикольная тема!
+Кому интересно, вот серия доходчивых видео
+https://www.youtube.com/watch?v=EbEZgdTOHzE&list=PLD5U-C5KK50XMCBkY0U-NLzglcRHzOwAg
+YouTubeDKA-DEVELOP
+Docker уроки для начинающих от А до Я - что такое docker ?
+;
+7 replies
+
+Roman   [6 days ago]
+Да с докером очень удобно работать.  Контейнер можно билдить прямо мавеном ( или гредлом). Докер позволяет легко повторить весь набор софта, на девелоперской машине и в продакшене. Можно каждый сервис (бд, фронт, базу) положить в свой контейнер и запустить одной коммандой как на своей машине так и в продакшене.
+
+Roman   [6 days ago]
+Сейчас яндекс запускает свой сервис по типу aws, и дает 4к рублей(на 2 месяца) на попробовать.
+
+Roman   [6 days ago]
+Только надо осторожно, что бы не потратить лишнего с карты(нужна для активации пробной подписки.).
+
+Roman   [6 days ago]
+Вот там можно попробовать работать с докером. Так же там есть возможность не поднимать свой сервер постгресс а вопользоваться им как сервисом(вроде тоже есть тестовый период, но  я не уверен).
+
+Roman   [6 days ago]
+Владимир у тебя получилось расписать свой композ файл по прложениям как в этом видео(отдельно базу , отдельно свое приложение)? (edited)
+
+Vladimir Gorbatenko   [6 days ago]
+@Roman z еще не все пересмотрел. Только начал, вот на базовый ubuntu поставил jdk11 и залил проект, сделал образ и запушил его на hub.docker. Еще копать и копать. Еще далеко не все ясно, но нравится. (edited)
+
+regorov   [5 days ago]
+А я на степике как то тоже проходил курс - https://stepik.org/course/1612/syllabus, но там только первый раздел про докер, потом муть какая то идет)
+Stepik: online education
+Управление вычислениями
+Курс посвящен изучению инструментария для работы с данными, автоматизации анализа и обеспечению воспроизводимости.
+
+
+pjer   [Jan 29th at 12:09 AM]
+Обязательно ли для всех объектов модели делать ТО, или только для тех, где по логике нужно?
+1 reply
+
+Vladimir Gorbatenko   [6 days ago]
+только те, которые нужны.
+
+
+Sergey Zhukov   [Jan 30th at 9:57 AM]
+вопрос по Internationalization
+Сообщения берет из файла, но не работает смена языка если передавать параметр ?lang=en
+```@Configuration
+public class LocaleConfig implements WebMvcConfigurer {
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        Locale bundle = new Locale.Builder().setLanguage("ru").setRegion("RU").build();
+        slr.setDefaultLocale(bundle);
+        return slr;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:locale/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+}```
+Делал как тут https://www.baeldung.com/spring-boot-internationalization
+Baeldung
+Guide to Internationalization in Spring Boot | Baeldung
+A quick, practical guide to internationalization in Spring Boot.
+Mar 18th, 2017
+3 replies
+
+Vladimir Gorbatenko   [4 days ago]
+@Sergey Zhukov я делал так.
+```@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+        localeInterceptor.setParamName("lang");
+        registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
+    }
+
+    @Bean
+    public LocaleResolver localeResolver () {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(new Locale("ru"));
+        return resolver;
+    }```
+(edited)
+
+Sergey Zhukov   [4 days ago]
+заработало когда переименовал `messages.properties` в `messages_en.properties`
+locale.png 
+
+Vladimir Gorbatenko   [4 days ago]
+@Sergey Zhukov это неправильная работа бандла. Должно работать так - когда локаль "ru", тогда система тянет messages_ru, когда "fr" - тогда "messages_fr", а во всех остальных случаях - используется messages без суффикса
+
+
+Raisa   [Jan 30th at 10:16 AM]
+как лучше отслеживать работу кэша? нашла кучу вариантов: generate-statistics Hibernate (только не понятно, куда это property можно вставить - пишут, что в файлы типа hibernate.xml, persistence.xml, но в topjava я нашла только конф.файл провайдера ehcache.xml. Для этого случая тоже нашла пример, но там для <cache ... />, у нас <cache-template.../> и там такого не предусмотрено, вроде бы, красным выделяет.. хотя может идея подглючивает); еще один вариант - через тесты доставать статистику из объекта сессии; третий вариант - через конфигурационный класс Hibernate; четвертый - через настройки в логах category="org.hibernate.stat" (edited)
+10 replies
+
+Raisa   [4 days ago]
+нашла - в файле spring-db.xml, нужно добавить <entry key="#{T(org.hibernate.cfg.AvailableSettings).GENERATE_STATISTICS}" value="true"/> (edited)
+
+Raisa   [4 days ago]
+:slightly_smiling_face:
+Pasted image at 2019-01-30, 6:46 PM 
+
+Vladimir Gorbatenko   [4 days ago]
+@Raisa скажи только честно, зачем задалась этим вопросом? :slightly_smiling_face:
+
+Raisa   [4 days ago]
+@Vladimir Gorbatenko разбираюсь с кешированием в своем проекте, т.к. не очень поняла что к чему в ходе курса ) а по логам пока особо не понятно )
+
+Vladimir Gorbatenko   [4 days ago]
+@Raisa как лихо тебя занесло ))
+
+Raisa   [4 days ago]
+@Vladimir Gorbatenko легких путей не ищем :nerd_face::slightly_smiling_face:
+
+Vladimir Gorbatenko   [4 days ago]
+А я время от времени подумываю прикрутить к проекту HATEOAS, но что-то руки не хотят это делать )
+
+Raisa   [4 days ago]
+интересно, для QueryCache статистика не отображается, но данные предоставляются
+
+Sergey Zhukov   [4 days ago]
+пробовала hazelcast в качестве кеш-провайдера? не пойму как его в консоль вывести в springboot.
+тоже кеш работает, в базу перестает ходить
+
+Raisa   [4 days ago]
+неа, я даже SpringBoot еще не пробовала :open_mouth::slightly_smiling_face:
+
+
+Vladimir Gorbatenko [11:52 AM]
+Кто еще не пробовал @Async - советую поэкспериментировать, афигеновская штука.  Для теста в контроллере  создал метод, который принимает List<UserTo>, в сервисе добавил рандомную задержку перед созданием, через SoapUI отправляю список юзеров и наблюдаю как они вперемешку залетают в базу.
+
+Raisa [2:55 PM]
+пытаюсь лучше понять кеширование и, все же, правильно его настроить в своем проекте: сделала два кеша "users" (кеш второго уровня) и "menu_items" (кеш запросов), первый как и в topjava nonstrict-read-write, второй read-only. Остальные сущности не вижу смысла кешировать, т.к. их админы запрашивают, а голоса только создаются, в основном (edited) 
+
+Raisa [11:45 AM]
+Вопросы по кешу в topjava (не уверена, что все учла при анализе системы кеширования, поэтому могу прийти к неверным выводам):
+
+1. Почему в методах UserServiceImpl делаем @CacheEvict(value = "users", allEntries = true)? Это приводит к полной очистке кеша "users", если юзеров много, то это может сказаться на производительности. Что, если использовать @CachePut(value = "users", key = "#user.id")? Тогда  выполнится метод и в кеш добавятся/обновятся данные по созданному юзеру.
+Я создала юзера с аннотацией @CachePut(value = "users", key = "#user.id"), при первом запросе вновь созданного юзера было 0 обращений к базе. Но, видимо, потому, что при авторизации кэшируется юзер. Если создавать из под админа и потом запрашивать из под админа, то в обоих случаях берется из базы. Но почему? По идее объект кладется в кэш сразу после изменений. Может из-за авторизации все сбрасыватется
+
+При getAll users (там стоит @Caсhable("users")) тоже каждый раз (до создания нового юзера и после) происходит 2 обращения к базе. Пишут, что с этой аннотацией изменения происходят только в кеше, метод должен вызываться только один раз, пока кеш не истечет или не очистится, повторного вызова метода не происходит: https://stackoverflow.com/questions/28516398/spring-cacheable-vs-cacheput. Возможно, кеш так быстро истекает? Хотя, навряд ли, потому что если не добавлять нового юзера, а вызвать два getAll подряд, то 1 запрос к базе (тоже не понятно что за запрос, может, роли вытягивает для закешированных юзеров?)
+
+2. Теоретически, в методе delete() можно сделать @CacheEvict(value = "users", key = "#user.id"), вместо@CacheEvict(value = "users", allEntries = true). Только я пока не нашла как вытянуть id, т.к. там ни тело, ни в параметрах не передается.
+
+Насколько я поняла, правильно настроить кеширование в приложении критически важно для производительности приложения, поэтому решила подольше с этим посидеть и разобраться. (edited) 
+Stack Overflow
+Spring Cacheable vs CachePut?
+@CachePut or @Cacheable(value = "CustomerCache", key = "#id") public Customer updateCustomer(Customer customer) { sysout("i am inside updateCustomer"); .... return customer; } I found b...
+
+
+Vladimir Gorbatenko   [Jan 31st at 4:27 PM]
+Решил прикрутить Oauth2 - весь день копаю, уже разрыв мозга, ни один из попавшихся примеров не подходит, либо громоздкие, либо мутные, либо еще что-то. Понимаю что есть простейшее решение, но найти его не могу.
+4 replies
+
+Raisa   [3 days ago]
+обычно просматриваю штук 10-15 разных статей, видео с теорией и туториалами, потом решение как-то само приходит (но не всегда)
+
+pal548   [3 days ago]
+В последнем уроке были ссылки на прикрученную OAuth2, их видел? (edited)
+
+Vladimir Gorbatenko   [3 days ago]
+Не помню, завтра посмотрю.
+
+Vladimir Gorbatenko   [1 day ago]
+Нет, там не те ссылки. Разве что ссылки с примерами прошлых участников, их я видел.
+Адское какое-то  дело, хожу вокруг да около и не могу сложить все вместе. На время создания и тестирования отключил авторизацию по логину паролю. Прикрутил так, что можно жмакнуть на ссылку и через фейсбук получить авторизационные данные. Дальше хотел на лету (имея имя и email, пароль генерился с целью его последующего изменения) создавать юзера в базе, и чтоб уже под этим юзером вошедший был залогинен в приложении. Еще надо нормально сконфигурировать websecurity на тему фильтров. Делать по сути нечего, а топчусь на месте.
+
+
+Raisa   [Yesterday at 7:30 PM]
+делаю тесты для rest контроллеров - подскажите, пожалуйста, почему ТО  из MVCResult приходит без одного поля? далее это поле десериализуется со значением null и тест не проходит (edited)
+27 replies
+
+Sergey Zhukov   [18 hours ago]
+какой тип поля?
+
+Sergey Zhukov   [18 hours ago]
+возможно не может конвертировать?
+
+Raisa   [18 hours ago]
+поле Integer restaurantId, при этом int price конвертирует без проблем. Это поле даже в Jackson не подается, просто объект без него приходит
+
+Sergey Zhukov   [18 hours ago]
+в классе какие аннотации над полем?
+
+Sergey Zhukov   [18 hours ago]
+проверь что имя точно совпадает в json
+
+Raisa   [18 hours ago]
+@NotNull, возможно это как-то связано с тем, что это ТО, т.к. в топджава, когда в юзере подается ТО - не сравнивается то, что было подано на фронтенд и то, что пришло, сравнивается только основной бин, который был создан с помощью ТО (edited)
+
+Sergey Zhukov   [18 hours ago]
+тут rest, ничего не подаем :grin:
+ждешь ТО - будет собирать ТО, брать конструктор  без параметров и сетить поля, проверь что все имеется
+
+Sergey Zhukov   [18 hours ago]
+поставь дебаг на метод и скинь скрин что приходит
+
+Sergey Zhukov   [18 hours ago]
+т.е. ломаются только тесты. а при работе приложения проблем нет?
+
+Raisa   [17 hours ago]
+@Sergey Zhukov, да, только тесты ломаются. Я отправляю методом пост поля TO: name, price, restaurantId. В этом месте я вижу, что поле restaurantId исчезает:
+Pasted image at 2019-02-03, 1:03 AM 
+
+Raisa   [17 hours ago]
+это то, что передано в post запросе
+Pasted image at 2019-02-03, 1:04 AM 
+
+Raisa   [17 hours ago]
+при этом restorauntId благополучно сетится:
+Pasted image at 2019-02-03, 1:16 AM 
+
+Sergey Zhukov   [16 hours ago]
+для сборки объекта используешь утилиты из topjava?
+ObjectMapper.readValue(String content, Class<T> valueType) ?
+класс указала DishTo.class или Dish.class?
+
+Raisa   [16 hours ago]
+да, вроде:
+.content(JsonUtil.writeValue(createdTo))
+DishTo returned = readFromJsonResultActions(action, DishTo.class);
+
+Raisa   [16 hours ago]
+что интересно, даже без теста (см.результаты curl-запросов), возвращает без restaurantId, но при этом, правильно его сетит в Dish - когда запрашиваешь по этому ресторану, созданное блюдо есть в списке
+
+Sergey Zhukov   [16 hours ago]
+я делал по аналогии с topjava и собирал не в To а в обычный объект
+если заглянуть  ProfileRestControllerTest
+```@Test
+    void testRegister() throws Exception {
+        UserTo createdTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword", 1500);
+
+        ResultActions action = mockMvc.perform(post(REST_URL + "/register").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(createdTo)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        User returned = readFromJsonResultActions(action, User.class);
+
+        User created = UserUtil.createNewFromTo(createdTo);
+        created.setId(returned.getId());
+
+        assertMatch(returned, created);
+        assertMatch(userService.getByEmail("newemail@ya.ru"), created);
+    }```
+
+собирается как раз в User.class
+
+Sergey Zhukov   [16 hours ago]
+в итоге должны сравнить с объектом из базы, а там объекты User
+
+Sergey Zhukov   [16 hours ago]
+ResultActions содержит как раз объект User
+
+Sergey Zhukov   [16 hours ago]
+в ответ же у тебя отсылается Dish в ResultActions (edited)
+
+Raisa   [7 hours ago]
+понятнее теперь, спасибо!
+
+Raisa   [7 hours ago]
+интересно, что в этом тесте из топджава принимается и возвращается ТО, а сравниваются только итоговые бины:
+
+@Test
+   void testUpdate() throws Exception {
+       UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword", 1500);
+
+       mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
+               .with(userHttpBasic(USER))
+               .content(JsonUtil.writeValue(updatedTo)))
+               .andDo(print())
+               .andExpect(status().isNoContent());
+
+       assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
+   } (edited)
+
+Raisa   [6 hours ago]
+так вот интересно, куда исчезает поле именно из ТО, если ТО собираем, а не бин из модели
+
+Sergey Zhukov   [5 hours ago]
+оно не исчезнет если в методе контроллера типом возвращаемого значениябудет То, у нас возвращается обычный объект из базы
+
+Sergey Zhukov   [5 hours ago]
+вот метод из topjava
+```@PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
+        User created = super.create(UserUtil.createNewFromTo(userTo));
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }```
+
+Sergey Zhukov   [5 hours ago]
+ResultActions - это ResponseEntity<User>
+
+Raisa   [5 hours ago]
+спасибо, сложилась картинка :slightly_smiling_face: поняла, как все эти методы устроены, теперь буду знать, что дебажить. Это мой первый тест для контроллера ) (edited)
+
+Raisa   [5 hours ago]
+не учла, что DishTo преобразуется в Dish внутри метода контроллера
+
+
+Raisa   [Today at 9:40 AM]
+если контроллер в get методе возвращает мапу <объект, лист>, как их достать из McvResult, чтобы проверить? я нагуглила как вытащить отдельные значения объектов через jsonPath. А можно ли вытащить список ключей мапы и лист-значение для каждого ключа по отдельности? (edited)
+1 reply
+
+Sergey Zhukov   [3 hours ago]
+я вместо Jackson использовал Gson
+есть метод
+```gson.fromJson(result.getResponse().getContentAsString(), listType)```
+где
+```Type listType = new TypeToken<List<MailEntity>>() {
+        }.getType();```
+вместо List можно Map поставить
