@@ -4765,3 +4765,217 @@ Sergey Zhukov   [3 hours ago]
 ```Type listType = new TypeToken<List<MailEntity>>() {
         }.getType();```
 вместо List можно Map поставить
+
+
+Raisa   [3 days ago]
+@Sergey Zhukov, что-то не получается распарсить в Map<объект, список>:
+Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 1 column 3 path $.
+Хотя json-объект должен быть правильный
+Делала точно как здесь: http://qaru.site/questions/15276696/one-key-and-multiple-values-in-java-from-complex-list (edited)
+Pasted image at 2019-02-03, 8:13 PM 
+
+Raisa   [3 days ago]
+пробовала еще через Matchers реализовать, как здесь https://stackoverflow.com/questions/29985390/check-map-key-values-with-jsonpath
+но идея, почему-то не видит hamcrest.matchers (edited)
+Stack Overflow
+Check Map key/values with jsonPath
+I'm testing a controller that returns a Map @RequestMapping("/") @ResponseBody public Map<String, String> getMessages(@RequestBody String foo) { Map<String, String> map = boo.getMa...
+
+Raisa   [3 days ago]
+специально выделила в переменную строку, которая возвращается после getContentAsString(); - все нормально, нет доп.значений в начале
+Pasted image at 2019-02-03, 8:44 PM 
+
+Sergey Zhukov   [3 days ago]
+у Gson есть возможность добавить кастомный адаптер, который  распарсит твой объект
+```new GsonBuilder()
+                .registerTypeAdapter( ...```
+
+Sergey Zhukov   [3 days ago]
+почему бы просто не использовать id ресторана в качестве ключа?
+
+Sergey Zhukov   [3 days ago]
+или список еды сделать полем ресторана
+
+Sergey Zhukov   [3 days ago]
+вот я парсил LocalDate LocalDateTime
+   ```public static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+                    @Override
+                    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                        return LocalDateTime.parse(json.getAsString());
+                    }
+                })
+                .registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+                    @Override
+                    public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                        return LocalDate.parse(json.getAsString());
+                    }
+                })
+                .addDeserializationExclusionStrategy(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+//                        return f.getName().toLowerCase().contains("author");
+// можно игнорить поля по имени
+                        return false;
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> aClass) { // можно игнорить поля с заданным классом
+                        return false;
+                    }
+                })
+                .create();```
+
+Sergey Zhukov   [3 days ago]
+он не видит объект в кавычках "..." , считает его строкой
+
+Sergey Zhukov   [3 days ago]
+попробуй в методе контроллера сериализовать Map через Gson, разве он заключает ключ в кавычки?
+
+Raisa   [3 days ago]
+почему не id - чтобы сразу все вытащить из базы за один запрос
+
+Raisa   [3 days ago]
+у тебя вообще на всем проекте gson вместо jackson? (edited)
+
+Sergey Zhukov   [3 days ago]
+это другой проект, в ресторанах использовал List как в topjava
+
+Raisa   [3 days ago]
+сделала copy value из дебага и проверила валидацию - ошибок нет
+Pasted image at 2019-02-03, 11:15 PM 
+
+Sergey Zhukov   [3 days ago]
+Сейчас попробовал использовать объект в качестве ключа Map, так вот Jackson вызывает toString у объекта.
+Получается надо придумывать метод создания объекта из строки для десерелизации из json.
+
+Sergey Zhukov   [3 days ago]
+т.е можно первым проходом десереализоватьв Map<String, Object> вторым проходом десереализовать ключи
+
+Raisa   [3 days ago]
+@Sergey Zhukov, а если в самом объекте в toString() возвращать json? правда, я попробовала так сделать - не получилось, если через gson возвращать падает со stackoverflow, если через jackson - без изменений (com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 1 column 3 path $.) https://stackoverflow.com/questions/16527932/ok-to-use-json-output-as-default-for-tostring
+Stack Overflow
+OK to use JSON output as default for toString()?
+@Override public String toString() { return new Gson().toJson(this); } Am I breaking some good practice, "Joshua"-pattern thing, general design pattern or other convention by simply doing th...
+
+Raisa   [3 days ago]
+честно говоря, не совсем поняла, в чем проблема с toString, проверила в нескольких валидаторах - десериализуется в валидный json. После того как формируется строка с валидным json, toString() не используется. Похоже, что какая-то проблема именно парсингом в мапу. Падает именно на той строке, где пытается распарсить (edited)
+
+Sergey Zhukov   [3 days ago]
+конечно валидный
+вот смотри мой серилизованный Jackson'ом Map<MailEntity, MailEntity>
+```{
+    "MailEntity{id=26}": {
+        "id": 26,
+        "createDate": "2019-01-19",
+        "updateDateTime": "2019-01-29T22:11:48",
+        "mailNumber": 659,
+        "mailRecipient": "mailRecipient",
+        "mailSubject": "mailSubject",
+        "mailTitle": "mailTitle",
+        "mailText": "mailText",
+        "accept": false,
+        "version": 4,
+        "author": {
+            "id": 11,
+            "fullName": "author",
+            "active": true,
+            "phone": "890012345678"
+        }
+    }```
+как я говори он вызывает toString для ключа
+```@Override
+    public String toString() {
+        return "MailEntity{" +
+                "id=" + id +
+                '}';
+    }```
+это 100% валидный JSON
+но "MailEntity{id=26}" - это не объект, а всего лишь поле в JavaScript-объекте
+
+Raisa   [3 days ago]
+все оказалось проще, я даже не знаю, какой смайлик тут больше подходит :joy:: Map<Restaurant, List<Dish>> map = readFromJsonMvcResult(result, HashMap.class);
+
+Raisa   [3 days ago]
+но теперь другая проблема - падает, потому что данные не равны. Поля в игнор включены, equals, hashCode переопределила. Обычно в этом были проблемы, теперь даже не знаю
+Pasted image at 2019-02-04, 1:53 AM 
+
+Sergey Zhukov   [3 days ago]
+ну actual - это ArrayList
+
+Sergey Zhukov   [3 days ago]
+expected тоже массив?
+
+Raisa   [3 days ago]
+неа, константы. Но они преобразуются в лист в матчере:
+public static void assertMatch(Iterable<Restaurant> actual, Restaurant... expected) {
+       assertMatch(actual, List.of(expected));
+   }
+
+Sergey Zhukov   [3 days ago]
+ну это у тебя toString в дебаге, это все поля или остальные в игноре?? сравнение через метод usingElementComparatorIgnoringFields ?
+
+Sergey Zhukov   [3 days ago]
+я в каких то местах на такое натакивался и делал не сравнение с игнором а сравнивал нужные мне поля, щас поищу
+
+Raisa   [3 days ago]
+usingElementComparatorOnFields()?
+
+Sergey Zhukov   [3 days ago]
+наверно да, попробуй им пройтись
+
+Raisa   [3 days ago]
+не помогло (
+Pasted image at 2019-02-04, 2:13 AM 
+
+Raisa   [2 days ago]
+я думаю тут дело не в полях, а в чем-то другом
+
+Roman   [2 days ago]
+Матчер что-то лишнее сравнивает. Зачем ему компараторы float и double?
+
+Raisa   [2 days ago]
+что интересно - вроде бы, все парсится, но, когда пытаюсь взять ресторан из списка, падает с исключением: java.lang.ClassCastException: class java.lang.String cannot be cast to class ru.raisaryzbekova.voter.model.Restaurant (java.lang.String is in module java.base of loader 'bootstrap'; ru.raisaryzbekova.voter.model.Restaurant is in unnamed module of loader 'app')
+Pasted image at 2019-02-04, 7:10 PM 
+
+Grigory Kislin   [1 day ago]
+@Raisa ты в json возвращаешь результаты?
+Map - не лучшая структура для json
+что в мапе?
+
+Raisa   [1 day ago]
+@Grigory Kislin, я сделала такой утильный метод (по аналогии с тем, что в топджава):
+```public static <K, V> Map<K, List<V>> readMapFromJsonMvcResult(MvcResult result, Class<K> kClass, Class<V> vClass) throws UnsupportedEncodingException {
+        TypeReference<Map<K, List<V>>> typeReference = new TypeReference<>() {
+        };
+        return JsonUtil.readValue(getContent(result), typeReference);
+    }```
+В мапе, вроде бы, все нормально: (edited)
+Pasted image at 2019-02-04, 7:38 PM 
+
+Raisa   [1 day ago]
+падает уже после того, как в мапу парсит, когда пытаюсь взять объект из мапы, на этой строке, на первом же шаге:
+Pasted image at 2019-02-04, 7:42 PM 
+
+Grigory Kislin   [1 day ago]
+@Raisa сделай TO- ресторан с едой. перегоняй в него и отдавай
+
+Raisa   [1 day ago]
+хорошо
+
+
+Vladimir Gorbatenko   [Yesterday at 11:57 AM]
+Скажите, а у вас не падало качество кода оцененное codacy? У меня по проекту вдруг пишется что за неделю качество просело на 37%, но в проекте за эту неделю не было существенных изменений.
+1 reply
+
+Vladimir Gorbatenko   [1 day ago]
+В codacy убрал из проверки web-контент и код сразу стал красивым :slightly_smiling_face:
+
+
+regorov   [Yesterday at 9:09 PM]
+После добавления в маппер `registerModule(new Hibernate5Module());` lazy поля возвращаются со значением null. Причем `setSerializationInclusion(JsonInclude.Include.NON_NULL);` на регистрируемый модуль не распространяется. Получается если не хочу показывать null, остается только в моделях @JsonIgnore везде расставлять, больше нет способов? У нас в проекте так же - "user": null возвращается, при получении одной еды
+1 reply
+
+Gekov Iliya   [17 hours ago]
+Я @JsonView использовал, понравилось
