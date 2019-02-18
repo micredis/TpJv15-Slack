@@ -4979,3 +4979,212 @@ regorov   [Yesterday at 9:09 PM]
 
 Gekov Iliya   [17 hours ago]
 Я @JsonView использовал, понравилось
+
+
+fibz   [Feb 6th at 9:53 PM]
+Добрый вечер всем) Есть пару вопросов к тем, кто проходил собеседования. Как конкретно вы готовились к собеседованиям? Какая была у вас стратегия? Какие темы повторяли? Какие советы можете дать тем, кто ещё не проходил собеседования на позицию java developer? Спасибо и хорошего вам вечера):slightly_smiling_face:
+5 replies
+
+Raisa   [11 days ago]
+нужно смотреть по вакансии, что там пишут, то обязательно повторить/изучить; специфику деятельности компании погуглить хотя бы, понять, с чем предстоит работать - интерес к проблемам компании и желание принять участие в их решении - большой + к карме кандидата
+
+Vlad Zinchenko   [11 days ago]
+я коллекции повторял, исключения и дженерики. Потом еще spring и hibernate. Погугли вопросы с собеседований, много чего найдешь.  У меня спрашивали про исключения, про коллекции - hashmap,  treemap, контракт hashcode  и equals, полиморфизм, threadlocal, как бины инициализуются в спринг, чем отличается where от having, уровни изоляции транзакций в postgresql, по некоторым консольным командам линукса (ls и еще что-то)
+
+Vladimir Gorbatenko   [11 days ago]
+@Raisa, мне кажется такое подходит к непрограмерским конторам.
+Потому что например в Украине везде аутсорс, все занимаются разработкой, все хотят какой-то +- одинаковый стек технологий, проблемных мест не видно... кроме нужды в кадрах.
+
+Raisa   [11 days ago]
+это да, но обычно даже аутсорс-компании пишут, с какими заказчиками работают и если кандидат покажет, что он узнал все максимально возможное о месте, где собирается работать, думаю, это будет плюсом ) можно и на собеседовании первым делом спросить не какая зп и есть ли печенюшки, а на какой проект планируется вакансия, какими проблемами предстоит заниматься и порассуждать вместе с интервьюером, чем можешь помочь, что знаешь из этого стека или выразить желание освоить нужный стек
+
+Raisa   [11 days ago]
+чтобы выучить и систематизировать теорию, мне помогают майнд-карты :+1: и очень важно, конечно, на практике потренировать каждую технологию по туториалам, написать несколько пет-проектов с разными технологиями, т.к. просто теория плохо запоминается, особенно сложно бывает вспомнить в условиях собеседования, когда тебя 4 человека интервьюируют. а то, что на практике проходишь автоматически вспоминается
+
+
+regorov   [Feb 7th at 10:50 PM]
+У меня такой вопрос: если я делаю удобное api (например "/api/restaurants/id/menus/id/dishes"), то это правильно, что я заворачиваю несколько моделей (рестораны, меню и еду) например в репозиторий ресторана и контроллер ресторана? И в таком случае я вообще могу выкинуть контроллеры меню и еды, если все решается через ресторан
+2 replies
+
+Grigory Kislin   [10 days ago]
+1. показывать еду полагаю можно по
+/api/restaurants/id/menus + дата. это будет удобнее
+2. контроллеры лучше сделать свои
+
+regorov   [10 days ago]
+Да, с датой параметром выглядит логичнее
+
+
+Sergey Zhukov [12:11 AM]
+ни у кого не было проблем с интеграцией thymeleaf в IDEA при работе со Spring 5 ??? у меня IDEA не видит объекты модели, подчеркивает красным на шаблоне, хотя все запускается и работает.
+spring-app.xml
+```<bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/thymeleaf/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+        <property name="cacheable" value="true" />
+        <property name="characterEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="enableSpringELCompiler" value="true"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>```
+на шаблонах подключено пространство имен th
+```<html xmlns:th="http://www.thymeleaf.org">```
+где еще подкрутить?
+
+
+Dima   [Feb 9th at 6:03 AM]
+У меня даже со спринг бутом подчеркивает) надо ворошить настройки идеи
+6 replies
+
+Sergey Zhukov   [9 days ago]
+в бут все работает как надо
+
+Sergey Zhukov   [9 days ago]
+вот тут предлагают явно указать на странице id и тип объекта
+https://youtrack.jetbrains.com/issue/IDEA-132738
+```<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="bootVersion" type="java.lang.String"*/-->
+<!--/*@thymesVar id="activeProfiles" type="java.lang.String"*/-->
+<!--/*@thymesVar id="serverToDeployments" type="java.util.Map<java.lang.String,java.util.List<ch.mobi.liima.client.dto.Deployment>>"*/-->
+<!--/*@thymesVar id="utils" type="ch.package.controller.util.SomeUtils"*/-->
+<!-- line above is to workaround: https://youtrack.jetbrains.com/issue/IDEA-132738 -->
+<head>```
+YouTrack
+IDEA-132738: Spring Boot autoconfigured webapp: resolve model variables
+I have a simple project. I'm using spring-boot-starter-web (including spring mvc) and spring-boot-starter-thymeleaf. I'm using pure java configuration to configure spring. Now i have a simple hello.ht…
+
+Sergey Zhukov   [9 days ago]
+причина в версии thymeleaf для spring
+перехожу на 4 версию и интеграция начинает работать
+        ```<dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>```
+(edited)
+
+Vladimir Gorbatenko   [9 days ago]
+Я уже тоже понял, что версии зависимостей нужно брать самые последние.
+
+Sergey Zhukov   [9 days ago]
+@Vladimir Gorbatenko тут не сработало
+с этой не работает интеграция
+```<artifactId>thymeleaf-spring5</artifactId>```
+хотя обе работают одинаково
+
+Sergey Zhukov   [7 days ago]
+чтобы в шаблонах был доступен контекст через @{/... } подключил через ServletContextTemplateResolver
+    ```<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <constructor-arg ref="servletContext"/>
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>```
+    
+    
+pjer   [Feb 9th at 5:57 PM]
+Зачем в api нужен thymeleaf или jsp? Разве это не frontend?
+1 reply
+
+Dima   [8 days ago]
+это уже "вариации на тему..."
+
+
+Sergey Zhukov [8:38 PM]
+кто хочет попробовать реализовать RESTful Web Service через JAX-RS (Jersey) вот статейка наглядная, у меня получилось настроить, интересный опыт
+http://www.codingpedia.org/ama/restful-web-services-example-in-java-with-jersey-spring-and-mybatis/
+CodingpediaOrg
+RESTful Web Services Example in Java with Jersey, Spring and MyBatis
+Sharing coding knowledge
+
+
+Vladimir Gorbatenko [10:42 AM]
+Статейка про var, много букв, но полезно.
+https://habr.com/ru/post/438206/
+Хабр
+26 рекомендаций по использованию типа var в Java
+The Java Local Variable Type Inference (LVTI) или кратко — тип var (идентификатор var — это не ключевое слово, а зарезервированное имя типа) был добавлен в Java...
+
+
+Pushkin   [Feb 15th at 9:15 AM]
+Есть у кого ссылка на задание к выпускному? Там, где пояснения и инфо о том, что проверять перед сдачей
+2 replies
+
+Gekov Iliya   [3 days ago]
+https://github.com/JavaWebinar/topjava/blob/doc/doc/graduation.md эта? Она в топике закреплена этого канала) 
+А... она оказывается уже нерабочая (edited)
+
+
+Vladimir Gorbatenko   [3 days ago]
+graduation.md 
+## Выпускной проект Topjava
+Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) **without frontend**.
+The task is:
+Build a voting system for deciding where to have lunch.
+ * 2 types of users: admin and regular users
+ * Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
+ * Menu changes each day (admins do the updates)
+ * Users can vote on which restaurant they want to have lunch at
+ * Only one vote counted per user
+ * If user votes again the same day:
+  - If it is before 11:00 we asume that he changed his mind.
+  - If it is after 11:00 then it is too late, vote can't be changed
+Each restaurant provides new menu each day.
+As a result, provide a link to github repository.
+It should contain the code and **README.md with API documentation and curl commands to get data for voting and vote.**
+-----------------------------
+P.S.: Make sure everything works with latest version that is on github :)
+P.P.S.: Asume that your API will be used by a frontend developer to build frontend on top of that.
+-----------------------------
+### ![error](https://cloud.githubusercontent.com/assets/13649199/13672935/ef09ec1e-e6e7-11e5-9f79-d1641c05cbe6.png) Рекомендации
+- **Сделай новый проект и добавляй туда из Topjava только то что нужно! Локализация, типы ошибок, BeanMatcher, Json View, излишние делегирования и наследования - не нужны!**
+- **API продумывай с точки зрения не программиста и объектов, а с точки зрения того, кто им будет пользоваться (frontend)**
+- **Сначала сделай основной сценарий по ТЗ. Все остальное (если очень хочется, 3 раза подумай) - потом.**
+*Представьте себе, что ПМ (лид, архитектор) дал вам ТЗ и некоторое время недоступен. У вас конечно есть много мыслей, для чего нужно приложение, как исправить ТЗ, дополнить его и сделать правильно. НО НЕ НАДО ИХ РЕАЛИЗОВЫВАТЬ В КОДЕ. Нужно сделать все максимально просто, удобно для доработок и для использования со стороны клиента (если конечно в ТЗ нет оговорок). Все свои вопросы и предложения и хотелки оформляйете отдельно (в `read.me` например). Если делаете что-то сложнее простейшего случая (например справочник еды)- объязательно напишите в read.me. Как и выбор стратегии кэширования.*
+> Совершенство достигнуто не тогда, когда нечего добавить, а тогда, когда нечего отнять
+_Антуан де Сент-Экзюпери_
+- 1: **читаем ТЗ ОЧЕНЬ внимательно, НЕ надо ничего своего туда домысливать и творчески изменять**
+- 2: **тщательно считайте количество обращений в базу на каждый запрос. Особенно при запросах от юзеров, которых очень много! Также на сложность запросов от них, чтобы не положить базу**
+- 3: **тщательно считайте количество запросов в вашем API для отображения нужной информации**
+- 4: **учитывайте, что пользователей может быть ооочень много, а админов- мало**
+- 5: в проекте (и тестовом задании на работу) в отличие от нашего учебного topjava оставляйте только необходимый для работы приложения код, ничего лишнего:
+ - 5.1 НЕ надо делать разные профили базы и работы с ней. 
+ - 5.2 НЕ надо делать абстрактных контроллеров на всякий случай. 
+ - 5.3 НЕ надо делать **классов репозиториев и сервисов**, если там нет ничего, кроме делегирования. 
+ - 5.4 Из потребностей приложения (которую надо самим придумать) реализовывать только очевидные сценарии. Те.- НИЧЕГО ЛИШНЕГО. 
+- 6: базу лучше взять без установки (H2 или HSQLDB). Ваше приложение должно сразу запуститься **ОПТИМАЛЬНО- без всяких настроек**
+- 7: по возможности сделать JUnit тесты
+- 8: уделяйте внимание обработке ошибок
+- 9: далаем REST API в соответствии с концепцией REST, **с учетом иерархии принадлежности объектов**
+  - [15 тривиальных фактов о правильной работе с протоколом HTTP](https://habrahabr.ru/company/yandex/blog/265569/)
+  - <a href="http://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/">10 Best Practices for Better RESTful API</a>
+- 10: не смешивайте TO и Entity вместе. Лучше всего, если они будут независимыми друг от друга.
+- 11: если приложению в объекте требуется только его id, используйте reference (как мы при сохранении еды вставляем туда юзера)
+- 12: [Use for money in java app](http://stackoverflow.com/a/43051227/548473)
+- 13: **Историю еды и голосований сделать НУЖНО! Есть базовые вещи, которые закладываются в архитектуру приложения и неочевидные доработки к ТЗ, которых лучше не делать.**
+- 14: Еще раз про [hashCode/equals в Entity](https://stackoverflow.com/questions/5031614/the-jpa-hashcode-equals-dilemma): не делайте сравнение по полям!
+- 15: Название пакетов, имен классов для `model/to/web` достаточно стандартные (например `model/domain`). НЕ надо придумывать своих собственных правил.
+- 16: **Используйте DATA-JPA** (можно без лишней делегации, напрямую из сервиса/контроллера дергать Repository).
+- 17: В DATA-JPA 2.x используются `Optional`. Попробуйте работать с ними, это безопасный способ работать с null значениями.
+- 18: На topjava мы смотрели разные варианты использования, тут делаем максимально просто. С TO многие вещи упрощаются.
+- 19: Проверьте, не торчат ли из кода учебные уши topjava, типа `ProfileRestController.testUTF()`, `AbstractServiceTest.printResult()` или закомментированные `JdbcTemplate`. Назначение этого проекта совсем другое.
+- 20: ORM работает с объектами. [В простейших случаях fk_id как поля допустимы](https://stackoverflow.com/questions/6311776/hibernate-foreign-keys-instead-of-entities), но при этом JPA их уже никак не обрабатывает и не используйте их вместе с объектами. Ссылка на stackoverwrflow в коде обязательна!
+- 21: Проверьте, станет ли код проще с `@AuthenticationPrincipal` (урок 11, Доступ к AuthorizedUser).
+- 22: Не размещайте логику приложения и преобразования в TO в слое доступа к DB
+- 23: Если используете кэширование, **тщательно продумайте, что надо кэшировать (самые частые запросы)**, а что нет (большие или редкозапрашиваемые данные)!
+## Попробуйте подергать свое API по всем типичным сценариям ТЗ! 
+- Удобно использовать? Можно сделать проще? Например чтобы проголосовать за ресторан залогиненному юзеру достаточно `restorauntId`.
+- Удовлетворяет ли принципам REST (см. ссылки выше)?
+- Сколько раз пришлось его вызвать API для типичного сценария (нарпимер посмотреть рестораны с едой)? 
+- Сколько запросов к базе было сделано? Можно ли сократить (например с FETCH/Graph или через кэширование)?
+Collapse

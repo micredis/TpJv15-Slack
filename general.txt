@@ -2486,3 +2486,65 @@ Sergey Zhukov   [15 hours ago]
 Короче создаем в bin файл setenv.sh и в нем пишем
 ```JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF8"```
 (edited)
+
+
+Dima   [Feb 6th at 10:31 PM]
+прикольная статья о том, как заставить heroku не засыпать. https://javarush.ru/groups/posts/1987-malenjhkie-khitrosti-s-heroku
+JavaRush
+Маленькие хитрости с Heroku
+У вас уже есть демо-приложение на Heroku, но оно сильно долго стартует в самый ответственный момент? Эти маленькие хитрости заставят его работать 24/7. Представ
+12 replies
+
+fibz   [12 days ago]
+Интересно, сработает ли такой вариант: сделать циклическую зависимость между двумя сайтами, т.е. они посылают запрос каждые N <30 минут друг другу?
+
+Dima   [12 days ago]
+в статье есть вечный пинговщик, который раз в 15 минут тыкает сайт
+
+fibz   [12 days ago]
+разве они не платные?
+
+Dima   [12 days ago]
+Я ресторан закинул на heroku и дальше по статье, всегда онлайн, без засыпаний
+
+fibz   [12 days ago]
+круто, спасибо)
+
+Vladimir Gorbatenko   [12 days ago]
+```Item could not be created:
+Please verify your account to install this add-on plan (please enter a credit card) For more information, see https://devcenter.heroku.com/categories/billing Verify now at https://heroku.com/verify```
+У меня одного так?
+
+fibz   [12 days ago]
+так в статье пишется, что надо привязать карту
+
+Dima   [11 days ago]
+Карта привязывается только для того,чтоб активировались дополнительные часы в месяц
+
+Vladimir Gorbatenko   [11 days ago]
+т.е. по любому надо платить за доп часы?
+
+Dima   [11 days ago]
+нет, у меня карта с блокировкой оплаты инета, так что ничего не может с нее сняться. Однако,  и она прокатила
+
+Grigory Kislin   [10 days ago]
+у меня вроде привязана карта. на засыпания есть. почитаю, спасибо! идея простая и рабочая (edited)
+
+Dima   [10 days ago]
+чтоб не засыпало там пинговщик раз в пол часа тыкает сайт, так что не заснет
+
+
+Vladimir Gorbatenko   [Feb 10th at 11:36 AM]
+Всем привет! Так как workspaсe Topjava 15 в ближайшее время (месяц-два) будет удален, для желающих поддерживать связь и возможно помогать друг другу - есть предложение определиться с соцсетью и обменяться контактами, может где-то создать группу, как в вайбере или где более удобно можно читать код или конфиги. Есть конечно группа выпускников, на слаке... (edited)
+3 replies
+
+Chensy   [8 days ago]
+привет, я за! из мессенджеров голосую за телеграм
+
+Raisa   [8 days ago]
+Привет! https://vk.com/raisar_vk, телеграм, вайбер, вацап 89233528041 (edited)
+
+fibz   [8 days ago]
+Сделал чат в телеграме.
+
+https://t.me/java_course_15 (edited)

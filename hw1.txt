@@ -1679,3 +1679,34 @@ Alexander 11 days ago
 
 Grigory Kislin 8 days ago
 а в java то вообще- попадает? есть же System.getenv() (edited)
+
+
+P_Igor   [Feb 9th at 11:46 AM]
+Как настроить сочетание клавиши Alt+F8 для вызова evaluate Expression У меня не работает. (edited)
+2 replies
+
+Roman Baranov   [9 days ago]
+setting -> keymap -> evaluate expression
+
+P_Igor   [7 days ago]
+Ok! Thank you!
+
+
+P_Igor   [Feb 12th at 8:09 PM]
+Не мойму почему так ошибка   <jsp:useBean id="mealTo" type="ru.javawebinar.topjava.model.MealTo" scope="request"/> а без scope  <jsp:useBean id="mealTo" type="ru.javawebinar.topjava.model.MealTo" /> работает разве мы не из request берем данные
+2 replies
+
+Roman Baranov   [6 days ago]
+трудно ответить мало контекста в вопросе. но в model пакете должен быть Meal а не transfer object MealTo
+дефолтный скоуп это "page". так что если не работает для scope="request" значит пытаешься использовать MealTo уже после выхода из scope request
+
+P_Igor   [6 days ago]
+ок! Спасибо!
+
+
+P_Igor   [Feb 14th at 8:34 AM]
+Еще раз подскажите логику пожалуйста! Мои действия = Передаю через сервлет на страницу атрибут формата даты request.setAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"));                            на странице пытаюсь создать объект                                              <jsp:useBean id="localDateTimeFormat" type="java.time.format.DateTimeFormatter" /> с параметром scope (по умолчанию т.есть будет виден на этой странице) но Здесь у меня происходит ошибка                                                         InstantiationException: bean localDateTimeFormat not found within scope  в строке 22:         <jsp:useBean id="localDateTimeFormat" type="java.time.format.DateTimeFormatter" /> Я правильно понимаю что атребут не найден ? вопрос почему если он передался на страницу? (edited)
+1 reply
+
+Yuri   [4 days ago]
+Topjava16
