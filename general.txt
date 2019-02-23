@@ -2548,3 +2548,61 @@ fibz   [8 days ago]
 Сделал чат в телеграме.
 
 https://t.me/java_course_15 (edited)
+
+
+Grigory Kislin [11:23 AM]
+@here
+Группа в телеграме есть: https://t.me/JavaOPs
+она полуживая, если есть желание помимо слака общаться - давайте оживлять
+не думаю, что только потоком 15 надо ограничиваться
+Telegram
+JavaOPs
+You can view and join @JavaOPs right away.
+
+
+Stepan   [Feb 20th at 12:00 AM]
+Изменил метод в MealAjaxController на
+@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+   @ResponseStatus(value = HttpStatus.NO_CONTENT)
+   public ResponseEntity<String> createOrUpdate(@Valid @RequestBody Meal meal, BindingResult result) {
+То есть теперь мы принимаем json.
+Приходит json в котором dateTime =2015-05-31 20:00
+Биндинг не происходит,вылетает ошибка"Text '2015-05-31 20:00' could not be parsed at index 10
+То есть ругается на то, что нет символа T. Если его туда подсунуть, то все норм отработает.
+Вопрос: почему когда мы просто сериализовали форму и приходили параметры в теле запроса такой проблемы не было? хотя там тоже не было символа T
+Еще не понятно, в данном случае форматеры должны отрабатывать? Хотел их продебажить , но брекпойнты в них не отработали. (edited)
+3 replies
+
+Sergey Zhukov   [4 days ago]
+в случае биндинга отрабатывает аннотация
+@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
+где паттерн "yyyy-MM-dd HH:mm"
+Json парсит Jackson, попробуй ему десерелизатор подсунуть
+https://www.baeldung.com/jackson-deserialization
+Baeldung
+Getting Started with Deserialization in Jackson | Baeldung
+Use Jackson to map custom JSON to any java entity graph with full control over the deserialization process.
+Jan 13th, 2014
+
+Stepan   [4 days ago]
+@Sergey Zhukov когда приходит json она почему то не отрабатывает, если просто сериализованная форма то все норм
+
+Sergey Zhukov   [4 days ago]
+биндинг это парсинг *параметров* из post запросов, а json вроде парсит Jackson (edited)
+
+
+Raisa   [Feb 21st at 4:29 PM]
+кого интересует Spring 5 на русском, можно приобрести в складчину https://vk.com/feed?w=wall-111905078_11980
+3 replies
+
+Pushkin   [1 day ago]
+Меня интересует, но у меня нет аккаунта на этом прекрасном сайте
+
+Dmitriy   [1 day ago]
+https://t.me/middle_java тут выложили бесплатно, если что
+Telegram
+middlejava
+Канал, посвященный разработке программного обеспечения, с акцентом на backend и Java. В канале публикуются статьи, книги, вакансии, описание работы с фреймворками и библиотеками Spring, Hibernate, JOOQ, Lombok и т.п., учебные задачи, анонсы мероприятий.
+
+Стецко Максим   [11 hours ago]
+@Dmitriy сюда можешь кинуть книгу)

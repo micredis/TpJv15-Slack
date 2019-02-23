@@ -5188,3 +5188,32 @@ _Антуан де Сент-Экзюпери_
 - Сколько раз пришлось его вызвать API для типичного сценария (нарпимер посмотреть рестораны с едой)? 
 - Сколько запросов к базе было сделано? Можно ли сократить (например с FETCH/Graph или через кэширование)?
 Collapse
+
+
+Grigory Kislin   [4 days ago]
+либо в google drive либо еще есть тут:
+https://github.com/JavaOPs/topjava/blob/master/graduation.md (edited)
+
+Pushkin   [4 days ago]
+Спасибо, друзья!
+
+
+pjer   [Feb 18th at 11:52 PM]
+Ребята, подскажите, spring security как в api прикрутить. Конкретный вопрос: как кастомизировать login форму , если в самом api нет frontend'a? Или внутри api делать jsp c формой login? В topjava url /login вел на страницу логина, а здесь не понимаю, как сделать..
+4 replies
+
+Raisa   [5 days ago]
+если про выпускной проект, там, вроде бы, не нужна кастомная форма. Через те же curl запросы можно авторизовываться: curl -s http://localhost:8080/votergraduation/rest/profile --user user@yandex.ru:password
+
+Vladimir Gorbatenko   [5 days ago]
+Нет, он имеет в виду spring_security_check
+
+Pavel Mikhalev   [4 days ago]
+В api и не должно быть формы логина, на то это и бекенд. Форма логина должна быть в том месте, где вызывается твой api
+
+Pavel Mikhalev   [4 days ago]
+В api должны быть методы для логина  и для проверки авторизации
+
+
+Lamekhova Alisa [9:03 AM]
+Мб кто вешал бейджики codacy на проекты? У меня постоянно находит ошибки разметки в readme.md. Исправляешь 10 ошибок, он находит еще 10 и так до бесконечности
