@@ -5217,3 +5217,88 @@ Pavel Mikhalev   [4 days ago]
 
 Lamekhova Alisa [9:03 AM]
 Мб кто вешал бейджики codacy на проекты? У меня постоянно находит ошибки разметки в readme.md. Исправляешь 10 ошибок, он находит еще 10 и так до бесконечности
+
+
+regorov   [Feb 27th at 10:53 PM]
+Что не нравится assertj? Гречка добавлена, есть там и тут..
+
+java.lang.AssertionError:
+Expecting:
+ <[Dish{id=20, price=60, name='Суп грибной'},
+   Dish{id=8, price=30, name='Чай'},
+   Dish{id=15, price=90, name='Пельмени'},
+   Dish{id=21, price=45, name='Салат овощной'},
+   Dish{id=3, price=30, name='Гречка'},
+   Dish{id=1, price=35, name='Картофель жареный'}]>
+to contain exactly in any order:
+ <[Dish{id=1, price=35, name='Картофель жареный'},
+   Dish{id=3, price=30, name='Гречка'},
+   Dish{id=8, price=30, name='Чай'},
+   Dish{id=15, price=90, name='Пельмени'},
+   Dish{id=20, price=60, name='Суп грибной'},
+   Dish{id=21, price=45, name='Салат овощной'}]>
+elements not found:
+ <[Dish{id=3, price=30, name='Гречка'}]>
+and elements not expected:
+ <[Dish{id=3, price=30, name='Гречка'}]>
+when comparing values using field/property by field/property comparator on all fields/properties except ["menus"]
+Comparators used:
+- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}
+- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}Что не нравится assertj? (edited)
+Untitled 
+@Test
+public void testAppendDishToMenu() throws Exception {
+  mockMvc.perform(post(MenuController.REST_URL + "/" +
+            MENU_TO1_ID +
+            DishController.REST_URL +
+            "/" + 3)
+      .contentType(MediaType.APPLICATION_JSON_UTF8))
+      .andDo(print())
+      .andExpect(status().isNoContent());
+  Menu actualMenu = menuRepo.get(MENU_TO1_ID);  		   
+  DishTestData.assertMatchIgnoringOrder(actualMenu.getDishes(),
+        DishTestData.DISH1, DishTestData.DISH3,
+        DishTestData.DISH8, DishTestData.DISH15,
+        DishTestData.DISH20, DishTestData.DISH21);
+  }
+Collapse
+3 replies
+
+Sergey Zhukov   [1 day ago]
+это показан toString, надо в дебаге посмотреть какие еще поля есть в сравниваемых объектах
+
+Igor   [1 day ago]
+Кстати подебажить неплохая идея. Я с похожей проблемой за 5 минут разобрался (в моем случае надо было добавить еще одно игнорируемое поле):
+```org.opentest4j.AssertionFailedError: 
+Expecting:
+ <[Dish{id=100014, name='Пельмени', price=55500},
+    Dish{id=100015, name='Борщ', price=22200},
+    Dish{id=100016, name='Яичница', price=33300}]>
+to be equal to:
+ <[Dish{id=null, name='Пельмени', price=55500},
+    Dish{id=null, name='Борщ', price=22200},
+    Dish{id=null, name='Яичница', price=33300}]>
+when comparing elements using field/property by field/property comparator on all fields/properties except ["id"]
+Comparators used:
+- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}
+- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}
+but was not.```
+(edited)
+
+regorov   [1 day ago]
+Спасибо, мужики, попробую продебажить. Что то я совсем и забыл про это)
+
+
+regorov [10:54 PM]
+DishTestData.java 
+  public static void assertMatchIgnoringOrder(Iterable<Dish> actual, Dish... expected) {
+    assertMatchIgnoringOrder(actual, Arrays.asList(expected));
+  }
+​
+  public static void assertMatchIgnoringOrder(Iterable<Dish> actual, Iterable<Dish> expected) {
+    assertThat(actual).usingElementComparatorIgnoringFields("menus").containsExactlyInAnyOrderElementsOf(expected);
+  }
+Collapse
+
+Pushkin [9:19 AM]
+Гуглить некогда, но рискну предположить, что компараторы надо применять другие, или округлять по-другому.   Вероятно, при получении "гречки" из базы ее price был в каком-то дробном виде, например 30.0, или 30.00. У "гречки" из листа, с которым происходит сравнение, price целый, или округлен до другого знака после запятой. Ну и при использовании DoubleComparator, во время конвертации из-за этих знаков после запятой происходит несостыковка типа 30.0 != 30.00. Это лишь предположение.
